@@ -1,293 +1,196 @@
-# Prompts IA — mascotte fennec SkilZZ (v2)
+# Prompts IA — le martin-pêcheur de SkilZZ
 
-Tout ce qu'il faut pour refaire les images du fennec **avec un détourage parfait**, plus les nouvelles poses qui
-servent aux animations (le fennec qui sort des cadres) et à l'agent IA en bas à droite.
+La mascotte est maintenant un **martin-pêcheur**, en **bleu et blanc uniquement**. Il dit trois choses :
+l'**ascension** (partir d'un roseau au ras de l'eau et monter tout en haut), la **précision** (il vise avant de
+plonger) et la **technique** (son bec a inspiré le nez du Shinkansen 500).
+
+Sur le site, l'oiseau qui vole d'encart en encart est **dessiné en SVG et animé en code**
+(`assets/js/kf-art.js` + `assets/js/bird.js`, skill `animate-2d`). Les images ci-dessous servent à :
+
+- **affiner ce dessin SVG** (planche de référence, n° 1) ;
+- **l'assistant en bas à droite** (n° 2 à 5) : le site les détecte tout seul dès qu'elles sont dans
+  `assets/img/mascotte/` ;
+- **les moments forts** : plongeon, envol, image de partage (n° 6 à 8) ;
+- **les services sur téléphone** (n° 9 à 11), où le cadran animé n'est pas affiché.
+
+Génère-les **une par une, dans l'ordre**. Commence par la n° 1 et donne-la ensuite en **image de référence** pour
+toutes les autres, sinon l'oiseau change d'une image à l'autre.
 
 Les prompts sont en anglais (les générateurs le comprennent mieux) : colle-les tels quels.
+Si ton outil sait exporter en **SVG vectoriel** (par exemple Recraft en mode « vector »), choisis-le pour la
+n° 1 : je pourrai reprendre les formes exactes dans l'animation.
 
 ---
 
-## Pourquoi les détourages actuels ne sont pas parfaits
-
-| Problème vu sur le site | Cause | Règle v2 |
-|---|---|---|
-| Bulle du fennec « coupée droite » (accueil) | L'image contenait une grande bulle **transparente** collée au museau. Le détourage ne sait pas séparer un objet transparent du fond : il a tranché net. | **Jamais d'objet transparent** dans l'image (bulle, verre, reflets). Le site dessine les bulles lui-même. |
-| Reflets de bulle sur les oreilles (`dans-bulle`) | Le fennec était dessiné *dans* une bulle. | Le fennec seul, en boule ; la bulle est en CSS. |
-| Léger liseré clair autour du pelage | Fond blanc : le blanc du ventre et de la queue se confond avec le fond. | **Fond vert chroma uni `#00B140`** : aucun vert dans le personnage, découpe nette. |
-| Pastille verte « ✓ » sur `laptop`, icônes sur `selfie` | Éléments posés en dehors du personnage. | Pas de pictos ni de confettis : le site les anime. |
-
-> En attendant les nouvelles images, j'ai réparé la pose `fennec-bulle.webp` à la main (joue redessinée, anneau
-> de la baguette refermé, tige reconstruite). Elle n'a plus de coupe droite, mais une image refaite avec les
-> règles ci-dessous sera meilleure.
-
----
-
-## 0. Fiche du personnage (à coller au début de CHAQUE prompt)
-
-Elle décrit le fennec **tel qu'il est sur le site aujourd'hui** (bleu), pour que toutes les poses se ressemblent.
+## 0. Fiche du personnage — à coller au DÉBUT de chaque prompt
 
 ```text
-A cute brand mascot: a young fennec fox, stylised 3D cartoon (Pixar-lite, soft studio lighting, smooth shading,
-no outlines, no realistic fur, only a few soft fur tufts). Vivid royal-blue fur (#1F6BFF to #1452D9), pure white
-muzzle, cheeks, chest and belly, white zigzag tip on a big fluffy tail. Huge tall pointed ears (about as tall as
-the head) with light sky-blue insides (#8FC8FF) and small white fur tufts. Navy-blue paws and lower legs
-(#0B1B3F). Large glossy navy eyes with two white highlights, small white eyebrow marks, small navy nose, gentle
-closed smile. Head large (about 45 % of body height), compact body. Friendly, curious, premium and calm.
-Same character in every image: use the attached reference image.
+A brand mascot: a common kingfisher, flat vector illustration, geometric and minimal, crisp clean shapes,
+very subtle gradients only, no outlines, no texture, no realistic feathers. Colour palette strictly blue and
+white: royal-blue crown and back (#2F7BFF to #1450D8), a bright azure stripe running down the back (#8FDBFF
+to #2FA8FF), deep-blue wings (#1B5FE8 to #0B3BA8) with a few small light-blue spots (#5BB8FF), pure white
+throat and belly fading to ice blue (#D8E8FF), light azure cheek patch (#8FDBFF), a long straight
+dagger-shaped navy beak (#0B1B3F), a small round navy eye with one white highlight, a small white spot just
+in front of the eye, tiny navy feet. No orange, no red, no yellow, no green anywhere on the bird. Compact
+body, large head, short tail. Calm, precise, focused expression: a bird that aims before it dives.
+The same character in every image: use the attached reference image.
 ```
 
-## 0 bis. Règles de rendu (à coller à la FIN de chaque prompt)
+## 0 bis. Règles de rendu — à coller à la FIN de chaque prompt (sauf n° 8)
 
 ```text
 Background: one flat uniform chroma-key green (#00B140), no gradient, no floor, no cast shadow, no vignette.
-The character must contain no green at all. No transparent or glass objects, no soap bubbles, no reflections,
-no particles, no confetti, no icons, no text, no logo, no watermark. Sharp clean silhouette with crisp edges,
-no glow and no motion blur. Square 2048 × 2048.
+No water, no splash, no transparent or glass objects, no reflections, no particles, no motion lines,
+no icons, no text, no logo, no watermark. Sharp silhouette with crisp edges, no glow, no motion blur.
+The whole bird is fully inside the frame with at least 10 % empty margin on every side.
+Square 2048 × 2048.
 ```
 
-Pour les poses **en pied** (sauf celles qui sortent du cadre), ajoute :
-
-```text
-The whole character is fully inside the frame with at least 10 % empty margin on every side.
-```
+Pourquoi le vert : c'est la seule couleur absente de l'oiseau, donc `tools/detourer.py` le découpe sans liseré.
+Pourquoi ni eau ni éclaboussure : ce sont des éléments transparents, impossibles à détourer proprement. Le site
+les dessine lui-même (rides sur l'eau, onde du plongeon).
 
 ## Négatif (si l'outil a un champ « negative prompt »)
 
 ```text
-green fur, green objects, soap bubble, transparent bubble, glass, reflections, glow, motion blur, gradient
-background, white background, floor, cast shadow, text, logo, watermark, extra limbs, extra ears, extra tail,
-orange fox, realistic fur, scary, sharp teeth, cropped ears
+orange belly, red feet, green feathers, yellow, realistic photo, detailed feathers, 3D render, outline, sketch,
+water, splash, bubbles, glass, reflections, glow, motion blur, gradient background, white background, floor,
+cast shadow, text, logo, watermark, extra wings, extra legs, open mouth with teeth, cartoon eyes too big
 ```
 
-## Réglages conseillés
+## Après chaque image
 
-- **Image de référence** : joins `assets/img/mascotte/fennec-coucou.webp` (ou la planche `fennec-planche.webp`)
-  comme *character reference* / *image prompt* à **chaque** génération. Sans référence, le fennec change d'une
-  image à l'autre.
-- **Variantes** (yeux fermés, etc.) : utilise l'**image-to-image / édition** sur la pose de base et ne demande que
-  le changement indiqué, pour que tout le reste reste identique au pixel près.
-- Génère 3 ou 4 essais et garde celui dont les oreilles et la queue sont entières.
-
----
-
-## A. Poses à refaire (mêmes noms de fichiers)
-
-### A1. Souffle dans la baguette (accueil)  →  `fennec-bulle.png`
-La grande bulle et les petites bulles qui s'envolent sont dessinées par le site, à partir de l'anneau.
-
-```text
-[FICHE] Full body, sitting in three-quarter view facing right, holding a small sky-blue bubble wand with both
-front paws, the empty ring of the wand right in front of its mouth, cheeks slightly puffed, lips pursed as if
-blowing gently, eyes looking at the ring. NO bubble at all: the ring is empty and nothing comes out of it.
-Tail curled on the left side. [RÈGLES] [EN PIED]
-```
-
-### A2. En boule, comme s'il flottait (section Réalisation)  →  `fennec-flotte.png`
-Remplace `fennec-dans-bulle` : le site le place dans sa propre bulle.
-
-```text
-[FICHE] Full body, curled up in a relaxed seated ball as if floating weightless, hind paws tucked, front paws
-resting softly in front of the chest, tail wrapped around the body, calm happy expression, looking at the viewer.
-No bubble, no sphere around it. [RÈGLES] [EN PIED]
-```
-
-### A3. Tend l'oreille (Pourquoi un fennec)  →  `fennec-ecoute.png`
-
-```text
-[FICHE] Upper body from the waist up, head slightly tilted, one paw cupped behind a giant ear as if listening
-carefully, curious attentive eyes looking at the viewer. No sound-wave lines. [RÈGLES]
-The body is cut by the bottom edge of the image at waist level; ears fully inside the frame.
-```
-
-### A4. Devant un ordinateur (Sites)  →  `fennec-laptop.png`
-
-```text
-[FICHE] Sitting cross-legged behind a sleek silver laptop seen in three-quarter view, typing happily, the screen
-faces away from the viewer, soft blue screen light on its face. No icons, no check mark. [RÈGLES] [EN PIED]
-```
-
-### A5. Montre un grand téléphone (Applications)  →  `fennec-app.png`
-
-```text
-[FICHE] Standing next to a giant modern smartphone almost its own height, pointing at the screen with one paw,
-looking at the viewer. The screen shows a clean app interface in blue and white only (no green). [RÈGLES]
-[EN PIED]
-```
-
-### A6. Selfie (Réseaux sociaux)  →  `fennec-selfie.png`
-
-```text
-[FICHE] Upper body, holding a navy smartphone at arm's length taking a selfie, cheerful expression with a small
-open smile, one ear bent playfully. No floating icons. [RÈGLES] [EN PIED]
-```
-
-### A7. Saute de joie (Contact, clic sur la mascotte)  →  `fennec-joie.png`
-
-```text
-[FICHE] Jumping in the air with joy, both front paws raised, eyes closed in happy upside-down arcs, open smile,
-ears bouncing, tail swirling. No confetti. [RÈGLES] [EN PIED]
-```
-
-### A8. Montre le bas de la page  →  `fennec-indique.png`
-
-```text
-[FICHE] Upper body leaning forward toward the viewer, one paw pointing down, ears up, friendly encouraging look.
-[RÈGLES] The body is cut by the bottom edge of the image at chest level; ears fully inside the frame.
-```
-
-### A9. Coucou (pose de base, sert aussi de référence)  →  `fennec-coucou.png`
-
-```text
-[FICHE] Full body, sitting, facing the viewer, one front paw raised in a friendly wave, ears up and alert, tail
-curled around the side. [RÈGLES] [EN PIED]
-```
-
-### A10. Tête seule (logo, avatar de l'agent)  →  `fennec-tete.png`
-
-```text
-[FICHE] Head only, front view, perfectly symmetrical, centred, friendly calm expression, ears fully visible,
-designed to read clearly at 32 px. [RÈGLES] At least 6 % margin above the ear tips.
-```
-
----
-
-## B. Le fennec qui sort des cadres (nouveau)
-
-Ces poses sont **volontairement coupées par un bord de l'image** : ce bord sera collé contre le bord d'un encart,
-d'une fenêtre ou de l'écran, et le fennec aura l'air de dépasser de derrière. Le détoureur garde ce bord net.
-
-### B1. Passe la tête par-dessus un bord  →  `fennec-peek.png`  (refaire)
-
-```text
-[FICHE] Only the top of the head peeking up from behind a horizontal edge: giant ears, eyebrows and eyes fully
-visible, curious look to the side, two front paw tips gripping the edge on each side. [RÈGLES]
-The image is cut exactly by the bottom edge, just below the eyes, as if the rest of the body is hidden behind a
-wall. Ears fully inside the frame with margin above.
-```
-
-### B2. Penche la tête sur le côté  →  `fennec-peek-cote.png`  (nouveau)
-Sert pour les bords gauche et droit (le site le retourne en miroir).
-
-```text
-[FICHE] The head and one front paw peeking out from behind a vertical edge on the left of the image, head tilted
-about 30° so that the face comes out sideways, one paw gripping the edge, giant ears, curious mischievous look
-toward the viewer. [RÈGLES] The image is cut exactly by its LEFT edge, as if the body is hidden behind a wall on
-the left. Ears fully inside the frame.
-```
-
-### B3. Pendu la tête en bas  →  `fennec-pendu.png`  (nouveau)
-Pour descendre du haut de l'écran ou d'une fenêtre.
-
-```text
-[FICHE] Hanging upside down from a horizontal edge at the top of the image, gripping it with both hind paws,
-head and giant ears hanging down, front paws dangling, playful surprised smile, tail hanging. [RÈGLES]
-The image is cut exactly by the TOP edge at the paws, as if hanging from a shelf above.
-```
-
-### B4. Escalade un bord  →  `fennec-grimpe.png`  (nouveau)
-
-```text
-[FICHE] Climbing over a horizontal edge from below: both front paws resting flat on the edge, chin on the paws,
-ears up, happy determined look at the viewer. [RÈGLES] The image is cut exactly by the bottom edge, at the
-height of the paws, as if the rest of the body is hidden below.
-```
-
-### B5. Bondit hors du cadre  →  `fennec-bond.png`  (nouveau)
-
-```text
-[FICHE] Full body leaping diagonally to the upper right, stretched out in mid-air like a playful jump, front
-paws forward, ears swept back, tail streaming behind, joyful face. [RÈGLES] [EN PIED]
-```
-
-### B6. Le bout des oreilles qui dépasse  →  `fennec-oreilles.png`  (nouveau)
-Pour les teasers : seules les oreilles dépassent, puis la tête monte.
-
-```text
-[FICHE] Only the two giant ear tips poking up from behind a horizontal edge, slightly tilted toward each other,
-no eyes visible. [RÈGLES] The image is cut exactly by the bottom edge at the base of the ears.
-```
-
----
-
-## C. Agent IA (bulle en bas à droite)
-
-L'agent s'affiche dans une bulle ronde ; ses oreilles dépassent de la bulle. Les expressions changent selon ce
-qu'il fait (il écoute, il réfléchit, il a trouvé).
-
-### C1. Avatar de l'agent  →  `agent-avatar.png`
-
-```text
-[FICHE] Head and shoulders, three-quarter view, wearing a small navy headset with a tiny microphone arm near the
-muzzle, warm attentive look at the viewer, closed smile, ears up. [RÈGLES]
-Ears fully inside the frame; the shoulders are cut by the bottom edge.
-```
-
-### C2. Réfléchit  →  `agent-reflechit.png`
-
-```text
-[FICHE] Same framing and headset as the reference, one paw on the chin, eyes looking up and to the side,
-thoughtful expression, one ear slightly bent. [RÈGLES] Shoulders cut by the bottom edge.
-```
-
-### C3. A trouvé  →  `agent-idee.png`
-
-```text
-[FICHE] Same framing and headset as the reference, one paw raised with the index claw up, eyes bright and wide,
-small open smile, both ears straight up. [RÈGLES] Shoulders cut by the bottom edge.
-```
-
----
-
-## D. Clignement des yeux (variantes par édition)
-
-Le site fait cligner le fennec en échangeant deux images identiques à 0,1 s d'intervalle. Fais-les en
-**image-to-image** à partir de la pose finale, sans rien changer d'autre.
-
-| Base | Fichier | Prompt d'édition |
-|---|---|---|
-| `fennec-bulle.png` | `fennec-bulle-clin.png` | `Same image, identical in every way, only the eyes are closed in gentle curved lines.` |
-| `fennec-tete.png` | `fennec-tete-clin.png` | idem |
-| `agent-avatar.png` | `agent-avatar-clin.png` | idem |
-
-> Le code les utilise **dès qu'ils existent** : dépose-les et le clignement s'active tout seul.
-
----
-
-## E. Vidéos (Kling « image to video »)
-
-Réglages : **5 s**, mouvement **faible à moyen**, **caméra fixe**, même image en première et dernière frame pour
-les boucles. Pars toujours d'une image **sur fond vert** (sections A à C) et ajoute au prompt :
-
-```text
-Static camera, flat chroma-key green background (#00B140) for the whole clip, no camera movement, no particles,
-no bubbles, no shadow on the background.
-```
-
-| Vidéo | Image de départ | Prompt |
-|---|---|---|
-| `hero-souffle.mp4` | A1 | `The fennec breathes calmly, blows gently into the wand ring three times with puffed cheeks, blinks, its ears twitch one after the other, the tail sways. Seamless loop.` |
-| `peek-cote.mp4` | B2 | `The fennec slides its head out from behind the left edge, looks around curiously, tilts its head, blinks, then quickly hides back behind the edge.` |
-| `agent-attente.mp4` | C1 | `The fennec with the headset listens, nods softly, blinks, one ear twitches, small friendly smile. Seamless loop.` |
-| `joie.mp4` | A7 | `The fennec crouches, jumps happily with both paws up, ears flapping, lands softly and smiles.` |
-
----
-
-## Où déposer et comment détourer
-
-1. Mets les PNG générés (fond vert) dans un dossier, par exemple `~/Desktop/fennec/`, avec les noms ci-dessus.
-2. Lance le détoureur (Pillow et numpy requis ; le `python3.13` de Homebrew les a déjà) :
-
+1. Enregistre-la en PNG avec le **nom indiqué** (par exemple `agent-avatar.png`).
+2. Détoure-la :
    ```bash
-   /opt/homebrew/bin/python3.13 tools/detourer.py ~/Desktop/fennec/*.png
+   python3 tools/detourer.py agent-avatar.png --out assets/img/mascotte
    ```
+3. Commite le fichier `.webp` obtenu. Pour les n° 2 à 5, l'assistant l'utilise tout de suite ; pour les autres,
+   préviens-moi et je les intègre.
 
-   Il écrit les WebP transparents dans `assets/img/mascotte/`, recadrés serré, avec le vert retiré des bords. Il
-   signale les poses coupées par un bord (« coupé au bord : bas ») : c'est voulu pour la section B.
-3. Les vidéos se détourent en WebM transparent :
+---
 
-   ```bash
-   ffmpeg -i peek-cote.mp4 -vf "chromakey=0x00B140:0.12:0.06,despill=type=green" -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 32 -an assets/video/peek-cote.webm
-   ```
+## 1. Planche de référence → `kf-planche.png`
 
-Dis-moi quand les fichiers sont là : je branche les nouvelles poses (le site utilise déjà `fennec-peek` et les
-versions retournées en attendant `fennec-peek-cote`, `fennec-grimpe` et `fennec-pendu`).
+Sert à garder le même oiseau partout et à affiner le dessin SVG animé. Format paysage, exception aux 2048 × 2048.
+
+```text
+[FICHE] Character turnaround sheet on one row, same scale, evenly spaced, from left to right:
+(1) perched in side view facing right, wings folded, feet together;
+(2) perched in three-quarter view facing the viewer;
+(3) flying in side view, both wings raised high above the back;
+(4) flying in side view, both wings lowered below the body;
+(5) diving straight down, beak first, wings folded tight against the body.
+Landscape 2752 × 1536. [RÈGLES]
+```
+
+## 2. Assistant, avatar → `agent-avatar.png`
+
+La pastille ronde en bas à droite. Le site la découpe en cercle : garde la tête bien centrée.
+
+```text
+[FICHE] Head and upper chest only, three-quarter view turned slightly toward the viewer, the long beak
+pointing to the right, eye looking at the viewer, beak closed, friendly and attentive. The head is centred
+and fills about 70 % of the frame; crop at mid-chest. [RÈGLES]
+```
+
+## 3. Assistant, clin d'œil → `agent-avatar-clin.png`
+
+**Indispensable : la même image que la n° 2, seul l'œil change.** Donne la n° 2 en référence et demande
+uniquement la modification.
+
+```text
+Exactly the same image as the reference, same framing, same pose, same colours, pixel-identical everywhere
+except the eye: the eye is closed, drawn as a short curved navy line. [RÈGLES]
+```
+
+## 4. Assistant, réfléchit → `agent-reflechit.png`
+
+Affiché pendant que l'assistant prépare sa réponse.
+
+```text
+[FICHE] Same framing as the avatar (head and upper chest, three-quarter view, beak pointing right), head
+tilted up and slightly to the side, eye looking up, beak closed, thoughtful. [RÈGLES]
+```
+
+## 5. Assistant, a trouvé → `agent-idee.png`
+
+Affiché quand une réponse arrive.
+
+```text
+[FICHE] Same framing as the avatar (head and upper chest, three-quarter view, beak pointing right), head
+raised, crest feathers slightly lifted, eye bright and wide, beak slightly open as if about to speak,
+pleased. [RÈGLES]
+```
+
+## 6. Le plongeon → `kf-plongeon.png`
+
+Pour la section Réalisation : l'oiseau pique dans le cercle bleu nuit qui s'agrandit jusqu'à remplir l'écran.
+
+```text
+[FICHE] Diving almost vertically downward, beak first, body perfectly straight and streamlined, wings folded
+tight against the body, tail closed, eye focused on the target below. Side view. [RÈGLES]
+```
+
+## 7. L'envol → `kf-envol.png`
+
+Pour l'image de partage et la fin de page : l'oiseau qui monte.
+
+```text
+[FICHE] Taking off and climbing steeply upward to the upper right, both wings fully spread and raised,
+tail fanned, feet tucked, body angled about 45 degrees upward, determined. Side view. [RÈGLES]
+```
+
+## 8. Image de partage (réseaux, messageries) → `og-skilzz.png`
+
+L'aperçu affiché quand on partage le lien du site. **Pas de fond vert ici** : c'est l'image finale.
+
+```text
+[FICHE] Wide banner. On the left, the kingfisher flies upward along a thin dashed curved line that rises from
+the bottom-left corner to the upper middle; three small hollow circles sit on the line like milestones.
+Background flat ice white (#F5F8FF) with a very large pale-blue circle (#E8F1FF) behind the bird. The right
+half is empty for text. No text, no logo, no watermark. 1200 × 630.
+```
+
+Le texte (« SkilZZ — Studio digital ») est ajouté par le site, pas par le générateur : les textes générés sont
+souvent déformés.
+
+## 9. Service « Sites » → `kf-site.png`
+
+```text
+[FICHE] Perched on the top edge of an open laptop seen from the front, looking down at the screen. The laptop
+is drawn in the same flat style, white body and pale-blue screen (#E8F1FF) with a few simple blue interface
+blocks, no logo, no readable text. [RÈGLES]
+```
+
+## 10. Service « Applications » → `kf-app.png`
+
+```text
+[FICHE] Perched on the top edge of a large smartphone standing upright, looking down at it. The phone is drawn
+in the same flat style, navy frame, pale-blue screen with a few rounded blue interface blocks and a small
+line chart, no logo, no readable text. [RÈGLES]
+```
+
+## 11. Service « Réseaux sociaux » → `kf-reseaux.png`
+
+```text
+[FICHE] Perched on the top edge of a tall vertical video frame (9:16) with rounded corners, white frame and
+pale-blue picture area, a simple blue play triangle in the centre and a thin progress bar at the bottom,
+looking down at it. No logo, no readable text. [RÈGLES]
+```
+
+---
+
+## Où va chaque image
+
+| N° | Fichier | Où | Intégration |
+|---|---|---|---|
+| 1 | `kf-planche` | référence du dessin SVG | je reprends les formes |
+| 2 | `agent-avatar` | assistant, pastille et fenêtre | automatique |
+| 3 | `agent-avatar-clin` | assistant, clignement | automatique |
+| 4 | `agent-reflechit` | assistant, pendant la réponse | automatique |
+| 5 | `agent-idee` | assistant, quand la réponse arrive | automatique |
+| 6 | `kf-plongeon` | Réalisation, le plongeon | je l'intègre |
+| 7 | `kf-envol` | pied de page, image de partage | je l'intègre |
+| 8 | `og-skilzz` | aperçu des liens partagés | je l'intègre |
+| 9-11 | `kf-site`, `kf-app`, `kf-reseaux` | services sur téléphone | je l'intègre |

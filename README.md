@@ -1,7 +1,8 @@
 # SkilZZ — studio digital
 
 Site vitrine du studio SkilZZ : sites, applications, SaaS et contenus pour les réseaux sociaux.
-Direction artistique : bleu, touches de vert, blanc. Mascotte : un fennec bleu.
+Direction artistique : bleu et blanc. Mascotte : un martin-pêcheur (l'ascension, la précision, la technique),
+dessiné en SVG et animé avec GSAP (skill `.claude/animate-2d`).
 
 ## Lancer en local
 
@@ -17,10 +18,13 @@ Puis ouvrir **http://localhost:4000**. Le site est statique (HTML, CSS, JS), san
 index.html              page d'accueil
 assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
 assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème
-assets/js/mascot.js     mascotte du hero : flotte, suit le curseur, saut de joie au clic
+assets/js/kf-art.js     dessin SVG du martin-pêcheur, en calques articulés
+assets/js/bird.js       l'oiseau : ascension de l'accueil, vol d'encart en encart, attente, réactions
+assets/js/agent.js      assistant en bas à droite
+assets/img/kf*.svg      l'oiseau en fichiers statiques (logo, avatar, favicon)
 assets/js/main.js       animations (GSAP, ScrollTrigger, Lenis), FAQ, formulaire
-assets/img/mascotte/    poses de la mascotte détourées (WebP transparents)
-assets/mascotte/        images sources générées (non utilisées par le site)
+assets/img/mascotte/    images générées et détourées (tools/detourer.py), voir PROMPTS-MASCOTTE.md
+assets/mascotte/        anciennes images sources du fennec (plus utilisées)
 assets/img/work/        captures de la réalisation MM Fragrances
 assets/vendor/          gsap 3.15, ScrollTrigger, lenis 1.3 (copies locales)
 PROMPTS-MASCOTTE.md     prompts pour générer de nouvelles poses

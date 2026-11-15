@@ -14,13 +14,14 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var layer = document.getElementById('fxLayer');
-  var COLORS = ['#1F6BFF', '#0FA97A', '#5BB8FF', '#8FB6FF'];
+  var COLORS = ['#1F6BFF', '#1E9BFF', '#5BB8FF', '#8FB6FF'];
 
   function bubbleStyle(el, size) {
     el.style.width = el.style.height = size + 'px';
     el.style.marginLeft = el.style.marginTop = (-size / 2) + 'px';
-    el.style.background = 'radial-gradient(circle at 30% 28%, rgba(255,255,255,.95) 0 8%, rgba(255,255,255,0) 20%), rgba(143,182,255,.16)';
-    el.style.boxShadow = 'inset 0 0 0 1.5px rgba(31,107,255,.45), inset -4px -5px 10px rgba(31,107,255,.15)';
+    // petit point net (DA martin-pêcheur : bleu et blanc, pas de reflet)
+    el.style.background = Math.random() > .5 ? '#1F6BFF' : '#5BB8FF';
+    el.style.boxShadow = '0 0 0 2px rgba(255,255,255,.9)';
   }
 
   // Petites bulles qui jaillissent d'un point (coordonnées écran)
@@ -112,22 +113,20 @@
     btn.addEventListener('pointerleave', function () { gsap.to(btn, { scale: 1, duration: .4, ease: 'power3.out' }); });
   });
 
-  // --- Clic dans le vide : une bulle naît, monte et éclate ------------------
-  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .blown, .chip, .qa, .cell, .mark, .footer-word, .agent-panel, .agent-tip, .peek';
+  // --- Clic dans le vide : une onde, comme l'oiseau qui touche l'eau --------
+  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .kf, .qa, .cell, .mark, .footer-word, .agent-panel, .agent-tip, .agent-fab';
   document.addEventListener('pointerdown', function (e) {
     if (reduce || !layer || e.button !== 0 || e.target.closest(INTERACTIVE)) return;
-    var b = document.createElement('span');
-    b.className = 'fx-bub';
-    var s = 26 + Math.random() * 18;
-    bubbleStyle(b, s);
-    layer.appendChild(b);
-    var x = e.clientX, y = e.clientY, drift = (Math.random() - .5) * 50;
-    gsap.timeline({ onComplete: function () { b.remove(); } })
-      .fromTo(b, { x: x, y: y, scale: .2, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, ease: 'back.out(2.4)' })
-      .to(b, { y: y - 110, x: x + drift, duration: 1.1, ease: 'sine.out' }, '-=.15')
-      .to(b, { scaleX: 1.12, scaleY: .9, duration: .08 }, '-=.1')
-      .add(function () { pop(x + drift, y - 110, s); })
-      .to(b, { scale: 1.4, opacity: 0, duration: .12 });
+    var x = e.clientX, y = e.clientY;
+    for (var i = 0; i < 3; i++) {
+      var r = document.createElement('span');
+      r.className = 'fx-ring';
+      layer.appendChild(r);
+      gsap.fromTo(r, { x: x, y: y, scale: .1, opacity: .75 }, {
+        scale: 1, opacity: 0, duration: .9 + i * .25, delay: i * .12, ease: 'power2.out',
+        onComplete: (function (el) { return function () { el.remove(); }; })(r)
+      });
+    }
   });
 
   // --- Curseur -----------------------------------------------------------------
@@ -138,7 +137,7 @@
     window.addEventListener('pointermove', function (e) { cur.classList.add('is-on'); cx(e.clientX); cy(e.clientY); }, { passive: true });
     document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); });
     document.addEventListener('pointerover', function (e) {
-      cur.classList.toggle('is-over', !!e.target.closest('a, button, summary, label, .bub, .blown, .chip, .mark, .footer-word span, .footer-word b'));
+      cur.classList.toggle('is-over', !!e.target.closest('a, button, summary, label, .kf, .mark, .footer-word span, .footer-word b'));
     });
     document.addEventListener('pointerdown', function () { cur.classList.add('is-down'); });
     document.addEventListener('pointerup', function () { cur.classList.remove('is-down'); });

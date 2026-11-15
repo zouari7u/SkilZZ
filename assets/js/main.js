@@ -1,7 +1,7 @@
 /* ==========================================================================
    SkilZZ — scènes et animations de défilement (GSAP + ScrollTrigger + Lenis)
    Chaque section a son entrée, et quelque chose bouge doucement en
-   continu : bulles qui dérivent, liseré irisé qui tourne, mascotte qui
+   continu : graduations qui tournent, eau qui ondule, oiseau qui
    respire. Tout s'arrête avec « réduire les animations ».
    ========================================================================== */
 (function () {
@@ -57,15 +57,9 @@
   });
 
   // --- Formulaire ------------------------------------------------------------
-  var contactMascot = document.getElementById('contactMascot');
   function contactHop() {
-    if (reduce || !contactMascot) return;
-    gsap.timeline()
-      .to(contactMascot, { scaleY: .9, scaleX: 1.06, duration: .1 })
-      .to(contactMascot, { y: -36, scaleY: 1.04, scaleX: .97, duration: .28, ease: 'power2.out' })
-      .to(contactMascot, { y: 0, scaleY: 1, scaleX: 1, duration: .7, ease: 'bounce.out' });
-    var r = contactMascot.getBoundingClientRect();
-    if (window.SKZ) window.SKZ.burst(r.left + r.width / 2, r.top + r.height * .35, { count: 12, spread: 110 });
+    if (reduce) return;
+    if (window.SKZBird) window.SKZBird.celebrate();
   }
   var form = document.getElementById('contactForm');
   if (form) {
@@ -138,22 +132,35 @@
     .from('#heroTitle .wi', { yPercent: 115, rotation: 5, duration: 1.1, stagger: .055 }, .15)
     .fromTo('#heroMark', { '--mark': 0 }, { '--mark': 1, duration: 1.1, ease: 'elastic.out(1, .55)' }, .85)
     .from('[data-enter]', { y: 18, opacity: 0, duration: .9, stagger: .08 }, .55)
-    .fromTo('#heroBubble', { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.5, ease: 'elastic.out(1, .45)' }, .3)
-    .from('#heroMascot .mascot-img:not(.is-alt)', { y: 90, scale: .85, opacity: 0, duration: 1.2, ease: 'back.out(1.5)' }, .55)
-    .from('.chip', { scale: .5, opacity: 0, duration: .9, stagger: .1, ease: 'back.out(2.2)' }, 1);
+    .from('.ascent-sky', { scale: .85, opacity: 0, transformOrigin: '250px 250px', duration: 1.4, ease: EASE }, .2)
+    .from('.ascent-ticks', { opacity: 0, duration: 1.2 }, .5)
+    .from('.ascent-water path', { opacity: 0, x: -30, duration: 1.2, stagger: .15, ease: EASE }, .4)
+    .from('.ascent-reed, .ascent-leaf', { scaleY: 0, transformOrigin: '110px 476px', duration: .9, ease: 'back.out(1.6)' }, .7)
+    .fromTo('.ascent-guide', { strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.out' }, .9)
+    .from('.milestone', { scale: 0, transformOrigin: 'center', transformBox: 'fill-box', duration: .6, stagger: .15, ease: 'back.out(2.4)' }, 1.1)
+    .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.3);
 
-  // Pastilles : flottent chacune à leur rythme, et suivent un peu la souris
-  document.querySelectorAll('.chip').forEach(function (c, i) {
-    gsap.to(c, { y: i % 2 ? 10 : -10, rotation: i % 2 ? 2 : -2, duration: 2.6 + i * .5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.8 + i * .3 });
-  });
+  // Le tracé plein suit l'oiseau pendant l'ascension (bird.js part à ~2,1 s)
+  var ap = document.getElementById('ascentPath');
+  if (ap) {
+    var apLen = ap.getTotalLength();
+    gsap.set(ap, { strokeDasharray: apLen, strokeDashoffset: apLen });
+    gsap.to(ap, { strokeDashoffset: 0, duration: 2.6, delay: 2.14, ease: 'power1.inOut' });
+  }
+  // L'eau ondule au pied du roseau
+  gsap.timeline({ repeat: -1, repeatDelay: .4 })
+    .fromTo('.ripple', { scale: .4, opacity: .7 }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' });
+  gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .6 });
+
+  // Jalons : suivent un peu la souris
   var stage = document.getElementById('heroStage');
   if (fine && stage) {
-    var chips = Array.prototype.map.call(stage.querySelectorAll('.chip'), function (el) {
-      return { d: parseFloat(el.dataset.depth) || 1, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
+    var mss = Array.prototype.map.call(stage.querySelectorAll('.ms'), function (el, i) {
+      return { d: 1 + i * .4, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
     });
     window.addEventListener('pointermove', function (e) {
       var nx = e.clientX / window.innerWidth - .5;
-      chips.forEach(function (c) { c.x(nx * 22 * c.d); });
+      mss.forEach(function (c) { c.x(nx * 14 * c.d); });
     }, { passive: true });
   }
 
@@ -238,47 +245,42 @@
   // le fennec change de pose à chaque service
   // =========================================================================
   var svcs = gsap.utils.toArray('.svc');
-  var svcBubble = document.getElementById('svcBubble');
-  var poses = gsap.utils.toArray('.svc-pose');
+  var dial = document.getElementById('svcDial');
+  var plans = gsap.utils.toArray('.plan');
   var count = document.querySelectorAll('#svcCount b');
   var current = 0;
-  function tone(t) {
-    if (t === 'navy') return root.dataset.theme === 'dark' ? '#1E3A80' : '#0B1B3F';
-    if (t === 'green') return css('--tint-green');
-    return css('--tint-blue');
+  function drawPlan(pl) {
+    var parts = pl.querySelectorAll('[pathLength]');
+    gsap.fromTo(parts, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.1, stagger: .05, ease: 'power2.inOut' });
   }
   function setStep(i) {
     if (i === current) return;
     var prev = current; current = i;
     svcs.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
     count.forEach(function (b) { b.style.transform = 'translateY(' + (-i * 100) + '%)'; });
-    if (!svcBubble) return;
+    if (!dial) return;
+    var t = svcs[i].dataset.tone;
+    dial.classList.toggle('is-navy', t === 'navy');
+    dial.classList.toggle('is-sky', t === 'sky');
     gsap.timeline({ overwrite: 'auto' })
-      .to(svcBubble, { scaleX: 1.1, scaleY: .9, duration: .16, ease: 'power2.out' })
-      .to(svcBubble, { scaleX: 1, scaleY: 1, duration: 1.1, ease: 'elastic.out(1.1, .35)' });
-    gsap.to(svcBubble, { '--soap-fill': tone(svcs[i].dataset.tone), duration: .6, ease: 'power2.out' });
-    gsap.to(poses[prev], { opacity: 0, scale: .8, y: 40, rotation: prev < i ? -8 : 8, duration: .35, ease: 'power2.in', overwrite: true });
-    gsap.fromTo(poses[i], { opacity: 0, scale: .7, y: 70, rotation: prev < i ? 8 : -8 }, { opacity: 1, scale: 1, y: 0, rotation: 0, duration: 1, delay: .18, ease: 'back.out(1.6)', overwrite: true });
-    var r = svcBubble.getBoundingClientRect();
-    if (window.SKZ) setTimeout(function () { window.SKZ.burst(r.left + r.width * .5, r.top + r.height * .2, { count: 9, spread: 120 }); }, 200);
+      .to(dial, { rotation: (i - prev) * 30, scale: .96, duration: .3, ease: 'power2.out' })
+      .to(dial, { rotation: 0, scale: 1, duration: .9, ease: 'elastic.out(1, .5)' });
+    gsap.to(plans[prev], { opacity: 0, y: -16, duration: .3, ease: 'power2.in', overwrite: true });
+    gsap.fromTo(plans[i], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .5, delay: .12, ease: EASE, overwrite: true });
+    plans.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
+    drawPlan(plans[i]);
   }
   svcs[0] && svcs[0].classList.add('is-active');
-  if (desktop && svcBubble) {
+  if (desktop && dial) {
     svcs.forEach(function (s, i) {
       ScrollTrigger.create({ trigger: s, start: 'top 55%', end: 'bottom 55%', onToggle: function (self) { if (self.isActive) setStep(i); } });
       gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 75%' } });
     });
-    gsap.fromTo(svcBubble, { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%' } });
-    gsap.from(poses[0], { y: 80, scale: .8, opacity: 0, duration: 1.1, ease: 'back.out(1.6)', delay: .2, scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%' } });
+    gsap.from(dial, { scale: .6, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%', onEnter: function () { drawPlan(plans[0]); } } });
     gsap.to('.svc-sticky', { y: -10, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   } else {
-    // téléphone : chaque service a sa bulle, qui se gonfle à l'arrivée
-    gsap.utils.toArray('.svc-mobile-visual').forEach(function (v) {
-      gsap.from(v, { scale: .5, opacity: 0, duration: 1.3, ease: SPRING, scrollTrigger: { trigger: v, start: 'top 85%' } });
-      gsap.from(v.querySelector('img'), { y: 50, scale: .8, opacity: 0, duration: 1, delay: .15, ease: 'back.out(1.6)', scrollTrigger: { trigger: v, start: 'top 85%' } });
-    });
     svcs.forEach(function (s) {
-      gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 65%' } });
+      gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 75%' } });
     });
   }
 
@@ -289,7 +291,8 @@
   var pin = document.getElementById('workPin');
   var rider = document.getElementById('workRider');
   if (pin) {
-    var riderFloat = gsap.to(rider, { y: -12, rotation: -4, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    var riderFloat = gsap.to(rider, { y: -8, rotation: -3, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    var splash = document.createElement('span'); splash.className = 'work-ripple'; pin.appendChild(splash);
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: desktop
@@ -297,7 +300,10 @@
         : { trigger: pin, start: 'top 85%', end: 'top 5%', scrub: 1 }
     });
     tl.fromTo('#workBubble', { scale: .06 }, { scale: 1, duration: 1, ease: 'power2.in' }, 0)
-      .to(rider, { scale: 2.4, opacity: 0, duration: .55, ease: 'power1.in', onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.resume(); } }, .1)
+      // il pique vers le centre, bec en avant, et disparaît dans l'eau
+      .to(rider, { rotation: 62, x: 30, y: 70, scale: .8, duration: .28, ease: 'power2.in', onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.resume(); } }, 0)
+      .to(rider, { opacity: 0, duration: .06 }, .27)
+      .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out' }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
       .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92);
@@ -361,7 +367,6 @@
     gsap.fromTo(panel, { clipPath: 'inset(14% 10% 14% 10% round 240px)' }, { clipPath: 'inset(0% 0% 0% 0% round 32px)', ease: 'none', scrollTrigger: { trigger: panel, start: 'top 95%', end: 'top 35%', scrub: .6 } });
     gsap.from('.contact-copy > :not(img)', { y: 30, opacity: 0, duration: .9, stagger: .08, ease: EASE, scrollTrigger: { trigger: panel, start: 'top 60%' } });
     gsap.from('.form > *', { y: 24, opacity: 0, duration: .8, stagger: .06, ease: EASE, scrollTrigger: { trigger: panel, start: 'top 55%' } });
-    gsap.from(contactMascot, { y: 120, scale: .6, opacity: 0, duration: 1.2, ease: 'back.out(1.7)', scrollTrigger: { trigger: panel, start: 'top 60%' } });
     // deux bulles dérivent dans l'encart
     [[.12, .62, 120], [.86, .12, 80]].forEach(function (p, i) {
       var s = document.createElement('div');
@@ -371,25 +376,11 @@
       panel.insertBefore(s, panel.firstChild);
       gsap.to(s, { y: -20, x: i ? -14 : 14, duration: 3.6 + i, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     });
-    var send = document.getElementById('sendBtn');
-    if (fine && send && contactMascot) {
-      send.addEventListener('pointerenter', function () { gsap.to(contactMascot, { rotation: 8, x: 8, duration: .6, ease: EASE }); });
-      send.addEventListener('pointerleave', function () { gsap.to(contactMascot, { rotation: 0, x: 0, duration: .9, ease: 'elastic.out(1, .4)' }); });
-    }
-    form && form.querySelectorAll('input, textarea').forEach(function (f) {
-      f.addEventListener('focus', function () { gsap.fromTo(contactMascot, { y: 0 }, { y: -10, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out' }); });
-    });
   }
 
   // =========================================================================
   // PIED DE PAGE : le fennec passe la tête, les lettres montent en bulles
   // =========================================================================
-  gsap.to('#footerPeek', { yPercent: 22, duration: 1.2, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '#footer', start: 'top 92%', toggleActions: 'play none none reverse' } });
-  var footer = document.getElementById('footer');
-  if (fine && footer) {
-    footer.addEventListener('pointerenter', function () { gsap.to('#footerPeek', { yPercent: 2, duration: .6, ease: 'back.out(2)' }); });
-    footer.addEventListener('pointerleave', function () { gsap.to('#footerPeek', { yPercent: 22, duration: .8, ease: EASE }); });
-  }
   gsap.from('#footerWord > *', { yPercent: 110, scaleY: 1.3, rotation: 6, duration: 1.2, stagger: .07, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#footerWord', start: 'top 95%' } });
   gsap.from('.footer-top > *', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
 

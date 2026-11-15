@@ -1,12 +1,12 @@
 /* ==========================================================================
    SkilZZ — agent IA en bas à droite (même principe que le conseiller de
    MM Fragrances) :
-   · une bulle ronde, le fennec dedans ; ses oreilles dépassent de la
+   · une pastille ronde, le martin-pêcheur dedans ; sa tête dépasse de la
      bulle, il plonge, penche la tête, cligne des yeux (si l'image
      « -clin » existe) ;
    · à l'arrivée sur une section clé, une courte phrase s'écrit à côté de
      la bulle (trois fois au plus par visite) ;
-   · clic : la conversation se déplie depuis la bulle ; le fennec passe
+   · clic : la conversation se déplie depuis la pastille ; l'oiseau passe
      la tête par-dessus la fenêtre ;
    · réponses : POST data-endpoint (même contrat que /api/chat du site de
      parfums : { message, history } → { reply, suggestions, links }) ; sans
@@ -44,7 +44,7 @@
   var blinkSrc = null, thinkSrc = null, ideaSrc = null;
   var avatarSrc = head.getAttribute('src');
   probe(IMG + 'agent-avatar.webp', function (s) { avatarSrc = s; head.src = s; peekHead.src = s; probe(IMG + 'agent-avatar-clin.webp', function (b) { blinkSrc = b; }); });
-  probe(IMG + 'fennec-tete-clin.webp', function (s) { if (!blinkSrc) blinkSrc = s; });
+  probe('assets/img/kf-head-clin.svg', function (s) { if (!blinkSrc) blinkSrc = s; });
   probe(IMG + 'agent-reflechit.webp', function (s) { thinkSrc = s; });
   probe(IMG + 'agent-idee.webp', function (s) { ideaSrc = s; });
 
@@ -97,8 +97,8 @@
     { re: /(interlocuteur|qui (me )?repond|equipe|freelance|agence|personne)/,
       reply: "Vous parlez toujours à la même personne, du premier appel à la mise en ligne. Pas de ticket, pas de transfert d'un service à l'autre.",
       chips: [LEAD] },
-    { re: /(fennec|mascotte|renard)/,
-      reply: "Le fennec entend un insecte bouger sous le sable. Le studio travaille avec la même attention : d'abord écouter vos clients, le design vient après.",
+    { re: /(martin|pecheur|oiseau|mascotte|shinkansen)/,
+      reply: "Le nez du Shinkansen 500 a été redessiné d'après le bec du martin-pêcheur, qui entre dans l'eau presque sans éclaboussure. C'est notre idée de la technique : on ne la remarque pas, on remarque le résultat.",
       chips: ['Comment se passe un projet ?'] },
     { re: /(contact|rendez|rdv|appel|telephone|mail|joindre|parler|ecrire|commencer|demarrer|lancer)/,
       reply: "Le plus simple : le formulaire en bas de page, le premier échange est gratuit. Je peux préparer le message avec vous, en deux questions.",
@@ -114,7 +114,7 @@
     reply: "Je n'ai pas la réponse à ça, mais le studio l'a sûrement. Je peux préparer votre message pour le formulaire de contact.",
     chips: [LEAD, 'Comment se passe un projet ?', 'Combien coûte un site ?']
   };
-  var GREETING = "Bonjour, je suis le fennec de SkilZZ. Un site, une application, des contenus pour vos réseaux ? Posez votre question.";
+  var GREETING = "Bonjour, je suis le martin-pêcheur de SkilZZ. Un site, une application, des contenus pour vos réseaux ? Posez votre question.";
 
   function localAnswer(text) {
     var t = fold(text);
@@ -352,7 +352,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) close(); });
 
   // =========================================================================
-  // LE FENNEC DANS SA BULLE
+  // LE MARTIN-PÊCHEUR DANS SA PASTILLE
   // =========================================================================
   function jellyBubble() { if (window.SKZ) window.SKZ.jelly(bubble, .9); }
   function mood(m) {
@@ -373,7 +373,7 @@
   }
 
   if (!reduce) {
-    // Entrée : la bulle se gonfle, puis le fennec en sort la tête
+    // Entrée : la pastille apparaît, puis l'oiseau sort la tête
     gsap.timeline({ delay: 2.4 })
       .fromTo(fab, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1, ease: 'elastic.out(1, .5)' })
       .fromTo(head, { yPercent: 70 }, { yPercent: 0, duration: .8, ease: 'back.out(2.4)' }, .35)

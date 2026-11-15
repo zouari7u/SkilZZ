@@ -244,5 +244,81 @@
     whenVisible(chat, ctl);
   }
 
+
+  // =========================================================================
+  // ENCART « ANIMATIONS » : l'oiseau boucle sur sa trajectoire ;
+  // au survol, il accélère
+  // =========================================================================
+  var fp = document.getElementById('flightPath'), fb = document.getElementById('flightBird');
+  if (fp && fb) {
+    var flen = fp.getTotalLength(), fo = { d: 0 }, prevPt = fp.getPointAtLength(0);
+    function placeBird() {
+      var p = fp.getPointAtLength(fo.d % flen);
+      var ang = Math.atan2(p.y - prevPt.y, p.x - prevPt.x) * 180 / Math.PI;
+      var flipX = p.x < prevPt.x ? -1 : 1;
+      prevPt = p;
+      fb.setAttribute('transform', 'translate(' + p.x + ' ' + p.y + ') scale(' + flipX + ' 1) rotate(' + (flipX > 0 ? ang * .5 : -(180 - ang) * .5) + ') translate(-32 -40)');
+    }
+    placeBird();
+    if (!reduce) {
+      var ftl = gsap.to(fo, { d: flen, duration: 7, ease: 'none', repeat: -1, onUpdate: placeBird, paused: true });
+      whenVisible(fp, ftl);
+      if (fine) {
+        var cell = fp.closest('.cell');
+        cell.addEventListener('pointerenter', function () { gsap.to(ftl, { timeScale: 2.6, duration: .5, ease: 'power2.out' }); });
+        cell.addEventListener('pointerleave', function () { gsap.to(ftl, { timeScale: 1, duration: .8, ease: 'power2.out' }); });
+      }
+    }
+  }
+
+  // =========================================================================
+  // POURQUOI UN MARTIN-PÊCHEUR : le dessin technique se trace au défilement
+  // =========================================================================
+  var draw = document.getElementById('whyDraw');
+  if (draw && !reduce) {
+    var dtl = gsap.timeline({ scrollTrigger: { trigger: draw, start: 'top 80%', end: 'center 45%', scrub: .6 } });
+    dtl.from(draw.querySelector('image'), { opacity: 0, x: -30, duration: .3 }, 0)
+       .fromTo(draw.querySelectorAll('.wd-line'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: .3, stagger: .05 }, .2)
+       .fromTo(draw.querySelector('.wd-guide'), { opacity: 0 }, { opacity: 1, duration: .1 }, .45)
+       .from(draw.querySelector('.wd-train'), { x: -260, opacity: 0, duration: .45, ease: 'power2.out' }, .45)
+       .from(draw.querySelector('.wd-dim'), { opacity: 0, scaleX: 0, transformOrigin: '300px 344px', duration: .2 }, .85)
+       .from(draw.querySelectorAll('.wd-tags span'), { y: 10, opacity: 0, duration: .15, stagger: .05 }, .9);
+  }
+
+  // =========================================================================
+  // MÉTHODE : un tracé monte d'une étape à l'autre (ordinateur)
+  // =========================================================================
+  var stepsBox = document.getElementById('steps');
+  if (stepsBox && window.matchMedia('(min-width: 981px)').matches) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var rise = document.createElementNS(NS, 'svg'); rise.setAttribute('class', 'steps-rise'); rise.setAttribute('aria-hidden', 'true');
+    var guide = document.createElementNS(NS, 'path'), solid = document.createElementNS(NS, 'path');
+    solid.setAttribute('class', 'solid');
+    rise.appendChild(guide); rise.appendChild(solid);
+    stepsBox.insertBefore(rise, stepsBox.firstChild);
+    function layout() {
+      var b = stepsBox.getBoundingClientRect();
+      rise.setAttribute('viewBox', '0 0 ' + b.width + ' ' + b.height);
+      var pts = Array.prototype.map.call(stepsBox.querySelectorAll('.step-dot'), function (d) {
+        var r = d.getBoundingClientRect(); return [r.left - b.left + r.width / 2, r.top - b.top + r.height / 2];
+      });
+      if (pts.length < 2) return;
+      var dpath = 'M' + pts[0][0] + ' ' + pts[0][1];
+      for (var i = 1; i < pts.length; i++) {
+        var a = pts[i - 1], c = pts[i], mx = (a[0] + c[0]) / 2;
+        dpath += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + c[1] + ' ' + c[0] + ' ' + c[1];
+      }
+      guide.setAttribute('d', dpath); solid.setAttribute('d', dpath);
+      var L = solid.getTotalLength();
+      solid.style.strokeDasharray = L; if (!solid._init) { solid.style.strokeDashoffset = L; solid._init = true; }
+      solid._len = L;
+    }
+    layout();
+    window.addEventListener('resize', layout);
+    if (!reduce) {
+      gsap.to(solid, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: stepsBox, start: 'top 75%', end: 'top 30%', scrub: .5, onRefresh: layout } });
+    } else { solid.style.strokeDashoffset = 0; }
+  }
+
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
