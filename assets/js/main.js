@@ -68,7 +68,7 @@
 
   // --- Bulles de savon qu'on peut éclater ----------------------------------
   var field = document.getElementById('bubbleField');
-  var palette = ['#F0743A', '#E8467C', '#6AA9FF', '#2FAE6E', '#F7A35C'];
+  var palette = ['#1F6BFF', '#12B886', '#5BB8FF', '#0B1B3F', '#7EE3BF'];
   function spawnBubble(initial) {
     var b = document.createElement('span');
     b.className = 'bub';
@@ -111,7 +111,7 @@
     var cy = gsap.quickTo(cur, 'y', { duration: .35, ease: 'power3' });
     window.addEventListener('pointermove', function (e) { cur.classList.add('is-on'); cx(e.clientX); cy(e.clientY); }, { passive: true });
     document.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); });
-    document.querySelectorAll('a, button, .shot, .fennec, .bub, summary, label').forEach(function (el) {
+    document.querySelectorAll('a, button, .feat, .fennec, .bub, summary, label').forEach(function (el) {
       el.addEventListener('mouseenter', function () { cur.classList.add('is-big'); });
       el.addEventListener('mouseleave', function () { cur.classList.remove('is-big'); });
     });
@@ -167,7 +167,6 @@
     var steps = story.querySelectorAll('.story-step');
     var screens = story.querySelectorAll('.screen');
     var dots = story.querySelectorAll('.story-dots span');
-    var reel = story.querySelector('.screen--reel video');
     var phone = document.getElementById('storyPhone');
     var current = 0;
 
@@ -185,7 +184,6 @@
       });
       gsap.fromTo(phone, { scale: .97 }, { scale: 1, duration: .8, ease: 'elastic.out(1, .5)' });
       current = i;
-      if (reel) { if (i === 1) reel.play().catch(function () {}); else reel.pause(); }
     }
     gsap.set(steps, { opacity: function (k) { return k ? 0 : 1; }, y: function (k) { return k ? 40 : 0; } });
 
@@ -214,22 +212,7 @@
       scrollTrigger: { trigger: '#caseMM', start: 'top bottom', end: 'bottom top', scrub: true }
     });
   });
-  gsap.from('.shot', { y: 60, opacity: 0, scale: .9, stagger: .08, duration: 1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#shots', start: 'top 85%' } });
-
-  // Galerie : glisser à la souris
-  var shots = document.getElementById('shots');
-  if (shots && finePointer) {
-    var down = false, sx = 0, sl = 0, moved = false;
-    shots.addEventListener('pointerdown', function (e) { down = true; moved = false; sx = e.clientX; sl = shots.scrollLeft; });
-    window.addEventListener('pointermove', function (e) {
-      if (!down) return;
-      var dx = e.clientX - sx;
-      if (Math.abs(dx) > 4) { moved = true; shots.classList.add('is-dragging'); }
-      shots.scrollLeft = sl - dx;
-    });
-    window.addEventListener('pointerup', function () { down = false; shots.classList.remove('is-dragging'); });
-    shots.addEventListener('click', function (e) { if (moved) e.preventDefault(); }, true);
-  }
+  gsap.from('.feat', { y: 50, opacity: 0, scale: .92, stagger: .08, duration: 1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.feats', start: 'top 88%' } });
 
   // --- Expertises : cartes empilées qui reculent ----------------------------
   var cards = gsap.utils.toArray('.svc');

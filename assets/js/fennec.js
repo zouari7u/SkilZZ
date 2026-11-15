@@ -17,10 +17,12 @@
   var happy = svg.querySelector('.fx-happy-eyes');
   var earL = svg.querySelector('.fx-ear--l');
   var earR = svg.querySelector('.fx-ear--r');
-  var brows = svg.querySelector('.fx-brows');
+  var tail = svg.querySelector('.fx-tail');
 
   // Respiration permanente (très légère)
   gsap.to(head, { y: -4, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  // Queue qui ondule comme une flamme douce
+  gsap.to(tail, { rotation: 6, duration: 1.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
   if (reduce) return;
 
@@ -39,8 +41,8 @@
     var dy = (e.clientY - cy) / window.innerHeight;
     dx = Math.max(-1, Math.min(1, dx * 2));
     dy = Math.max(-1, Math.min(1, dy * 2));
-    eyeX(dx * 9); eyeY(dy * 7);
-    glX(dx * 3); glY(dy * 2);
+    eyeX(dx * 6); eyeY(dy * 5);
+    glX(dx * 2); glY(dy * 1.5);
     headR(dx * 6); headX(dx * 6);
   }, { passive: true });
 
@@ -76,10 +78,10 @@
       .to([earL, earR], { rotation: function (i) { return i ? 14 : -14; }, duration: .2 }, '<')
       .to(eyesGroup, { opacity: 0, duration: .05 }, '<')
       .to(happy, { opacity: 1, duration: .05 }, '<')
-      .to(brows, { y: -6, duration: .2 }, '<')
+      .to(tail, { rotation: 18, duration: .25 }, '<')
       .to(head, { y: 0, scaleY: 1, duration: .7, ease: 'bounce.out' })
       .to([earL, earR], { rotation: 0, duration: .8, ease: 'elastic.out(1, .35)' }, '<')
-      .to(brows, { y: 0, duration: .3 }, '<.4')
+      .to(tail, { rotation: 0, duration: .9, ease: 'elastic.out(1, .4)' }, '<')
       .to(happy, { opacity: 0, duration: .05 }, '+=.2')
       .to(eyesGroup, { opacity: 1, duration: .05 }, '<');
     hearts();
@@ -91,7 +93,7 @@
       var h = document.createElement('span');
       h.textContent = ['♥', '✦', '●'][i % 3];
       h.style.cssText = 'position:absolute;left:50%;top:40%;font-size:' + (14 + Math.random() * 16) + 'px;color:' +
-        ['#F0743A', '#E8467C', '#6AA9FF'][i % 3] + ';pointer-events:none;z-index:5;';
+        ['#1F6BFF', '#12B886', '#5BB8FF'][i % 3] + ';pointer-events:none;z-index:5;';
       host.appendChild(h);
       gsap.fromTo(h, { x: 0, y: 0, scale: 0, opacity: 1 }, {
         x: (Math.random() - .5) * 260, y: -120 - Math.random() * 120, scale: 1, rotation: (Math.random() - .5) * 90,
