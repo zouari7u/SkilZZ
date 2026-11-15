@@ -1,34 +1,41 @@
 # SkilZZ — studio digital
 
-Site vitrine du studio SkilZZ : sites, applications mobiles, SaaS et contenus pour les réseaux sociaux.
-Mascotte : un fennec. DA : bleu, touches de vert, blanc. Style : bulles cartoon mais sérieuses, animations façon iPhone.
-La mascotte (fennec bleu) : sources Gemini dans `assets/mascotte/`, versions détourées (WebP transparents) dans `assets/img/mascotte/`.
-Prompts pour de nouvelles poses : `PROMPTS-MASCOTTE.md`.
+Site vitrine du studio SkilZZ : sites, applications, SaaS et contenus pour les réseaux sociaux.
+Direction artistique : bleu, touches de vert, blanc. Mascotte : un fennec bleu.
 
 ## Lancer en local
 
 ```bash
-npm run dev
+npm start
 ```
 
-Puis ouvrir **http://localhost:4000** dans le navigateur (le terminal affiche aussi l'adresse). Le site est 100 % statique (HTML / CSS / JS), sans étape de build.
+Puis ouvrir **http://localhost:4000**. Le site est statique (HTML, CSS, JS), sans étape de build.
 
 ## Structure
 
 ```
 index.html              page d'accueil
-assets/css/main.css     styles (tokens clair / sombre, échelle de texte, bulles, navbar, maquettes CSS)
-assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, menu ···, thème
-assets/js/mascot.js     mascotte : flotte, se penche vers le curseur, saut de joie au clic
-assets/js/main.js       animations GSAP / ScrollTrigger + défilement doux Lenis
-assets/img/work/        captures réelles de MM Fragrances (réalisation)
-assets/video/           reel produit MM Fragrances
-assets/vendor/          gsap 3.15, ScrollTrigger, lenis 1.3 (copies locales, pas de CDN)
+assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
+assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème
+assets/js/mascot.js     mascotte du hero : flotte, suit le curseur, saut de joie au clic
+assets/js/main.js       animations (GSAP, ScrollTrigger, Lenis), FAQ, formulaire
+assets/img/mascotte/    poses de la mascotte détourées (WebP transparents)
+assets/mascotte/        images sources générées (non utilisées par le site)
+assets/img/work/        captures de la réalisation MM Fragrances
+assets/vendor/          gsap 3.15, ScrollTrigger, lenis 1.3 (copies locales)
+PROMPTS-MASCOTTE.md     prompts pour générer de nouvelles poses
 ```
 
-## À compléter
+## Règles de design suivies
 
-- **Formulaire de contact** : renseigner `data-endpoint` sur `#contactForm` (Formspree, route Express…).
-  Sans adresse, il affiche un message d'aperçu.
-- **Liens** Instagram / LinkedIn / TikTok, mentions légales et confidentialité (actuellement `#`).
-- Pages suivantes : réalisations détaillées, expertises, contact.
+- Aplats de couleur, une seule couleur d'accent, pas de dégradés décoratifs ni d'émojis.
+- Texte simple : chaque titre nomme ce dont parle la section, chaque bouton dit ce qu'il fait.
+- Rien d'inventé : pas de chiffres, d'avis clients ni de logos qui n'existent pas.
+- Mouvements courts, en sortie douce, désactivés avec « réduire les animations ».
+
+## À compléter avant mise en ligne
+
+- **Formulaire de contact** : sur `#contactForm`, renseigner `data-endpoint` (Formspree, route serveur)
+  ou `data-email` (ouvre la messagerie du visiteur avec le message prérempli).
+- **Mentions légales** et **politique de confidentialité** (pages à créer, puis lien dans le pied de page).
+- Liens vers les réseaux sociaux du studio.
