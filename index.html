@@ -209,62 +209,86 @@
       </div>
     </section>
 
-    <!-- SERVICES : une scène horizontale ; l'oiseau saute d'un poste à
-         l'autre le long du fil pendant que les panneaux défilent ======== -->
+    <!-- SERVICES : les cartes défilent à gauche ; à droite, l'écran du
+         service en cours reste à l'écran et l'oiseau se pose dessus ===== -->
     <section class="services" id="services">
-      <div class="svc-pin" id="svcPin">
-        <header class="head svc-head">
-          <p class="label">Services</p>
-          <h2 class="split">Ce que le studio conçoit</h2>
-        </header>
+      <header class="head">
+        <p class="label">Services</p>
+        <h2 class="split">Trois métiers. Un&nbsp;seul interlocuteur.</h2>
+      </header>
 
-        <div class="wire" id="svcWire" aria-hidden="true">
-          <svg class="wire-svg" viewBox="0 0 1000 60" preserveAspectRatio="none">
-            <path class="wire-line" d="M0 18 Q 250 42 500 30 T 1000 22"/>
-            <path class="wire-fill" id="wireFill" d="M0 18 Q 250 42 500 30 T 1000 22"/>
-          </svg>
+      <div class="svc-wrap">
+        <div class="svc-list">
+          <article class="svc" data-tone="blue">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-site.webp" alt="" width="969" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>01</b>Sites</p>
+              <h3>Un site qui donne envie de vous appeler.</h3>
+              <p class="svc-lead">Vitrine ou boutique, rapide sur téléphone. Vous changez un texte ou un prix vous-même, sans nous attendre.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Mise en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Un back-office simple, et une heure pour le prendre en main</li></ul>
+              <ul class="tags"><li>Sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li></ul>
+            </div>
+          </article>
+          <article class="svc" data-tone="navy">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-app.webp" alt="" width="647" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>02</b>Applications et SaaS</p>
+              <h3>Votre service, dans leur poche.</h3>
+              <p class="svc-lead">Vous testez un prototype sur votre propre téléphone avant qu'on écrive la première ligne de code.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à essayer</li><li><svg><use href="#i-check"/></svg>Publication sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Un tableau de bord pour suivre l’usage</li></ul>
+              <ul class="tags"><li>iOS et Android</li><li>SaaS</li><li>Tableaux de bord</li></ul>
+            </div>
+          </article>
+          <article class="svc" data-tone="sky">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-reseaux.webp" alt="" width="502" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>03</b>Réseaux sociaux</p>
+              <h3>On vous reconnaît avant de lire votre nom.</h3>
+              <p class="svc-lead">Reels, motion design et visuels pensés pour chaque réseau, avec la même identité partout.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Une charte pour vos réseaux</li><li><svg><use href="#i-check"/></svg>Des contenus prêts à publier</li><li><svg><use href="#i-check"/></svg>Des modèles que vous réutilisez</li></ul>
+              <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Identité visuelle</li></ul>
+            </div>
+          </article>
         </div>
-        <ol class="svc-marks" id="svcMarks">
-          <li><button type="button" class="svc-mark is-on" data-i="0"><span class="perch-dot" data-perch="50"></span><b>01</b><span>Sites</span></button></li>
-          <li><button type="button" class="svc-mark" data-i="1"><span class="perch-dot" data-perch="50"></span><b>02</b><span>Applications</span></button></li>
-          <li><button type="button" class="svc-mark" data-i="2"><span class="perch-dot" data-perch="50"></span><b>03</b><span>Réseaux</span></button></li>
-        </ol>
 
-        <div class="svc-view">
-          <div class="svc-track" id="svcTrack">
-            <article class="svc" data-tone="blue">
-              <figure class="svc-art"><img src="assets/img/mascotte/kf-site.webp" alt="" width="969" height="1100" loading="lazy" decoding="async"></figure>
-              <div class="svc-card" data-perch="86">
-                <span class="svc-num">01 — Sites</span>
-                <h3>Sites vitrines et e-commerce</h3>
-                <p>De la page unique qui présente votre activité à la boutique complète avec paiement. Rapide, à l'image de votre marque, et vous le mettez à jour vous-même.</p>
-                <p class="deliv-title">Ce qui est livré</p>
-                <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Site en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Prise en main du back-office</li></ul>
-                <ul class="tags"><li>Design sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li><li>Back-office</li></ul>
+        <!-- La scène : un écran par service ; l'oiseau se pose sur celui qui est actif -->
+        <div class="svc-stage" aria-hidden="true">
+          <div class="svc-sticky" id="svcStage">
+            <span class="stage-ring"></span>
+            <span class="stage-count"><span class="stage-roll" id="stageRoll"><b>01</b><b>02</b><b>03</b></span><i>/ 03</i></span>
+
+            <div class="dev dev--site is-on">
+              <span class="perch-pt" data-perch="78"></span>
+              <div class="dev-bar"><i></i><i></i><i></i><span class="dev-url">votre-marque.fr</span></div>
+              <div class="dev-body">
+                <div class="ds-nav"><b></b><span></span><span></span><span></span></div>
+                <div class="ds-hero"><span class="l1"></span><span class="l2"></span><span class="ds-btn">Réserver</span></div>
+                <div class="ds-cards"><span></span><span></span><span></span></div>
               </div>
-            </article>
-            <article class="svc" data-tone="navy">
-              <figure class="svc-art"><img src="assets/img/mascotte/kf-app.webp" alt="" width="647" height="1100" loading="lazy" decoding="async"></figure>
-              <div class="svc-card" data-perch="86">
-                <span class="svc-num">02 — Applications</span>
-                <h3>Applications et SaaS</h3>
-                <p>Votre service dans la poche de vos clients. Vous testez d'abord un prototype sur votre propre téléphone&nbsp;; le développement commence une fois qu'il vous convient.</p>
-                <p class="deliv-title">Ce qui est livré</p>
-                <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à tester</li><li><svg><use href="#i-check"/></svg>Application publiée sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Tableau de bord pour suivre l’usage</li></ul>
-                <ul class="tags"><li>Prototype cliquable</li><li>iOS et Android</li><li>Tableaux de bord</li><li>Publication sur les stores</li></ul>
+              <span class="ds-cursor"></span>
+            </div>
+
+            <div class="dev dev--app">
+              <span class="perch-pt" data-perch="62"></span>
+              <div class="dev-notch"></div>
+              <div class="dev-body">
+                <div class="da-head"><span>Ventes</span><b id="appNum">1 284</b></div>
+                <svg class="da-chart" viewBox="0 0 200 90"><path class="da-area" d="M0 80 L0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10 L200 90 L0 90Z"/><path class="da-line" d="M0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10"/></svg>
+                <div class="da-rows"><span><i></i></span><span><i></i></span><span><i></i></span></div>
+                <span class="da-toast">Nouvelle commande</span>
               </div>
-            </article>
-            <article class="svc" data-tone="sky">
-              <figure class="svc-art"><img src="assets/img/mascotte/kf-reseaux.webp" alt="" width="502" height="1100" loading="lazy" decoding="async"></figure>
-              <div class="svc-card" data-perch="86">
-                <span class="svc-num">03 — Réseaux</span>
-                <h3>Réseaux sociaux et contenus</h3>
-                <p>Reels, animations et visuels au bon format pour Instagram, TikTok et LinkedIn. Quelqu'un qui tombe sur une de vos vidéos doit reconnaître votre marque avant de lire son nom.</p>
-                <p class="deliv-title">Ce qui est livré</p>
-                <ul class="deliv"><li><svg><use href="#i-check"/></svg>Charte de vos réseaux</li><li><svg><use href="#i-check"/></svg>Reels et visuels prêts à publier</li><li><svg><use href="#i-check"/></svg>Gabarits réutilisables</li></ul>
-                <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
+            </div>
+
+            <div class="dev dev--reel">
+              <span class="perch-pt" data-perch="64"></span>
+              <div class="dev-body">
+                <span class="dr-wave"></span><span class="dr-wave w2"></span>
+                <span class="dr-play"></span>
+                <div class="dr-side"><svg class="dr-heart" viewBox="0 0 24 22"><path d="M12 21 C 5 15 1 11.5 1 7 C 1 3.6 3.6 1 7 1 C 9 1 10.9 2 12 3.6 C 13.1 2 15 1 17 1 C 20.4 1 23 3.6 23 7 C 23 11.5 19 15 12 21Z"/></svg><b id="reelLikes">2,4 k</b></div>
+                <div class="dr-cap"><span></span><span></span></div>
+                <div class="dr-bar"><i></i></div>
               </div>
-            </article>
+            </div>
           </div>
         </div>
       </div>
@@ -450,14 +474,13 @@
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
-  <script src="assets/vendor/MorphSVGPlugin.min.js"></script>
   <script src="assets/vendor/DrawSVGPlugin.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/fx.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/scenes.js"></script>
-  <script src="assets/js/kf-art.js"></script>
+  <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>
   <script src="assets/js/agent.js"></script>
 </body>

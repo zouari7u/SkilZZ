@@ -100,7 +100,7 @@
 
   if (reduce) {
     document.querySelectorAll('.svc').forEach(function (s) { s.classList.add('is-active'); });
-    document.querySelectorAll('.wire-fill').forEach(function (w) { w.style.strokeDasharray = 'none'; });
+    document.querySelectorAll('.dev--site').forEach(function (d) { d.classList.add('is-on'); });
     document.querySelectorAll('.step').forEach(function (s) { s.classList.add('is-on'); });
     gsap.set('.work-bubble', { scale: 1 });
     gsap.set('.work-rider', { opacity: 0 });
@@ -109,27 +109,7 @@
 
   // --- Découpage des titres en mots --------------------------------------------
   document.querySelectorAll('h2.split').forEach(function (h) {
-    h.innerHTML = h.textContent.trim().split(/\s+/).map(function (w) { return '<span class="wm"><span class="wi">' + w + '</span></span>'; }).join(' ');
-  });
-
-  // --- Bulles décoratives qui dérivent dans certaines sections ----------------
-  // Positions choisies dans les marges, jamais sous un titre.
-  if (window.innerWidth > 980) [
-    ['.method', { right: '2%', top: '4%' }, 130], ['.method', { left: '1%', bottom: '8%' }, 80],
-    ['.faq', { left: '2%', top: '30%' }, 110]
-  ].forEach(function (cfg) {
-    var sec = document.querySelector(cfg[0]);
-    if (!sec) return;
-    sec.style.position = 'relative'; sec.style.isolation = 'isolate';
-    var s = document.createElement('div');
-    s.className = 'soap';
-    s.setAttribute('aria-hidden', 'true');
-    s.innerHTML = '<span class="soap-rim"></span><span class="soap-shine"></span>';
-    s.style.cssText = 'position:absolute;z-index:-1;pointer-events:none;opacity:.7;width:' + cfg[2] + 'px;height:' + cfg[2] + 'px;';
-    Object.keys(cfg[1]).forEach(function (k) { s.style[k] = cfg[1][k]; });
-    sec.appendChild(s);
-    gsap.to(s, { y: -20, x: (Math.random() - .5) * 30, duration: 4 + Math.random() * 3, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    gsap.fromTo(s, { yPercent: 50 }, { yPercent: -50, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+    h.innerHTML = h.textContent.trim().split(/[ \t\n\r]+/).map(function (w) { return '<span class="wm"><span class="wi">' + w + '</span></span>'; }).join(' ');
   });
 
   // =========================================================================
@@ -225,84 +205,92 @@
   });
 
   // =========================================================================
-  // SERVICES : la scène reste à l'écran, les trois panneaux défilent à
-  // l'horizontale ; l'oiseau saute de poste en poste le long du fil
+  // SERVICES : les cartes défilent ; à droite, l'écran du service en cours
+  // reste à l'écran, change de forme, s'anime, et l'oiseau se pose dessus
   // =========================================================================
-  var svcPin = document.getElementById('svcPin');
-  var svcTrack = document.getElementById('svcTrack');
   var svcs = gsap.utils.toArray('.svc');
-  var marks = gsap.utils.toArray('.svc-mark');
-  var dots = marks.map(function (m) { return m.querySelector('.perch-dot'); });
-  var wireFill = document.getElementById('wireFill');
-  var wireLine = document.querySelector('.wire-line');
-  var svcIdx = -1, svcST = null;
+  var stage = document.getElementById('svcStage');
+  var devs = gsap.utils.toArray('.dev');
+  var rollB = document.querySelectorAll('#stageRoll b');
+  var svcIdx = -1, svcLive = false, devLoops = [];
   function bird() { return window.SKZBird; }
 
-  // le fil plie sous le poids de l'oiseau puis vibre
-  var sag = { y: 30 };
-  function drawWire() {
-    var d = 'M0 22 Q 500 ' + (sag.y * 2 - 22).toFixed(2) + ' 1000 22';
-    wireLine.setAttribute('d', d); wireFill.setAttribute('d', d);
-    // les postes suivent la courbe du fil
-    marks.forEach(function (m, k) {
-      var t = [.17, .5, .83][k];
-      m.style.setProperty('--sag', ((sag.y * 2 - 44) * 2 * t * (1 - t)).toFixed(2) + 'px');
-    });
+  // ce qui bouge dans chaque écran (en boucle tant qu'il est affiché)
+  function siteLoop(d) {
+    var tl = gsap.timeline({ repeat: -1, repeatDelay: .6, paused: true });
+    tl.fromTo(d.querySelectorAll('.ds-nav > *, .ds-hero > *, .ds-cards span'), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .5, stagger: .06, ease: 'back.out(1.8)' })
+      .fromTo(d.querySelector('.ds-cursor'), { x: 60, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: .8, ease: 'power3.inOut' }, '+=.2')
+      .to(d.querySelector('.ds-cursor'), { left: '22%', top: '47%', duration: .7, ease: 'power3.inOut' })
+      .to(d.querySelector('.ds-cursor'), { scale: .7, duration: .1, yoyo: true, repeat: 1 })
+      .to(d.querySelector('.ds-btn'), { scale: .92, duration: .1, yoyo: true, repeat: 1 }, '<')
+      .to(d.querySelector('.ds-btn'), { backgroundColor: '#0B3BA8', duration: .2 }, '<')
+      .to({}, { duration: 1.6 })
+      .to(d.querySelector('.ds-cursor'), { opacity: 0, duration: .3 })
+      .set(d.querySelector('.ds-cursor'), { left: '70%', top: '70%' })
+      .set(d.querySelector('.ds-btn'), { clearProps: 'backgroundColor' });
+    return tl;
   }
-  function twang() {
-    gsap.timeline({ overwrite: true, onUpdate: drawWire })
-      .to(sag, { y: 37, duration: .14, ease: 'power2.out' })
-      .to(sag, { y: 30, duration: 1.2, ease: 'elastic.out(1.4, .22)' });
+  function appLoop(d) {
+    var line = d.querySelector('.da-line'), area = d.querySelector('.da-area'), num = d.querySelector('#appNum'), o = { v: 1100 };
+    var tl = gsap.timeline({ repeat: -1, repeatDelay: .8, paused: true });
+    tl.fromTo(line, { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.4, ease: 'power2.inOut' })
+      .fromTo(area, { opacity: 0 }, { opacity: 1, duration: .8 }, '-=.8')
+      .fromTo(o, { v: 1100 }, { v: 1284, duration: 1.4, ease: 'power2.out', onUpdate: function () { num.textContent = Math.round(o.v).toLocaleString('fr-FR'); } }, 0)
+      .fromTo(d.querySelectorAll('.da-rows span'), { x: -16, opacity: 0 }, { x: 0, opacity: 1, duration: .5, stagger: .1, ease: 'back.out(1.7)' }, .3)
+      .fromTo(d.querySelector('.da-toast'), { y: -30, opacity: 0, scale: .9 }, { y: 0, opacity: 1, scale: 1, duration: .5, ease: 'back.out(2)' }, '+=.4')
+      .to(d.querySelector('.da-toast'), { y: -30, opacity: 0, duration: .4, ease: 'power2.in' }, '+=1.4');
+    return tl;
   }
-  document.addEventListener('kf:land', function (e) {
-    var k = dots.indexOf(e.detail);
-    if (k < 0) return;
-    twang();
-    window.SKZ && SKZ.jelly(marks[k].querySelector('b'), .8);
-  });
+  function reelLoop(d) {
+    var likes = d.querySelector('#reelLikes'), o = { v: 2.4 };
+    var tl = gsap.timeline({ repeat: -1, paused: true });
+    tl.fromTo(d.querySelector('.dr-bar i'), { scaleX: 0 }, { scaleX: 1, duration: 5, ease: 'none' }, 0)
+      .fromTo(d.querySelectorAll('.dr-wave'), { scale: .8, opacity: .8 }, { scale: 1.8, opacity: 0, duration: 1.6, stagger: .8, repeat: 2, ease: 'power2.out' }, 0)
+      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.6)
+      .fromTo(o, { v: 2.4 }, { v: 2.9, duration: 3, ease: 'power1.inOut', onUpdate: function () { likes.textContent = o.v.toFixed(1).replace('.', ',') + ' k'; } }, 1.6)
+      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 3.4);
+    return tl;
+  }
 
-  function setSvc(i, fly) {
+  function setSvc(i) {
     if (i === svcIdx) return;
-    svcIdx = i;
-    marks.forEach(function (m, k) { m.classList.toggle('is-on', k === i); m.classList.toggle('is-past', k < i); });
+    var prev = svcIdx; svcIdx = i;
     svcs.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
-    if (fly && bird()) bird().perch(dots[i], { lock: true });
+    if (!stage) return;
+    rollB.forEach(function (b) { b.style.transform = 'translateY(' + (-i * 100) + '%)'; });
+    var t = svcs[i].dataset.tone;
+    stage.classList.toggle('is-navy', t === 'navy');
+    stage.classList.toggle('is-sky', t === 'sky');
+    var dir = prev < 0 ? 1 : (i > prev ? 1 : -1);
+    if (prev >= 0) {
+      devLoops[prev].pause();
+      gsap.to(devs[prev], { yPercent: -18 * dir, rotation: -6 * dir, scale: .85, opacity: 0, duration: .45, ease: 'power2.in', overwrite: true, onComplete: function () { devs[prev].classList.remove('is-on'); } });
+    }
+    devs[i].classList.add('is-on');
+    gsap.fromTo(devs[i], { yPercent: 22 * dir, rotation: 6 * dir, scale: .82, opacity: 0 }, { yPercent: 0, rotation: 0, scale: 1, opacity: 1, duration: .9, delay: prev >= 0 ? .18 : 0, ease: 'elastic.out(1, .65)', overwrite: true });
+    devLoops[i].restart();
+    // l'oiseau quitte l'ancien écran et se pose sur le nouveau
+    if (svcLive && bird()) setTimeout(function () { if (svcLive) bird().perch(devs[i].querySelector('.perch-pt'), { lock: true }); }, prev >= 0 ? 380 : 0);
   }
 
-  if (desktop && svcPin && svcTrack) {
-    drawWire();
-    var dist = function () { return svcs[svcs.length - 1].offsetLeft - svcs[0].offsetLeft; };
-    var slide = gsap.to(svcTrack, { x: function () { return -dist(); }, ease: 'none' });
-    svcST = ScrollTrigger.create({
-      trigger: svcPin, pin: true, start: 'top top', end: function () { return '+=' + dist() * 1.15; },
-      animation: slide, scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
-      snap: { snapTo: [0, .5, 1], directional: false, inertia: false, duration: { min: .25, max: .7 }, delay: .08, ease: 'power2.inOut' },
-      onUpdate: function (self) {
-        gsap.set(wireFill, { drawSVG: '0% ' + (17 + self.progress * 66) + '%' });
-        setSvc(Math.round(self.progress * 2), true);
-      },
-      onEnter: function (self) { svcIdx = -1; setSvc(Math.round(self.progress * 2), true); },
-      onEnterBack: function (self) { svcIdx = -1; setSvc(Math.round(self.progress * 2), true); },
-      onLeave: function () { bird() && bird().unlock(); },
-      onLeaveBack: function () { bird() && bird().unlock(); }
+  if (desktop && stage) {
+    devLoops = [siteLoop(devs[0]), appLoop(devs[1]), reelLoop(devs[2])];
+    gsap.set(devs, { opacity: 0 });
+    svcs.forEach(function (s, i) {
+      ScrollTrigger.create({ trigger: s, start: 'top 58%', end: 'bottom 58%', onToggle: function (self) { if (self.isActive) setSvc(i); } });
+      gsap.from(s.querySelectorAll('.svc-card > *'), { y: 26, opacity: 0, duration: .8, stagger: .06, ease: EASE, scrollTrigger: { trigger: s, start: 'top 78%' } });
     });
-    gsap.set(wireFill, { drawSVG: '0% 17%' });
-    // chaque panneau grandit en arrivant au centre, son image glisse en sens inverse
-    svcs.forEach(function (s) {
-      gsap.fromTo(s, { scale: .88, opacity: .35 }, { scale: 1, opacity: 1, ease: 'sine.out', scrollTrigger: { containerAnimation: slide, trigger: s, start: 'left 95%', end: 'center 55%', scrub: true } });
-      gsap.fromTo(s.querySelector('.svc-art img'), { xPercent: 22, rotation: 5 }, { xPercent: -22, rotation: -5, ease: 'none', scrollTrigger: { containerAnimation: slide, trigger: s, start: 'left right', end: 'right left', scrub: true } });
-      gsap.from(s.querySelectorAll('.svc-card > *'), { x: 60, opacity: 0, stagger: .06, ease: 'power2.out', scrollTrigger: { containerAnimation: slide, trigger: s, start: 'left 85%', end: 'left 35%', scrub: .6 } });
+    // l'oiseau reste sur la scène tant qu'elle est à l'écran
+    ScrollTrigger.create({
+      trigger: '.svc-wrap', start: 'top 45%', end: 'bottom 70%',
+      onToggle: function (self) {
+        svcLive = self.isActive;
+        if (!bird()) return;
+        if (svcLive) { if (svcIdx < 0) setSvc(0); bird().perch(devs[svcIdx].querySelector('.perch-pt'), { lock: true }); }
+        else bird().unlock();
+      }
     });
-    // un clic sur un poste fait défiler jusqu'au panneau correspondant
-    marks.forEach(function (m, k) {
-      m.addEventListener('click', function () {
-        var y = svcST.start + (svcST.end - svcST.start) * k / 2 + 2;
-        if (lenis) lenis.scrollTo(y, { duration: 1.2 }); else window.scrollTo({ top: y, behavior: 'smooth' });
-      });
-    });
-    var headTl = gsap.timeline({ scrollTrigger: { trigger: svcPin, start: 'top 70%' } });
-    headTl.from('.wire', { scaleX: 0, transformOrigin: '0 50%', duration: 1.4, ease: 'power3.inOut' })
-      .from(marks, { y: 24, opacity: 0, duration: .8, stagger: .12, ease: 'back.out(2)' }, .4);
+    gsap.from('.stage-ring', { scale: .6, opacity: 0, duration: 1.2, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%', onEnter: function () { if (svcIdx < 0) setSvc(0); } } });
   } else {
     svcs.forEach(function (s) {
       s.classList.add('is-active');
