@@ -98,7 +98,7 @@
       reply: "Vous parlez toujours à la même personne, du premier appel à la mise en ligne. Pas de ticket, pas de transfert d'un service à l'autre.",
       chips: [LEAD] },
     { re: /(martin|pecheur|oiseau|mascotte|shinkansen)/,
-      reply: "Le nez du Shinkansen 500 a été redessiné d'après le bec du martin-pêcheur, qui entre dans l'eau presque sans éclaboussure. C'est notre idée de la technique : on ne la remarque pas, on remarque le résultat.",
+      reply: "Le martin-pêcheur part d'une branche au ras de l'eau, vise, puis plonge sans presque faire d'éclaboussure. C'est notre idée du travail : partir de votre point de départ, viser juste, et monter.",
       chips: ['Comment se passe un projet ?'] },
     { re: /(contact|rendez|rdv|appel|telephone|mail|joindre|parler|ecrire|commencer|demarrer|lancer)/,
       reply: "Le plus simple : le formulaire en bas de page, le premier échange est gratuit. Je peux préparer le message avec vous, en deux questions.",

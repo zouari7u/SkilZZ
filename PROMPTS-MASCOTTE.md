@@ -2,7 +2,7 @@
 
 La mascotte est maintenant un **martin-pêcheur**, en **bleu et blanc uniquement**. Il dit trois choses :
 l'**ascension** (partir d'un roseau au ras de l'eau et monter tout en haut), la **précision** (il vise avant de
-plonger) et la **technique** (son bec a inspiré le nez du Shinkansen 500).
+plonger) et la **technique** (le geste juste, sans éclaboussure).
 
 Sur le site, l'oiseau qui vole d'encart en encart est **dessiné en SVG et animé en code**
 (`assets/js/kf-art.js` + `assets/js/bird.js`, skill `animate-2d`). Les images ci-dessous servent à :

@@ -272,20 +272,6 @@
   }
 
   // =========================================================================
-  // POURQUOI UN MARTIN-PÊCHEUR : le dessin technique se trace au défilement
-  // =========================================================================
-  var draw = document.getElementById('whyDraw');
-  if (draw && !reduce) {
-    var dtl = gsap.timeline({ scrollTrigger: { trigger: draw, start: 'top 80%', end: 'center 45%', scrub: .6 } });
-    dtl.from(draw.querySelector('image'), { opacity: 0, x: -30, duration: .3 }, 0)
-       .fromTo(draw.querySelectorAll('.wd-line'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: .3, stagger: .05 }, .2)
-       .fromTo(draw.querySelector('.wd-guide'), { opacity: 0 }, { opacity: 1, duration: .1 }, .45)
-       .from(draw.querySelector('.wd-train'), { x: -260, opacity: 0, duration: .45, ease: 'power2.out' }, .45)
-       .from(draw.querySelector('.wd-dim'), { opacity: 0, scaleX: 0, transformOrigin: '300px 344px', duration: .2 }, .85)
-       .from(draw.querySelectorAll('.wd-tags span'), { y: 10, opacity: 0, duration: .15, stagger: .05 }, .9);
-  }
-
-  // =========================================================================
   // MÉTHODE : un tracé monte d'une étape à l'autre (ordinateur)
   // =========================================================================
   var stepsBox = document.getElementById('steps');
