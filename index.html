@@ -20,6 +20,7 @@
       try { t = localStorage.getItem('skz-theme'); } catch (e) {}
       if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.dataset.theme = t;
+      document.documentElement.classList.add('js');
     })();
   </script>
 
@@ -39,6 +40,7 @@
   </svg>
 
   <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 
   <!-- =====================================================================
        NAVBAR — pilule flottante en 3 colonnes, comme sur MM Fragrances :
@@ -65,7 +67,7 @@
     </div>
 
     <div class="nav-end">
-      <a href="#contact" class="nav-cta">Parler de votre projet</a>
+      <a href="#contact" class="nav-cta fill-btn" data-fill="#DCE8FF">Parler de votre projet</a>
       <label class="theme-switch" aria-label="Thème clair ou sombre">
         <input type="checkbox" id="themeToggle">
         <span class="slider"></span>
@@ -79,27 +81,27 @@
       <div class="hero-copy">
         <p class="label" data-enter>Studio digital</p>
         <h1 class="hero-title" id="heroTitle">
-          <span class="w">Sites,</span> <span class="w">applications</span> <span class="w">et</span> <span class="w">contenus</span>
-          <span class="w">qui</span> <span class="w">rendent</span> <span class="w">votre</span> <span class="w">marque</span>
-          <span class="w"><em class="mark">visible</em>.</span>
+          <span class="wm"><span class="wi">Sites,</span></span> <span class="wm"><span class="wi">applications</span></span> <span class="wm"><span class="wi">et</span></span> <span class="wm"><span class="wi">contenus</span></span>
+          <span class="wm"><span class="wi">qui</span></span> <span class="wm"><span class="wi">rendent</span></span> <span class="wm"><span class="wi">votre</span></span> <span class="wm"><span class="wi">marque</span></span>
+          <span class="wm wm--mark"><span class="wi"><em class="mark" id="heroMark">visible</em>.</span></span>
         </h1>
         <p class="hero-sub" data-enter>
           SkilZZ conçoit et développe votre site, votre application et vos contenus pour les réseaux sociaux.
           Un seul interlocuteur, du premier échange à la mise en ligne.
         </p>
         <div class="hero-ctas" data-enter>
-          <a href="#contact" class="btn btn--primary"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
-          <a href="#realisation" class="btn btn--ghost">Voir une réalisation</a>
+          <a href="#contact" class="btn btn--primary fill-btn magnetic"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
+          <a href="#realisation" class="btn btn--ghost fill-btn"><span>Voir une réalisation</span></a>
         </div>
       </div>
 
       <div class="hero-stage" id="heroStage">
         <div class="bubbles" id="bubbles" aria-hidden="true"></div>
-        <div class="stage-disc" aria-hidden="true"></div>
-        <!-- La mascotte : flotte, se penche vers le curseur, saute de joie au clic. -->
-        <div class="mascot-hero" id="heroMascot">
-          <img class="mascot-img" src="assets/img/mascotte/fennec-coucou.webp" alt="Le fennec bleu, mascotte de SkilZZ, salue de la patte" width="875" height="1100" decoding="async">
-        </div>
+        <!-- La bulle de la mascotte : se déforme avec la souris, éclate au clic. -->
+        <div class="soap soap--hero" id="heroBubble" aria-hidden="true"><span class="soap-rim"></span><span class="soap-shine"></span></div>
+        <button type="button" class="mascot-hero" id="heroMascot" aria-label="Faire sauter le fennec">
+          <img class="mascot-img" src="assets/img/mascotte/fennec-coucou.webp" alt="" width="875" height="1100" decoding="async">
+        </button>
         <span class="chip chip--a" data-depth="1">Sites web</span>
         <span class="chip chip--b" data-depth=".6">Applications</span>
         <span class="chip chip--c" data-depth=".8">Réseaux sociaux</span>
@@ -107,13 +109,9 @@
     </section>
 
     <!-- BANDEAU DES SERVICES ============================================ -->
-    <div class="strip" aria-label="Ce que fait le studio">
+    <div class="strip" id="strip" aria-label="Ce que fait le studio">
       <div class="strip-track">
         <ul>
-          <li>Sites vitrines</li><li>E-commerce</li><li>Applications iOS et Android</li><li>SaaS</li>
-          <li>Identité de marque</li><li>Motion design</li><li>Reels et TikTok</li><li>Référencement</li>
-        </ul>
-        <ul aria-hidden="true">
           <li>Sites vitrines</li><li>E-commerce</li><li>Applications iOS et Android</li><li>SaaS</li>
           <li>Identité de marque</li><li>Motion design</li><li>Reels et TikTok</li><li>Référencement</li>
         </ul>
@@ -122,105 +120,119 @@
 
     <!-- POURQUOI UN FENNEC ============================================== -->
     <section class="why" id="fennec">
-      <div class="why-portrait">
-        <img src="assets/img/mascotte/fennec-ecoute.webp" alt="Le fennec tend l'oreille" width="900" height="900" loading="lazy" decoding="async">
+      <div class="why-portrait" id="whyPortrait">
+        <span class="ring" aria-hidden="true"></span><span class="ring" aria-hidden="true"></span><span class="ring" aria-hidden="true"></span>
+        <div class="soap soap--why"><span class="soap-rim"></span><span class="soap-shine"></span>
+          <img src="assets/img/mascotte/fennec-ecoute.webp" alt="Le fennec tend l'oreille" width="900" height="900" loading="lazy" decoding="async">
+        </div>
       </div>
       <div class="why-copy">
         <p class="label">Pourquoi un fennec</p>
-        <p class="why-text" id="whyText">Le fennec a les plus grandes oreilles du désert. C'est aussi notre méthode&nbsp;: on écoute vos clients avant de dessiner le premier écran.</p>
+        <p class="why-text" id="whyText">Le fennec a les plus grandes oreilles de la famille des renards. Le studio travaille de la même façon&nbsp;: on écoute vos clients avant de dessiner le premier écran.</p>
       </div>
     </section>
 
-    <!-- SERVICES ======================================================== -->
+    <!-- SERVICES : une bulle reste à l'écran, le fennec change de pose ===== -->
     <section class="services" id="services">
       <header class="head">
         <p class="label">Services</p>
-        <h2>Ce que le studio conçoit</h2>
+        <h2 class="split">Ce que le studio conçoit</h2>
       </header>
 
-      <div class="stack">
-        <article class="svc svc--blue">
-          <div class="svc-copy">
+      <div class="svc-wrap">
+        <div class="svc-list">
+          <article class="svc" data-tone="blue">
+            <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-laptop.webp" alt="" loading="lazy"></div>
             <span class="svc-num">01</span>
             <h3>Sites vitrines et e-commerce</h3>
             <p>Un site rapide, dessiné pour votre marque, que vous mettez à jour vous-même. Du one-page à la boutique complète, référencement compris.</p>
             <ul class="tags"><li>Design sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li><li>Back-office</li></ul>
-          </div>
-          <div class="svc-visual"><img src="assets/img/mascotte/fennec-laptop.webp" alt="Le fennec travaille sur un ordinateur portable" width="1100" height="1099" loading="lazy" decoding="async"></div>
-        </article>
-
-        <article class="svc svc--navy">
-          <div class="svc-copy">
+          </article>
+          <article class="svc" data-tone="navy">
+            <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-app.webp" alt="" loading="lazy"></div>
             <span class="svc-num">02</span>
             <h3>Applications et SaaS</h3>
             <p>Votre service sur iPhone, Android et navigateur. On commence par un prototype cliquable, puis on développe et on publie sur les stores.</p>
             <ul class="tags"><li>Prototype cliquable</li><li>iOS et Android</li><li>Tableaux de bord</li><li>Publication sur les stores</li></ul>
-          </div>
-          <div class="svc-visual"><img src="assets/img/mascotte/fennec-app.webp" alt="Le fennec présente une application sur un téléphone" width="1100" height="1079" loading="lazy" decoding="async"></div>
-        </article>
-
-        <article class="svc svc--green">
-          <div class="svc-copy">
+          </article>
+          <article class="svc" data-tone="green">
+            <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-selfie.webp" alt="" loading="lazy"></div>
             <span class="svc-num">03</span>
             <h3>Réseaux sociaux et contenus</h3>
             <p>Reels, animations et visuels au format de chaque plateforme, dans la même identité que votre site.</p>
             <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
+          </article>
+        </div>
+
+        <div class="svc-stage" aria-hidden="true">
+          <div class="svc-sticky">
+            <div class="soap soap--svc" id="svcBubble"><span class="soap-rim"></span><span class="soap-shine"></span></div>
+            <img class="svc-pose is-on" src="assets/img/mascotte/fennec-laptop.webp" alt="" width="1100" height="1099" loading="lazy" decoding="async">
+            <img class="svc-pose" src="assets/img/mascotte/fennec-app.webp" alt="" width="1100" height="1079" loading="lazy" decoding="async">
+            <img class="svc-pose" src="assets/img/mascotte/fennec-selfie.webp" alt="" width="1042" height="1100" loading="lazy" decoding="async">
+            <div class="svc-count"><span class="svc-count-roll" id="svcCount"><b>01</b><b>02</b><b>03</b></span><i>/ 03</i></div>
           </div>
-          <div class="svc-visual"><img src="assets/img/mascotte/fennec-selfie.webp" alt="Le fennec prend un selfie" width="1042" height="1100" loading="lazy" decoding="async"></div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <!-- RÉALISATION ===================================================== -->
+    <!-- RÉALISATION : une bulle grandit jusqu'à remplir l'écran ========== -->
     <section class="work" id="realisation">
-      <article class="case" id="case">
-        <div class="case-copy">
-          <p class="label label--on-dark">Réalisation</p>
-          <h2>MM Fragrances, parfumerie de niche en ligne</h2>
-          <p>Boutique en ligne avec thème clair et sombre, catalogue animé, fiches produits en 3D, quiz olfactif et conseiller virtuel.</p>
-          <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light"><span>Visiter mm-fragrances.fr</span><svg><use href="#i-out"/></svg></a>
-        </div>
+      <div class="work-pin" id="workPin">
+        <div class="work-bubble" id="workBubble" aria-hidden="true"></div>
+        <img class="work-rider" id="workRider" src="assets/img/mascotte/fennec-tete.webp" alt="" width="1100" height="1072" loading="lazy" aria-hidden="true">
 
-        <div class="case-visual">
-          <div class="browser" data-parallax="-24">
-            <div class="browser-bar"><i></i><i></i><i></i><span>mm-fragrances.fr</span></div>
-            <img src="assets/img/work/mm-home-dark.webp" alt="Page d'accueil du site MM Fragrances" width="1920" height="1200" loading="lazy" decoding="async">
+        <div class="work-inner" id="workInner">
+          <div class="case-copy">
+            <p class="label label--on-dark">Réalisation</p>
+            <h2>MM Fragrances, parfumerie de niche en ligne</h2>
+            <p>Boutique en ligne avec thème clair et sombre, catalogue animé, fiches produits en 3D, quiz olfactif et conseiller virtuel.</p>
+            <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Visiter mm-fragrances.fr</span><svg><use href="#i-out"/></svg></a>
           </div>
 
-          <div class="iphone" data-parallax="36">
-            <div class="iphone-screen" style="--top:#1c1c1e">
-              <div class="iphone-status" aria-hidden="true">
-                <b>9:41</b>
-                <svg viewBox="0 0 68 14"><path d="M1 10h3v3H1zM6 8h3v5H6zM11 5.5h3V13h-3zM16 3h3v10h-3z" fill="currentColor"/><path d="M27 5.6a8.6 8.6 0 0 1 11.6 0l-1.3 1.4a6.7 6.7 0 0 0-9 0zM29.3 8a5.3 5.3 0 0 1 7 0l-1.3 1.4a3.4 3.4 0 0 0-4.4 0zM32.8 12.4l-1.6-1.7a2.4 2.4 0 0 1 3.2 0z" fill="currentColor"/><rect x="45.5" y="2" width="19" height="10" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="47" y="3.5" width="16" height="7" rx="1.6" fill="currentColor"/><rect x="65.6" y="5" width="1.6" height="4" rx=".8" fill="currentColor" opacity=".5"/></svg>
+          <div class="case-visual">
+            <div class="browser" id="caseBrowser">
+              <div class="browser-bar"><i></i><i></i><i></i><span>mm-fragrances.fr</span></div>
+              <img src="assets/img/work/mm-home-dark.webp" alt="Page d'accueil du site MM Fragrances" width="1920" height="1200" loading="lazy" decoding="async">
+            </div>
+            <div class="iphone" id="casePhone">
+              <div class="iphone-screen" style="--top:#1c1c1e">
+                <div class="iphone-status" aria-hidden="true">
+                  <b>9:41</b>
+                  <svg viewBox="0 0 68 14"><path d="M1 10h3v3H1zM6 8h3v5H6zM11 5.5h3V13h-3zM16 3h3v10h-3z" fill="currentColor"/><path d="M27 5.6a8.6 8.6 0 0 1 11.6 0l-1.3 1.4a6.7 6.7 0 0 0-9 0zM29.3 8a5.3 5.3 0 0 1 7 0l-1.3 1.4a3.4 3.4 0 0 0-4.4 0zM32.8 12.4l-1.6-1.7a2.4 2.4 0 0 1 3.2 0z" fill="currentColor"/><rect x="45.5" y="2" width="19" height="10" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="47" y="3.5" width="16" height="7" rx="1.6" fill="currentColor"/><rect x="65.6" y="5" width="1.6" height="4" rx=".8" fill="currentColor" opacity=".5"/></svg>
+                </div>
+                <span class="iphone-island" aria-hidden="true"></span>
+                <img src="assets/img/work/mm-product-dark-m.webp" alt="Fiche produit du site MM Fragrances sur mobile" width="786" height="1596" loading="lazy" decoding="async">
               </div>
-              <span class="iphone-island" aria-hidden="true"></span>
-              <img src="assets/img/work/mm-product-dark-m.webp" alt="Fiche produit du site MM Fragrances sur mobile" width="786" height="1596" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
-      </article>
+      </div>
     </section>
 
     <!-- MÉTHODE ========================================================= -->
     <section class="method" id="methode">
       <header class="head">
         <p class="label">Méthode</p>
-        <h2>Comment se déroule un projet</h2>
+        <h2 class="split">Comment se déroule un projet</h2>
       </header>
 
       <div class="steps" id="steps">
         <span class="steps-line" aria-hidden="true"><i id="stepsFill"></i></span>
         <article class="step">
+          <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">01</span>
           <h3>Écouter</h3>
           <p>Un atelier pour comprendre votre activité, vos clients et vos objectifs. Vous recevez ensuite un devis détaillé, découpé par étapes.</p>
         </article>
         <article class="step">
+          <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">02</span>
           <h3>Concevoir</h3>
           <p>Maquettes, prototype animé, puis développement. Vous validez chaque étape et vous voyez le projet avancer.</p>
         </article>
         <article class="step">
+          <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">03</span>
           <h3>Faire grandir</h3>
           <p>Mise en ligne, suivi, contenus pour vos réseaux et évolutions. Le studio reste disponible après la livraison.</p>
@@ -238,7 +250,7 @@
     <section class="faq" id="questions">
       <header class="head">
         <p class="label">Questions</p>
-        <h2>Questions fréquentes</h2>
+        <h2 class="split">Questions fréquentes</h2>
       </header>
       <div class="faq-list">
         <details class="qa">
@@ -266,9 +278,9 @@
 
     <!-- CONTACT ========================================================= -->
     <section class="contact" id="contact">
-      <div class="contact-panel">
+      <div class="contact-panel" id="contactPanel">
         <div class="contact-copy">
-          <img class="contact-mascot" src="assets/img/mascotte/fennec-joie.webp" alt="" width="921" height="1100" loading="lazy" decoding="async">
+          <img class="contact-mascot" id="contactMascot" src="assets/img/mascotte/fennec-joie.webp" alt="" width="921" height="1100" loading="lazy" decoding="async">
           <h2>Parlons de votre projet</h2>
           <p>Décrivez votre besoin en quelques lignes. Le premier échange est gratuit et sans engagement.</p>
         </div>
@@ -287,22 +299,22 @@
             <label><input type="checkbox" name="type" value="Réseaux sociaux"><span>Réseaux sociaux</span></label>
           </fieldset>
           <label class="field"><span>Message</span><textarea name="message" rows="4"></textarea></label>
-          <button class="btn btn--primary btn--block" type="submit"><span>Envoyer le message</span><svg><use href="#i-arrow"/></svg></button>
+          <button class="btn btn--primary btn--block fill-btn" id="sendBtn" type="submit"><span>Envoyer le message</span><svg><use href="#i-arrow"/></svg></button>
           <p class="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-peek" aria-hidden="true"><img src="assets/img/mascotte/fennec-peek.webp" alt="" width="1100" height="857" loading="lazy"></div>
+  <footer class="footer" id="footer">
+    <div class="footer-peek" aria-hidden="true"><img id="footerPeek" src="assets/img/mascotte/fennec-peek.webp" alt="" width="1100" height="857" loading="lazy"></div>
     <div class="footer-top">
       <p class="footer-tag">Studio digital. Sites, applications et réseaux sociaux.</p>
       <nav class="footer-links" aria-label="Pied de page">
         <a href="#services">Services</a><a href="#realisation">Réalisation</a><a href="#methode">Méthode</a><a href="#questions">Questions</a><a href="#contact">Contact</a>
       </nav>
     </div>
-    <p class="footer-word" aria-hidden="true">Skil<b>ZZ</b></p>
+    <p class="footer-word" id="footerWord" aria-label="SkilZZ"><span>S</span><span>k</span><span>i</span><span>l</span><b>Z</b><b>Z</b></p>
     <p class="footer-legal">© 2026 SkilZZ</p>
   </footer>
 
@@ -310,6 +322,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
   <script src="assets/js/nav.js"></script>
+  <script src="assets/js/fx.js"></script>
   <script src="assets/js/mascot.js"></script>
   <script src="assets/js/main.js"></script>
 </body>

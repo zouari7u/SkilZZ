@@ -165,3 +165,36 @@ around it. Vertical 9:16, bright clean white and light-blue set, gentle camera p
 Mets les fichiers dans `assets/img/mascotte/` (images) et `assets/video/` (vidéos), avec les noms indiqués ci-dessus.
 Je les intègre ensuite : hero (V1 + clic → V2), section Approche (n°3), Expertises (n°4, 5, 6),
 Contact (n°7 / V4), pied de page (n°8), logo et favicon (n°9).
+
+---
+
+## Poses supplémentaires pour les animations (bulles)
+
+Même fiche personnage que plus haut (fennec bleu, ventre et museau blancs, oreilles bleu clair,
+pattes bleu nuit), fond blanc uni. Je détoure et j'intègre.
+
+### 10. Souffle une bulle  →  `fennec-bulle.png`
+Remplacerait la pose « coucou » au chargement : le fennec souffle, la bulle de l'accueil se gonfle.
+
+```text
+[FICHE DU PERSONNAGE] Full body, sitting, holding a small bubble wand with both front paws, cheeks
+slightly puffed, blowing a large transparent soap bubble with a thin blue and green iridescent rim,
+eyes looking at the bubble with delight. Pure white background, soft contact shadow.
+```
+
+### 11. Assis dans une bulle qui flotte  →  `fennec-dans-bulle.png`
+Pour la section Réalisation : la bulle qui grandit jusqu'à remplir l'écran porterait le fennec entier.
+
+```text
+[FICHE DU PERSONNAGE] Full body, curled up and sitting comfortably inside a big floating transparent
+soap bubble, paws resting on the inner wall, tail wrapped around, calm happy expression, bubble with
+a thin blue and green iridescent rim and one white highlight. Pure white background.
+```
+
+### 12. Montre le bas de la page  →  `fennec-indique.png`
+Pour l'invitation à défiler sous l'accueil.
+
+```text
+[FICHE DU PERSONNAGE] Upper body leaning forward, one paw pointing down, ears up, friendly
+encouraging look toward the viewer. Pure white background.
+```

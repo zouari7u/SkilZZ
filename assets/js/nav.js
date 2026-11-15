@@ -85,9 +85,24 @@
   // Thème
   var toggle = document.getElementById('themeToggle');
   toggle.checked = root.dataset.theme === 'dark';
+  // Le nouveau thème arrive en bulle qui part de l'interrupteur
+  // (View Transitions API ; ailleurs, simple fondu des couleurs).
   toggle.addEventListener('change', function () {
     var t = toggle.checked ? 'dark' : 'light';
-    root.dataset.theme = t;
-    try { localStorage.setItem('skz-theme', t); } catch (e) {}
+    function apply() {
+      root.dataset.theme = t;
+      try { localStorage.setItem('skz-theme', t); } catch (e) {}
+    }
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!document.startViewTransition || reduce) { apply(); return; }
+    var r = toggle.parentElement.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(function () {
+      document.documentElement.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 750, easing: 'cubic-bezier(.22, 1, .36, 1)', pseudoElement: '::view-transition-new(root)' }
+      );
+    });
   });
 })();
