@@ -355,10 +355,15 @@
           if (on !== lit[i]) {
             lit[i] = on;
             s.classList.toggle('is-on', on);
-            if (on) {
-              var r = s.querySelector('.step-dot').getBoundingClientRect();
-              if (window.SKZ) window.SKZ.burst(r.left + r.width / 2, r.top + r.height / 2, { count: 7, spread: 50, min: 4, max: 9 });
-              gsap.fromTo(s.querySelector('.step-dot'), { scale: .6 }, { scale: 1, duration: .9, ease: 'elastic.out(1.2, .4)' });
+            if (on && !s.dataset.rang) {
+              // une seule onde, la première fois que l'étape s'allume
+              s.dataset.rang = '1';
+              var dot = s.querySelector('.step-dot');
+              var ring = document.createElement('span');
+              ring.className = 'step-ring';
+              dot.appendChild(ring);
+              gsap.fromTo(ring, { scale: 1, opacity: .7 }, { scale: 3.2, opacity: 0, duration: 1.1, ease: 'power2.out', onComplete: function () { ring.remove(); } });
+              gsap.fromTo(dot, { scale: .6 }, { scale: 1, duration: .9, ease: 'elastic.out(1.2, .4)' });
             }
           }
         });

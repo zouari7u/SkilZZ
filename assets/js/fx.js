@@ -13,7 +13,6 @@
   if (!window.gsap) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  var layer = document.getElementById('fxLayer');
   var COLORS = ['#1F6BFF', '#1E9BFF', '#5BB8FF', '#8FB6FF'];
 
   function bubbleStyle(el, size) {
@@ -21,42 +20,46 @@
     el.style.marginLeft = el.style.marginTop = (-size / 2) + 'px';
     // petit point net (DA martin-pêcheur : bleu et blanc, pas de reflet)
     el.style.background = Math.random() > .5 ? '#1F6BFF' : '#5BB8FF';
-    el.style.boxShadow = '0 0 0 2px rgba(255,255,255,.9)';
   }
 
-  // Petites bulles qui jaillissent d'un point (coordonnées écran)
+  // Calque attaché au document : les éclats restent à leur place dans la
+  // page quand on défile (au lieu de flotter, collés à l'écran)
+  var docLayer = document.createElement('div');
+  docLayer.className = 'fx-doc';
+  docLayer.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(docLayer);
+
+  // Petits éclats qui partent d'un point (coordonnées écran) et s'éteignent vite
   function burst(x, y, opts) {
-    if (reduce || !layer) return;
+    if (reduce) return;
     opts = opts || {};
     var n = opts.count || 10, spread = opts.spread || 90;
+    x += window.scrollX; y += window.scrollY;
     for (var i = 0; i < n; i++) {
       var b = document.createElement('span');
       b.className = 'fx-bub';
-      var s = (opts.min || 6) + Math.random() * (opts.max || 14);
+      var s = (opts.min || 5) + Math.random() * ((opts.max || 12) - (opts.min || 5));
       bubbleStyle(b, s);
-      layer.appendChild(b);
+      docLayer.appendChild(b);
       var a = (i / n) * Math.PI * 2 + Math.random() * .6;
-      var d = spread * (.55 + Math.random() * .6);
-      gsap.fromTo(b, { x: x, y: y, scale: .3, opacity: 1 }, {
-        x: x + Math.cos(a) * d, y: y + Math.sin(a) * d - 20, scale: 1,
-        duration: .7 + Math.random() * .4, ease: 'power3.out',
-        onComplete: (function (el) {
-          return function () {
-            gsap.to(el, { y: '-=' + (30 + Math.random() * 40), opacity: 0, scale: 1.25, duration: .5 + Math.random() * .4, ease: 'power1.in', onComplete: function () { el.remove(); } });
-          };
-        })(b)
+      var d = spread * (.55 + Math.random() * .5);
+      gsap.fromTo(b, { x: x, y: y, scale: .4, opacity: 1 }, {
+        x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, scale: 0, opacity: 0,
+        duration: .6 + Math.random() * .25, ease: 'power3.out',
+        onComplete: (function (el) { return function () { el.remove(); }; })(b)
       });
     }
   }
 
   // Éclat de points (bulle qui éclate)
   function pop(x, y, size) {
-    if (reduce || !layer) return;
+    if (reduce) return;
+    x += window.scrollX; y += window.scrollY;
     for (var i = 0; i < 7; i++) {
       var d = document.createElement('span');
       d.className = 'fx-dot';
       d.style.background = COLORS[i % COLORS.length];
-      layer.appendChild(d);
+      docLayer.appendChild(d);
       var a = (i / 7) * Math.PI * 2;
       var r = size / 2 + 14 + Math.random() * 10;
       gsap.fromTo(d, { x: x, y: y, scale: 1, opacity: 1 }, {
@@ -116,12 +119,12 @@
   // --- Clic dans le vide : une onde, comme l'oiseau qui touche l'eau --------
   var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .kf, .qa, .cell, .mark, .footer-word, .agent-panel, .agent-tip, .agent-fab';
   document.addEventListener('pointerdown', function (e) {
-    if (reduce || !layer || e.button !== 0 || e.target.closest(INTERACTIVE)) return;
-    var x = e.clientX, y = e.clientY;
+    if (reduce || e.button !== 0 || e.target.closest(INTERACTIVE)) return;
+    var x = e.clientX + window.scrollX, y = e.clientY + window.scrollY;
     for (var i = 0; i < 3; i++) {
       var r = document.createElement('span');
       r.className = 'fx-ring';
-      layer.appendChild(r);
+      docLayer.appendChild(r);
       gsap.fromTo(r, { x: x, y: y, scale: .1, opacity: .75 }, {
         scale: 1, opacity: 0, duration: .9 + i * .25, delay: i * .12, ease: 'power2.out',
         onComplete: (function (el) { return function () { el.remove(); }; })(r)
