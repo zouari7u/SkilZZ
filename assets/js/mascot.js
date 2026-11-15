@@ -1,25 +1,28 @@
 /* ==========================================================================
-   Mascotte du hero — le fennec dans sa bulle.
-   · la bulle respire, et se déforme comme une gelée selon la vitesse de la
-     souris ; le fennec flotte et se penche vers le curseur ;
-   · clic : la bulle éclate en petites bulles, le fennec saute de joie
-     (pose « joie »), puis une nouvelle bulle se gonfle autour de lui.
+   Mascotte du hero — le fennec souffle des bulles.
+   · toutes les quelques secondes, une bulle se gonfle au bout de la
+     baguette, se détache et monte en ondulant ; un clic la fait éclater ;
+   · la grande bulle derrière lui respire et s'étire avec la souris ;
+   · clic sur le fennec : la grande bulle éclate, il saute de joie, puis une
+     nouvelle bulle se gonfle autour de lui.
    ========================================================================== */
 (function () {
   'use strict';
   if (!window.gsap) return;
   var host = document.getElementById('heroMascot');
+  var box = document.getElementById('mascotBox');
   var bubble = document.getElementById('heroBubble');
-  if (!host || !bubble) return;
+  var blow = document.getElementById('blow');
+  if (!host || !box || !bubble) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  var base = host.querySelector('.mascot-img');
+  var base = box.querySelector('.mascot-img');
 
   var joy = document.createElement('img');
   joy.className = 'mascot-img is-alt';
   joy.src = 'assets/img/mascotte/fennec-joie.webp';
   joy.alt = '';
-  host.appendChild(joy);
+  box.appendChild(joy);
 
   var shadow = document.createElement('span');
   shadow.className = 'hero-shadow';
@@ -27,12 +30,58 @@
 
   if (reduce) return;
 
-  // Respiration lente
-  var float = gsap.to(host, { y: -10, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  // --- Respiration -------------------------------------------------------------
+  var float = gsap.to(box, { y: -10, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   gsap.to(shadow, { scaleX: .88, opacity: .75, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   var breathe = gsap.to(bubble, { scale: 1.025, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
-  // Gelée : la bulle s'étire dans le sens du mouvement de la souris
+  // --- Bulles soufflées --------------------------------------------------------
+  // Repères mesurés sur l'image : anneau de la baguette (63,6 % ; 45,4 %),
+  // bulle gonflée centrée en (82,9 % ; 42,2 %), diamètre 32,6 % de la largeur.
+  var live = 0, paused = false, timer = null;
+  function popBubble(b) {
+    if (b._done) return;
+    b._done = true;
+    gsap.killTweensOf(b);
+    var r = b.getBoundingClientRect();
+    if (window.SKZ) window.SKZ.pop(r.left + r.width / 2, r.top + r.height / 2, r.width);
+    gsap.to(b, { scale: 1.3, opacity: 0, duration: .14, ease: 'power2.out', onComplete: function () { b.remove(); live--; } });
+  }
+  function blowOne() {
+    if (paused || live >= 3 || document.hidden) return;
+    var W = box.offsetWidth, H = box.offsetHeight;
+    if (!W) return;
+    var D = W * .326 * (.75 + Math.random() * .35);
+    var b = document.createElement('span');
+    b.className = 'blown';
+    b.style.width = b.style.height = D + 'px';
+    b.style.left = (W * .655) + 'px';
+    b.style.top = (H * .454 - D / 2) + 'px';
+    b.style.transformOrigin = '0% 50%';
+    blow.appendChild(b);
+    live++;
+    var stop = function (e) { e.stopPropagation(); e.preventDefault(); };
+    b.addEventListener('click', stop);
+    b.addEventListener('pointerdown', function (e) { stop(e); popBubble(b); });
+
+    var dx = 40 + Math.random() * 160, dy = -(H * (.45 + Math.random() * .35));
+    gsap.timeline({ onComplete: function () { popBubble(b); } })
+      // le fennec souffle : la bulle gonfle en tremblant un peu
+      .fromTo(b, { scale: .06, opacity: 0 }, { scale: .55, opacity: 1, duration: .5, ease: 'power1.out' })
+      .to(b, { scaleX: .82, scaleY: .74, duration: .35, ease: 'sine.inOut' })
+      .to(b, { scaleX: 1, scaleY: 1, duration: .55, ease: 'elastic.out(1, .5)' })
+      // elle se détache et monte en ondulant
+      .to(b, { x: dx, y: dy, duration: 5 + Math.random() * 2.5, ease: 'sine.inOut' }, '+=.1')
+      .to(b, { scaleX: 1.06, scaleY: .95, duration: .9, ease: 'sine.inOut', yoyo: true, repeat: 5 }, '<')
+      .to(b, { opacity: .85, duration: 1 }, '<2');
+  }
+  function loop() {
+    blowOne();
+    timer = setTimeout(loop, 2600 + Math.random() * 1800);
+  }
+  setTimeout(loop, 2200);
+
+  // --- La grande bulle s'étire avec la vitesse de la souris -------------------
   if (fine) {
     var sx = gsap.quickTo(bubble, 'scaleX', { duration: .9, ease: 'elastic.out(1, .4)' });
     var sy = gsap.quickTo(bubble, 'scaleY', { duration: .9, ease: 'elastic.out(1, .4)' });
@@ -62,22 +111,20 @@
     }, { passive: true });
   }
 
-  // Clic : la bulle éclate, le fennec saute, une bulle se reforme
+  // --- Clic sur le fennec : saut de joie ---------------------------------------
   var busy = false;
   function cheer() {
     if (busy) return;
-    busy = true;
+    busy = true; paused = true;
+    blow.querySelectorAll('.blown').forEach(popBubble);
     var r = bubble.getBoundingClientRect();
     var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-
-    // éclats répartis sur le contour de la bulle
-    var n = 18;
-    for (var i = 0; i < n; i++) {
-      var a = (i / n) * Math.PI * 2;
-      window.SKZ && window.SKZ.burst(cx + Math.cos(a) * r.width / 2, cy + Math.sin(a) * r.height / 2, { count: 1, spread: 40, min: 8, max: 16 });
+    for (var i = 0; i < 18; i++) {
+      var a = (i / 18) * Math.PI * 2;
+      if (window.SKZ) window.SKZ.burst(cx + Math.cos(a) * r.width / 2, cy + Math.sin(a) * r.height / 2, { count: 1, spread: 40, min: 8, max: 16 });
     }
     breathe.pause();
-    gsap.timeline({ onComplete: function () { busy = false; breathe.progress(0).resume(); } })
+    gsap.timeline({ onComplete: function () { busy = false; paused = false; breathe.progress(0).resume(); } })
       .to(bubble, { scaleX: 1.08, scaleY: .94, duration: .1, ease: 'power2.out' })
       .to(bubble, { scale: 1.18, opacity: 0, duration: .16, ease: 'power2.out' })
       .add(function () { float.pause(); }, 0)
@@ -91,7 +138,6 @@
       .to(joy, { opacity: 0, duration: .2 }, 1.55)
       .to(base, { opacity: 1, scaleY: 1, scaleX: 1, duration: .2 }, 1.55)
       .add(function () { float.resume(); }, 1.6)
-      // la nouvelle bulle se gonfle, avec un petit rebond de savon
       .fromTo(bubble, { scale: .35, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: 'elastic.out(1, .45)' }, 1.3);
   }
 

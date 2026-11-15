@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/img/mascotte/fennec-coucou.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/mascotte/fennec-bulle.webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -39,6 +39,10 @@
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-grid"></div>
+    <span class="orb orb--a"></span><span class="orb orb--b"></span><span class="orb orb--c"></span>
+  </div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 
@@ -58,6 +62,7 @@
       <button type="button" class="nav-arrow nav-arrow--l" aria-label="Lien précédent" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <ul class="nav-links" id="navLinks">
         <li class="nav-pill" aria-hidden="true"></li>
+        <li><a href="#inclus">Inclus</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#realisation">Réalisation</a></li>
         <li><a href="#methode">Méthode</a></li>
@@ -100,12 +105,19 @@
         <!-- La bulle de la mascotte : se déforme avec la souris, éclate au clic. -->
         <div class="soap soap--hero" id="heroBubble" aria-hidden="true"><span class="soap-rim"></span><span class="soap-shine"></span></div>
         <button type="button" class="mascot-hero" id="heroMascot" aria-label="Faire sauter le fennec">
-          <img class="mascot-img" src="assets/img/mascotte/fennec-coucou.webp" alt="" width="875" height="1100" decoding="async">
+          <span class="mascot-box" id="mascotBox">
+            <img class="mascot-img" src="assets/img/mascotte/fennec-bulle.webp" alt="" width="979" height="1100" decoding="async">
+            <span class="blow" id="blow" aria-hidden="true"></span>
+          </span>
         </button>
         <span class="chip chip--a" data-depth="1">Sites web</span>
         <span class="chip chip--b" data-depth=".6">Applications</span>
         <span class="chip chip--c" data-depth=".8">Réseaux sociaux</span>
       </div>
+
+      <a href="#fennec" class="scroll-cue" id="scrollCue" aria-label="Descendre vers la suite">
+        <img src="assets/img/mascotte/fennec-indique.webp" alt="" width="812" height="1100">
+      </a>
     </section>
 
     <!-- BANDEAU DES SERVICES ============================================ -->
@@ -123,12 +135,78 @@
       <div class="why-portrait" id="whyPortrait">
         <span class="ring" aria-hidden="true"></span><span class="ring" aria-hidden="true"></span><span class="ring" aria-hidden="true"></span>
         <div class="soap soap--why"><span class="soap-rim"></span><span class="soap-shine"></span>
-          <img src="assets/img/mascotte/fennec-ecoute.webp" alt="Le fennec tend l'oreille" width="900" height="900" loading="lazy" decoding="async">
+          <img src="assets/img/mascotte/fennec-ecoute.webp" alt="Le fennec tend l'oreille" width="1001" height="1100" loading="lazy" decoding="async">
         </div>
       </div>
       <div class="why-copy">
         <p class="label">Pourquoi un fennec</p>
         <p class="why-text" id="whyText">Le fennec a les plus grandes oreilles de la famille des renards. Le studio travaille de la même façon&nbsp;: on écoute vos clients avant de dessiner le premier écran.</p>
+      </div>
+    </section>
+
+    <!-- INCLUS DANS CHAQUE PROJET : encarts animés ======================== -->
+    <section class="bento-sec" id="inclus">
+      <header class="head">
+        <p class="label">Ce que vous obtenez</p>
+        <h2 class="split">Inclus dans chaque projet</h2>
+      </header>
+
+      <div class="bento">
+        <article class="cell cell--speed">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="gauge"><svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50"/><circle class="gauge-fill" cx="60" cy="60" r="50"/></svg><span class="gauge-dot"></span></div>
+          </div>
+          <h3>Rapide à charger</h3>
+          <p>Images optimisées et code léger&nbsp;: vos pages s'affichent vite, même en 4G.</p>
+        </article>
+
+        <article class="cell cell--device cell--wide">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="morph" id="morph"><span class="morph-bar"><i></i><i></i><i></i></span><span class="morph-hero"></span><span class="morph-row"><i></i><i></i><i></i></span></div>
+            <div class="morph-labels"><span class="is-on">Ordinateur</span><span>Tablette</span><span>Téléphone</span></div>
+          </div>
+          <h3>Pensé pour chaque écran</h3>
+          <p>Chaque page est dessinée pour l'ordinateur, la tablette et le téléphone, pas seulement réduite.</p>
+        </article>
+
+        <article class="cell cell--motion cell--tall">
+          <div class="cell-visual" aria-hidden="true"><div class="fizz" id="fizz"></div></div>
+          <h3>Animations sur-mesure</h3>
+          <p>Des mouvements dessinés pour votre marque, comme ceux de cette page. Faites éclater les bulles juste au-dessus.</p>
+        </article>
+
+        <article class="cell cell--seo">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="search"><span class="search-ico"></span><span class="search-text" id="searchText"></span><span class="search-caret"></span></div>
+            <div class="result" id="searchResult"><b>Votre marque</b><i></i><i class="s"></i></div>
+          </div>
+          <h3>Trouvé sur Google</h3>
+          <p>Titres, balises et contenus préparés pour le référencement dès la conception.</p>
+        </article>
+
+        <article class="cell cell--admin">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="editor"><span class="editor-label">Titre de la page</span><span class="editor-field"><span id="editorText">Nouvelle collection</span><i class="editor-caret"></i></span>
+              <span class="editor-row"><span>Publier</span><span class="switch" id="editorSwitch"><i></i></span></span></div>
+          </div>
+          <h3>Vous gardez la main</h3>
+          <p>Modifiez vos textes, photos et produits depuis un back-office simple.</p>
+        </article>
+
+        <article class="cell cell--chat">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="chat" id="chat">
+              <img class="chat-avatar" src="assets/img/mascotte/fennec-tete.webp" alt="">
+              <div class="chat-lines">
+                <span class="msg msg--in">Voici la maquette de la page d'accueil.</span>
+                <span class="msg msg--out">On garde le bleu, on valide.</span>
+                <span class="msg msg--in">Parfait, je lance le développement.</span>
+              </div>
+            </div>
+          </div>
+          <h3>Un seul interlocuteur</h3>
+          <p>Vous échangez avec la même personne, du premier appel à la mise en ligne.</p>
+        </article>
       </div>
     </section>
 
@@ -143,24 +221,36 @@
         <div class="svc-list">
           <article class="svc" data-tone="blue">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-laptop.webp" alt="" loading="lazy"></div>
-            <span class="svc-num">01</span>
-            <h3>Sites vitrines et e-commerce</h3>
-            <p>Un site rapide, dessiné pour votre marque, que vous mettez à jour vous-même. Du one-page à la boutique complète, référencement compris.</p>
-            <ul class="tags"><li>Design sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li><li>Back-office</li></ul>
+            <div class="svc-card">
+              <span class="svc-num">01</span>
+              <h3>Sites vitrines et e-commerce</h3>
+              <p>Un site rapide, dessiné pour votre marque, que vous mettez à jour vous-même. Du one-page à la boutique complète, référencement compris.</p>
+              <p class="deliv-title">Ce qui est livré</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Site en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Prise en main du back-office</li></ul>
+              <ul class="tags"><li>Design sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li><li>Back-office</li></ul>
+            </div>
           </article>
           <article class="svc" data-tone="navy">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-app.webp" alt="" loading="lazy"></div>
-            <span class="svc-num">02</span>
-            <h3>Applications et SaaS</h3>
-            <p>Votre service sur iPhone, Android et navigateur. On commence par un prototype cliquable, puis on développe et on publie sur les stores.</p>
-            <ul class="tags"><li>Prototype cliquable</li><li>iOS et Android</li><li>Tableaux de bord</li><li>Publication sur les stores</li></ul>
+            <div class="svc-card">
+              <span class="svc-num">02</span>
+              <h3>Applications et SaaS</h3>
+              <p>Votre service sur iPhone, Android et navigateur. On commence par un prototype cliquable, puis on développe et on publie sur les stores.</p>
+              <p class="deliv-title">Ce qui est livré</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à tester</li><li><svg><use href="#i-check"/></svg>Application publiée sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Tableau de bord pour suivre l’usage</li></ul>
+              <ul class="tags"><li>Prototype cliquable</li><li>iOS et Android</li><li>Tableaux de bord</li><li>Publication sur les stores</li></ul>
+            </div>
           </article>
           <article class="svc" data-tone="green">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-selfie.webp" alt="" loading="lazy"></div>
-            <span class="svc-num">03</span>
-            <h3>Réseaux sociaux et contenus</h3>
-            <p>Reels, animations et visuels au format de chaque plateforme, dans la même identité que votre site.</p>
-            <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
+            <div class="svc-card">
+              <span class="svc-num">03</span>
+              <h3>Réseaux sociaux et contenus</h3>
+              <p>Reels, animations et visuels au format de chaque plateforme, dans la même identité que votre site.</p>
+              <p class="deliv-title">Ce qui est livré</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Charte de vos réseaux</li><li><svg><use href="#i-check"/></svg>Reels et visuels prêts à publier</li><li><svg><use href="#i-check"/></svg>Gabarits réutilisables</li></ul>
+              <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
+            </div>
           </article>
         </div>
 
@@ -180,7 +270,7 @@
     <section class="work" id="realisation">
       <div class="work-pin" id="workPin">
         <div class="work-bubble" id="workBubble" aria-hidden="true"></div>
-        <img class="work-rider" id="workRider" src="assets/img/mascotte/fennec-tete.webp" alt="" width="1100" height="1072" loading="lazy" aria-hidden="true">
+        <div class="work-rider soap" id="workRider" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-dans-bulle.webp" alt="" width="937" height="1100" loading="lazy"><span class="soap-shine"></span></div>
 
         <div class="work-inner" id="workInner">
           <div class="case-copy">
@@ -280,7 +370,7 @@
     <section class="contact" id="contact">
       <div class="contact-panel" id="contactPanel">
         <div class="contact-copy">
-          <img class="contact-mascot" id="contactMascot" src="assets/img/mascotte/fennec-joie.webp" alt="" width="921" height="1100" loading="lazy" decoding="async">
+          <img class="contact-mascot" id="contactMascot" src="assets/img/mascotte/fennec-joie.webp" alt="" width="764" height="1100" loading="lazy" decoding="async">
           <h2>Parlons de votre projet</h2>
           <p>Décrivez votre besoin en quelques lignes. Le premier échange est gratuit et sans engagement.</p>
         </div>
@@ -325,5 +415,6 @@
   <script src="assets/js/fx.js"></script>
   <script src="assets/js/mascot.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/scenes.js"></script>
 </body>
 </html>

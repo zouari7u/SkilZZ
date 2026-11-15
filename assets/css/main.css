@@ -514,3 +514,199 @@ section { padding: var(--section) var(--gutter); }
   .svc { opacity: 1; }
   * { transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   17. FOND VIVANT — trame de points + halos qui dérivent lentement
+   ========================================================================== */
+.backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.backdrop-grid {
+  position: absolute; inset: -40px;
+  background-image: radial-gradient(rgba(11, 27, 63, .13) 1.1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%);
+          mask: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%);
+  will-change: transform;
+}
+:root[data-theme="dark"] .backdrop-grid { background-image: radial-gradient(rgba(143, 182, 255, .16) 1.1px, transparent 1.4px); }
+.orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; will-change: transform; }
+.orb--a { width: 46vmax; height: 46vmax; left: -12vmax; top: -10vmax; background: #CFE0FF; }
+.orb--b { width: 38vmax; height: 38vmax; right: -12vmax; top: 30vh; background: #CDEFE2; opacity: .5; }
+.orb--c { width: 30vmax; height: 30vmax; left: 30vw; bottom: -14vmax; background: #DCE6FF; }
+:root[data-theme="dark"] .orb { opacity: .35; }
+:root[data-theme="dark"] .orb--a { background: #1A3A8F; }
+:root[data-theme="dark"] .orb--b { background: #0D4A3C; }
+:root[data-theme="dark"] .orb--c { background: #1B2D6B; }
+body { background: transparent; }
+html { background: var(--bg); transition: background-color .4s ease; }
+
+/* ==========================================================================
+   18. HERO — fennec qui souffle des bulles, « visible » qui réagit
+   ========================================================================== */
+.mascot-box { position: absolute; left: 50%; bottom: 3%; height: 96%; aspect-ratio: 979 / 1100; translate: -50% 0; transform-origin: 50% 100%; }
+.mascot-box .mascot-img { position: absolute; inset: 0; left: 50%; bottom: 0; height: 100%; width: auto; translate: -50% 0; }
+/* bulles soufflées : nées sur l'anneau de la baguette (63,6 % / 45,4 %) */
+.blow { position: absolute; inset: 0; pointer-events: none; }
+.blown {
+  position: absolute; left: 0; top: 0; border-radius: 50%; pointer-events: auto; cursor: pointer;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .95) 0 5%, rgba(255, 255, 255, 0) 14%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .04) 58%, rgba(143, 182, 255, .22) 74%, rgba(15, 169, 122, .18) 86%, rgba(91, 184, 255, .3) 100%);
+  box-shadow: inset 0 0 0 1.5px rgba(31, 107, 255, .3), inset -10px -14px 26px rgba(31, 107, 255, .14), inset 10px 10px 22px rgba(15, 169, 122, .1);
+  will-change: transform;
+}
+:root[data-theme="dark"] .blown { box-shadow: inset 0 0 0 1.5px rgba(143, 182, 255, .5), inset -10px -14px 26px rgba(79, 141, 255, .2), inset 10px 10px 22px rgba(44, 197, 151, .14); }
+
+/* « visible » : lettres qui se soulèvent à l'approche du curseur */
+.mark .ch { display: inline-block; will-change: transform; transform-origin: 50% 90%; }
+.mark { cursor: pointer; }
+.mark::after { content: ""; position: absolute; inset: -.1em -.06em -.12em; z-index: -2; border-radius: .6em; background: radial-gradient(closest-side, rgba(31, 107, 255, .28), transparent); opacity: var(--glow, 0); transition: opacity .4s ease; filter: blur(8px); }
+
+/* Invitation à descendre : le fennec montre la suite */
+.scroll-cue { position: absolute; left: calc(var(--gutter) * -.2 + 0px); bottom: -10px; width: 92px; z-index: 3; display: block; }
+.scroll-cue img { width: 100%; filter: drop-shadow(0 12px 14px rgba(11, 27, 63, .18)); transform-origin: 50% 100%; }
+.hero { position: relative; }
+.scroll-cue { left: auto; right: 50%; margin-right: -46px; }
+
+/* ==========================================================================
+   19. ENCARTS « INCLUS DANS CHAQUE PROJET » (bento)
+   ========================================================================== */
+.bento { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(250px, auto); gap: 16px; }
+.cell {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 8px;
+  padding: 24px; border-radius: 28px;
+  background: var(--surface); box-shadow: var(--shadow);
+  transition: transform .5s var(--ease), box-shadow .4s ease;
+}
+.cell--wide { grid-column: span 2; }
+.cell--tall { grid-row: span 2; }
+.cell h3 { font-size: 21px; letter-spacing: -.02em; }
+.cell p { font-size: 15px; color: var(--ink-2); max-width: 38ch; }
+.cell-visual { position: relative; flex: 1; min-height: 120px; display: grid; place-items: center; margin-bottom: 8px; }
+/* bordure lumineuse qui suit la souris */
+.cell::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: radial-gradient(260px circle at var(--gx, 50%) var(--gy, 50%), rgba(31, 107, 255, .9), rgba(15, 169, 122, .5) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0; transition: opacity .35s ease; }
+.cell::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s ease;
+  background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 50%), rgba(31, 107, 255, .08), transparent 70%); }
+@media (hover: hover) {
+  .cell:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(11, 27, 63, .05), 0 24px 48px -16px rgba(11, 27, 63, .22); }
+  .cell:hover::after, .cell:hover::before { opacity: 1; }
+}
+
+/* jauge de vitesse */
+.gauge { position: relative; width: 120px; height: 120px; }
+.gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+.gauge-track { stroke: var(--tint-blue); }
+.gauge-fill { stroke: var(--green); stroke-dasharray: 314.16; stroke-dashoffset: 314.16; }
+.gauge-dot { position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 8px rgba(15, 169, 122, .14); }
+
+/* appareil qui change de forme */
+.morph { position: relative; width: 300px; height: 150px; padding: 10px; border-radius: 14px; background: var(--bg); box-shadow: inset 0 0 0 2px var(--line); display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+.morph-bar { display: flex; gap: 5px; }
+.morph-bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.morph-hero { flex: 1; border-radius: 10px; background: var(--tint-blue); }
+.morph-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; height: 26%; }
+.morph-row i { border-radius: 8px; background: var(--tint-green); }
+.morph-labels { position: absolute; bottom: -4px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+.morph-labels span { padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--muted); transition: background-color .3s ease, color .3s ease; }
+.morph-labels span.is-on { background: var(--accent); color: #fff; }
+.cell--device .cell-visual { padding-bottom: 28px; }
+
+/* bulles qui pétillent (survol = éclatent) */
+.fizz { position: absolute; inset: 0; overflow: hidden; border-radius: 18px; background: linear-gradient(180deg, transparent, var(--tint-blue)); }
+.fizz .bub { cursor: crosshair; }
+
+/* barre de recherche */
+.search { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 260px; height: 44px; padding: 0 16px; border-radius: 99px; background: var(--bg); box-shadow: inset 0 0 0 1.5px var(--line); font-size: 14px; font-weight: 500; }
+.search-ico { width: 14px; height: 14px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--muted); position: relative; }
+.search-ico::after { content: ""; position: absolute; width: 6px; height: 2px; right: -4px; bottom: -1px; background: var(--muted); transform: rotate(45deg); border-radius: 2px; }
+.search-caret { width: 1.5px; height: 18px; margin-left: -8px; background: var(--accent); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.result { position: absolute; left: 50%; top: calc(50% + 30px); width: 100%; max-width: 260px; translate: -50% 0; display: grid; gap: 5px; padding: 12px 14px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); opacity: 0; }
+.result b { font-size: 13px; color: var(--accent); }
+.result i { height: 6px; border-radius: 99px; background: var(--line); }
+.result i.s { width: 60%; }
+.cell--seo .cell-visual { place-items: start center; padding-top: 6px; }
+
+/* mini back-office */
+.editor { width: 100%; max-width: 260px; display: grid; gap: 8px; padding: 14px; border-radius: 18px; background: var(--bg); box-shadow: inset 0 0 0 1.5px var(--line); font-size: 13px; }
+.editor-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.editor-field { display: flex; align-items: center; height: 36px; padding: 0 12px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent); font-weight: 600; }
+.editor-caret { width: 1.5px; height: 16px; margin-left: 2px; background: var(--accent); animation: caret 1s steps(1) infinite; }
+.editor-row { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.switch { position: relative; width: 38px; height: 22px; border-radius: 99px; background: var(--line); transition: background-color .3s ease; }
+.switch i { position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+.switch.is-on { background: var(--green); }
+.switch.is-on i { transform: translateX(16px); }
+
+/* conversation */
+.chat { display: flex; align-items: flex-end; gap: 12px; width: 100%; max-width: 420px; }
+.chat-avatar { width: 46px; height: 46px; flex: none; border-radius: 50%; background: #fff; padding: 4px; box-shadow: var(--shadow); }
+.chat-lines { display: grid; gap: 6px; flex: 1; }
+.msg { justify-self: start; max-width: 85%; padding: 9px 14px; border-radius: 18px 18px 18px 6px; font-size: 14px; background: var(--tint-blue); color: var(--ink); }
+.msg--out { justify-self: end; border-radius: 18px 18px 6px 18px; background: var(--accent); color: #fff; }
+
+/* ==========================================================================
+   20. SERVICES EN ENCARTS
+   ========================================================================== */
+.svc { opacity: 1; padding: 6vh 0; }
+.svc-card {
+  position: relative; padding: clamp(26px, 3vw, 40px); border-radius: 30px;
+  background: var(--surface); box-shadow: var(--shadow);
+  opacity: .45; transform: scale(.96); transform-origin: 0 50%;
+  transition: opacity .6s var(--ease), transform .6s var(--ease), box-shadow .6s ease;
+}
+.svc.is-active .svc-card { opacity: 1; transform: none; box-shadow: 0 0 0 2px var(--accent), 0 30px 60px -24px rgba(31, 107, 255, .35); }
+.svc[data-tone="green"].is-active .svc-card { box-shadow: 0 0 0 2px var(--green), 0 30px 60px -24px rgba(15, 169, 122, .35); }
+.svc-card h3 { margin: 10px 0 12px; }
+.deliv-title { margin-top: 22px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.deliv { display: grid; gap: 8px; margin-top: 10px; }
+.deliv li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.deliv svg { width: 20px; height: 20px; flex: none; padding: 3px; border-radius: 50%; background: var(--tint-green); color: var(--green); }
+.svc .tags { margin-top: 20px; }
+.svc .tags li { background: var(--bg); box-shadow: none; }
+
+/* Méthode : étapes en encarts */
+.step { padding: 26px; border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); transition: transform .5s var(--ease), box-shadow .4s ease; }
+.step-dot { left: 26px; }
+@media (hover: hover) { .step:hover { transform: translateY(-4px); } }
+
+/* Pourquoi un fennec : le texte dans un encart */
+.why-copy { padding: clamp(26px, 3.4vw, 48px); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
+
+/* Réalisation : le fennec dans sa bulle */
+.work-rider { width: 190px; margin: -95px 0 0 -95px; }
+
+@media (max-width: 980px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .cell--tall { grid-row: span 1; }
+  .cell--tall .cell-visual { min-height: 180px; }
+  .svc-card { opacity: 1; transform: none; }
+  .step-dot { left: -44px; }
+}
+@media (max-width: 640px) {
+  .bento { grid-template-columns: 1fr; }
+  .cell--wide { grid-column: auto; }
+  .morph { width: 240px; }
+  .scroll-cue { width: 72px; margin-right: -36px; }
+  .work-rider { width: 140px; margin: -70px 0 0 -70px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb, .backdrop-grid { transform: none !important; }
+  .gauge-fill { stroke-dashoffset: 40; }
+  .result { opacity: 1; }
+  .svc-card { opacity: 1; transform: none; }
+}
+
+/* Mascotte détourée (BiRefNet) : poses transparentes posées dans des bulles */
+.soap--why { background: radial-gradient(circle at 50% 40%, #FFFFFF, var(--tint-blue) 80%); }
+:root[data-theme="dark"] .soap--why { background: radial-gradient(circle at 50% 40%, #1C3170, #0F1C42 80%); }
+.soap--why img { inset: auto 0 0 0; left: 4%; width: 92%; height: 94%; object-fit: contain; object-position: 50% 100%; border-radius: 0; }
+.work-rider { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; z-index: 2; pointer-events: none; overflow: hidden; --soap-fill: rgba(225, 235, 255, .55); filter: drop-shadow(0 16px 24px rgba(11, 27, 63, .2)); }
+.work-rider img { position: absolute; left: 14%; bottom: 6%; width: 72%; height: auto; }
+.work-rider .soap-rim, .work-rider .soap-shine { z-index: 2; }
+@media (max-width: 640px) { .work-rider { width: 150px; height: 150px; margin: -75px 0 0 -75px; } }

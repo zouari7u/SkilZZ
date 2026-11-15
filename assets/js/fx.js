@@ -129,7 +129,7 @@
   }
 
   // --- Clic dans le vide : une bulle naît, monte et éclate ------------------
-  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .chip, .qa, .footer-word';
+  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .blown, .chip, .qa, .cell, .mark, .footer-word';
   document.addEventListener('pointerdown', function (e) {
     if (reduce || !layer || e.button !== 0 || e.target.closest(INTERACTIVE)) return;
     var b = document.createElement('span');
@@ -154,7 +154,7 @@
     window.addEventListener('pointermove', function (e) { cur.classList.add('is-on'); cx(e.clientX); cy(e.clientY); }, { passive: true });
     document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); });
     document.addEventListener('pointerover', function (e) {
-      cur.classList.toggle('is-over', !!e.target.closest('a, button, summary, label, .bub, .chip, .footer-word span, .footer-word b'));
+      cur.classList.toggle('is-over', !!e.target.closest('a, button, summary, label, .bub, .blown, .chip, .mark, .footer-word span, .footer-word b'));
     });
     document.addEventListener('pointerdown', function () { cur.classList.add('is-down'); });
     document.addEventListener('pointerup', function () { cur.classList.remove('is-down'); });
@@ -162,7 +162,7 @@
 
   // --- Encarts : lueur qui suit la souris ------------------------------------
   if (fine) {
-    document.querySelectorAll('.qa, .form, .pledges li').forEach(function (el) {
+    document.querySelectorAll('.qa, .form, .pledges li, .cell, .svc-card, .step, .why-copy').forEach(function (el) {
       el.classList.add('glow-card');
       el.addEventListener('pointermove', function (e) {
         var r = el.getBoundingClientRect();
@@ -174,7 +174,7 @@
 
   // --- Gelée au survol : pastilles, étiquettes, lettres du pied de page ------
   if (fine && !reduce) {
-    document.querySelectorAll('.chip, .tags li, .pledges li, .footer-word span, .footer-word b, .choices span').forEach(function (el) {
+    document.querySelectorAll('.chip, .tags li, .pledges li, .choices span, .deliv li svg, .morph-labels span').forEach(function (el) {
       el.addEventListener('pointerenter', function () { jelly(el, .8); });
     });
   }

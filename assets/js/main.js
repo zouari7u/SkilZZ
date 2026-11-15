@@ -261,7 +261,7 @@
   if (desktop && svcBubble) {
     svcs.forEach(function (s, i) {
       ScrollTrigger.create({ trigger: s, start: 'top 55%', end: 'bottom 55%', onToggle: function (self) { if (self.isActive) setStep(i); } });
-      gsap.from(s.children, { y: 30, opacity: 0, duration: .9, stagger: .07, ease: EASE, scrollTrigger: { trigger: s, start: 'top 70%' } });
+      gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 75%' } });
     });
     gsap.fromTo(svcBubble, { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%' } });
     gsap.from(poses[0], { y: 80, scale: .8, opacity: 0, duration: 1.1, ease: 'back.out(1.6)', delay: .2, scrollTrigger: { trigger: '.svc-wrap', start: 'top 75%' } });
@@ -273,7 +273,7 @@
       gsap.from(v.querySelector('img'), { y: 50, scale: .8, opacity: 0, duration: 1, delay: .15, ease: 'back.out(1.6)', scrollTrigger: { trigger: v, start: 'top 85%' } });
     });
     svcs.forEach(function (s) {
-      gsap.from(s.querySelectorAll('.svc-num, h3, p, .tags'), { y: 24, opacity: 0, duration: .8, stagger: .07, ease: EASE, scrollTrigger: { trigger: s, start: 'top 65%' } });
+      gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 65%' } });
     });
   }
 
