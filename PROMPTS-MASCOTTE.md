@@ -193,4 +193,4 @@ looking down at it. No logo, no readable text. [RÈGLES]
 | 6 | `kf-plongeon` | Réalisation, le plongeon | je l'intègre |
 | 7 | `kf-envol` | pied de page, image de partage | je l'intègre |
 | 8 | `og-zkilz` | aperçu des liens partagés | je l'intègre |
-| 9-11 | `kf-site`, `kf-app`, `kf-reseaux` | services sur téléphone | je l'intègre |
+| 9-11 | `kf-site`, `kf-app`, `kf-reseaux` | services sur téléphone | intégrées |
