@@ -24,6 +24,11 @@
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
+  // Défilement vers un élément (utilisé aussi par l'agent)
+  window.skzScrollTo = function (el) {
+    if (lenis) lenis.scrollTo(el, { offset: el.id === 'top' ? 0 : -96, duration: 1.4 });
+    else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  };
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');

@@ -710,3 +710,127 @@ body { background: transparent; }
 .work-rider img { position: absolute; left: 14%; bottom: 6%; width: 72%; height: auto; }
 .work-rider .soap-rim, .work-rider .soap-shine { z-index: 2; }
 @media (max-width: 640px) { .work-rider { width: 150px; height: 150px; margin: -75px 0 0 -75px; } }
+
+/* ==========================================================================
+   21. AGENT IA — bulle en bas à droite (agent.js)
+   Le fennec est dans une bulle de savon ; sous la ligne médiane de la
+   bulle, sa tête est découpée par le cercle, au-dessus elle dépasse :
+   les oreilles sortent du cadre.
+   ========================================================================== */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.agent-fab {
+  --d: 66px;
+  all: unset;
+  position: fixed; z-index: 120;
+  right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom));
+  width: var(--d); height: var(--d);
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.agent-fab-bubble {
+  position: absolute; inset: 0;
+  --soap-fill: var(--tint-blue);
+  box-shadow: inset 0 0 0 1px rgba(31, 107, 255, .2), 0 14px 30px -10px rgba(11, 27, 63, .45);
+}
+:root[data-theme="dark"] .agent-fab-bubble { --soap-fill: #16295C; }
+/* tête : boîte plus haute que la bulle, masquée par le cercle en bas */
+.agent-fab-head {
+  position: absolute; left: -16%; right: -16%; bottom: 0; height: 172%;
+  pointer-events: none;
+  -webkit-mask: radial-gradient(circle calc(var(--d) / 2 - 1.5px) at 50% calc(100% - var(--d) / 2), #000 calc(100% - 1px), transparent),
+                linear-gradient(#000 0 0) top / 100% calc(100% - var(--d) / 2) no-repeat;
+          mask: radial-gradient(circle calc(var(--d) / 2 - 1.5px) at 50% calc(100% - var(--d) / 2), #000 calc(100% - 1px), transparent),
+                linear-gradient(#000 0 0) top / 100% calc(100% - var(--d) / 2) no-repeat;
+}
+.agent-fab-head img { position: absolute; left: 50%; bottom: 4%; width: 92%; max-width: none; translate: -50% 0; transform-origin: 50% 85%; filter: drop-shadow(0 4px 6px rgba(11, 27, 63, .25)); }
+.agent-fab-shine { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; background: radial-gradient(48% 30% at 34% 16%, rgba(255, 255, 255, .55), transparent 70%); }
+.agent-fab-dot { position: absolute; right: 1px; bottom: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--bg); }
+.agent-fab::before { content: ""; position: absolute; inset: -5px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--accent); opacity: 0; animation: agentRing 3.4s ease-out infinite; pointer-events: none; }
+@keyframes agentRing { 0% { opacity: .6; transform: scale(.94); } 70%, 100% { opacity: 0; transform: scale(1.35); } }
+.agent-fab:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.agent-fab.is-open::before { animation: none; }
+
+/* phrase contextuelle à côté de la bulle */
+.agent-tip {
+  position: fixed; z-index: 120;
+  right: calc(max(18px, env(safe-area-inset-right)) + 82px); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 14px);
+  display: flex; align-items: center; gap: 6px;
+  max-width: min(300px, calc(100vw - 120px));
+  padding: 10px 8px 10px 16px; border-radius: 20px 20px 6px 20px;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow), 0 0 0 1px var(--line);
+  font-size: 14px; font-weight: 500; line-height: 1.35;
+  cursor: pointer; transform-origin: 100% 100%;
+}
+.agent-tip[hidden] { display: none; }
+.agent-tip-x { flex: none; display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+.agent-tip-x svg { width: 14px; height: 14px; }
+.agent-tip-x:hover { background: var(--tint-blue); color: var(--ink); }
+
+/* fenêtre de conversation */
+.agent-panel {
+  position: fixed; z-index: 121;
+  right: max(18px, env(safe-area-inset-right)); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 84px);
+  width: min(380px, calc(100vw - 36px)); height: min(560px, calc(100svh - 190px));
+  display: flex; flex-direction: column;
+  border-radius: 28px;
+  background: var(--surface); color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line), 0 30px 70px -20px rgba(11, 27, 63, .45);
+}
+.agent-panel[hidden] { display: none; }
+/* le fennec passe la tête par-dessus la fenêtre */
+.agent-peek { position: absolute; left: 22px; bottom: 100%; width: 84px; height: 64px; overflow: hidden; pointer-events: none; }
+.agent-peek img { position: absolute; left: 0; top: 2px; width: 84px; transform-origin: 50% 90%; pointer-events: auto; cursor: pointer; }
+.agent-head { display: flex; align-items: center; gap: 4px; padding: 16px 12px 14px 22px; border-radius: 28px 28px 0 0; background: #0B1B3F; color: #EEF3FF; }
+:root[data-theme="dark"] .agent-head { background: #13265C; }
+.agent-id { flex: 1; min-width: 0; }
+.agent-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+.agent-status { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #B9C7E6; }
+.agent-status i { width: 8px; height: 8px; border-radius: 50%; background: #2CC597; box-shadow: 0 0 0 3px rgba(44, 197, 151, .2); }
+.agent-icon { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #C3CFEA; cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+.agent-icon svg { width: 18px; height: 18px; }
+.agent-icon:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+
+.agent-log { flex: 1; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 8px; padding: 18px 16px 8px; scrollbar-width: thin; }
+.agent-msg { max-width: 86%; }
+.agent-msg p { padding: 10px 14px; border-radius: 18px 18px 18px 6px; background: var(--tint-blue); font-size: 14.5px; line-height: 1.45; white-space: pre-line; }
+.agent-msg--out { align-self: flex-end; }
+.agent-msg--out p { border-radius: 18px 18px 6px 18px; background: var(--accent); color: #fff; }
+.agent-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.agent-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; font-size: 13px; font-weight: 600; color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); transition: background-color .2s ease, color .2s ease; }
+.agent-link::after { content: "→"; }
+.agent-link:hover { background: var(--accent); color: #fff; }
+.agent-typing p { display: flex; gap: 5px; padding: 13px 15px; }
+.agent-typing i { width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 32% 30%, #fff 0 22%, transparent 32%), rgba(31, 107, 255, .35); box-shadow: inset 0 0 0 1.2px var(--accent); }
+
+.agent-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 16px 10px; }
+.agent-chip { padding: 7px 13px; border: 0; border-radius: 99px; background: var(--bg); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); font-size: 13px; font-weight: 500; cursor: pointer; transition: background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.agent-chip:hover { background: var(--tint-blue); box-shadow: inset 0 0 0 1px var(--accent); }
+
+.agent-form { display: flex; gap: 8px; margin: 0 12px; padding: 6px; border-radius: 99px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow .25s ease; }
+.agent-form:focus-within { box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 4px rgba(31, 107, 255, .12); }
+.agent-form input { flex: 1; min-width: 0; padding: 0 12px; border: 0; background: transparent; font-size: 16px; outline: none; }
+.agent-send { flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: var(--accent); color: #fff; cursor: pointer; transition: opacity .2s ease, transform .3s var(--ease); }
+.agent-send svg { width: 18px; height: 18px; }
+.agent-send:disabled { opacity: .35; cursor: default; }
+.agent-send:not(:disabled):hover { transform: translateY(-2px); }
+.agent-foot { padding: 8px 16px 12px; text-align: center; font-size: 11.5px; color: var(--muted); }
+
+@media (max-width: 640px) {
+  .agent-fab { --d: 58px; right: 14px; bottom: 14px; }
+  .agent-panel { right: 10px; left: 10px; width: auto; bottom: 86px; height: min(68svh, 540px); }
+  .agent-tip { right: 84px; bottom: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { .agent-fab::before { animation: none; } }
+
+/* ==========================================================================
+   22. LE FENNEC QUI SORT DES CADRES (peek.js)
+   La cachette est collée contre le bord, côté extérieur ; son débordement
+   masqué coupe le fennec pile sur le bord.
+   ========================================================================== */
+.peek { position: absolute; z-index: 2; overflow: hidden; pointer-events: none; }
+.peek img { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; max-width: none; pointer-events: auto; cursor: pointer; transform-origin: 50% 100%; filter: drop-shadow(0 6px 10px rgba(11, 27, 63, .16)); user-select: none; -webkit-user-drag: none; }
+.peek-screen { position: fixed; top: 0; width: 0; height: 100svh; z-index: 90; pointer-events: none; }
+.peek-screen--r { left: 100%; }
+.peek-screen--l { left: 0; }

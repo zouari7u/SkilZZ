@@ -113,7 +113,7 @@
   });
 
   // --- Clic dans le vide : une bulle naît, monte et éclate ------------------
-  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .blown, .chip, .qa, .cell, .mark, .footer-word';
+  var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .blown, .chip, .qa, .cell, .mark, .footer-word, .agent-panel, .agent-tip, .peek';
   document.addEventListener('pointerdown', function (e) {
     if (reduce || !layer || e.button !== 0 || e.target.closest(INTERACTIVE)) return;
     var b = document.createElement('span');

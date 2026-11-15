@@ -137,7 +137,7 @@
           <img src="assets/img/mascotte/fennec-ecoute.webp" alt="Le fennec tend l'oreille" width="1001" height="1100" loading="lazy" decoding="async">
         </div>
       </div>
-      <div class="why-copy">
+      <div class="why-copy" data-peek="top" data-peek-at="84">
         <p class="label">Pourquoi un fennec</p>
         <p class="why-text" id="whyText">Le fennec entend un insecte bouger sous le sable. On travaille avec la même attention&nbsp;: d'abord écouter vos clients, ce qu'ils cherchent, ce qui les fait partir. Le design vient après.</p>
       </div>
@@ -150,7 +150,7 @@
         <h2 class="split">Inclus dans chaque projet</h2>
       </header>
 
-      <div class="bento">
+      <div class="bento" data-peek="top" data-peek-at="92">
         <article class="cell cell--speed">
           <div class="cell-visual" aria-hidden="true">
             <div class="gauge"><svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50"/><circle class="gauge-fill" cx="60" cy="60" r="50"/></svg><span class="gauge-dot"></span></div>
@@ -220,7 +220,7 @@
         <div class="svc-list">
           <article class="svc" data-tone="blue">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-laptop.webp" alt="" loading="lazy"></div>
-            <div class="svc-card">
+            <div class="svc-card" data-peek="right" data-peek-at="34">
               <span class="svc-num">01</span>
               <h3>Sites vitrines et e-commerce</h3>
               <p>De la page unique qui présente votre activité à la boutique complète avec paiement. Rapide, à l'image de votre marque, et vous le mettez à jour vous-même.</p>
@@ -231,7 +231,7 @@
           </article>
           <article class="svc" data-tone="navy">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-app.webp" alt="" loading="lazy"></div>
-            <div class="svc-card">
+            <div class="svc-card" data-peek="right" data-peek-at="34">
               <span class="svc-num">02</span>
               <h3>Applications et SaaS</h3>
               <p>Votre service dans la poche de vos clients. Vous testez d'abord un prototype sur votre propre téléphone&nbsp;; le développement commence une fois qu'il vous convient.</p>
@@ -242,7 +242,7 @@
           </article>
           <article class="svc" data-tone="green">
             <div class="svc-mobile-visual soap" aria-hidden="true"><span class="soap-rim"></span><img src="assets/img/mascotte/fennec-selfie.webp" alt="" loading="lazy"></div>
-            <div class="svc-card">
+            <div class="svc-card" data-peek="right" data-peek-at="34">
               <span class="svc-num">03</span>
               <h3>Réseaux sociaux et contenus</h3>
               <p>Reels, animations et visuels au bon format pour Instagram, TikTok et LinkedIn. Quelqu'un qui tombe sur une de vos vidéos doit reconnaître votre marque avant de lire son nom.</p>
@@ -279,7 +279,7 @@
             <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Visiter mm-fragrances.fr</span><svg><use href="#i-out"/></svg></a>
           </div>
 
-          <div class="case-visual">
+          <div class="case-visual" data-peek="top" data-peek-at="18">
             <div class="browser" id="caseBrowser">
               <div class="browser-bar"><i></i><i></i><i></i><span>mm-fragrances.fr</span></div>
               <img src="assets/img/work/mm-home-dark.webp" alt="Page d'accueil du site MM Fragrances" width="1920" height="1200" loading="lazy" decoding="async">
@@ -320,7 +320,7 @@
           <h3>Concevoir</h3>
           <p>Maquettes, puis un prototype animé que vous testez sur votre téléphone. Le développement démarre quand vous avez validé.</p>
         </article>
-        <article class="step">
+        <article class="step" data-peek="top" data-peek-at="80">
           <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">03</span>
           <h3>Faire grandir</h3>
@@ -341,7 +341,7 @@
         <p class="label">Questions</p>
         <h2 class="split">Questions fréquentes</h2>
       </header>
-      <div class="faq-list">
+      <div class="faq-list" data-peek="left" data-peek-at="30">
         <details class="qa">
           <summary>Combien coûte un projet&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
           <div class="qa-body"><p>Tout dépend de ce qu'on construit&nbsp;: une page de présentation et une application n'ont rien à voir. Après un premier échange gratuit, vous recevez un devis détaillé, ligne par ligne, sans frais cachés.</p></div>
@@ -375,7 +375,7 @@
         </div>
         <!-- Envoi : renseignez data-endpoint (Formspree, route serveur…)
              ou data-email (ouvre la messagerie du visiteur, message prérempli). -->
-        <form class="form" id="contactForm" data-endpoint="" data-email="" novalidate>
+        <form class="form" id="contactForm" data-peek="top" data-peek-at="86" data-endpoint="" data-email="" novalidate>
           <div class="form-row">
             <label class="field"><span>Nom</span><input name="name" autocomplete="name" required></label>
             <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
@@ -407,6 +407,43 @@
     <p class="footer-legal">© 2026 SkilZZ</p>
   </footer>
 
+  <!-- =====================================================================
+       AGENT IA — bulle en bas à droite (assets/js/agent.js).
+       Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat,
+       voir api/chat.js) ; sans adresse, un moteur local répond à partir
+       du contenu de la page.
+       ===================================================================== -->
+  <div class="agent-tip" id="agentTip" hidden>
+    <span id="agentTipText"></span>
+    <button type="button" class="agent-tip-x" aria-label="Ne plus afficher ces messages"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+  <button type="button" class="agent-fab" id="agentFab" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant SkilZZ">
+    <span class="agent-fab-bubble soap" aria-hidden="true"><span class="soap-rim"></span></span>
+    <span class="agent-fab-head" aria-hidden="true"><img src="assets/img/mascotte/fennec-tete.webp" alt="" width="1100" height="1074" decoding="async"></span>
+    <span class="agent-fab-shine" aria-hidden="true"></span>
+    <span class="agent-fab-dot" aria-hidden="true"></span>
+  </button>
+
+  <section class="agent-panel" id="agentPanel" role="dialog" aria-modal="false" aria-labelledby="agentTitle" aria-hidden="true" hidden data-lenis-prevent data-endpoint="">
+    <div class="agent-peek" aria-hidden="true"><img src="assets/img/mascotte/fennec-tete.webp" alt="" width="1100" height="1074"></div>
+    <header class="agent-head">
+      <div class="agent-id">
+        <p class="agent-title" id="agentTitle">Assistant SkilZZ</p>
+        <p class="agent-status"><i aria-hidden="true"></i><span id="agentStatus" aria-live="polite">En ligne</span></p>
+      </div>
+      <button type="button" class="agent-icon" id="agentReset" aria-label="Nouvelle conversation" title="Nouvelle conversation"><svg viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.8v3.6h3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="agent-icon" id="agentClose" aria-label="Fermer l'assistant"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </header>
+    <div class="agent-log" id="agentLog" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <div class="agent-chips" id="agentChips"></div>
+    <form class="agent-form" id="agentForm" autocomplete="off">
+      <label class="sr-only" for="agentInput">Votre question</label>
+      <input id="agentInput" type="text" maxlength="500" placeholder="Posez votre question…" enterkeyhint="send">
+      <button type="submit" id="agentSend" class="agent-send" aria-label="Envoyer" disabled><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </form>
+    <p class="agent-foot">Assistant virtuel du studio. Pour un devis, le formulaire de contact.</p>
+  </section>
+
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
@@ -415,5 +452,7 @@
   <script src="assets/js/mascot.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/scenes.js"></script>
+  <script src="assets/js/peek.js"></script>
+  <script src="assets/js/agent.js"></script>
 </body>
 </html>
