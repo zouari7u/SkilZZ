@@ -36,12 +36,12 @@
   // --- Intro : la nav tombe, le titre se révèle, le fennec sort de sa bulle --
   var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
   intro
-    .from('#nav', { y: -90, scale: .85, opacity: 0, duration: 1.2, ease: 'elastic.out(1, .75)' })
+    .from('#nav', { y: -90, scale: .85, duration: 1.2, ease: 'elastic.out(1, .75)', clearProps: 'transform' })
     .from('.hero-title .line > span', { yPercent: 110, rotation: 3, duration: 1.2, stagger: .12 }, '-=.9')
     .from('.word-bubble i', { scale: 0, duration: 1.1, ease: 'elastic.out(1, .45)' }, '-=.7')
     .from('[data-intro]', { y: 26, opacity: 0, duration: 1, stagger: .08 }, '-=1')
     .from('.stage-bubble', { scale: .2, opacity: 0, duration: 1.4, ease: 'elastic.out(1, .6)' }, '-=1.2')
-    .from('.fennec', { yPercent: 70, duration: 1.1, ease: 'back.out(1.6)' }, '-=1')
+    .from('.mascot--hero .mascot-img', { y: 120, opacity: 0, duration: 1.1, ease: 'back.out(1.6)' }, '-=1')
     .from('.float-card', { scale: 0, opacity: 0, duration: 1, stagger: .09, ease: 'back.out(2.2)' }, '-=.7');
 
   // Bulle-mot qui « respire »
@@ -111,7 +111,7 @@
     var cy = gsap.quickTo(cur, 'y', { duration: .35, ease: 'power3' });
     window.addEventListener('pointermove', function (e) { cur.classList.add('is-on'); cx(e.clientX); cy(e.clientY); }, { passive: true });
     document.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); });
-    document.querySelectorAll('a, button, .feat, .fennec, .bub, summary, label').forEach(function (el) {
+    document.querySelectorAll('a, button, .gshot, .mascot--hero, .bub, summary, label').forEach(function (el) {
       el.addEventListener('mouseenter', function () { cur.classList.add('is-big'); });
       el.addEventListener('mouseleave', function () { cur.classList.remove('is-big'); });
     });
@@ -212,7 +212,36 @@
       scrollTrigger: { trigger: '#caseMM', start: 'top bottom', end: 'bottom top', scrub: true }
     });
   });
-  gsap.from('.feat', { y: 50, opacity: 0, scale: .92, stagger: .08, duration: 1, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.feats', start: 'top 88%' } });
+  gsap.from('.gshot', { y: 50, opacity: 0, scale: .94, stagger: .07, duration: 1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '#gallery', start: 'top 88%' } });
+
+  // Diaporama de captures dans le navigateur de la réalisation
+  var slides = document.querySelectorAll('#caseSlides img');
+  if (slides.length > 1) {
+    var si = 0;
+    setInterval(function () {
+      slides[si].classList.remove('is-on');
+      si = (si + 1) % slides.length;
+      slides[si].classList.add('is-on');
+    }, 3200);
+  }
+
+  // Galerie : glisser à la souris
+  var gal = document.getElementById('gallery');
+  if (gal && finePointer) {
+    var gDown = false, gx = 0, gsl = 0, gMoved = false;
+    gal.addEventListener('pointerdown', function (e) { gDown = true; gMoved = false; gx = e.clientX; gsl = gal.scrollLeft; });
+    window.addEventListener('pointermove', function (e) {
+      if (!gDown) return;
+      var dx = e.clientX - gx;
+      if (Math.abs(dx) > 4) { gMoved = true; gal.classList.add('is-dragging'); }
+      gal.scrollLeft = gsl - dx;
+    });
+    window.addEventListener('pointerup', function () { gDown = false; gal.classList.remove('is-dragging'); });
+    gal.addEventListener('click', function (e) { if (gMoved) e.preventDefault(); }, true);
+  }
+
+  // Mascottes IA : flottent doucement
+  gsap.to('.mascot--cta, .mascot--ecoute', { y: -8, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
   // --- Expertises : cartes empilées qui reculent ----------------------------
   var cards = gsap.utils.toArray('.svc');

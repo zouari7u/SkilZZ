@@ -10,7 +10,8 @@
   <meta property="og:title" content="SkilZZ — On rend votre marque visible">
   <meta property="og:description" content="Sites, applications mobiles, SaaS et réseaux sociaux. Un studio aux grandes oreilles.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
   <!-- Thème appliqué AVANT le premier rendu (pas de flash clair → sombre). -->
   <script>
@@ -30,39 +31,10 @@
 <body>
 
   <!-- =====================================================================
-       SYMBOLES SVG — tête du fennec (logo, rappels) et icônes.
-       Le fennec : formes pleines et arrondies, dégradés doux, visage
-       minimal (deux yeux, une truffe). Provisoire, en attendant la
-       mascotte définitive (voir PROMPTS-MASCOTTE.md).
+       ICÔNES SVG. La mascotte, elle, est en images détourées dans
+       assets/img/mascotte/ (sources Gemini dans assets/mascotte/).
        ===================================================================== -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="fx-fur" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FBE6C6"/>
-        <stop offset="1" stop-color="#EBB16F"/>
-      </linearGradient>
-      <linearGradient id="fx-fur-side" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#F6D3A1"/>
-        <stop offset="1" stop-color="#E4A35D"/>
-      </linearGradient>
-      <linearGradient id="fx-ear-in" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FFE8DC"/>
-        <stop offset="1" stop-color="#F6BFA8"/>
-      </linearGradient>
-    </defs>
-    <symbol id="fennec-mini" viewBox="60 0 280 260">
-      <path d="M125 160C100 110 82 60 84 26c2-12 12-14 22-6 34 30 66 70 82 106z" fill="url(#fx-fur-side)"/>
-      <path d="M134 148c-18-40-30-78-30-104 26 26 51 56 68 84z" fill="url(#fx-ear-in)"/>
-      <path d="M275 160c25-50 43-100 41-134-2-12-12-14-22-6-34 30-66 70-82 106z" fill="url(#fx-fur-side)"/>
-      <path d="M266 148c18-40 30-78 30-104-26 26-51 56-68 84z" fill="url(#fx-ear-in)"/>
-      <path d="M200 252c-40-4-84-30-86-70-2-40 38-66 86-66s88 26 86 66c-2 40-46 66-86 70z" fill="url(#fx-fur)"/>
-      <path d="M200 252c-28-2-54-16-60-40 18 2 38-8 48-22 6 6 18 6 24 0 10 14 30 24 48 22-6 24-32 38-60 40z" fill="#FFFDF8"/>
-      <ellipse cx="166" cy="180" rx="9.5" ry="12.5" fill="#0B1B3F"/>
-      <ellipse cx="234" cy="180" rx="9.5" ry="12.5" fill="#0B1B3F"/>
-      <circle cx="163" cy="175" r="3.2" fill="#fff"/>
-      <circle cx="231" cy="175" r="3.2" fill="#fff"/>
-      <ellipse cx="200" cy="214" rx="8.5" ry="6" fill="#0B1B3F"/>
-    </symbol>
 
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 12.5C4 8 7.6 5 12 5s8 3 8 7.5-3.6 7.5-8 7.5c-1.2 0-2.3-.2-3.3-.6L4.5 20.5l1.2-3.6C4.6 15.7 4 14.2 4 12.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
@@ -89,7 +61,7 @@
 
     <div class="nav-start">
       <a href="#top" class="nav-brand" aria-label="SkilZZ — accueil">
-        <span class="nav-logo"><svg viewBox="60 0 280 260"><use href="#fennec-mini"/></svg></span>
+        <span class="nav-logo"><img src="assets/img/mascotte/fennec-tete.webp" alt="" width="40" height="39"></span>
         <span class="nav-word">Skil<b>ZZ</b></span>
       </a>
     </div>
@@ -158,57 +130,17 @@
         <div class="stage-bubble" data-depth="0.25">
           <span class="bubble-shine" aria-hidden="true"></span>
         </div>
-        <!-- La mascotte : yeux qui suivent le curseur, clignements, oreilles
-             qui frémissent, queue qui ondule, saut de joie au clic
-             (assets/js/fennec.js). -->
-        <svg class="fennec" id="fennec" viewBox="60 0 320 380" role="img" aria-label="Le fennec, mascotte de SkilZZ">
-          <ellipse class="fx-shadow" cx="210" cy="362" rx="110" ry="12" fill="#0B1B3F" opacity=".12"/>
-          <g class="fx-tail">
-            <path d="M246 354c72-2 116-52 106-116-6-36-36-50-56-32-12 12-4 28 8 36 14 28-4 72-68 86z" fill="url(#fx-fur-side)"/>
-            <path d="M352 238c-6-36-36-50-56-32-12 12-4 28 8 36 10-4 26-14 48-4z" fill="#FFFDF8"/>
-          </g>
-          <g class="fx-body">
-            <path d="M138 354c-20-46 2-116 62-122 60 6 82 76 62 122-32 14-92 14-124 0z" fill="url(#fx-fur)"/>
-            <path d="M172 352c-12-38 4-82 28-88 24 6 40 50 28 88-16 6-40 6-56 0z" fill="#FFFDF8"/>
-            <ellipse cx="178" cy="356" rx="17" ry="9" fill="#F2C892"/>
-            <ellipse cx="222" cy="356" rx="17" ry="9" fill="#F2C892"/>
-          </g>
-          <g class="fx-head">
-            <g class="fx-ear fx-ear--l">
-              <path d="M125 160C100 110 82 60 84 26c2-12 12-14 22-6 34 30 66 70 82 106z" fill="url(#fx-fur-side)"/>
-              <path d="M134 148c-18-40-30-78-30-104 26 26 51 56 68 84z" fill="url(#fx-ear-in)"/>
-            </g>
-            <g class="fx-ear fx-ear--r">
-              <path d="M275 160c25-50 43-100 41-134-2-12-12-14-22-6-34 30-66 70-82 106z" fill="url(#fx-fur-side)"/>
-              <path d="M266 148c18-40 30-78 30-104-26 26-51 56-68 84z" fill="url(#fx-ear-in)"/>
-            </g>
-            <path d="M200 252c-40-4-84-30-86-70-2-40 38-66 86-66s88 26 86 66c-2 40-46 66-86 70z" fill="url(#fx-fur)"/>
-            <path d="M200 252c-28-2-54-16-60-40 18 2 38-8 48-22 6 6 18 6 24 0 10 14 30 24 48 22-6 24-32 38-60 40z" fill="#FFFDF8"/>
-            <ellipse class="fx-blush" cx="146" cy="204" rx="11" ry="6" fill="#F6A99A" opacity=".35"/>
-            <ellipse class="fx-blush" cx="254" cy="204" rx="11" ry="6" fill="#F6A99A" opacity=".35"/>
-            <g class="fx-eyes">
-              <g class="fx-eye">
-                <ellipse cx="166" cy="180" rx="9.5" ry="12.5" fill="#0B1B3F"/>
-                <circle class="fx-glint" cx="163" cy="175" r="3.4" fill="#fff"/>
-              </g>
-              <g class="fx-eye">
-                <ellipse cx="234" cy="180" rx="9.5" ry="12.5" fill="#0B1B3F"/>
-                <circle class="fx-glint" cx="231" cy="175" r="3.4" fill="#fff"/>
-              </g>
-            </g>
-            <g class="fx-happy-eyes" opacity="0">
-              <path d="M156 184c4-10 16-10 20 0" stroke="#0B1B3F" stroke-width="5" stroke-linecap="round" fill="none"/>
-              <path d="M224 184c4-10 16-10 20 0" stroke="#0B1B3F" stroke-width="5" stroke-linecap="round" fill="none"/>
-            </g>
-            <ellipse cx="200" cy="214" rx="8.5" ry="6" fill="#0B1B3F"/>
-          </g>
-        </svg>
+        <!-- La mascotte (assets/img/mascotte/, détourée) : flotte, suit le curseur, saute de joie au clic. -->
+        <div class="mascot mascot--hero has-img" id="heroMascot">
+        <img class="mascot-img" src="assets/img/mascotte/fennec-coucou.webp" alt="Le fennec SkilZZ qui salue" fetchpriority="high" decoding="async">
+        </div>
+        <span class="float-card fc-check" data-depth="0.5" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4L18 8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 
         <!-- Bulles flottantes autour de la mascotte -->
         <div class="float-card fc-phone" data-depth="0.6">
           <div class="mini-phone">
             <div class="mock mock-reel">
-              <svg class="mr-fennec" viewBox="60 0 280 260"><use href="#fennec-mini"/></svg>
+              <img class="mr-fennec" src="assets/img/mascotte/fennec-tete.webp" alt="" loading="lazy">
               <div class="mr-cap"><b></b><i></i></div>
             </div>
             <span class="mini-like"><svg><use href="#i-heart"/></svg></span>
@@ -247,6 +179,10 @@
          =================================================================== -->
     <section class="manifesto" id="manifeste">
       <p class="kicker" data-reveal>Pourquoi un fennec&nbsp;?</p>
+      <div class="mascot mascot--ecoute has-img" aria-hidden="true">
+        <img class="mascot-img" src="assets/img/mascotte/fennec-ecoute.webp" alt="" loading="lazy" decoding="async">
+        <span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span>
+      </div>
       <p class="manifesto-text" id="manifestoText">Le fennec entend tout, même ce que le désert murmure. Nous, c'est pareil avec vos clients&nbsp;: on écoute, on comprend, puis on construit ce qui les fera s'arrêter de scroller. Des sites, des apps et des contenus qui ne ressemblent qu'à vous.</p>
     </section>
 
@@ -287,7 +223,7 @@
               </div>
               <div class="screen" data-screen="1">
                 <div class="mock mock-reel mock-reel--big">
-                  <svg class="mr-fennec" viewBox="60 0 280 260"><use href="#fennec-mini"/></svg>
+                  <img class="mr-fennec mr-fennec--full" src="assets/img/mascotte/fennec-selfie.webp" alt="" loading="lazy">
                   <div class="mr-side"><span><svg><use href="#i-heart"/></svg></span><span><svg><use href="#i-chat"/></svg></span><span><svg><use href="#i-spark"/></svg></span></div>
                   <div class="mr-cap"><b></b><i></i><i class="s"></i></div>
                   <div class="mr-progress"><i></i></div>
@@ -323,44 +259,46 @@
       <article class="case" id="caseMM">
         <div class="case-copy">
           <div class="case-brand">
-            <span class="case-mono" aria-hidden="true">MM</span>
-            <div><h3>MM Fragrances</h3><p>Maison de parfums de niche</p></div>
+            <img class="case-logo" src="assets/img/work/mm-logo.webp" alt="" width="56" height="56">
+            <div><h3>MM Fragrances</h3><p>Maison de parfums de niche · e-commerce</p></div>
           </div>
-          <p class="case-lead">Une boutique en ligne pensée comme une parfumerie de luxe&nbsp;: thème clair-obscur, catalogue immersif, quiz olfactif «&nbsp;MM For-You&nbsp;», conseiller virtuel et vidéos produits pour les réseaux.</p>
+          <p class="case-lead">Une boutique en ligne pensée comme une parfumerie de luxe&nbsp;: thème clair-obscur, catalogue immersif, quiz olfactif «&nbsp;MM For-You&nbsp;», conseiller virtuel, fiches produits en 3D et vidéos pour les réseaux.</p>
           <ul class="tags">
-            <li>Site e-commerce</li><li>Quiz olfactif</li><li>Conseiller IA</li><li>3D &amp; motion</li><li>Vidéos réseaux</li>
+            <li>Site e-commerce</li><li>Quiz olfactif</li><li>Conseiller IA</li><li>3D &amp; motion</li><li>Vidéos réseaux</li><li>Thème clair / sombre</li>
           </ul>
           <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light magnetic"><span>Voir le site</span><svg><use href="#i-arrow"/></svg></a>
         </div>
         <div class="case-visual">
-          <div class="laptop" data-parallax="-0.08">
-            <div class="laptop-screen">
-              <div class="mock mock-luxe">
-                <div class="ml-bar"><i></i><span></span><span></span><span></span><b></b></div>
-                <div class="ml-arches"><i></i><i class="c"><b>MM</b></i><i></i></div>
-              </div>
+          <div class="browser" data-parallax="-0.06">
+            <div class="browser-bar"><i></i><i></i><i></i><span>mm-fragrances.fr</span></div>
+            <div class="browser-screen" id="caseSlides">
+              <img src="assets/img/work/mm-home-dark.webp" alt="Accueil MM Fragrances, thème sombre" class="is-on">
+              <img src="assets/img/work/mm-home-light.webp" alt="Accueil MM Fragrances, thème clair" loading="lazy">
+              <img src="assets/img/work/mm-product-dark.webp" alt="Fiche produit avec flacon en 3D" loading="lazy">
+              <img src="assets/img/work/mm-catalog-light.webp" alt="Catalogue, parfum du mois" loading="lazy">
             </div>
-            <div class="laptop-base"></div>
           </div>
           <div class="iphone iphone--sm" data-parallax="0.12">
             <span class="iphone-island" aria-hidden="true"></span>
-            <div class="iphone-screen">
-              <div class="mock mock-quiz"><small></small><div class="mq-wheel"><span></span></div><b></b><i></i></div>
-            </div>
+            <div class="iphone-screen"><video src="assets/video/mm-reel.mp4" poster="assets/video/mm-reel-poster.jpg" muted loop playsinline autoplay preload="metadata"></video></div>
           </div>
         </div>
       </article>
 
-      <div class="feats">
-        <div class="feat"><span class="feat-ico"><svg><use href="#i-spark"/></svg></span><b>Quiz olfactif</b><small>Un parcours ludique qui recommande le bon parfum.</small></div>
-        <div class="feat"><span class="feat-ico feat-ico--g"><svg><use href="#i-chat"/></svg></span><b>Conseiller IA</b><small>Un assistant qui répond comme un vendeur en boutique.</small></div>
-        <div class="feat"><span class="feat-ico"><svg><use href="#i-play"/></svg></span><b>Motion &amp; vidéos</b><small>Teasers et reels produits pour les réseaux sociaux.</small></div>
-        <a href="#contact" class="feat feat--next">
+      <div class="gallery" id="gallery">
+        <figure class="gshot"><div class="browser browser--sm"><div class="browser-bar"><i></i><i></i><i></i></div><img src="assets/img/work/mm-quiz-dark.webp" alt="Quiz MM For-You" loading="lazy"></div><figcaption><b>Quiz olfactif</b>Répondez au feeling, le site compose votre sélection.</figcaption></figure>
+        <figure class="gshot"><div class="browser browser--sm"><div class="browser-bar"><i></i><i></i><i></i></div><img src="assets/img/work/mm-product-light.webp" alt="Fiche produit thème clair" loading="lazy"></div><figcaption><b>Fiche produit</b>Flacon en 3D, pyramide olfactive, notes illustrées.</figcaption></figure>
+        <figure class="gshot gshot--phone"><div class="iphone iphone--xs"><span class="iphone-island"></span><div class="iphone-screen"><img src="assets/img/work/mm-product-mobile.webp" alt="Fiche produit sur mobile" loading="lazy"></div></div><figcaption><b>Mobile d'abord</b>Chaque écran repensé pour le pouce.</figcaption></figure>
+        <figure class="gshot"><div class="browser browser--sm"><div class="browser-bar"><i></i><i></i><i></i></div><img src="assets/img/work/mm-homenose-light.webp" alt="Home &amp; Nose, les maisons" loading="lazy"></div><figcaption><b>Home &amp; Nose</b>Un carrousel pour explorer les maisons de parfum.</figcaption></figure>
+        <figure class="gshot gshot--phone"><div class="iphone iphone--xs"><span class="iphone-island"></span><div class="iphone-screen"><img src="assets/img/work/mm-catalog-mobile.webp" alt="Catalogue sur mobile" loading="lazy"></div></div><figcaption><b>Catalogue</b>Le parfum du mois, mis en scène.</figcaption></figure>
+        <figure class="gshot"><div class="browser browser--sm"><div class="browser-bar"><i></i><i></i><i></i></div><img src="assets/img/work/mm-brand.webp" alt="Direction artistique MM For-You" loading="lazy"></div><figcaption><b>Direction artistique</b>Un univers de marque cohérent, du site aux réseaux.</figcaption></figure>
+        <a href="#contact" class="gshot gshot--next">
           <span class="next-bubble"><svg><use href="#i-plus"/></svg></span>
           <b>Votre projet ici&nbsp;?</b>
           <small>Le prochain à se faire remarquer, c'est peut-être vous.</small>
         </a>
       </div>
+      <p class="gallery-hint" aria-hidden="true">Glissez pour parcourir →</p>
     </section>
 
     <!-- ===================================================================
@@ -380,7 +318,8 @@
             <p>Des sites rapides, élégants et pensés pour convertir. Du one-page au catalogue complet, avec animations sur-mesure et référencement soigné.</p>
             <ul><li>Design sur-mesure</li><li>Boutique &amp; paiement</li><li>SEO &amp; performances</li><li>Back-office simple</li></ul>
           </div>
-          <div class="svc-visual">
+          <div class="svc-visual has-img">
+            <img class="mascot-img svc-mascot" src="assets/img/mascotte/fennec-laptop.webp" alt="Le fennec SkilZZ travaille sur un ordinateur" loading="lazy" decoding="async">
             <div class="laptop laptop--flat"><div class="laptop-screen">
               <div class="mock mock-site">
                 <div class="ms-bar"><i class="ms-logo"></i><span></span><span></span><span></span><b></b></div>
@@ -398,7 +337,8 @@
             <p>Votre service dans la poche de vos clients. Des apps iOS et Android fluides, du prototype cliquable jusqu'à la publication sur les stores.</p>
             <ul><li>Prototype cliquable</li><li>iOS &amp; Android</li><li>Notifications push</li><li>Mise en ligne sur les stores</li></ul>
           </div>
-          <div class="svc-visual svc-visual--phones">
+          <div class="svc-visual svc-visual--phones has-img">
+            <img class="mascot-img svc-mascot" src="assets/img/mascotte/fennec-app.webp" alt="Le fennec SkilZZ présente une application" loading="lazy" decoding="async">
             <div class="iphone iphone--xs"><span class="iphone-island"></span><div class="iphone-screen">
               <div class="mock mock-app">
                 <div class="ma-top"><i></i><b></b><span></span></div>
@@ -443,9 +383,10 @@
             <p>Des visuels qui font s'arrêter le scroll. Reels, TikTok, motion design et visuels, avec une identité reconnaissable au premier coup d'œil.</p>
             <ul><li>Reels &amp; TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
           </div>
-          <div class="svc-visual svc-visual--posts">
+          <div class="svc-visual svc-visual--posts has-img">
+            <img class="mascot-img svc-mascot" src="assets/img/mascotte/fennec-selfie.webp" alt="Le fennec SkilZZ prend un selfie" loading="lazy" decoding="async">
             <div class="post post--1"><div class="post-art post-art--a"><svg><use href="#i-spark"/></svg></div></div>
-            <div class="post post--2"><div class="post-art post-art--b"><svg class="post-fennec" viewBox="60 0 280 260"><use href="#fennec-mini"/></svg></div><span class="post-play"><svg><use href="#i-play"/></svg></span></div>
+            <div class="post post--2"><div class="post-art post-art--b"><img class="post-fennec" src="assets/img/mascotte/fennec-coucou.webp" alt="" loading="lazy"></div><span class="post-play"><svg><use href="#i-play"/></svg></span></div>
             <div class="post post--3"><div class="post-art post-art--c"><svg><use href="#i-heart"/></svg></div></div>
           </div>
         </article>
@@ -531,7 +472,7 @@
       <div class="cta-bubble">
         <span class="bubble-shine" aria-hidden="true"></span>
         <div class="cta-copy">
-          <svg class="cta-fennec" viewBox="60 0 280 260" aria-hidden="true"><use href="#fennec-mini"/></svg>
+          <div class="mascot mascot--cta has-img"><img class="mascot-img" src="assets/img/mascotte/fennec-joie.webp" alt="Le fennec SkilZZ saute de joie" loading="lazy" decoding="async"></div>
           <h2>Prêt à vous faire <span class="hl">remarquer&nbsp;?</span></h2>
           <p>Racontez-nous votre projet. On vous répond avec des idées concrètes, sans engagement.</p>
         </div>
@@ -559,7 +500,7 @@
   </main>
 
   <footer class="footer">
-    <div class="footer-ears" aria-hidden="true"><svg viewBox="60 0 280 260"><use href="#fennec-mini"/></svg></div>
+    <div class="footer-ears" aria-hidden="true"><img src="assets/img/mascotte/fennec-peek.webp" alt="" loading="lazy"></div>
     <div class="footer-grid">
       <div>
         <p class="footer-tag">Studio digital qui rend les marques visibles.</p>
@@ -578,8 +519,8 @@
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
-  <script src="assets/js/fennec.js"></script>
   <script src="assets/js/nav.js"></script>
+  <script src="assets/js/mascot.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
