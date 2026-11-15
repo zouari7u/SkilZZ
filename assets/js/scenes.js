@@ -53,22 +53,20 @@
   }
 
   // =========================================================================
-  // FOND
+  // ORBITES : légère parallaxe à la souris
   // =========================================================================
-  var grid = document.querySelector('.backdrop-grid');
-  var orbs = document.querySelectorAll('.orb');
-  if (!reduce) {
-    orbs.forEach(function (o, i) {
-      gsap.to(o, { xPercent: i % 2 ? -18 : 16, yPercent: i % 2 ? 14 : -12, scale: 1.12, duration: 16 + i * 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    });
-    if (grid) gsap.to(grid, { y: -260, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: true } });
-    if (fine) {
-      var ox = Array.prototype.map.call(orbs, function (o) { return { x: gsap.quickTo(o, 'x', { duration: 2.4, ease: 'power2' }), y: gsap.quickTo(o, 'y', { duration: 2.4, ease: 'power2' }) }; });
-      window.addEventListener('pointermove', function (e) {
-        var nx = e.clientX / window.innerWidth - .5, ny = e.clientY / window.innerHeight - .5;
-        ox.forEach(function (o, i) { var k = (i + 1) * 26; o.x(nx * k); o.y(ny * k); });
-      }, { passive: true });
-    }
+  var orbits = document.querySelectorAll('.orbit');
+  if (orbits.length && fine && !reduce) {
+    // la rotation est en CSS (transform) ; la parallaxe passe par « translate »
+    var oraf = 0, onx = 0, ony = 0;
+    window.addEventListener('pointermove', function (e) {
+      onx = e.clientX / window.innerWidth - .5; ony = e.clientY / window.innerHeight - .5;
+      if (oraf) return;
+      oraf = requestAnimationFrame(function () {
+        oraf = 0;
+        orbits.forEach(function (o, i) { var k = (i + 1) * 14; gsap.to(o, { '--ox': (-onx * k) + 'px', '--oy': (-ony * k) + 'px', duration: 1.4, ease: 'power3', overwrite: 'auto' }); });
+      });
+    }, { passive: true });
   }
 
   // =========================================================================

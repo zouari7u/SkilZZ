@@ -39,10 +39,6 @@
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
-  <div class="backdrop" aria-hidden="true">
-    <div class="backdrop-grid"></div>
-    <span class="orb orb--a"></span><span class="orb orb--b"></span><span class="orb orb--c"></span>
-  </div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 
@@ -91,16 +87,19 @@
           <span class="wm wm--mark"><span class="wi"><em class="mark" id="heroMark">visible</em>.</span></span>
         </h1>
         <p class="hero-sub" data-enter>
-          SkilZZ conçoit et développe votre site, votre application et vos contenus pour les réseaux sociaux.
-          Un seul interlocuteur, du premier échange à la mise en ligne.
+          Votre site, votre application et vos contenus pour les réseaux, conçus et développés au même endroit.
+          Vous parlez à une seule personne, du premier appel à la mise en ligne.
         </p>
         <div class="hero-ctas" data-enter>
-          <a href="#contact" class="btn btn--primary fill-btn magnetic"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
+          <a href="#contact" class="btn btn--primary fill-btn"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
           <a href="#realisation" class="btn btn--ghost fill-btn"><span>Voir une réalisation</span></a>
         </div>
       </div>
 
       <div class="hero-stage" id="heroStage">
+        <!-- Orbites au trait : deux anneaux fins, une petite bulle tourne sur chacun -->
+        <div class="orbit orbit--a" aria-hidden="true"><span></span></div>
+        <div class="orbit orbit--b" aria-hidden="true"><span></span></div>
         <div class="bubbles" id="bubbles" aria-hidden="true"></div>
         <!-- La bulle de la mascotte : se déforme avec la souris, éclate au clic. -->
         <div class="soap soap--hero" id="heroBubble" aria-hidden="true"><span class="soap-rim"></span><span class="soap-shine"></span></div>
@@ -140,7 +139,7 @@
       </div>
       <div class="why-copy">
         <p class="label">Pourquoi un fennec</p>
-        <p class="why-text" id="whyText">Le fennec a les plus grandes oreilles de la famille des renards. Le studio travaille de la même façon&nbsp;: on écoute vos clients avant de dessiner le premier écran.</p>
+        <p class="why-text" id="whyText">Le fennec entend un insecte bouger sous le sable. On travaille avec la même attention&nbsp;: d'abord écouter vos clients, ce qu'ils cherchent, ce qui les fait partir. Le design vient après.</p>
       </div>
     </section>
 
@@ -157,7 +156,7 @@
             <div class="gauge"><svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50"/><circle class="gauge-fill" cx="60" cy="60" r="50"/></svg><span class="gauge-dot"></span></div>
           </div>
           <h3>Rapide à charger</h3>
-          <p>Images optimisées et code léger&nbsp;: vos pages s'affichent vite, même en 4G.</p>
+          <p>Un visiteur qui attend s'en va. Images compressées, code léger&nbsp;: vos pages s'ouvrent vite, même en 4G.</p>
         </article>
 
         <article class="cell cell--device cell--wide">
@@ -166,13 +165,13 @@
             <div class="morph-labels"><span class="is-on">Ordinateur</span><span>Tablette</span><span>Téléphone</span></div>
           </div>
           <h3>Pensé pour chaque écran</h3>
-          <p>Chaque page est dessinée pour l'ordinateur, la tablette et le téléphone, pas seulement réduite.</p>
+          <p>On dessine d'abord pour le téléphone, là où arrive la plupart de vos visiteurs, puis pour la tablette et l'ordinateur.</p>
         </article>
 
         <article class="cell cell--motion cell--tall">
           <div class="cell-visual" aria-hidden="true"><div class="fizz" id="fizz"></div></div>
           <h3>Animations sur-mesure</h3>
-          <p>Des mouvements dessinés pour votre marque, comme ceux de cette page. Faites éclater les bulles juste au-dessus.</p>
+          <p>Les animations de cette page ont été dessinées pour SkilZZ. Les vôtres le seront pour votre marque. Essayez d'éclater les bulles.</p>
         </article>
 
         <article class="cell cell--seo">
@@ -181,7 +180,7 @@
             <div class="result" id="searchResult"><b>Votre marque</b><i></i><i class="s"></i></div>
           </div>
           <h3>Trouvé sur Google</h3>
-          <p>Titres, balises et contenus préparés pour le référencement dès la conception.</p>
+          <p>Titres, descriptions et structure des pages préparés pour Google dès la maquette, et non une fois le site terminé.</p>
         </article>
 
         <article class="cell cell--admin">
@@ -190,7 +189,7 @@
               <span class="editor-row"><span>Publier</span><span class="switch" id="editorSwitch"><i></i></span></span></div>
           </div>
           <h3>Vous gardez la main</h3>
-          <p>Modifiez vos textes, photos et produits depuis un back-office simple.</p>
+          <p>Changer un prix ou une photo ne devrait pas demander un appel. Vous le faites vous-même, depuis votre back-office.</p>
         </article>
 
         <article class="cell cell--chat">
@@ -205,7 +204,7 @@
             </div>
           </div>
           <h3>Un seul interlocuteur</h3>
-          <p>Vous échangez avec la même personne, du premier appel à la mise en ligne.</p>
+          <p>Toujours la même personne au bout du fil. Pas de ticket, pas de transfert d'un service à l'autre.</p>
         </article>
       </div>
     </section>
@@ -224,7 +223,7 @@
             <div class="svc-card">
               <span class="svc-num">01</span>
               <h3>Sites vitrines et e-commerce</h3>
-              <p>Un site rapide, dessiné pour votre marque, que vous mettez à jour vous-même. Du one-page à la boutique complète, référencement compris.</p>
+              <p>De la page unique qui présente votre activité à la boutique complète avec paiement. Rapide, à l'image de votre marque, et vous le mettez à jour vous-même.</p>
               <p class="deliv-title">Ce qui est livré</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Site en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Prise en main du back-office</li></ul>
               <ul class="tags"><li>Design sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li><li>Back-office</li></ul>
@@ -235,7 +234,7 @@
             <div class="svc-card">
               <span class="svc-num">02</span>
               <h3>Applications et SaaS</h3>
-              <p>Votre service sur iPhone, Android et navigateur. On commence par un prototype cliquable, puis on développe et on publie sur les stores.</p>
+              <p>Votre service dans la poche de vos clients. Vous testez d'abord un prototype sur votre propre téléphone&nbsp;; le développement commence une fois qu'il vous convient.</p>
               <p class="deliv-title">Ce qui est livré</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à tester</li><li><svg><use href="#i-check"/></svg>Application publiée sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Tableau de bord pour suivre l’usage</li></ul>
               <ul class="tags"><li>Prototype cliquable</li><li>iOS et Android</li><li>Tableaux de bord</li><li>Publication sur les stores</li></ul>
@@ -246,7 +245,7 @@
             <div class="svc-card">
               <span class="svc-num">03</span>
               <h3>Réseaux sociaux et contenus</h3>
-              <p>Reels, animations et visuels au format de chaque plateforme, dans la même identité que votre site.</p>
+              <p>Reels, animations et visuels au bon format pour Instagram, TikTok et LinkedIn. Quelqu'un qui tombe sur une de vos vidéos doit reconnaître votre marque avant de lire son nom.</p>
               <p class="deliv-title">Ce qui est livré</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Charte de vos réseaux</li><li><svg><use href="#i-check"/></svg>Reels et visuels prêts à publier</li><li><svg><use href="#i-check"/></svg>Gabarits réutilisables</li></ul>
               <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Visuels de marque</li><li>Identité visuelle</li></ul>
@@ -276,7 +275,7 @@
           <div class="case-copy">
             <p class="label label--on-dark">Réalisation</p>
             <h2>MM Fragrances, parfumerie de niche en ligne</h2>
-            <p>Boutique en ligne avec thème clair et sombre, catalogue animé, fiches produits en 3D, quiz olfactif et conseiller virtuel.</p>
+            <p>Une boutique en clair-obscur pour une maison de parfums de niche&nbsp;: catalogue animé, flacons en 3D, quiz pour trouver son parfum et conseiller virtuel qui répond aux questions.</p>
             <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Visiter mm-fragrances.fr</span><svg><use href="#i-out"/></svg></a>
           </div>
 
@@ -313,19 +312,19 @@
           <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">01</span>
           <h3>Écouter</h3>
-          <p>Un atelier pour comprendre votre activité, vos clients et vos objectifs. Vous recevez ensuite un devis détaillé, découpé par étapes.</p>
+          <p>Un premier échange pour comprendre votre activité, vos clients et ce qui coince aujourd'hui. Vous repartez avec un devis détaillé, étape par étape.</p>
         </article>
         <article class="step">
           <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">02</span>
           <h3>Concevoir</h3>
-          <p>Maquettes, prototype animé, puis développement. Vous validez chaque étape et vous voyez le projet avancer.</p>
+          <p>Maquettes, puis un prototype animé que vous testez sur votre téléphone. Le développement démarre quand vous avez validé.</p>
         </article>
         <article class="step">
           <span class="step-dot" aria-hidden="true"></span>
           <span class="step-num">03</span>
           <h3>Faire grandir</h3>
-          <p>Mise en ligne, suivi, contenus pour vos réseaux et évolutions. Le studio reste disponible après la livraison.</p>
+          <p>Mise en ligne, suivi, contenus pour vos réseaux et nouvelles fonctions. Après la livraison, le studio reste joignable.</p>
         </article>
       </div>
 
@@ -345,11 +344,11 @@
       <div class="faq-list">
         <details class="qa">
           <summary>Combien coûte un projet&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
-          <div class="qa-body"><p>Le prix dépend du périmètre&nbsp;: un site vitrine, une boutique et une application ne demandent pas le même travail. Après un premier échange gratuit, vous recevez un devis détaillé, découpé par étapes.</p></div>
+          <div class="qa-body"><p>Tout dépend de ce qu'on construit&nbsp;: une page de présentation et une application n'ont rien à voir. Après un premier échange gratuit, vous recevez un devis détaillé, ligne par ligne, sans frais cachés.</p></div>
         </details>
         <details class="qa">
           <summary>Quels sont les délais&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
-          <div class="qa-body"><p>Le planning est fixé avec vous au démarrage, avec une date pour chaque étape de validation. Vous savez à tout moment où en est le projet.</p></div>
+          <div class="qa-body"><p>Le planning est fixé ensemble au démarrage, avec une date pour chaque validation. Vous savez toujours où en est le projet, sans avoir à relancer.</p></div>
         </details>
         <details class="qa">
           <summary>Gérez-vous aussi les réseaux sociaux&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
@@ -371,8 +370,8 @@
       <div class="contact-panel" id="contactPanel">
         <div class="contact-copy">
           <img class="contact-mascot" id="contactMascot" src="assets/img/mascotte/fennec-joie.webp" alt="" width="764" height="1100" loading="lazy" decoding="async">
-          <h2>Parlons de votre projet</h2>
-          <p>Décrivez votre besoin en quelques lignes. Le premier échange est gratuit et sans engagement.</p>
+          <h2>Racontez-nous votre projet</h2>
+          <p>Pas besoin de cahier des charges. Dites ce que vous vendez et ce qui ne marche pas aujourd'hui&nbsp;: on revient vers vous avec des pistes concrètes. Le premier échange est gratuit.</p>
         </div>
         <!-- Envoi : renseignez data-endpoint (Formspree, route serveur…)
              ou data-email (ouvre la messagerie du visiteur, message prérempli). -->

@@ -112,22 +112,6 @@
     btn.addEventListener('pointerleave', function () { gsap.to(btn, { scale: 1, duration: .4, ease: 'power3.out' }); });
   });
 
-  // --- Aimant léger sur les boutons principaux -------------------------------
-  if (fine && !reduce) {
-    document.querySelectorAll('.magnetic').forEach(function (el) {
-      var mx = gsap.quickTo(el, 'x', { duration: .6, ease: 'power3' });
-      var my = gsap.quickTo(el, 'y', { duration: .6, ease: 'power3' });
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect();
-        mx((e.clientX - r.left - r.width / 2) * .22);
-        my((e.clientY - r.top - r.height / 2) * .32);
-      });
-      el.addEventListener('pointerleave', function () {
-        gsap.to(el, { x: 0, y: 0, duration: .9, ease: 'elastic.out(1, .4)' });
-      });
-    });
-  }
-
   // --- Clic dans le vide : une bulle naît, monte et éclate ------------------
   var INTERACTIVE = 'a, button, input, textarea, label, summary, select, .bub, .blown, .chip, .qa, .cell, .mark, .footer-word';
   document.addEventListener('pointerdown', function (e) {

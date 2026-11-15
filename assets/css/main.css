@@ -173,7 +173,6 @@ section { padding: var(--section) var(--gutter); }
 .btn--light { background: #fff; color: #0B1B3F; }
 .btn--block { width: 100%; }
 @media (hover: hover) and (pointer: fine) {
-  .btn:hover svg { transform: translateX(4px); }
   .btn--ghost.is-hover { color: #fff; box-shadow: inset 0 0 0 1.5px transparent; }
 }
 
@@ -516,28 +515,29 @@ section { padding: var(--section) var(--gutter); }
 }
 
 /* ==========================================================================
-   17. FOND VIVANT — trame de points + halos qui dérivent lentement
+   17. FOND — formes nettes, pas de flou
+   Des panneaux de couleur unie rythment la page ; des anneaux au trait
+   (le motif de la bulle) tournent lentement derrière la mascotte.
    ========================================================================== */
-.backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-.backdrop-grid {
-  position: absolute; inset: -40px;
-  background-image: radial-gradient(rgba(11, 27, 63, .13) 1.1px, transparent 1.4px);
-  background-size: 26px 26px;
-  -webkit-mask: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%);
-          mask: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%);
-  will-change: transform;
-}
-:root[data-theme="dark"] .backdrop-grid { background-image: radial-gradient(rgba(143, 182, 255, .16) 1.1px, transparent 1.4px); }
-.orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; will-change: transform; }
-.orb--a { width: 46vmax; height: 46vmax; left: -12vmax; top: -10vmax; background: #CFE0FF; }
-.orb--b { width: 38vmax; height: 38vmax; right: -12vmax; top: 30vh; background: #CDEFE2; opacity: .5; }
-.orb--c { width: 30vmax; height: 30vmax; left: 30vw; bottom: -14vmax; background: #DCE6FF; }
-:root[data-theme="dark"] .orb { opacity: .35; }
-:root[data-theme="dark"] .orb--a { background: #1A3A8F; }
-:root[data-theme="dark"] .orb--b { background: #0D4A3C; }
-:root[data-theme="dark"] .orb--c { background: #1B2D6B; }
-body { background: transparent; }
 html { background: var(--bg); transition: background-color .4s ease; }
+body { background: transparent; }
+
+.orbit { translate: var(--ox, 0px) var(--oy, 0px); position: absolute; left: 50%; top: 52%; border-radius: 50%; border: 1.5px solid rgba(31, 107, 255, .16); pointer-events: none; z-index: 0; }
+.orbit span { position: absolute; left: 50%; top: -7px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px var(--accent); }
+.orbit--a { width: 112%; aspect-ratio: 1; margin: -56% 0 0 -56%; border-style: dashed; animation: orbit 46s linear infinite; }
+.orbit--b { width: 132%; aspect-ratio: 1; margin: -66% 0 0 -66%; border-color: rgba(15, 169, 122, .14); animation: orbit 70s linear infinite reverse; }
+.orbit--b span { width: 10px; height: 10px; margin-left: -5px; top: -5px; box-shadow: inset 0 0 0 2px var(--green); }
+:root[data-theme="dark"] .orbit { border-color: rgba(143, 182, 255, .2); }
+:root[data-theme="dark"] .orbit span { background: #0F1830; }
+@keyframes orbit { to { transform: rotate(360deg); } }
+
+/* Panneaux : sections posées sur un aplat arrondi */
+.bento-sec, .faq { position: relative; isolation: isolate; }
+.bento-sec::before, .faq::before { content: ""; position: absolute; z-index: -1; inset: 0 max(12px, calc((100vw - 1320px) / 2)); border-radius: 48px; background: #EAF1FE; }
+.faq::before { background: #EEF6F2; }
+:root[data-theme="dark"] .bento-sec::before { background: #0C1631; }
+:root[data-theme="dark"] .faq::before { background: #0B1A26; }
+.bento-sec { margin: 0 0 24px; }
 
 /* ==========================================================================
    18. HERO — fennec qui souffle des bulles, « visible » qui réagit
@@ -696,7 +696,7 @@ html { background: var(--bg); transition: background-color .4s ease; }
   .work-rider { width: 140px; margin: -70px 0 0 -70px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .orb, .backdrop-grid { transform: none !important; }
+  .orbit { animation: none; }
   .gauge-fill { stroke-dashoffset: 40; }
   .result { opacity: 1; }
   .svc-card { opacity: 1; transform: none; }
