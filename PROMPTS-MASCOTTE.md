@@ -1,4 +1,4 @@
-# Prompts IA — le martin-pêcheur de SkilZZ
+# Prompts IA — le martin-pêcheur de ZkilZ
 
 La mascotte est maintenant un **martin-pêcheur**, en **bleu et blanc uniquement**. Il dit trois choses :
 l'**ascension** (partir d'un roseau au ras de l'eau et monter tout en haut), la **précision** (il vise avant de
@@ -141,7 +141,7 @@ Pour l'image de partage et la fin de page : l'oiseau qui monte.
 tail fanned, feet tucked, body angled about 45 degrees upward, determined. Side view. [RÈGLES]
 ```
 
-## 8. Image de partage (réseaux, messageries) → `og-skilzz.png`
+## 8. Image de partage (réseaux, messageries) → `og-zkilz.png`
 
 L'aperçu affiché quand on partage le lien du site. **Pas de fond vert ici** : c'est l'image finale.
 
@@ -152,7 +152,7 @@ Background flat ice white (#F5F8FF) with a very large pale-blue circle (#E8F1FF)
 half is empty for text. No text, no logo, no watermark. 1200 × 630.
 ```
 
-Le texte (« SkilZZ — Studio digital ») est ajouté par le site, pas par le générateur : les textes générés sont
+Le texte (« ZkilZ — Studio digital ») est ajouté par le site, pas par le générateur : les textes générés sont
 souvent déformés.
 
 ## 9. Service « Sites » → `kf-site.png`
@@ -192,5 +192,5 @@ looking down at it. No logo, no readable text. [RÈGLES]
 | 5 | `agent-idee` | assistant, quand la réponse arrive | automatique |
 | 6 | `kf-plongeon` | Réalisation, le plongeon | je l'intègre |
 | 7 | `kf-envol` | pied de page, image de partage | je l'intègre |
-| 8 | `og-skilzz` | aperçu des liens partagés | je l'intègre |
+| 8 | `og-zkilz` | aperçu des liens partagés | je l'intègre |
 | 9-11 | `kf-site`, `kf-app`, `kf-reseaux` | services sur téléphone | je l'intègre |

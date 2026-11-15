@@ -1,8 +1,8 @@
 {
-  "name": "skilzz",
+  "name": "zkilz",
   "version": "0.1.0",
   "private": true,
-  "description": "SkilZZ — studio digital : sites, applications mobiles, SaaS et réseaux sociaux.",
+  "description": "ZkilZ — studio digital : sites, applications mobiles, SaaS et réseaux sociaux.",
   "scripts": {
     "dev": "npx --yes serve -l 4000 .",
     "start": "npx --yes serve -l 4000 ."

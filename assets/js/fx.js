@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SkilZZ — effets partagés (survol, clic, curseur)
+   ZkilZ — effets partagés (survol, clic, curseur)
    · window.SKZ.burst(x, y) : petites bulles qui jaillissent d'un point ;
    · window.SKZ.jelly(el)   : l'élément se déforme comme une bulle puis
      reprend sa forme ;

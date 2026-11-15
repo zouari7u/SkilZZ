@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SkilZZ — le martin-pêcheur (SVG + GSAP, skill « animate-2d »)
+   ZkilZ — le martin-pêcheur (SVG + GSAP, skill « animate-2d »)
    Un seul oiseau pour toute la page. Calques articulés (kf-art.js) :
    tête, bec, paupière, aile repliée, deux ailes de vol, queue, pattes,
    chacun avec son pivot en coordonnées SVG (svgOrigin).
@@ -28,7 +28,7 @@
   var root = document.createElement('div');
   root.className = 'kf';
   root.setAttribute('role', 'img');
-  root.setAttribute('aria-label', 'Le martin-pêcheur, mascotte de SkilZZ');
+  root.setAttribute('aria-label', 'Le martin-pêcheur, mascotte de ZkilZ');
   root.innerHTML = '<div class="kf-flip"><div class="kf-tilt"><svg viewBox="0 0 ' + VB_W + ' ' + VB_H + '" aria-hidden="true">' + window.KF_SVG + '</svg></div></div>';
   document.body.appendChild(root);
 

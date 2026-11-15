@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SkilZZ — scènes et animations de défilement (GSAP + ScrollTrigger + Lenis)
+   ZkilZ — scènes et animations de défilement (GSAP + ScrollTrigger + Lenis)
    Chaque section a son entrée, et quelque chose bouge doucement en
    continu : graduations qui tournent, eau qui ondule, oiseau qui
    respire. Tout s'arrête avec « réduire les animations ».
@@ -57,10 +57,18 @@
   });
 
   // --- Formulaire ------------------------------------------------------------
+  // Message envoyé : l'oiseau du contact monte d'un coup d'aile
   function contactHop() {
     if (reduce) return;
+    var b = document.getElementById('contactBird');
+    if (b) gsap.timeline()
+      .to(b, { y: -70, x: 30, rotation: -8, duration: .45, ease: 'power2.out' })
+      .to(b, { y: 0, x: 0, rotation: 0, duration: 1, ease: 'elastic.out(1, .5)' });
     if (window.SKZBird) window.SKZBird.celebrate();
   }
+  // il plane doucement en attendant
+  var cb = document.getElementById('contactBird');
+  if (cb && !reduce) gsap.to(cb, { yPercent: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   var form = document.getElementById('contactForm');
   if (form) {
     var status = form.querySelector('.form-status');
@@ -291,7 +299,7 @@
   var pin = document.getElementById('workPin');
   var rider = document.getElementById('workRider');
   if (pin) {
-    var riderFloat = gsap.to(rider, { y: -8, rotation: -3, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    var riderFloat = gsap.to(rider, { y: -10, duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     var splash = document.createElement('span'); splash.className = 'work-ripple'; pin.appendChild(splash);
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
@@ -301,7 +309,7 @@
     });
     tl.fromTo('#workBubble', { scale: .06 }, { scale: 1, duration: 1, ease: 'power2.in' }, 0)
       // il pique vers le centre, bec en avant, et disparaît dans l'eau
-      .to(rider, { rotation: 62, x: 30, y: 70, scale: .8, duration: .28, ease: 'power2.in', onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.resume(); } }, 0)
+      .to(rider, { y: 150, scale: .85, duration: .28, ease: 'power2.in', onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.resume(); } }, 0)
       .to(rider, { opacity: 0, duration: .06 }, .27)
       .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out' }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)

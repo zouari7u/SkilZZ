@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SkilZZ — agent IA en bas à droite (même principe que le conseiller de
+   ZkilZ — agent IA en bas à droite (même principe que le conseiller de
    MM Fragrances) :
    · une pastille ronde, le martin-pêcheur dedans ; sa tête dépasse de la
      bulle, il plonge, penche la tête, cligne des yeux (si l'image
@@ -114,7 +114,7 @@
     reply: "Je n'ai pas la réponse à ça, mais le studio l'a sûrement. Je peux préparer votre message pour le formulaire de contact.",
     chips: [LEAD, 'Comment se passe un projet ?', 'Combien coûte un site ?']
   };
-  var GREETING = "Bonjour, je suis le martin-pêcheur de SkilZZ. Un site, une application, des contenus pour vos réseaux ? Posez votre question.";
+  var GREETING = "Bonjour, je suis le martin-pêcheur de ZkilZ. Un site, une application, des contenus pour vos réseaux ? Posez votre question.";
 
   function localAnswer(text) {
     var t = fold(text);

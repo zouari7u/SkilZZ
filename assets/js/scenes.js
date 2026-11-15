@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SkilZZ — scènes complémentaires
+   ZkilZ — scènes complémentaires
    · fond : la trame et les halos dérivent lentement et suivent la souris ;
    · « visible » : les lettres se soulèvent à l'approche du curseur, la
      bulle s'allume et laisse échapper de petites bulles ; clic = vague ;

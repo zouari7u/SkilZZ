@@ -1,6 +1,6 @@
-# SkilZZ — studio digital
+# ZkilZ — studio digital
 
-Site vitrine du studio SkilZZ : sites, applications, SaaS et contenus pour les réseaux sociaux.
+Site vitrine du studio ZkilZ : sites, applications, SaaS et contenus pour les réseaux sociaux.
 Direction artistique : bleu et blanc. Mascotte : un martin-pêcheur (l'ascension, la précision, la technique),
 dessiné en SVG et animé avec GSAP (skill `.claude/animate-2d`).
 
