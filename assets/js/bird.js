@@ -506,7 +506,13 @@
   // celui de sa boîte (interligne et marges internes compris)
   var inkCtx = null;
   function inkTop(el) {
-    var cs = getComputedStyle(el);
+    var cs = getComputedStyle(el), key = cs.fontSize + cs.lineHeight;
+    if (el._ink && el._ink.key === key) return el._ink.v;
+    var v = measureInk(el, cs);
+    el._ink = { key: key, v: v };
+    return v;
+  }
+  function measureInk(el, cs) {
     inkCtx = inkCtx || document.createElement('canvas').getContext('2d');
     inkCtx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
     var m = inkCtx.measureText(el.textContent.trim() || 'l');
@@ -578,8 +584,14 @@
       return;
     }
     if (flying || !current || !current.el) return;
-    var b = perchPoint(current.el);
-    if (Math.abs(b.x - pos.x) > .2 || Math.abs(b.y - pos.y) > .2) { pos.x = b.x; pos.y = b.y; place(); }
+    // écart mesuré à l'écran, dans une seule lecture de la mise en page
+    // (sans passer par la position de défilement, que Safari peut mettre à
+    // jour avec un temps de retard pendant un défilement)
+    var el = current.el, r = el.getBoundingClientRect(), k = root.getBoundingClientRect();
+    var at3 = parseFloat(el.dataset.perch); if (isNaN(at3)) at3 = 85;
+    var tx = r.left + r.width * at3 / 100, ty = r.top + (el.hasAttribute('data-perch-ink') ? inkTop(el) : 0) + 1;
+    var dx = tx - (k.left + W * FOOT.x / CELL.w), dy = ty - (k.top + H * FOOT.y / CELL.h);
+    if (Math.abs(dx) > .3 || Math.abs(dy) > .3) { pos.x += dx; pos.y += dy; place(); }
   });
   window.addEventListener('resize', function () {
     applySize(); sizeTrail();

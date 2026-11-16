@@ -38,7 +38,7 @@
   --r-card: 32px;
   --gutter: clamp(20px, 5vw, 72px);
   --maxw: 1180px;
-  --section: clamp(96px, 11vw, 150px);
+  --section: clamp(72px, 8vw, 116px);
 
   --ease: cubic-bezier(.22, 1, .36, 1);
   --shadow: 0 1px 2px rgba(11, 27, 63, .05), 0 12px 32px -8px rgba(11, 27, 63, .12);
@@ -93,7 +93,7 @@ p { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
 
 section { padding: var(--section) var(--gutter); }
-.head { max-width: var(--maxw); margin: 0 auto clamp(40px, 5vw, 72px); }
+.head { max-width: var(--maxw); margin: 0 auto clamp(32px, 4vw, 56px); }
 .head h2 { max-width: 18ch; margin-top: 14px; }
 
 /* Mots qui montent dans un masque arrondi (titres) */
@@ -1003,3 +1003,6 @@ section.agent-panel { padding: 0; }
    posée sur le centre du cercle ; le JS la recule le long de l'axe du corps. */
 .work-rider { --w: 118px; width: var(--w); height: auto; margin: calc(var(--w) * -1.7689) 0 0 calc(var(--w) * -.0495); transform-origin: 4.95% 97.45%; }
 @media (max-width: 640px) { .work-rider { --w: 78px; } }
+
+/* Panneaux (Inclus, Questions) : le fond délimite déjà la zone, moins de vide */
+.bento-sec, .faq { padding-top: clamp(56px, 6vw, 88px); padding-bottom: clamp(56px, 6vw, 88px); }
