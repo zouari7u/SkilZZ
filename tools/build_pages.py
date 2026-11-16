@@ -307,10 +307,10 @@ HEAD = '''<!doctype html>
   <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 
   <nav class="nav" id="nav" aria-label="Navigation principale">
-    <div class="nav-glow" aria-hidden="true"><svg preserveAspectRatio="none"><rect class="nav-glow-rect" fill="none"/></svg></div>
+    <div class="nav-glow" aria-hidden="true"><svg preserveAspectRatio="none"><rect class="nav-glow-rect" fill="none"/><rect class="nav-glow-rect" fill="none"/></svg></div>
 
     <a href="index.html" class="nav-brand" aria-label="ZkilZ, accueil">
-      <span class="nav-logo"><img src="assets/img/kf-head.svg" alt="" width="40" height="40"></span>
+      <span class="nav-logo">{logo}</span>
       <span class="nav-word"><b>Z</b>kil<b>Z</b></span>
     </a>
 
@@ -327,7 +327,16 @@ HEAD = '''<!doctype html>
       <a href="contact.html" class="nav-cta fill-btn" data-fill="#DCE8FF"{cta_current}>Parler de votre projet</a>
       <label class="theme-switch" aria-label="Thème clair ou sombre">
         <input type="checkbox" id="themeToggle">
-        <span class="slider"></span>
+        <span class="slider" aria-hidden="true">
+          <svg class="ts" viewBox="0 0 56 30">
+            <defs><mask id="tsMoon" maskUnits="userSpaceOnUse"><rect width="56" height="30" fill="#fff"/><circle class="ts-bite" cx="15" cy="15" r="6.2" fill="#000"/></mask></defs>
+            <g class="ts-stars"><circle cx="11" cy="10" r="1"/><circle cx="20" cy="19" r=".85"/><circle cx="9" cy="20" r=".65"/><circle cx="23" cy="9" r=".6"/></g>
+            <g class="ts-knob">
+              <g class="ts-rays"><path d="M15 4.2v2.4M15 23.4v2.4M4.2 15h2.4M23.4 15h2.4M7.4 7.4l1.7 1.7M20.9 20.9l1.7 1.7M7.4 22.6l1.7-1.7M20.9 9.1l1.7-1.7"/></g>
+              <circle class="ts-core" cx="15" cy="15" r="6" mask="url(#tsMoon)"/>
+            </g>
+          </svg>
+        </span>
       </label>
     </div>
   </nav>
@@ -461,7 +470,24 @@ def versioned(out):
     return re.sub(r'(href|src)="(assets/(?:css|js)/[\w.-]+\.(?:css|js))"', rep, out)
 
 
+def logo_svg():
+    """Le martin-pêcheur du logo, en SVG dans la page (et non en image) pour
+    que nav.js anime la tête, la paupière et le reflet du bec."""
+    t = open(os.path.join(ROOT, 'assets', 'img', 'kf-head.svg'), encoding='utf-8').read()
+    t = re.sub(r'id="kf(\w+)"', r'id="nv\1"', t).replace('url(#kf', 'url(#nv')
+    t = t.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg class="nav-kf" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"', 1)
+    # reflet qui glissera le long du bec au survol
+    t = t.replace('opacity=".8"/></g>', 'opacity=".8"/><path class="kf-glint" d="M156 62.4 C172 63.4 188 66 202 69" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none" pathLength="100"/></g>', 1)
+    # la paupière est animée par nav.js (transform en attribut)
+    return '\n'.join(l.strip() for l in t.strip().splitlines())
+
+
+LOGO = None
+
+
 def build():
+    global LOGO
+    LOGO = logo_svg()
     for page, title, desc, active in PAGES:
         src = os.path.join(PARTS, page + '.html')
         with open(src, encoding='utf-8') as f:
@@ -469,7 +495,7 @@ def build():
         nav = '\n'.join('        <li><a href="%s.html"%s>%s</a></li>' % (
             slug, ' aria-current="page"' if slug == active else '', label) for slug, label in NAV)
         svc_links = '\n'.join('        <a href="%s.html">%s</a>' % s for s in SERVICES)
-        out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav,
+        out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav, logo=LOGO,
                           cta_current=' aria-current="page"' if active == 'contact' else '')
         out += '\n  <main>\n' + main.rstrip() + '\n  </main>\n' + FOOT.format(svc_links=svc_links)
         out = versioned(out)
