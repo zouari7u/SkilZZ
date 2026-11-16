@@ -47,8 +47,11 @@
       .map(function (s) { return document.querySelector(s); }).filter(Boolean);
     var hero = document.getElementById('top');
     if (!hero || !secs.length) return;
-    // départ : sous le sommet de l'accueil, côté droit
-    var pts = [{ x: R, y: docTop(hero) + hero.offsetHeight * .55 }], stops = [];
+    // départ : dans l'espace sous le bandeau, côté droit (le fil ne coupe
+    // ni l'illustration de l'accueil ni le bandeau)
+    var strip = document.getElementById('strip');
+    var y0 = strip ? docTop(strip) + strip.offsetHeight + 18 : docTop(hero) + hero.offsetHeight;
+    var pts = [{ x: R, y: y0 }], stops = [];
     var side = 1;
     secs.forEach(function (s, i) {
       var top = docTop(s), h = s.offsetHeight;

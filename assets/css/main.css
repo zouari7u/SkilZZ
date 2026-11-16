@@ -501,7 +501,7 @@ body { background: transparent; }
 .faq::before { background: #EEF4FF; }
 :root[data-theme="dark"] .bento-sec::before { background: #0C1631; }
 :root[data-theme="dark"] .faq::before { background: #0B1630; }
-.bento-sec { margin: 0 0 24px; }
+.bento-sec { margin: clamp(56px, 7vw, 104px) 0 24px; }
 
 /* ==========================================================================
    18. HERO — fennec qui souffle des bulles, « visible » qui réagit
