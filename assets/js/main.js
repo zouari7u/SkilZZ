@@ -112,6 +112,8 @@
     document.querySelectorAll('.svc').forEach(function (s) { s.classList.add('is-active'); });
     document.querySelectorAll('.dev--site').forEach(function (d) { d.classList.add('is-on'); });
     document.querySelectorAll('.step').forEach(function (s) { s.classList.add('is-on'); });
+    var hs = document.getElementById('heroStage');
+    if (hs) { hs.dataset.step = 3; hs.querySelectorAll('.ms, .ms-dot').forEach(function (m) { m.classList.add('is-on'); }); }
     gsap.set('.work-bubble', { scale: 1 });
     return;
   }
@@ -129,29 +131,95 @@
     .from('#heroTitle .wi', { yPercent: 115, rotation: 5, duration: 1.1, stagger: .055 }, .15)
     .fromTo('#heroMark', { '--mark': 0 }, { '--mark': 1, duration: 1.1, ease: 'elastic.out(1, .55)' }, .85)
     .from('[data-enter]', { y: 18, opacity: 0, duration: .9, stagger: .08 }, .55)
-    .from('.ascent-sky', { scale: .85, opacity: 0, transformOrigin: '250px 250px', duration: 1.4, ease: EASE }, .2)
-    .from('.ascent-ticks', { opacity: 0, duration: 1.2 }, .5)
-    .from('.ascent-water path', { opacity: 0, x: -30, duration: 1.2, stagger: .15, ease: EASE }, .4)
-    .from('.ascent-reed, .ascent-leaf', { scaleY: 0, transformOrigin: '110px 476px', duration: .9, ease: 'back.out(1.6)' }, .7)
+    .from('.ascent-ticks', { opacity: 0, duration: 1.6 }, .3)
+    .from('.sc-sky', { opacity: 0, duration: 1 }, .2)
+    .from('.sc-sun, .sc-halo', { y: 70, duration: 1.8, ease: 'power3.out' }, .3)
+    .from('.sc-hill--far', { y: 60, duration: 1.4 }, .35)
+    .from('.sc-hill--near', { y: 70, duration: 1.4 }, .45)
+    .from('.sc-lake, .sc-shine', { y: 60, duration: 1.4 }, .5)
+    .from('.sc-cloud', { x: -40, opacity: 0, duration: 1.6, stagger: .2 }, .6)
+    .from('.ascent-water path', { opacity: 0, x: -30, duration: 1.2, ease: EASE }, .6)
+    .from('.ascent-reed, .ascent-leaf, .sc-cat', { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: .9, stagger: .06, ease: 'back.out(1.6)' }, .8)
+    .fromTo('.site-frame', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, .9)
     .fromTo('.ascent-guide', { strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.out' }, .9)
     .from('.milestone', { scale: 0, transformOrigin: 'center', transformBox: 'fill-box', duration: .6, stagger: .15, ease: 'back.out(2.4)' }, 1.1)
-    .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.3);
+    .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.2);
 
-  // L'eau ondule au pied du roseau
+  // L'eau ondule au pied du roseau, les nuages passent, les mouettes planent
   gsap.timeline({ repeat: -1, repeatDelay: .4 })
-    .fromTo('.ripple', { scale: .4, opacity: .7 }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' });
-  gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .6 });
+    .fromTo('.ripple', { scale: .4, opacity: .7, svgOrigin: '118 408' }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' });
+  gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.sc-shine path', { x: function (i) { return i % 2 ? 10 : -12; }, opacity: .4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 });
+  gsap.to('.sc-cloud', { x: function (i) { return i ? -26 : 34; }, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.sc-gull', { x: 18, y: -8, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 1.2 });
+  gsap.to('.sc-gull', { scaleY: .55, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .5, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .25 });
+  gsap.to('.ascent-reed, .ascent-leaf, .sc-cat', { rotation: 2.5, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .2 });
 
-  // Jalons : suivent un peu la souris
-  var stage = document.getElementById('heroStage');
-  if (fine && stage) {
-    var mss = Array.prototype.map.call(stage.querySelectorAll('.ms'), function (el, i) {
-      return { d: 1 + i * .4, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
+  // Les trois étapes, au passage de l'oiseau (bird.js envoie « kf:ascent »)
+  var hStage = document.getElementById('heroStage');
+  if (hStage) {
+    var guide = hStage.querySelector('#ascentPath');
+    var ms = hStage.querySelectorAll('.ms'), dots = hStage.querySelectorAll('.ms-dot');
+    // part du tracé où se trouve le 2e jalon
+    var midAt = .5;
+    if (guide && guide.getTotalLength) {
+      var L = guide.getTotalLength(), bestD = 1e9;
+      for (var s = 0; s <= 100; s++) {
+        var q = guide.getPointAtLength(L * s / 100), dd = Math.hypot(q.x - 244, q.y - 298);
+        if (dd < bestD) { bestD = dd; midAt = s / 100; }
+      }
+    }
+    var step = 0, cursorTl = null;
+    var setStep = function (n) {
+      if (n <= step) return;
+      step = n;
+      hStage.dataset.step = n;
+      for (var k = 0; k < 3; k++) { if (ms[k]) ms[k].classList.toggle('is-on', k < n); if (dots[k]) dots[k].classList.toggle('is-on', k < n); }
+      if (ms[n - 1]) gsap.fromTo(ms[n - 1], { scale: 1 }, { scale: 1.12, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out' });
+      if (n === 3) {
+        gsap.fromTo('.site-sparks path', { strokeDashoffset: 12, opacity: 1 }, { strokeDashoffset: -12, duration: .7, stagger: .05, ease: 'power2.out', delay: .1 });
+        gsap.fromTo('.site', { scale: 1 }, { scale: 1.035, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: .16, yoyo: true, repeat: 1, ease: 'power2.out' });
+        // une fois en ligne, on s'en sert : le curseur va cliquer le bouton
+        cursorTl = gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 1.2 })
+          .set('.site-cursor', { x: 470, y: 196, opacity: 0 })
+          .to('.site-cursor', { opacity: 1, duration: .25 })
+          .to('.site-cursor', { x: 364, y: 160, duration: 1.1, ease: 'power2.inOut' })
+          .to('.site-el--btn', { scale: .9, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .1, yoyo: true, repeat: 1 })
+          .to('.site-el--card', { y: -3, duration: .25, stagger: .08, yoyo: true, repeat: 1, ease: 'power2.out' }, '<')
+          .to('.site-cursor', { x: 470, y: 120, opacity: 0, duration: .9, ease: 'power2.in' }, '+=.5');
+      }
+    };
+    document.addEventListener('kf:ascent', function (e) {
+      var d = e.detail || {};
+      if (d.p >= 0) setStep(1);
+      if (d.p >= midAt) setStep(2);
+      if (d.landed || d.skip) { setStep(1); setStep(2); setStep(3); }
     });
-    window.addEventListener('pointermove', function (e) {
-      var nx = e.clientX / window.innerWidth - .5;
-      mss.forEach(function (c) { c.x(nx * 14 * c.d); });
-    }, { passive: true });
+    // filet de sécurité : sans oiseau (image non chargée), la scène se termine seule
+    setTimeout(function () { if (step < 3) { setStep(1); setTimeout(function () { setStep(2); setTimeout(function () { setStep(3); }, 700); }, 700); } }, 9000);
+
+    // relief : chaque plan suit la souris à sa profondeur
+    if (fine) {
+      var layers = Array.prototype.map.call(hStage.querySelectorAll('.sc-layer'), function (el) {
+        var d = parseFloat(el.dataset.depth) || 0;
+        return { d: d, x: gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3' }), y: gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3' }) };
+      });
+      var mss = Array.prototype.map.call(ms, function (el, i) {
+        return { d: 1 + i * .4, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
+      });
+      window.addEventListener('pointermove', function (e) {
+        var nx = e.clientX / window.innerWidth - .5, ny = e.clientY / window.innerHeight - .5;
+        layers.forEach(function (l) { l.x(-nx * l.d * .6); l.y(-ny * l.d * .3); });
+        mss.forEach(function (c) { c.x(nx * 10 * c.d); });
+      }, { passive: true });
+    }
+  }
+
+  // Studio Moumous : l'anneau de texte tourne avec le défilement
+  if (document.querySelector('.moumous-ring')) {
+    gsap.fromTo('.moumous-ring', { rotation: -40 }, { rotation: 140, transformOrigin: '50% 50%', ease: 'none', scrollTrigger: { trigger: '.moumous', start: 'top bottom', end: 'bottom top', scrub: true } });
+    gsap.from('.moumous-logo', { scale: .7, rotation: -8, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.moumous', start: 'top 70%' } });
+    gsap.from('.moumous-list li', { y: 24, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '.moumous-list', start: 'top 85%' } });
   }
 
   // En quittant le hero : le texte remonte, la scène descend plus lentement

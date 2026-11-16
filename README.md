@@ -63,6 +63,23 @@ assets/vendor/          gsap 3.15, ScrollTrigger, DrawSVGPlugin, lenis 1.3 (copi
 PROMPTS-MASCOTTE.md     prompts pour générer de nouvelles poses
 ```
 
+## Logo
+
+`assets/img/logo.svg` est le logo (martin-pêcheur dans son cercle), redessiné en vecteur. Il est repris
+dans la barre de navigation (en SVG dans la page, animé par `nav.js` : clin d'œil, reflet sur le bec), dans le
+pied de page et dans `favicon.svg`. Les icônes PNG (`favicon-32`, `apple-touch-icon`, `icon-192`, `icon-512`,
+`icon-maskable-512`) et l'image de partage `og-zkilz.jpg` en sont tirées.
+
+## Référencement
+
+`tools/build_pages.py` génère pour chaque page : titre et description, lien canonique, balises Open Graph et
+Twitter, données structurées JSON-LD (organisation, site, fil d'Ariane, services, questions fréquentes), et
+à la racine `sitemap.xml`, `robots.txt` et `site.webmanifest`.
+
+**À vérifier avant la mise en ligne :** l'adresse du site, `SITE_URL` en haut de `tools/build_pages.py`
+(actuellement `https://www.zkilz.fr`), puis relancer le script. Une fois en ligne, déclarer
+`sitemap.xml` dans Google Search Console.
+
 ## Règles de design suivies
 
 - Aplats de couleur, une seule couleur d'accent, pas de dégradés décoratifs ni d'émojis.

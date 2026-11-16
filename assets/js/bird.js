@@ -269,6 +269,7 @@
         }
         gsap.set(tilt, { rotation: tiltNow });
         prev = p; pos.x = p.x; pos.y = p.y; place();
+        if (opts.progress) opts.progress(o.t);
         if (opts.trail && window.DrawSVGPlugin) {
           var f = o.t * 100;
           gsap.set(trail, { drawSVG: Math.max(0, f - 18) + '% ' + f + '%' });
@@ -402,16 +403,20 @@
     gsap.set(pathEl, { strokeDasharray: len, strokeDashoffset: len });
     flying = true; current = { el: endEl };
     track(endEl, end, 0);
-    var tl = flight = gsap.timeline({ onComplete: endFlight(endEl, done) });
+    var tl = flight = gsap.timeline({ onComplete: endFlight(endEl, function () { if (done) done(); }) });
     takeoff(tl, 1);
+    tl.add(function () { ascentEvt({ p: 0 }); }, 0);
     var o = { p: 0 };
     tl.add(function () { startRhythm(); })
-      .add(travel(sp, 2.5, 'power1.inOut'))
+      .add(travel(sp, 2.5, 'power1.inOut', { progress: function (t) { ascentEvt({ p: t * .96 }); } }))
       .to(trk, { w: 1, duration: 2.5, ease: 'power1.inOut' }, '<')
       .to(o, { p: 1, duration: 2.5, ease: 'power1.inOut', onUpdate: function () { gsap.set(pathEl, { strokeDashoffset: len * (1 - o.p) }); } }, '<');
     hoverAt(tl, .45);
     landSeq(tl, end, endEl);
+    // il touche le site : « en ligne »
+    tl.add(function () { ascentEvt({ p: 1, landed: true }); }, tl.duration() - 1.25);
   }
+  function ascentEvt(d) { document.dispatchEvent(new CustomEvent('kf:ascent', { detail: d })); }
 
   // =========================================================================
   // LE PLONGEON (section Réalisation) : il vole au-dessus du cercle, fait du
@@ -691,14 +696,14 @@
     var startEl = document.getElementById('perchStart');
     var topEl = document.getElementById('perchTop');
     var path = document.getElementById('ascentPath');
-    if (reduce) { var e = topEl || best(); if (e) snapTo(e); ready = true; return; }
+    if (reduce) { var e = topEl || best(); if (e) snapTo(e); ready = true; ascentEvt({ p: 1, skip: true }); return; }
     if (!startEl || !topEl) { var b = best(); if (b) snapTo(b); ready = true; startIdle(); return; }
     snapTo(startEl);
     startIdle();
     gsap.from(root, { opacity: 0, duration: .6, ease: 'power2.out' });
     setTimeout(function () {
       if (mode) return;
-      if (window.scrollY > 200) { ready = true; onScrollEnd(); return; }
+      if (window.scrollY > 200) { ready = true; ascentEvt({ p: 1, skip: true }); onScrollEnd(); return; }
       if (path) ascend(path, topEl, function () { ready = true; onScrollEnd(); });
       else flyTo(topEl, function () { ready = true; });
     }, 1500);

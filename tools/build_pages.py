@@ -27,34 +27,48 @@ IMG_DIR = 'assets/img/pages'
 # PAGES : fichier, titre, description, lien actif dans la navbar
 # ---------------------------------------------------------------------------
 PAGES = [
-    ('index', 'ZkilZ — Studio digital : sites, applications et outils sur mesure',
-     "ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des outils sur mesure, et vous aide à trouver la bonne solution.", None),
-    ('services', 'Services — ZkilZ',
-     'Sites, applications mobiles, SaaS, outils métier et conseil : ce que le studio ZkilZ conçoit et développe pour vous.', 'services'),
-    ('site-web', 'Création de site web — ZkilZ',
-     'Site vitrine ou boutique en ligne, sur-mesure, rapide sur téléphone et facile à modifier vous-même.', 'services'),
-    ('application-mobile', 'Application mobile iOS et Android — ZkilZ',
-     "Une application iOS et Android testée sur votre téléphone avant la première ligne de code, puis publiée sur les stores.", 'services'),
-    ('saas', 'SaaS et outils métier — ZkilZ',
-     "Un logiciel en ligne pour vos clients ou vos équipes : comptes, abonnements, tableaux de bord.", 'services'),
-    ('conseil', 'Conseil et transition vers le sur mesure — ZkilZ',
-     "On cherche avec vous la bonne solution, puis on vous accompagne vers des outils faits pour votre activité.", 'services'),
-    ('reseaux-sociaux', 'Réseaux sociaux, marketing et référencement avec Studio Moumous — ZkilZ',
-     'Pour vos réseaux, votre marketing et votre référencement, ZkilZ travaille avec son partenaire Studio Moumous.', 'services'),
-    ('realisations', 'Réalisations — ZkilZ',
-     'Les projets conçus et développés par le studio ZkilZ.', 'realisations'),
-    ('mm-fragrances', 'MM Fragrances, étude de cas — ZkilZ',
-     "Comment le studio a conçu la boutique en ligne de MM Fragrances, maison de parfums de niche.", 'realisations'),
-    ('methode', 'Méthode — ZkilZ',
-     "Écouter, concevoir, faire grandir : comment se déroule un projet avec ZkilZ, étape par étape.", 'methode'),
-    ('studio', 'Le studio — ZkilZ',
-     "ZkilZ, studio digital : qui nous sommes, comment nous travaillons et pourquoi un martin-pêcheur.", 'studio'),
-    ('contact', 'Contact — ZkilZ',
-     'Racontez votre projet au studio ZkilZ. Le premier échange est gratuit.', 'contact'),
-    ('mentions-legales', 'Mentions légales — ZkilZ', 'Mentions légales du site ZkilZ.', None),
-    ('confidentialite', 'Politique de confidentialité — ZkilZ', 'Comment ZkilZ traite vos données personnelles.', None),
-    ('404', 'Page introuvable — ZkilZ', "Cette page n'existe pas ou plus.", None),
+    ('index', 'ZkilZ : sites, applications et outils sur mesure',
+     "Studio digital : ZkilZ conçoit et développe votre site web, votre application mobile, votre SaaS et vos outils métier sur mesure. Premier échange gratuit.", None),
+    ('services', 'Services : site web, application, SaaS et conseil | ZkilZ',
+     "Création de site web, application mobile iOS et Android, SaaS et outils métier, conseil : tous les services du studio ZkilZ, conçus et développés sur mesure.", 'services'),
+    ('site-web', 'Création de site web sur mesure et e-commerce | ZkilZ',
+     "Site vitrine ou boutique en ligne sur mesure : rapide sur téléphone, bien référencé et facile à modifier vous-même. Maquettes validées avec vous avant le code.", 'services'),
+    ('application-mobile', 'Création d\'application mobile iOS et Android | ZkilZ',
+     "Votre application iOS et Android, testée sur votre téléphone en prototype avant la première ligne de code, puis publiée sur l'App Store et Google Play.", 'services'),
+    ('saas', 'Développement SaaS et outils métier sur mesure | ZkilZ',
+     "Un logiciel en ligne pour vos clients ou vos équipes : comptes, abonnements, rôles et tableaux de bord. ZkilZ conçoit et développe votre SaaS sur mesure.", 'services'),
+    ('conseil', 'Conseil digital et passage au logiciel sur mesure | ZkilZ',
+     "Tableurs ou logiciels qui ne collent pas à votre activité ? État des lieux et comparaison des solutions, puis passage à des outils sur mesure.", 'services'),
+    ('reseaux-sociaux', 'Réseaux sociaux, marketing, SEO : Studio Moumous | ZkilZ',
+     "Réseaux sociaux, marketing et référencement naturel avec Studio Moumous, partenaire de ZkilZ : contenus, campagnes et SEO, avec un seul interlocuteur.", 'services'),
+    ('realisations', 'Réalisations : sites et applications sur mesure | ZkilZ',
+     "Les projets conçus et développés par le studio ZkilZ : boutiques en ligne, applications et outils sur mesure, avec leurs études de cas détaillées.", 'realisations'),
+    ('mm-fragrances', 'MM Fragrances, boutique de parfums : étude de cas | ZkilZ',
+     "Étude de cas : comment ZkilZ a conçu la boutique en ligne de MM Fragrances, maison de parfums de niche. Catalogue animé, flacons 3D, quiz et conseiller virtuel.", 'realisations'),
+    ('methode', 'Méthode : comment se déroule un projet digital | ZkilZ',
+     "Écouter, concevoir, faire grandir : les étapes d'un projet avec ZkilZ, du premier échange gratuit à la mise en ligne, prototype testé avant le développement.", 'methode'),
+    ('studio', 'Le studio ZkilZ : design et développement au même endroit',
+     "ZkilZ, studio digital : celui qui dessine votre maquette est celui qui la code. Qui nous sommes, comment nous travaillons, et pourquoi un martin-pêcheur.", 'studio'),
+    ('contact', 'Contact : parlez-nous de votre projet | ZkilZ',
+     "Racontez votre projet de site, d'application ou d'outil sur mesure au studio ZkilZ. Le premier échange est gratuit et vous repartez avec des pistes concrètes.", 'contact'),
+    ('mentions-legales', 'Mentions légales | ZkilZ', "Mentions légales du site du studio ZkilZ : éditeur, hébergeur et propriété intellectuelle.", None),
+    ('confidentialite', 'Politique de confidentialité | ZkilZ', "Comment le studio ZkilZ collecte, utilise et protège vos données personnelles, et comment exercer vos droits.", None),
+    ('404', 'Page introuvable | ZkilZ', "Cette page n'existe pas ou plus. Retrouvez les services, les réalisations et le contact du studio ZkilZ.", None),
 ]
+
+# Adresse du site en ligne, sans barre finale : sert aux liens canoniques, au
+# plan du site (sitemap.xml), à robots.txt et aux données structurées.
+# À CHANGER si le nom de domaine est différent.
+SITE_URL = 'https://www.zkilz.fr'
+
+# Pages de service : décrites aussi comme « Service » pour les moteurs
+SERVICE_PAGES = {
+    'site-web': ('Création de site web', 'Création de site internet'),
+    'application-mobile': ('Application mobile iOS et Android', 'Développement d\'application mobile'),
+    'saas': ('SaaS et outils métier', 'Développement de logiciel SaaS'),
+    'conseil': ('Conseil et transition vers le sur mesure', 'Conseil en transformation digitale'),
+    'reseaux-sociaux': ('Réseaux sociaux, marketing et référencement', 'Marketing digital et référencement'),
+}
 
 NAV = [('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 'Méthode'), ('studio', 'Studio')]
 
@@ -335,17 +349,30 @@ HEAD = '''<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{title}</title>
   <meta name="description" content="{desc}">
+  <meta name="robots" content="{robots}">
+  <link rel="canonical" href="{url}">
+  <meta name="author" content="ZkilZ">
   <meta name="theme-color" content="#F5F8FF" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#070C1C" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:site_name" content="ZkilZ">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:url" content="{url}">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/img/og-zkilz.jpg">
+  <meta property="og:image" content="{site}/assets/img/og-zkilz.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ZkilZ, studio digital : sites, applications et outils sur mesure">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{site}/assets/img/og-zkilz.jpg">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">{jsonld}</script>
 
   <!-- Thème appliqué avant le premier rendu (pas de flash). -->
   <script>
@@ -416,6 +443,7 @@ FOOT = '''
   <footer class="footer" id="footer">
     <div class="footer-grid">
       <div class="footer-about">
+        <img class="footer-logo" src="assets/img/favicon.svg" width="64" height="64" alt="Logo de ZkilZ : un martin-pêcheur" loading="lazy" decoding="async">
         <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure.</p>
         <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
@@ -559,16 +587,145 @@ def versioned(out):
     return re.sub(r'(href|src)="(assets/(?:css|js)/[\w.-]+\.(?:css|js))"', rep, out)
 
 
-def logo_svg():
-    """Le martin-pêcheur du logo, en SVG dans la page (et non en image) pour
-    que nav.js anime la tête, la paupière et le reflet du bec."""
-    t = open(os.path.join(ROOT, 'assets', 'img', 'kf-head.svg'), encoding='utf-8').read()
-    t = re.sub(r'id="kf(\w+)"', r'id="nv\1"', t).replace('url(#kf', 'url(#nv')
-    t = t.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg class="nav-kf" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"', 1)
-    # reflet qui glissera le long du bec au survol
-    t = t.replace('opacity=".8"/></g>', 'opacity=".8"/><path class="kf-glint" d="M156 62.4 C172 63.4 188 66 202 69" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none" pathLength="100"/></g>', 1)
-    # la paupière est animée par nav.js (transform en attribut)
-    return '\n'.join(l.strip() for l in t.strip().splitlines())
+def logo_svg(prefix='nv', cls='nav-kf', view='25 24 152 152'):
+    """Le logo (assets/img/logo.svg) en SVG dans la page, et non en image,
+    pour que nav.js anime la tête, la paupière et le reflet du bec.
+    view : cadrage (par défaut le disque seul, pour la pastille ronde)."""
+    t = open(os.path.join(ROOT, 'assets', 'img', 'logo.svg'), encoding='utf-8').read()
+    t = re.sub(r'<title>.*?</title>\s*', '', t)
+    t = re.sub(r'id="lg(\w+)"', r'id="%s\1"' % prefix, t).replace('url(#lg', 'url(#' + prefix)
+    t = t.replace('viewBox="0 0 200 200"', 'viewBox="%s"' % view, 1)
+    t = t.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg class="%s" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"' % cls, 1)
+    # reflet qui glisse le long du bec
+    t = t.replace('<!-- œil, reflet, narine -->', '<path class="kf-glint" d="M134 60.5 C150 62.4 166 64.4 180 66" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none" pathLength="100"/>', 1)
+    t = re.sub(r'\s*<!--.*?-->', '', t, flags=re.S)
+    return '\n'.join(l.strip() for l in t.strip().splitlines() if l.strip())
+
+
+
+# ---------------------------------------------------------------------------
+# RÉFÉRENCEMENT : données structurées, plan du site, robots, manifeste
+# ---------------------------------------------------------------------------
+def page_url(page):
+    return SITE_URL + '/' if page == 'index' else '%s/%s.html' % (SITE_URL, page)
+
+
+def plain(s):
+    s = re.sub(r'<[^>]+>', '', s)
+    return re.sub(r'\s+', ' ', html.unescape(s).replace('\xa0', ' ')).strip()
+
+
+ORG_ID = SITE_URL + '/#organisation'
+MOUMOUS = {'@type': 'Organization', '@id': SITE_URL + '/reseaux-sociaux.html#studio-moumous', 'name': 'Studio Moumous',
+           'description': 'Studio de contenus et de marketing : réseaux sociaux, marketing et référencement.',
+           'logo': SITE_URL + '/assets/img/moumous/moumous-logo.webp'}
+
+
+def jsonld(page, title, desc, main):
+    import json
+    url = page_url(page)
+    graph = []
+    if page == 'index':
+        graph.append({
+            '@type': 'ProfessionalService', '@id': ORG_ID, 'name': 'ZkilZ', 'url': SITE_URL + '/',
+            'logo': {'@type': 'ImageObject', 'url': SITE_URL + '/assets/img/icon-512.png', 'width': 512, 'height': 512},
+            'image': SITE_URL + '/assets/img/og-zkilz.jpg',
+            'description': desc, 'slogan': 'Sites, applications et outils sur mesure pour votre activité.',
+            'areaServed': {'@type': 'Country', 'name': 'France'}, 'inLanguage': 'fr-FR',
+            'knowsAbout': ['Création de site web', 'E-commerce', 'Application mobile iOS et Android', 'SaaS',
+                           'Outils métier sur mesure', 'Conseil digital', 'UX et UI design'],
+            'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': 'Services', 'itemListElement': [
+                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': n, 'url': page_url(s)}}
+                for s, (n, _) in SERVICE_PAGES.items()]},
+            'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer service', 'url': page_url('contact'),
+                             'availableLanguage': 'French'},
+        })
+        graph.append({'@type': 'WebSite', '@id': SITE_URL + '/#site', 'url': SITE_URL + '/', 'name': 'ZkilZ',
+                      'inLanguage': 'fr-FR', 'publisher': {'@id': ORG_ID}})
+    else:
+        graph.append({'@type': 'Organization', '@id': ORG_ID, 'name': 'ZkilZ', 'url': SITE_URL + '/',
+                      'logo': SITE_URL + '/assets/img/icon-512.png'})
+        graph.append({'@type': 'WebSite', '@id': SITE_URL + '/#site', 'url': SITE_URL + '/', 'name': 'ZkilZ'})
+    kind = {'contact': 'ContactPage', 'studio': 'AboutPage', 'realisations': 'CollectionPage'}.get(page, 'WebPage')
+    graph.append({'@type': kind, '@id': url + '#page', 'url': url, 'name': title, 'description': desc,
+                  'inLanguage': 'fr-FR', 'isPartOf': {'@id': SITE_URL + '/#site'}, 'about': {'@id': ORG_ID},
+                  'primaryImageOfPage': SITE_URL + '/assets/img/og-zkilz.jpg'})
+    # fil d'Ariane : celui affiché dans la page
+    m = re.search(r'<nav class="crumbs"[^>]*>(.*?)</nav>', main, re.S)
+    if m:
+        items, pos = [], 1
+        for href, label in re.findall(r'<a href="([\w.-]+)">(.*?)</a>', m.group(1)):
+            items.append({'@type': 'ListItem', 'position': pos, 'name': plain(label),
+                          'item': page_url(href[:-5]) if href.endswith('.html') else SITE_URL + '/'})
+            pos += 1
+        cur = re.search(r'aria-current="page">(.*?)<', m.group(1))
+        if cur:
+            items.append({'@type': 'ListItem', 'position': pos, 'name': plain(cur.group(1)), 'item': url})
+        graph.append({'@type': 'BreadcrumbList', '@id': url + '#ariane', 'itemListElement': items})
+    if page in SERVICE_PAGES:
+        name, stype = SERVICE_PAGES[page]
+        svc = {'@type': 'Service', '@id': url + '#service', 'name': name, 'serviceType': stype, 'description': desc,
+               'url': url, 'provider': {'@id': ORG_ID}, 'areaServed': {'@type': 'Country', 'name': 'France'},
+               'inLanguage': 'fr-FR'}
+        if page == 'reseaux-sociaux':
+            svc['provider'] = [{'@id': ORG_ID}, MOUMOUS]
+        graph.append(svc)
+    if page == 'mm-fragrances':
+        graph.append({'@type': 'CreativeWork', '@id': url + '#projet', 'name': 'Boutique en ligne MM Fragrances',
+                      'creator': {'@id': ORG_ID}, 'description': desc, 'inLanguage': 'fr-FR',
+                      'image': SITE_URL + '/assets/img/work/mm-home-dark.webp'})
+    # questions fréquentes affichées dans la page
+    qa = re.findall(r'<summary>(.*?)<span class="qa-ico">.*?</summary>\s*<div class="qa-body">(.*?)</div>', main, re.S)
+    if qa:
+        graph.append({'@type': 'FAQPage', '@id': url + '#questions', 'mainEntity': [
+            {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in qa]})
+    data = {'@context': 'https://schema.org', '@graph': graph}
+    return json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+
+
+def write_seo_files():
+    import datetime, subprocess
+    today = datetime.date.today().isoformat()
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+    prio = {'index': '1.0', 'services': '0.9', 'site-web': '0.9', 'application-mobile': '0.9', 'saas': '0.9',
+            'conseil': '0.8', 'reseaux-sociaux': '0.8', 'realisations': '0.8', 'mm-fragrances': '0.7',
+            'methode': '0.7', 'studio': '0.7', 'contact': '0.8', 'mentions-legales': '0.2', 'confidentialite': '0.2'}
+    for page, *_ in PAGES:
+        if page == '404':
+            continue
+        # date de dernière modification : celle du contenu de la page dans git
+        try:
+            d = subprocess.run(['git', 'log', '-1', '--format=%cs', '--', 'tools/pages/%s.html' % page],
+                               cwd=ROOT, capture_output=True, text=True).stdout.strip() or today
+        except OSError:
+            d = today
+        src = open(os.path.join(PARTS, page + '.html'), encoding='utf-8').read()
+        imgs = []
+        for n in dict.fromkeys(re.findall(r'\{\{img:([\w-]+)', src)):
+            if n in IMAGES and has_image(n):
+                imgs.append('    <image:image><image:loc>%s/%s/%s.webp</image:loc></image:image>' % (SITE_URL, IMG_DIR, n))
+        lines += ['  <url>', '    <loc>%s</loc>' % page_url(page), '    <lastmod>%s</lastmod>' % d,
+                  '    <changefreq>%s</changefreq>' % ('weekly' if page in ('index', 'realisations') else 'monthly'),
+                  '    <priority>%s</priority>' % prio.get(page, '0.5')] + imgs + ['  </url>']
+    lines.append('</urlset>')
+    open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
+    open(os.path.join(ROOT, 'robots.txt'), 'w', encoding='utf-8').write(
+        '# ZkilZ : tout le site est ouvert aux moteurs de recherche.\n'
+        'User-agent: *\nAllow: /\n'
+        '# fichiers de travail, pas des pages\n'
+        'Disallow: /api/\nDisallow: /tools/\nDisallow: /skills/\nDisallow: /PROMPTS-MASCOTTE.md\nDisallow: /PROMPTS-A-FAIRE.md\n\n'
+        'Sitemap: %s/sitemap.xml\n' % SITE_URL)
+    import json
+    manifest = {'name': 'ZkilZ, studio digital', 'short_name': 'ZkilZ', 'lang': 'fr', 'start_url': '/', 'scope': '/',
+                'display': 'standalone', 'background_color': '#F6F9FE', 'theme_color': '#0B1B3F',
+                'description': PAGES[0][2],
+                'icons': [{'src': '/assets/img/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
+                          {'src': '/assets/img/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
+                          {'src': '/assets/img/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'},
+                          {'src': '/assets/img/favicon.svg', 'sizes': 'any', 'type': 'image/svg+xml'}]}
+    open(os.path.join(ROOT, 'site.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    print('ok sitemap.xml, robots.txt, site.webmanifest')
 
 
 LOGO = None
@@ -585,6 +742,9 @@ def build():
             slug, ' aria-current="page"' if slug == active else '', label) for slug, label in NAV)
         svc_links = '\n'.join('        <a href="%s.html">%s</a>' % s for s in SERVICES)
         out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav, logo=LOGO,
+                          url=page_url(page), site=SITE_URL, og_type='article' if page == 'mm-fragrances' else 'website',
+                          robots='noindex, follow' if page == '404' else 'index, follow, max-image-preview:large, max-snippet:-1',
+                          jsonld=jsonld(page, title, desc, main),
                           cta_current=' aria-current="page"' if active == 'contact' else '')
         out += '\n  <main>\n' + main.rstrip() + '\n  </main>\n' + FOOT.format(svc_links=svc_links)
         out = versioned(out)
@@ -597,6 +757,7 @@ def build():
             f.write(out)
         print('ok', page + '.html')
     write_prompts()
+    write_seo_files()
 
 
 def write_prompts():

@@ -1,0 +1,11 @@
+# ZkilZ : tout le site est ouvert aux moteurs de recherche.
+User-agent: *
+Allow: /
+# fichiers de travail, pas des pages
+Disallow: /api/
+Disallow: /tools/
+Disallow: /skills/
+Disallow: /PROMPTS-MASCOTTE.md
+Disallow: /PROMPTS-A-FAIRE.md
+
+Sitemap: https://www.zkilz.fr/sitemap.xml

@@ -16,32 +16,92 @@
         </div>
       </div>
 
-      <!-- L'ascension : le martin-pêcheur part du roseau, au ras de l'eau,
-           suit la trajectoire et se pose tout en haut (assets/js/bird.js). -->
-      <div class="hero-stage" id="heroStage">
-        <svg class="ascent" viewBox="0 0 500 520" aria-hidden="true">
-          <circle class="ascent-sky" cx="250" cy="250" r="214"/>
-          <circle class="ascent-ticks" cx="250" cy="250" r="232"/>
-          <g class="ascent-water">
-            <path d="M24 452 Q 64 444 104 452 T 184 452 T 264 452 T 344 452 T 424 452 T 484 452"/>
-            <path class="w2" d="M54 470 Q 94 463 134 470 T 214 470 T 294 470 T 374 470 T 454 470"/>
+      <!-- L'ascension, en trois étapes : le martin-pêcheur part du roseau,
+           suit la trajectoire et se pose sur le site qu'il vient de voir
+           naître (croquis → maquette → en ligne). Synchronisé avec
+           assets/js/bird.js par l'évènement « kf:ascent ». -->
+      <div class="hero-stage" id="heroStage" data-step="0">
+        <svg class="ascent" viewBox="0 0 520 540" aria-hidden="true">
+          <defs>
+            <clipPath id="ascentClip"><circle cx="260" cy="262" r="222"/></clipPath>
+          </defs>
+          <circle class="ascent-ticks" cx="260" cy="262" r="240"/>
+          <g clip-path="url(#ascentClip)">
+            <g class="sc-layer" data-depth="0">
+              <rect class="sc-sky" x="30" y="30" width="460" height="470"/>
+            </g>
+            <g class="sc-layer" data-depth="6">
+              <circle class="sc-halo" cx="176" cy="186" r="58"/>
+              <circle class="sc-sun" cx="176" cy="186" r="34"/>
+              <path class="sc-gull" d="M262 150 q6 -6 12 0 q6 -6 12 0"/>
+              <path class="sc-gull g2" d="M292 172 q4 -4 8 0 q4 -4 8 0"/>
+            </g>
+            <g class="sc-layer" data-depth="10">
+              <path class="sc-cloud" d="M96 132 h64 a14 14 0 0 0 -14 -14 a18 18 0 0 0 -32 -4 a12 12 0 0 0 -18 18z"/>
+              <path class="sc-cloud c2" d="M64 262 h52 a11 11 0 0 0 -11 -11 a15 15 0 0 0 -27 -3 a10 10 0 0 0 -14 14z"/>
+            </g>
+            <g class="sc-layer" data-depth="14">
+              <path class="sc-hill sc-hill--far" d="M30 372 C 92 330 140 320 196 346 S 300 316 352 330 S 450 300 490 318 V 420 H 30Z"/>
+            </g>
+            <g class="sc-layer" data-depth="22">
+              <path class="sc-hill sc-hill--near" d="M30 392 C 110 362 170 372 236 386 S 380 352 490 372 V 430 H 30Z"/>
+            </g>
+            <g class="sc-layer" data-depth="30">
+              <rect class="sc-lake" x="30" y="404" width="460" height="100"/>
+              <g class="sc-shine">
+                <path d="M300 424 h46"/><path d="M360 424 h14"/><path d="M228 444 h34"/>
+                <path d="M392 446 h40"/><path d="M164 470 h28"/><path d="M286 468 h54"/>
+              </g>
+            </g>
           </g>
-          <ellipse class="ripple" cx="112" cy="452" rx="22" ry="4"/>
-          <ellipse class="ripple r2" cx="112" cy="452" rx="22" ry="4"/>
-          <path class="ascent-reed" d="M110 476 C 113 446 111 424 117 400"/>
-          <path class="ascent-leaf" d="M112 446 C 96 432 88 418 86 402 C 98 414 108 428 113 440Z"/>
-          <path class="ascent-guide" d="M117 398 C 160 330, 236 368, 268 282 S 338 146, 396 106"/>
-          <path class="ascent-path" id="ascentPath" d="M117 398 C 160 330, 236 368, 268 282 S 338 146, 396 106"/>
-          <circle class="milestone" cx="117" cy="398" r="7"/>
-          <circle class="milestone" cx="268" cy="282" r="7"/>
-          <circle class="milestone milestone--top" cx="396" cy="106" r="9"/>
-          <path class="ascent-summit" d="M372 106 H 420"/>
+          <g class="ascent-water">
+            <path d="M14 404 Q 56 397 98 404 T 182 404 T 266 404 T 350 404 T 434 404 T 506 404"/>
+          </g>
+          <ellipse class="ripple" cx="118" cy="408" rx="22" ry="4"/>
+          <ellipse class="ripple r2" cx="118" cy="408" rx="22" ry="4"/>
+          <g class="sc-reeds">
+            <path class="ascent-reed" d="M114 432 C 116 418 115 404 118 392"/>
+            <path class="ascent-reed r2" d="M100 432 C 101 424 99 414 102 404"/>
+            <path class="ascent-reed r3" d="M128 432 C 129 426 130 418 134 410"/>
+            <path class="ascent-leaf" d="M112 424 C 98 414 90 404 88 392 C 98 400 107 410 113 418Z"/>
+            <path class="ascent-leaf l2" d="M124 428 C 134 420 142 414 150 412 C 142 418 134 424 126 432Z"/>
+            <ellipse class="sc-cat" cx="118" cy="392" rx="3.4" ry="8"/>
+          </g>
+
+          <path class="ascent-guide" d="M118 392 C 168 334, 214 350, 244 298 S 300 150, 392 86"/>
+          <path class="ascent-path" id="ascentPath" d="M118 392 C 168 334, 214 350, 244 298 S 300 150, 392 86"/>
+          <circle class="milestone ms-dot ms-dot--a" cx="118" cy="392" r="7"/>
+          <circle class="milestone ms-dot ms-dot--b" cx="244" cy="298" r="7"/>
+
+          <!-- Le site : croquis, puis maquette, puis en ligne -->
+          <g class="site">
+            <rect class="site-shadow" x="318" y="96" width="180" height="124" rx="14"/>
+            <rect class="site-frame" x="318" y="86" width="180" height="124" rx="14" pathLength="1"/>
+            <path class="site-bar" d="M318 108 H 498" pathLength="1"/>
+            <circle class="site-dot" cx="331" cy="97" r="2.6"/><circle class="site-dot" cx="340" cy="97" r="2.6"/><circle class="site-dot" cx="349" cy="97" r="2.6"/>
+            <rect class="site-url" x="372" y="91" width="96" height="12" rx="6"/>
+            <text class="site-url-t" x="420" y="100" text-anchor="middle">votre-site.fr</text>
+            <rect class="site-el site-el--title" x="332" y="122" width="82" height="9" rx="4.5" pathLength="1"/>
+            <rect class="site-el site-el--line" x="332" y="137" width="60" height="6" rx="3" pathLength="1"/>
+            <rect class="site-el site-el--btn" x="332" y="152" width="44" height="14" rx="7" pathLength="1"/>
+            <rect class="site-el site-el--img" x="428" y="118" width="56" height="50" rx="9" pathLength="1"/>
+            <circle class="site-el site-el--sun" cx="444" cy="134" r="6" pathLength="1"/>
+            <path class="site-el site-el--mnt" d="M428 160 L 446 146 L 458 154 L 468 147 L 484 160" pathLength="1"/>
+            <rect class="site-el site-el--card" x="332" y="180" width="46" height="18" rx="6" pathLength="1"/>
+            <rect class="site-el site-el--card" x="385" y="180" width="46" height="18" rx="6" pathLength="1"/>
+            <rect class="site-el site-el--card" x="438" y="180" width="46" height="18" rx="6" pathLength="1"/>
+            <path class="site-cursor" d="M0 0 L 0 13 L 3.6 9.6 L 6.4 15.4 L 8.6 14.4 L 5.8 8.8 L 10.6 8.4Z"/>
+          </g>
+          <g class="site-sparks">
+            <path d="M306 74 l-8 -8"/><path d="M300 92 h-11"/><path d="M318 66 v-11"/>
+            <path d="M510 78 l8 -8"/><path d="M514 98 h11"/>
+          </g>
         </svg>
-        <span class="ms ms--a">L'idée</span>
-        <span class="ms ms--b">La maquette</span>
-        <span class="ms ms--c">En ligne</span>
-        <span class="perch-pt" id="perchStart" data-perch="50" style="left:23.4%;top:76.4%"></span>
-        <span class="perch-pt" id="perchTop" data-perch="50" style="left:79.2%;top:20%"></span>
+        <span class="ms ms--a"><b>01</b>L'idée</span>
+        <span class="ms ms--b"><b>02</b>La maquette</span>
+        <span class="ms ms--c"><i aria-hidden="true"></i><b>03</b>En ligne</span>
+        <span class="perch-pt" id="perchStart" data-perch="50" style="left:22.69%;top:72.59%"></span>
+        <span class="perch-pt" id="perchTop" data-perch="50" style="left:75.38%;top:15.93%"></span>
       </div>
     </section>
 
@@ -117,7 +177,7 @@
               <image class="flight-bird" id="flightBird" href="assets/img/kf.svg" width="64" height="58"/>
             </svg>
           </div>
-          <h3>Animations sur-mesure</h3>
+          <h3>Animations uniques</h3>
           <p>Les animations de cette page ont été dessinées pour ZkilZ. Les vôtres le seront pour votre marque. Survolez l'oiseau&nbsp;: il accélère.</p>
         </article>
 
@@ -273,6 +333,28 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDIO MOUMOUS : le partenaire, en noir et blanc ================= -->
+    <section class="moumous" id="moumous" aria-labelledby="moumousTitle">
+      <div class="moumous-panel" data-reveal>
+        <div class="moumous-mark" aria-hidden="true">
+          <svg class="moumous-ring" viewBox="0 0 300 300"><defs><path id="mmCircle" d="M150 150 m-122 0 a122 122 0 1 1 244 0 a122 122 0 1 1 -244 0"/></defs>
+            <text><textPath href="#mmCircle">STUDIO MOUMOUS · RÉSEAUX SOCIAUX · MARKETING · RÉFÉRENCEMENT · </textPath></text></svg>
+          <img class="moumous-logo" src="assets/img/moumous/moumous-logo.webp" width="360" height="360" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="moumous-copy">
+          <p class="moumous-duo"><img src="assets/img/favicon.svg" width="32" height="32" alt="" loading="lazy"><span>ZkilZ</span><i aria-hidden="true">×</i><img src="assets/img/moumous/moumous-logo.webp" width="32" height="32" alt="" loading="lazy"><span>Studio Moumous</span></p>
+          <h2 id="moumousTitle">ZkilZ construit vos outils. Studio Moumous les fait connaître.</h2>
+          <p class="moumous-lead">Pour vos réseaux sociaux, votre marketing et votre référencement, nous travaillons avec Studio Moumous, studio de contenus et de marketing. Les deux équipes se parlent&nbsp;: vous gardez un seul interlocuteur, nous.</p>
+          <ul class="moumous-list">
+            <li><b>Réseaux sociaux</b><span>Reels, visuels et calendrier de publication.</span></li>
+            <li><b>Marketing</b><span>Identité, campagnes et suivi des résultats.</span></li>
+            <li><b>Référencement</b><span>Mots-clés, contenus et positions sur Google.</span></li>
+          </ul>
+          <a href="reseaux-sociaux.html" class="btn btn--light fill-btn" data-fill="#D9D9D9"><span>Découvrir Studio Moumous</span><svg><use href="#i-arrow"/></svg></a>
         </div>
       </div>
     </section>
