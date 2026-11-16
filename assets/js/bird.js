@@ -191,7 +191,7 @@
       onStart: function () {
         sp = typeof make === 'function' ? make() : make;
         prev = { x: pos.x, y: pos.y }; vxs = 0; vys = 0;
-        b0 = opts.el ? perchPoint(opts.el) : null;
+        b0 = opts.el ? perchPoint(opts.el) : opts.fn ? opts.fn() : null;
         if (opts.trail) {
           sizeTrail();
           trail.setAttribute('d', pathD(sp));
@@ -202,7 +202,7 @@
       onUpdate: function () {
         if (!sp) return;
         var p = at(sp, o.t * sp.total);
-        if (b0) { var c = perchPoint(opts.el); p = { x: p.x + (c.x - b0.x) * o.t, y: p.y + (c.y - b0.y) * o.t }; }
+        if (b0) { var c = opts.el ? perchPoint(opts.el) : opts.fn(); p = { x: p.x + (c.x - b0.x) * o.t, y: p.y + (c.y - b0.y) * o.t }; }
         var vx = p.x - prev.x, vy = p.y - prev.y;
         vxs = vxs * .75 + vx * .25; vys = vys * .75 + vy * .25;
         climbing = vys < -1.2;
@@ -236,7 +236,7 @@
   // =========================================================================
   // VOLS COMPOSÉS
   // =========================================================================
-  var flying = false, current = null, idle = null;
+  var flying = false, current = null, idle = null, flight = null, mode = null;
 
   function takeoff(tl, dir) {
     tl.add(function () { stopIdle(); gsap.set(bob, { rotation: 0, y: 0, scaleX: 1, scaleY: 1 }); if (dir) face(dir, true); })
@@ -266,11 +266,12 @@
       .to(bob, { y: -5, duration: dur / 4, ease: 'sine.inOut', yoyo: true, repeat: 3 });
   }
   function endFlight(el, done) {
-    return function () { flying = false; afterLand(el); if (done) done(); };
+    return function () { flying = false; flight = null; afterLand(el); if (done) done(); };
   }
 
   // Vol vers un élément perchoir
-  function flyTo(el, done) {
+  function flyTo(el, done, o) {
+    o = o || {};
     var b = perchPoint(el);
     // parti loin hors de l'écran : il rentre par le bord le plus proche
     var top0 = window.scrollY, vh = window.innerHeight;
@@ -283,8 +284,9 @@
     var a = { x: pos.x, y: pos.y };
     var dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), dir = dx >= 0 ? 1 : -1;
     flying = true; current = { el: el };
-    var tl = gsap.timeline({ onComplete: endFlight(el, done) });
-    takeoff(tl, Math.abs(dx) > 20 ? dir : 0);
+    var tl = flight = gsap.timeline({ onComplete: endFlight(el, done) });
+    if (o.air) tl.add(function () { stopIdle(); setGait('flap'); });
+    else takeoff(tl, Math.abs(dx) > 20 ? dir : 0);
     if (dist < 170) {
       // petit saut d'un point à l'autre
       tl.add(travel(spline([a, { x: a.x + dx * .45, y: Math.min(a.y, b.y) - 52 }, { x: b.x - dir * 12, y: b.y - 34 }], 10), .46, 'power1.inOut', { el: el }));
@@ -309,7 +311,7 @@
     if (flying || !current || reduce) return;
     var home = { x: pos.x, y: pos.y }, f0 = facing;
     flying = true;
-    var tl = gsap.timeline({ onComplete: endFlight(current.el) });
+    var tl = flight = gsap.timeline({ onComplete: endFlight(current.el) });
     takeoff(tl, 0);
     tl.add(travel(spline([home, { x: home.x - f0 * 26, y: home.y - 58 }, { x: home.x + f0 * 6, y: home.y - 104 }], 10), .62, 'power2.out', { el: current.el }));
     hoverAt(tl, 1.2);
@@ -322,7 +324,7 @@
     if (flying || !current || reduce) return;
     var a = { x: pos.x, y: pos.y }, r = 72 * (W / 130), f = facing;
     flying = true;
-    var tl = gsap.timeline({ onComplete: endFlight(current.el) });
+    var tl = flight = gsap.timeline({ onComplete: endFlight(current.el) });
     takeoff(tl, 0);
     var pts = [a, { x: a.x + f * r * .9, y: a.y - r * .7 }, { x: a.x + f * r * 1.7, y: a.y - r * 2 }, { x: a.x + f * r * .8, y: a.y - r * 3 }, { x: a.x - f * r * .2, y: a.y - r * 2.2 }, { x: a.x + f * r * .1, y: a.y - r * 1.1 }, { x: a.x + f * r * .9, y: a.y - r * .9 }, { x: a.x + f * r * .3, y: a.y - 76 }];
     tl.add(function () { setGait('flap'); flapTl.timeScale(1.25); })
@@ -346,7 +348,7 @@
     var sp = spline(pts, 8);
     gsap.set(pathEl, { strokeDasharray: len, strokeDashoffset: len });
     flying = true; current = { el: endEl };
-    var tl = gsap.timeline({ onComplete: endFlight(endEl, done) });
+    var tl = flight = gsap.timeline({ onComplete: endFlight(endEl, done) });
     takeoff(tl, 1);
     var o = { p: 0 };
     tl.add(function () { startRhythm(); })
@@ -354,6 +356,80 @@
       .to(o, { p: 1, duration: 2.5, ease: 'power1.inOut', onUpdate: function () { gsap.set(pathEl, { strokeDashoffset: len * (1 - o.p) }); } }, '<');
     hoverAt(tl, .45);
     landSeq(tl, end, endEl);
+  }
+
+  // =========================================================================
+  // LE PLONGEON (section Réalisation) : il vole au-dessus du cercle, fait du
+  // sur-place en visant, puis le défilement pilote son piqué jusqu'à ce que
+  // le bec entre au centre. Plus loin, il ressort de l'eau et repart.
+  // =========================================================================
+  var TIP = { x: 263, y: 134 }, DIVE = 64, HOVER_T = -14;
+  // position des pattes pour que la pointe du bec soit en T, corps tourné de θ
+  function footForTip(T, th) {
+    var r = th * Math.PI / 180, c = Math.cos(r), s = Math.sin(r);
+    var ox = W * .52, oy = H * .58;
+    var vx = W * TIP.x / CELL.w - ox, vy = H * TIP.y / CELL.h - oy;
+    var lx = T.x - ox - (vx * c - vy * s), ly = T.y - oy - (vx * s + vy * c);
+    return { x: lx + W * FOOT.x / CELL.w, y: ly + H * FOOT.y / CELL.h };
+  }
+  var BACK = { x: -Math.cos(DIVE * Math.PI / 180), y: -Math.sin(DIVE * Math.PI / 180) };
+  function diveTip(k) {
+    var C = mode.center(), d = mode.radius() + W * .55;
+    return { x: C.x + BACK.x * d * k, y: C.y + BACK.y * d * k };
+  }
+  function hoverFoot() { return footForTip(diveTip(1), HOVER_T); }
+  function diveStart(center, radius) {
+    if (reduce || mode) return;
+    if (flight) { flight.kill(); flight = null; }
+    stopRhythm(); stopIdle();
+    var perched = gait === 'off' || gait === 'frozen';
+    flying = true; lock = null; queued = null; current = null; ready = true;
+    mode = { center: center, radius: radius, p: 0, ready: false };
+    gsap.set(root, { opacity: 1 });
+    var tl = mode.tl = flight = gsap.timeline({ onComplete: function () { flight = null; if (mode) mode.ready = true; } });
+    if (perched) takeoff(tl, 0); else tl.add(function () { setGait('flap'); });
+    tl.add(function () { startRhythm(); })
+      .add(travel(function () {
+        var h = hoverFoot();
+        return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + h.x) / 2, y: Math.min(pos.y, h.y) - 60 }, h], 10);
+      }, 1.1, 'power1.inOut', { fn: hoverFoot, trail: true }))
+      .add(function () { stopRhythm(); setGait('hover'); face(1, true); fadeTrail(); })
+      .to(tilt, { rotation: HOVER_T, duration: .3, ease: 'power2.out', onComplete: function () { tiltNow = HOVER_T; } }, '<');
+  }
+  function diveTo(p) {
+    if (!mode) return;
+    mode.p = p;
+    if (p <= 0) {
+      if (mode.ready) { setGait('hover'); gsap.set(root, { opacity: 1 }); gsap.set(spr, { scale: 1 }); gsap.set(tilt, { rotation: HOVER_T }); tiltNow = HOVER_T; }
+      return;
+    }
+    if (!mode.ready) { if (mode.tl) mode.tl.kill(); flight = null; mode.ready = true; stopRhythm(); fadeTrail(); }
+    setGait('frozen');
+    frame(p < .1 ? 'upFeet' : 'level');            // dernier coup d'aile, puis ailes collées
+    facing = 1; gsap.set(flip, { scaleX: 1 }); gsap.set(bob, { y: 0, rotation: 0, scaleX: 1, scaleY: 1 });
+    var turn = Math.min(1, p / .3), th = HOVER_T + (DIVE - HOVER_T) * (1 - (1 - turn) * (1 - turn));
+    tiltNow = th; gsap.set(tilt, { rotation: th });
+    var k = 1 - p * p;                               // il accélère en piquant
+    var f = footForTip(diveTip(k), th);
+    pos.x = f.x; pos.y = f.y; place();
+    // une fois le bec dans l'eau, il s'enfonce : il rapetisse et s'efface
+    var r = mode.radius(), inside = Math.max(0, Math.min(1, 1 - (r + W * .55) * k / r));
+    gsap.set(spr, { scale: 1 - .5 * inside, transformOrigin: (TIP.x / CELL.w * 100) + '% ' + (TIP.y / CELL.h * 100) + '%' });
+    gsap.set(root, { opacity: p >= .985 ? 0 : 1 - .85 * Math.pow(inside, 1.4) });
+  }
+  function diveEnd() {
+    if (!mode) return;
+    if (mode.tl) mode.tl.kill();
+    var under = mode.p >= .985;
+    mode = null; flight = null; flying = false;
+    // il ressort de l'eau : il grandit en remontant
+    gsap.set(root, { opacity: 1 });
+    if (under) gsap.fromTo(spr, { scale: .5 }, { scale: 1, duration: .5, ease: 'back.out(1.6)' });
+    else gsap.set(spr, { scale: 1 });
+    normTilt();
+    var t = best() || bestAny();
+    if (t) flyTo(t, null, { air: true });
+    else { setGait('hover'); }
   }
 
   // =========================================================================
@@ -381,7 +457,7 @@
     }
     idle.to({}, { duration: .3 });
     clearTimeout(sortieTimer);
-    sortieTimer = setTimeout(function () { if (!flying && !lock && Date.now() - lastScroll > 4000 && onScreen()) sortie(); }, 15000 + Math.random() * 12000);
+    sortieTimer = setTimeout(function () { if (!flying && !mode && !lock && Date.now() - lastScroll > 4000 && onScreen()) sortie(); }, 15000 + Math.random() * 12000);
   }
   function stopIdle() { if (idle) { idle.kill(); idle = null; } clearTimeout(sortieTimer); gsap.set(lid, { scaleY: 0 }); }
   function blink() { return gsap.timeline().to(lid, { scaleY: 1, duration: .06, ease: 'power2.in' }).to(lid, { scaleY: 0, duration: .11, ease: 'power2.out' }); }
@@ -449,6 +525,18 @@
   function onScreen() { var r = root.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
   var perches = [], lock = null;
   function collect() { perches = Array.prototype.slice.call(document.querySelectorAll('[data-perch]')); }
+  // n'importe quel perchoir visible, faute de mieux (sortie du plongeon)
+  function bestAny() {
+    var vh = window.innerHeight, pick = null, d = 1e9;
+    perches.forEach(function (el) {
+      if (el.offsetParent === null) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < 40 || r.top > vh - 40) return;
+      var dd = Math.abs(r.top - vh * .4);
+      if (dd < d) { d = dd; pick = el; }
+    });
+    return pick;
+  }
   function best() {
     var vh = window.innerHeight, target = vh * .32, pick = null, d = 1e9;
     perches.forEach(function (el) {
@@ -466,28 +554,33 @@
   var settle = null, ready = false, lastScroll = 0, queued = null;
   function go(el) {
     if (!el || (current && current.el === el)) return;
+    if (mode) return;
     if (flying) { queued = el; return; }
     flyTo(el);
   }
   function onScrollEnd() {
-    if (!ready || lock) return;
+    if (!ready || lock || mode) return;
     go(best());
   }
   window.addEventListener('scroll', function () {
     lastScroll = Date.now();
-    if (!flying && lock && current && current.el === lock) snapTo(lock);
     clearTimeout(settle);
     settle = setTimeout(onScrollEnd, reduce ? 0 : 200);
   }, { passive: true });
-  // le perchoir a bougé après l'atterrissage (lettre qui finit d'entrer,
-  // lettre soulevée au survol…) : il le suit au lieu de rester en l'air
-  setInterval(function () {
-    if (flying || !current || !current.el || !ready || reduce) return;
-    var b = perchPoint(current.el);
-    if (Math.abs(b.x - pos.x) > 3 || Math.abs(b.y - pos.y) > 3) {
-      gsap.to(pos, { x: b.x, y: b.y, duration: .3, ease: 'power2.out', onUpdate: place, overwrite: true });
+  // À chaque image (juste après le défilement doux) : posé, il colle à son
+  // perchoir, même s'il est fixe à l'écran (téléphone des services) ou s'il
+  // bouge (lettre soulevée) ; en sur-place au-dessus du cercle, il suit le
+  // cercle.
+  gsap.ticker.add(function () {
+    if (reduce) return;
+    if (mode) {
+      if (mode.ready && mode.p <= 0) { var h = hoverFoot(); pos.x = h.x; pos.y = h.y; place(); }
+      return;
     }
-  }, 250);
+    if (flying || !current || !current.el) return;
+    var b = perchPoint(current.el);
+    if (Math.abs(b.x - pos.x) > .2 || Math.abs(b.y - pos.y) > .2) { pos.x = b.x; pos.y = b.y; place(); }
+  });
   window.addEventListener('resize', function () {
     applySize(); sizeTrail();
     if (current && current.el && !flying) snapTo(current.el);
@@ -525,6 +618,7 @@
     startIdle();
     gsap.from(root, { opacity: 0, duration: .6, ease: 'power2.out' });
     setTimeout(function () {
+      if (mode) return;
       if (window.scrollY > 200) { ready = true; onScrollEnd(); return; }
       if (path) ascend(path, topEl, function () { ready = true; onScrollEnd(); });
       else flyTo(topEl, function () { ready = true; });
@@ -539,6 +633,10 @@
     perch: function (el, o) { if (o && o.lock) lock = el; go(el); },
     unlock: function () { lock = null; onScrollEnd(); },
     celebrate: loop,
-    isFlying: function () { return flying; }
+    diveStart: diveStart,
+    diveTo: diveTo,
+    diveEnd: diveEnd,
+    isFlying: function () { return flying; },
+    perchedOn: function () { return !flying && current ? current.el : null; }
   };
 })();

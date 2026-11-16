@@ -103,7 +103,6 @@
     document.querySelectorAll('.dev--site').forEach(function (d) { d.classList.add('is-on'); });
     document.querySelectorAll('.step').forEach(function (s) { s.classList.add('is-on'); });
     gsap.set('.work-bubble', { scale: 1 });
-    gsap.set('.work-rider', { opacity: 0 });
     return;
   }
 
@@ -300,20 +299,20 @@
   }
 
   // =========================================================================
-  // RÉALISATION : une bulle portant le fennec grandit jusqu'à remplir
-  // l'écran, puis le site MM apparaît dedans
+  // RÉALISATION : l'oiseau plonge dans le cercle, qui grandit jusqu'à
+  // remplir l'écran, puis le site MM apparaît dedans
   // =========================================================================
   var pin = document.getElementById('workPin');
-  var rider = document.getElementById('workRider');
   if (pin) {
-    // l'oiseau attend au-dessus du cercle, dans l'axe de son corps (incliné
-    // d'environ 24°) ; il plonge le long de cet axe, bec au centre
-    var AX = Math.sin(24 * Math.PI / 180), AY = Math.cos(24 * Math.PI / 180);
-    function riderGap() { var b = document.getElementById('workBubble').getBoundingClientRect(); return b.width / 2 + rider.offsetWidth * .3; }
-    var gap0 = riderGap();
-    gsap.set(rider, { x: AX * gap0, y: -AY * gap0 });
-    var riderFloat = gsap.to(rider, { x: '+=' + (AX * 8), y: '-=' + (AY * 8), duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     var splash = document.createElement('span'); splash.className = 'work-ripple'; pin.appendChild(splash);
+    // le plongeon est fait par l'oiseau de la page (bird.js) : il vise le
+    // centre du cercle, le défilement pilote son piqué
+    function circleCenter() { var r = pin.getBoundingClientRect(); return { x: r.left + r.width / 2 + window.scrollX, y: r.top + r.height / 2 + window.scrollY }; }
+    function circleRadius() { return Math.max(window.innerWidth, window.innerHeight) * 1.7 * .06 / 2; }
+    var dive = { p: 0 }, diving = false;
+    function kf() { return window.SKZBird; }
+    function diveOn() { if (!diving && kf()) { diving = true; kf().diveStart(circleCenter, circleRadius); kf().diveTo(dive.p); } }
+    function diveOff() { if (diving && kf()) { diving = false; kf().diveEnd(); } }
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: desktop
@@ -322,13 +321,22 @@
     });
     tl.fromTo('#workBubble', { scale: .06 }, { scale: 1, duration: 1, ease: 'power2.in' }, 0)
       // il pique vers le centre, bec en avant, et disparaît dans l'eau
-      .fromTo(rider, { x: function () { return AX * gap0; }, y: function () { return -AY * gap0; }, scale: 1 }, { x: 0, y: 0, scale: .8, duration: .28, ease: 'power2.in', immediateRender: false, onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.restart(); } }, 0)
-      .to(rider, { opacity: 0, duration: .06 }, .27)
+      .to(dive, { p: 1, duration: .28, ease: 'none', onUpdate: function () { if (diving && kf()) kf().diveTo(dive.p); } }, 0)
       .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out', immediateRender: false }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
       .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92);
     if (desktop) tl.to({}, { duration: .5 });
+    // il vise dès que le cercle arrive à l'écran ; il ressort de l'eau quand
+    // le site apparaît dans la bulle (et y replonge si on remonte)
+    ScrollTrigger.create({
+      trigger: pin, start: 'top 70%', end: function () { return tl.scrollTrigger.end; },
+      onToggle: function (self) { if (self.isActive) { if (tl.progress() < .5) diveOn(); } else diveOff(); }
+    });
+    tl.eventCallback('onUpdate', function () {
+      if (tl.progress() >= .5) diveOff();
+      else if (tl.scrollTrigger && tl.scrollTrigger.isActive) diveOn();
+    });
     gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     // Survol : l'iPhone se soulève, le navigateur recule légèrement
