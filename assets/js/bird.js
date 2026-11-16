@@ -121,9 +121,23 @@
     (h || document.body).appendChild(root);
     place();
   }
+  // Suivi de la cible pendant un vol : la trajectoire est calculée au
+  // départ ; si la cible bouge ensuite autrement que la page (bloc collant,
+  // écran qui s'anime, section épinglée), son déplacement est ajouté à
+  // chaque image (poids w : 0 au décollage → 1 à l'arrivée, puis pendant le
+  // sur-place et l'atterrissage).
+  var trk = null;
+  function drift() {
+    if (!trk) return { x: 0, y: 0 };
+    var c = perchPoint(trk.el);
+    return { x: (c.x - trk.b0.x) * trk.w, y: (c.y - trk.b0.y) * trk.w };
+  }
+  function track(el, b0, w) { trk = el ? { el: el, b0: b0, w: w } : null; }
+  // fin du suivi : le déplacement acquis est intégré à la position
+  function bake() { if (!trk) return; var d = drift(); pos.x += d.x; pos.y += d.y; trk = null; }
   function place() {
-    var o = hostOrigin();
-    gsap.set(root, { x: pos.x - o.x - W * FOOT.x / CELL.w, y: pos.y - o.y - H * FOOT.y / CELL.h });
+    var o = hostOrigin(), d = drift();
+    gsap.set(root, { x: pos.x + d.x - o.x - W * FOOT.x / CELL.w, y: pos.y + d.y - o.y - H * FOOT.y / CELL.h });
   }
   function face(dir, fast) {
     if (dir === facing) return;
@@ -276,7 +290,7 @@
   }
   function landSeq(tl, b, el) {
     tl.add(function () { normTilt(); stopRhythm(); setGait('flare'); })
-      .add(travel(function () { var e = el ? perchPoint(el) : b; return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + e.x) / 2, y: e.y - 18 }, e], 6); }, .38, 'power2.out', { tilt: -16 }))
+      .add(travel(function () { var e = trk ? b : el ? perchPoint(el) : b; return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + e.x) / 2, y: e.y - 18 }, e], 6); }, .38, 'power2.out', { tilt: -16 }))
       // contact : ailes encore levées, le corps amortit
       .add(function () { setGait('frozen'); frame('perchUp'); fadeTrail(); })
       .to(tilt, { rotation: 0, duration: .22, ease: 'power2.out', onComplete: function () { tiltNow = 0; } })
@@ -293,7 +307,7 @@
       .to(bob, { y: -5, duration: dur / 4, ease: 'sine.inOut', yoyo: true, repeat: 3 });
   }
   function endFlight(el, done) {
-    return function () { flying = false; flight = null; afterLand(el); if (done) done(); };
+    return function () { bake(); flying = false; flight = null; afterLand(el); if (done) done(); };
   }
 
   // Vol vers un élément perchoir
@@ -311,12 +325,14 @@
     var a = { x: pos.x, y: pos.y };
     var dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), dir = dx >= 0 ? 1 : -1;
     flying = true; current = { el: el };
+    track(el, b, 0);
     var tl = flight = gsap.timeline({ onComplete: endFlight(el, done) });
     if (o.air) tl.add(function () { stopIdle(); setGait('flap'); });
     else takeoff(tl, Math.abs(dx) > 20 ? dir : 0);
     if (dist < 170) {
       // petit saut d'un point à l'autre
-      tl.add(travel(spline([a, { x: a.x + dx * .45, y: Math.min(a.y, b.y) - 52 }, { x: b.x - dir * 12, y: b.y - 34 }], 10), .46, 'power1.inOut', { el: el }));
+      tl.add(travel(spline([a, { x: a.x + dx * .45, y: Math.min(a.y, b.y) - 52 }, { x: b.x - dir * 12, y: b.y - 34 }], 10), .46, 'power1.inOut'))
+        .to(trk, { w: 1, duration: .46, ease: 'power1.inOut' }, '<');
       landSeq(tl, b, el);
       return tl;
     }
@@ -326,8 +342,10 @@
     var hover = { x: b.x - dir * 28, y: b.y - 78 };
     var pts = [a, { x: a.x + dir * 34, y: a.y - 40 }, { x: a.x + dx * .5, y: top }, hover];
     var sp = spline(pts, 14);
+    var cruise = Math.max(.75, Math.min(1.9, sp.total / 720));
     tl.add(function () { startRhythm(); })
-      .add(travel(sp, Math.max(.75, Math.min(1.9, sp.total / 720)), 'power1.inOut', { trail: true, el: el }));
+      .add(travel(sp, cruise, 'power1.inOut', { trail: true }))
+      .to(trk, { w: 1, duration: cruise, ease: 'power1.inOut' }, '<');
     hoverAt(tl, .4);
     landSeq(tl, b, el);
     return tl;
@@ -337,10 +355,10 @@
   function sortie() {
     if (flying || !current || reduce) return;
     var home = { x: pos.x, y: pos.y }, f0 = facing;
-    flying = true;
+    flying = true; track(current.el, perchPoint(current.el), 1);
     var tl = flight = gsap.timeline({ onComplete: endFlight(current.el) });
     takeoff(tl, 0);
-    tl.add(travel(spline([home, { x: home.x - f0 * 26, y: home.y - 58 }, { x: home.x + f0 * 6, y: home.y - 104 }], 10), .62, 'power2.out', { el: current.el }));
+    tl.add(travel(spline([home, { x: home.x - f0 * 26, y: home.y - 58 }, { x: home.x + f0 * 6, y: home.y - 104 }], 10), .62, 'power2.out'));
     hoverAt(tl, 1.2);
     tl.add(function () { face(-facing); }, '-=.55');
     landSeq(tl, home, current.el);
@@ -350,12 +368,12 @@
   function loop() {
     if (flying || !current || reduce) return;
     var a = { x: pos.x, y: pos.y }, r = 72 * (W / 130), f = facing;
-    flying = true;
+    flying = true; track(current.el, perchPoint(current.el), 1);
     var tl = flight = gsap.timeline({ onComplete: endFlight(current.el) });
     takeoff(tl, 0);
     var pts = [a, { x: a.x + f * r * .9, y: a.y - r * .7 }, { x: a.x + f * r * 1.7, y: a.y - r * 2 }, { x: a.x + f * r * .8, y: a.y - r * 3 }, { x: a.x - f * r * .2, y: a.y - r * 2.2 }, { x: a.x + f * r * .1, y: a.y - r * 1.1 }, { x: a.x + f * r * .9, y: a.y - r * .9 }, { x: a.x + f * r * .3, y: a.y - 76 }];
     tl.add(function () { setGait('flap'); flapTl.timeScale(1.25); })
-      .add(travel(spline(pts, 12), 1.55, 'sine.inOut', { trail: true, el: current.el, spin: true }));
+      .add(travel(spline(pts, 12), 1.55, 'sine.inOut', { trail: true, spin: true }));
     hoverAt(tl, .4);
     landSeq(tl, a, current.el);
   }
@@ -375,11 +393,13 @@
     var sp = spline(pts, 8);
     gsap.set(pathEl, { strokeDasharray: len, strokeDashoffset: len });
     flying = true; current = { el: endEl };
+    track(endEl, end, 0);
     var tl = flight = gsap.timeline({ onComplete: endFlight(endEl, done) });
     takeoff(tl, 1);
     var o = { p: 0 };
     tl.add(function () { startRhythm(); })
       .add(travel(sp, 2.5, 'power1.inOut'))
+      .to(trk, { w: 1, duration: 2.5, ease: 'power1.inOut' }, '<')
       .to(o, { p: 1, duration: 2.5, ease: 'power1.inOut', onUpdate: function () { gsap.set(pathEl, { strokeDashoffset: len * (1 - o.p) }); } }, '<');
     hoverAt(tl, .45);
     landSeq(tl, end, endEl);
@@ -408,6 +428,7 @@
   function diveStart(center, radius) {
     if (reduce || mode) return;
     if (flight) { flight.kill(); flight = null; }
+    bake();
     stopRhythm(); stopIdle();
     var perched = gait === 'off' || gait === 'frozen';
     flying = true; lock = null; queued = null; current = null; ready = true;
@@ -420,7 +441,7 @@
         var h = hoverFoot();
         return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + h.x) / 2, y: Math.min(pos.y, h.y) - 60 }, h], 10);
       }, 1.1, 'power1.inOut', { fn: hoverFoot, trail: true }))
-      .add(function () { stopRhythm(); setGait('hover'); face(1, true); fadeTrail(); })
+      .add(function () { if (mode) mode.hovering = true; stopRhythm(); setGait('hover'); face(1, true); fadeTrail(); })
       .to(tilt, { rotation: HOVER_T, duration: .3, ease: 'power2.out', onComplete: function () { tiltNow = HOVER_T; } }, '<');
   }
   function diveTo(p) {
@@ -609,10 +630,11 @@
     if (!flying && !mode && current && current.el) setHost(hostOf(current.el));
     if (reduce) return;
     if (mode) {
-      if (mode.ready && mode.p <= 0) { var h = hoverFoot(); pos.x = h.x; pos.y = h.y; place(); }
+      if ((mode.ready || mode.hovering) && mode.p <= 0) { var h = hoverFoot(); pos.x = h.x; pos.y = h.y; place(); }
       return;
     }
-    if (flying || !current || !current.el) return;
+    if (flying) { if (trk) place(); return; }
+    if (!current || !current.el) return;
     // écart mesuré à l'écran, dans une seule lecture de la mise en page
     // (sans passer par la position de défilement, que Safari peut mettre à
     // jour avec un temps de retard pendant un défilement)
@@ -685,6 +707,7 @@
     diveTo: diveTo,
     diveEnd: diveEnd,
     isFlying: function () { return flying; },
-    perchedOn: function () { return !flying && current ? current.el : null; }
+    perchedOn: function () { return !flying && current ? current.el : null; },
+    target: function () { return current ? current.el : null; }
   };
 })();
