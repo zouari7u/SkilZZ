@@ -68,19 +68,22 @@
       reply: "Applications et SaaS : vous testez d'abord un prototype sur votre propre téléphone, et le développement commence une fois qu'il vous convient. Livré : le prototype cliquable, l'application publiée sur l'App Store et Google Play, et un tableau de bord pour suivre l'usage.",
       links: [{ label: 'Les applications', href: 'application-mobile.html' }, { label: 'Les SaaS', href: 'saas.html' }], chips: ['Combien coûte une application ?', LEAD] },
     { re: /(reseau|social|sociaux|instagram|tiktok|linkedin|reel|video|contenu|motion|post)/,
-      reply: "Réseaux sociaux : reels, animations et visuels au bon format pour Instagram, TikTok et LinkedIn, dans la même identité que votre site. Livré : la charte de vos réseaux, des contenus prêts à publier et des gabarits réutilisables.",
-      links: [{ label: 'Voir le service', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
+      reply: "Les réseaux sociaux, le marketing et le référencement sont confiés à notre partenaire Studio Moumous. Vous passez quand même par nous : ZkilZ coordonne, vous gardez un seul interlocuteur.",
+      links: [{ label: 'Le partenariat', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
+    { re: /(conseil|audit|outil|tableur|excel|transition|migr|sur.?mesure|logiciel existant|choisir|solution)/,
+      reply: "Conseil et transition : on fait l'état des lieux de vos outils, on compare les solutions du marché avec un développement sur mesure, puis on vous accompagne pendant la bascule. Si un outil existant suffit, on vous le dit.",
+      links: [{ label: 'Voir le service', href: 'conseil.html' }], chips: ['Comment se passe un projet ?', LEAD] },
     { re: /(logo|charte|identite|couleur|marque|branding|graphique)/,
-      reply: "Pas besoin d'avoir déjà un logo ou une charte : le studio peut créer votre logo, vos couleurs et votre univers graphique avant de concevoir le site ou l'application.",
+      reply: "Pas besoin d'avoir déjà un logo ou une charte : notre partenaire Studio Moumous peut créer votre identité visuelle avant que ZkilZ conçoive le site ou l'application.",
       chips: ['Que comprend un site ?', LEAD] },
     { re: /(google|seo|referencement|trouve|visible|recherche)/,
-      reply: "Titres, descriptions et structure des pages sont préparés pour Google dès la maquette, pas une fois le site terminé. Les pages sont aussi légères, pour s'ouvrir vite même en 4G.",
+      reply: "Le référencement est le métier de notre partenaire Studio Moumous. De notre côté, ZkilZ livre des pages rapides et bien construites, qui s'ouvrent vite même en 4G.",
       chips: ['Que comprend un site ?', LEAD] },
     { re: /(modifier|back.?office|admin|changer (un|les) prix|mettre a jour|autonome|moi.meme)/,
       reply: "Vous gardez la main : changer un prix, une photo ou un texte se fait depuis votre back-office, sans appeler personne. La prise en main est incluse.",
       chips: ['Et après la mise en ligne ?', LEAD] },
     { re: /(apres|maintenance|suivi|evolution|mise a jour|support|panne|hebergement)/,
-      reply: "Après la mise en ligne, le studio peut assurer la maintenance, les évolutions et vos contenus. Vous êtes aussi formé pour modifier vous-même l'essentiel.",
+      reply: "Après la mise en ligne, le studio peut assurer la maintenance et les évolutions. Vous êtes aussi formé pour modifier vous-même l'essentiel.",
       chips: ['Le code m’appartient-il ?', LEAD] },
     { re: /(appartien|proprietaire|propriete|code source|mes comptes|droits)/,
       reply: "Le code, le design et les comptes vous appartiennent. Pas de template non plus : chaque projet est dessiné sur-mesure.",
@@ -114,7 +117,7 @@
     reply: "Je n'ai pas la réponse à ça, mais le studio l'a sûrement. Je peux préparer votre message pour le formulaire de contact.",
     chips: [LEAD, 'Comment se passe un projet ?', 'Combien coûte un site ?']
   };
-  var GREETING = "Bonjour, je suis le martin-pêcheur de ZkilZ. Un site, une application, des contenus pour vos réseaux ? Posez votre question.";
+  var GREETING = "Bonjour, je suis le martin-pêcheur de ZkilZ. Un site, une application, un outil sur mesure ? Posez votre question.";
 
   function localAnswer(text) {
     var t = fold(text);
@@ -231,7 +234,7 @@
   }
 
   // Préparer le message de contact : type de projet, puis une phrase
-  var TYPES = ['Site', 'Application', 'SaaS', 'Réseaux sociaux'];
+  var TYPES = ['Site', 'Application', 'SaaS', 'Conseil', 'Réseaux, marketing, SEO'];
   function flowStep(text) {
     var f = state.flow;
     if (f.step === 'type') {

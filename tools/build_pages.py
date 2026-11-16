@@ -27,18 +27,20 @@ IMG_DIR = 'assets/img/pages'
 # PAGES : fichier, titre, description, lien actif dans la navbar
 # ---------------------------------------------------------------------------
 PAGES = [
-    ('index', 'ZkilZ — Studio digital : sites, applications et réseaux sociaux',
-     'ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des contenus pour les réseaux sociaux.', None),
+    ('index', 'ZkilZ — Studio digital : sites, applications et outils sur mesure',
+     "ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des outils sur mesure, et vous aide à trouver la bonne solution.", None),
     ('services', 'Services — ZkilZ',
-     'Sites, applications mobiles, SaaS et réseaux sociaux : ce que le studio ZkilZ conçoit et développe pour vous.', 'services'),
+     'Sites, applications mobiles, SaaS, outils métier et conseil : ce que le studio ZkilZ conçoit et développe pour vous.', 'services'),
     ('site-web', 'Création de site web — ZkilZ',
      'Site vitrine ou boutique en ligne, sur-mesure, rapide sur téléphone et facile à modifier vous-même.', 'services'),
     ('application-mobile', 'Application mobile iOS et Android — ZkilZ',
      "Une application iOS et Android testée sur votre téléphone avant la première ligne de code, puis publiée sur les stores.", 'services'),
     ('saas', 'SaaS et outils métier — ZkilZ',
      "Un logiciel en ligne pour vos clients ou vos équipes : comptes, abonnements, tableaux de bord.", 'services'),
-    ('reseaux-sociaux', 'Contenus pour les réseaux sociaux — ZkilZ',
-     'Reels, motion design et visuels dans la même identité que votre site.', 'services'),
+    ('conseil', 'Conseil et transition vers le sur mesure — ZkilZ',
+     "On cherche avec vous la bonne solution, puis on vous accompagne vers des outils faits pour votre activité.", 'services'),
+    ('reseaux-sociaux', 'Réseaux sociaux, marketing et référencement avec Studio Moumous — ZkilZ',
+     'Pour vos réseaux, votre marketing et votre référencement, ZkilZ travaille avec son partenaire Studio Moumous.', 'services'),
     ('realisations', 'Réalisations — ZkilZ',
      'Les projets conçus et développés par le studio ZkilZ.', 'realisations'),
     ('mm-fragrances', 'MM Fragrances, étude de cas — ZkilZ',
@@ -58,7 +60,7 @@ NAV = [('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 
 
 SERVICES = [
     ('site-web', 'Site web'), ('application-mobile', 'Application mobile'),
-    ('saas', 'SaaS et outils métier'), ('reseaux-sociaux', 'Réseaux sociaux'),
+    ('saas', 'SaaS et outils métier'), ('conseil', 'Conseil et transition'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -114,6 +116,12 @@ IMAGES = {
         "Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and "
         "white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat "
         "ice-blue background (#E1EBFF). Wide composition, subject on the right half."),
+
+    'svc-conseil': ('16/9', "Le martin-pêcheur penché sur un plan de travail, entre l'ancien tableur et le nouvel outil", 'mascot',
+        "The kingfisher stands on a desk next to two screens: on the left an old cluttered spreadsheet drawn as a dense grey "
+        "grid, on the right a clean custom app with rounded royal-blue cards; a thin dotted arrow goes from the spreadsheet "
+        "to the app, and the bird points its beak along the arrow. Flat ice-blue background (#E1EBFF). Wide composition, "
+        "subject on the right half."),
 
     # --- Site web ---------------------------------------------------------
     'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
@@ -346,7 +354,7 @@ FOOT = '''
   <footer class="footer" id="footer">
     <div class="footer-grid">
       <div class="footer-about">
-        <p class="footer-tag">Studio digital. Sites, applications et réseaux sociaux.</p>
+        <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure.</p>
         <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
       <nav class="footer-col" aria-label="Services">
@@ -356,6 +364,11 @@ FOOT = '''
       <nav class="footer-col" aria-label="Le studio">
         <p class="footer-h">Le studio</p>
         <a href="realisations.html">Réalisations</a><a href="methode.html">Méthode</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
+      </nav>
+      <nav class="footer-col footer-col--partner" aria-label="Partenaire">
+        <p class="footer-h">Partenaire</p>
+        <a href="reseaux-sociaux.html">Studio Moumous</a>
+        <span>Réseaux sociaux, marketing et référencement</span>
       </nav>
     </div>
     <p class="footer-word" id="footerWord" aria-label="ZkilZ"><b>Z</b><span>k</span><span>i</span><span data-perch="50" data-perch-ink>l</span><b>Z</b></p>
@@ -431,8 +444,21 @@ SVC_CARDS = [
     ('site-web', 'svc-site', '01', 'Site web', "Vitrine ou boutique, rapide sur téléphone, que vous modifiez vous-même."),
     ('application-mobile', 'svc-app', '02', 'Application mobile', "iOS et Android, testée sur votre téléphone avant d'être développée."),
     ('saas', 'svc-saas', '03', 'SaaS et outils métier', "Un logiciel en ligne pour vos clients ou vos équipes."),
-    ('reseaux-sociaux', 'svc-reseaux', '04', 'Réseaux sociaux', "Reels, motion design et visuels dans votre identité."),
+    ('conseil', 'svc-conseil', '04', 'Conseil et transition', "On cherche la bonne solution, puis on passe au sur mesure."),
 ]
+
+
+PARTNER = '''    <section class="partner-sec">
+      <a class="partner" href="reseaux-sociaux.html" data-reveal>
+        <span class="partner-media">%s</span>
+        <span class="partner-copy">
+          <span class="partner-label">Partenaire</span>
+          <span class="partner-title">Réseaux sociaux, marketing et référencement&nbsp;: Studio Moumous.</span>
+          <span class="partner-text">ZkilZ développe vos outils, Studio Moumous les fait connaître. Un seul point de contact, et des équipes qui se parlent.</span>
+          <span class="partner-go">Découvrir le partenariat<svg><use href="#i-arrow"/></svg></span>
+        </span>
+      </a>
+    </section>'''
 
 
 def services_grid(exclude=None):
@@ -451,6 +477,7 @@ def services_grid(exclude=None):
 
 def expand(text):
     text = text.replace('{{cta}}', CTA)
+    text = text.replace('{{partner}}', PARTNER % figure('svc-reseaux'))
     text = re.sub(r'\{\{services-grid(?:\|([\w-]+))?\}\}', lambda m: services_grid(m.group(1)), text)
     text = re.sub(r'\{\{img:([\w-]+)(?:\|([^}]*))?\}\}', lambda m: figure(m.group(1), m.group(2) or ''), text)
     return text
@@ -522,6 +549,8 @@ def write_prompts():
         names = re.findall(r'\{\{img:([\w-]+)', t)
         if '{{services-grid' in t:
             names += [c[1] for c in SVC_CARDS]
+        if '{{partner}}' in t:
+            names.append('svc-reseaux')
         for n in names:
             used.setdefault(n, []).append(page)
     lines = [start, '', '# Images des pages du site', '',

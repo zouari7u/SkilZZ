@@ -262,6 +262,7 @@
     var t = svcs[i].dataset.tone;
     stage.classList.toggle('is-navy', t === 'navy');
     stage.classList.toggle('is-sky', t === 'sky');
+    stage.classList.toggle('is-mono', t === 'mono');
     var dir = prev < 0 ? 1 : (i > prev ? 1 : -1);
     if (prev >= 0) {
       devLoops[prev].pause();
@@ -392,7 +393,7 @@
   // =========================================================================
   // QUESTIONS
   // =========================================================================
-  gsap.from('.qa', { y: 30, opacity: 0, scale: .97, duration: .9, stagger: .07, ease: EASE, scrollTrigger: { trigger: '.faq-list', start: 'top 85%' } });
+  gsap.from('.qa', { y: 24, opacity: 0, duration: .9, stagger: .07, ease: EASE, scrollTrigger: { trigger: '.faq-list', start: 'top 85%' } });
 
   // =========================================================================
   // CONTACT : l'encart s'ouvre comme une bulle qui s'étire ; le fennec

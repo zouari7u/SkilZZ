@@ -1,6 +1,6 @@
 # ZkilZ — studio digital
 
-Site vitrine du studio ZkilZ : sites, applications, SaaS et contenus pour les réseaux sociaux.
+Site du studio ZkilZ : sites, applications, SaaS, outils sur mesure et conseil. Réseaux sociaux, marketing et référencement : partenaire Studio Moumous.
 Direction artistique : bleu et blanc. Mascotte : un martin-pêcheur (l'ascension, la précision, la technique),
 dessiné en SVG et animé avec GSAP (skill `.claude/animate-2d`).
 
@@ -17,7 +17,8 @@ Puis ouvrir **http://localhost:4000**. Le site est statique (HTML, CSS, JS), san
 | Page | Fichier |
 |---|---|
 | Accueil | `index.html` |
-| Services, puis un service par page | `services.html`, `site-web.html`, `application-mobile.html`, `saas.html`, `reseaux-sociaux.html` |
+| Services, puis un service par page | `services.html`, `site-web.html`, `application-mobile.html`, `saas.html`, `conseil.html` |
+| Partenaire Studio Moumous (réseaux, marketing, référencement ; noir et blanc) | `reseaux-sociaux.html` |
 | Réalisations et étude de cas | `realisations.html`, `mm-fragrances.html` |
 | Méthode, Studio, Contact | `methode.html`, `studio.html`, `contact.html` |
 | Légal | `mentions-legales.html`, `confidentialite.html` |

@@ -52,6 +52,8 @@
     document.documentElement.classList.add('collage-js');
     measure();
     window.addEventListener('load', measure);
+    // la largeur d'une bande change (image chargée, police, écran) : on remesure
+    if ('ResizeObserver' in window) rows.forEach(function (r) { new ResizeObserver(measure).observe(r.el.querySelector('.collage-track')); });
     var mTimer = null;
     window.addEventListener('resize', function () { clearTimeout(mTimer); mTimer = setTimeout(measure, 150); });
     // une image qui finit de charger change la largeur des bandes
@@ -107,4 +109,15 @@
 
   // les images arrivent après coup : on recalcule les positions
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  // et chaque fois que la page change de hauteur (images, mosaïque, question
+  // ouverte…) : sinon un déclencheur calculé sur l'ancienne hauteur peut ne
+  // jamais être atteint, et l'élément reste à moitié animé
+  if ('ResizeObserver' in window) {
+    var stH = 0, stT = null;
+    new ResizeObserver(function () {
+      var h = document.body.offsetHeight;
+      if (Math.abs(h - stH) < 4) return;
+      stH = h; clearTimeout(stT); stT = setTimeout(function () { ScrollTrigger.refresh(); }, 250);
+    }).observe(document.body);
+  }
 })();

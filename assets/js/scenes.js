@@ -198,7 +198,7 @@
   var stext = document.getElementById('searchText');
   var result = document.getElementById('searchResult');
   if (stext && !reduce) {
-    var q = 'votre marque';
+    var q = 'outil de réservation';
     var obj = { n: 0 };
     var stl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: .6 })
       .to(obj, { n: q.length, duration: 1.4, ease: 'none', onUpdate: function () { stext.textContent = q.slice(0, Math.round(obj.n)); } })
@@ -206,7 +206,7 @@
       .to(result, { opacity: 0, y: 8, duration: .4, ease: 'power2.in' }, '+=2.2')
       .to(obj, { n: 0, duration: .6, ease: 'none', onUpdate: function () { stext.textContent = q.slice(0, Math.round(obj.n)); } }, '<');
     whenVisible(stext, stl);
-  } else if (stext) { stext.textContent = 'votre marque'; }
+  } else if (stext) { stext.textContent = 'outil de réservation'; }
 
   // 5. Back-office : le titre se réécrit, puis on publie
   var etext = document.getElementById('editorText');
