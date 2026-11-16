@@ -620,7 +620,14 @@
     var at3 = parseFloat(el.dataset.perch); if (isNaN(at3)) at3 = 85;
     var tx = r.left + r.width * at3 / 100, ty = r.top + (el.hasAttribute('data-perch-ink') ? inkTop(el) : 0) + 1;
     var dx = tx - (k.left + W * FOOT.x / CELL.w), dy = ty - (k.top + H * FOOT.y / CELL.h);
-    if (Math.abs(dx) > .3 || Math.abs(dy) > .3) { pos.x += dx; pos.y += dy; place(); }
+    var moved = Math.abs(dx) > .3 || Math.abs(dy) > .3;
+    if (host) {
+      // dans un bloc collant, il ne bouge pas à l'écran quand on défile :
+      // sa position dans la page est remise à jour ici, et l'écart est
+      // corrigé sur place (relatif) pour ne pas mélanger les deux repères
+      pos.x = tx + window.scrollX; pos.y = ty + window.scrollY;
+      if (moved) gsap.set(root, { x: '+=' + dx, y: '+=' + dy });
+    } else if (moved) { pos.x += dx; pos.y += dy; place(); }
   });
   window.addEventListener('resize', function () {
     applySize(); sizeTrail();
