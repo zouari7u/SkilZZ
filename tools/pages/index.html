@@ -1,0 +1,354 @@
+    <!-- HERO ============================================================ -->
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="label" data-enter>Studio digital</p>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="wm"><span class="wi">Sites,</span></span> <span class="wm"><span class="wi">applications</span></span> <span class="wm"><span class="wi">et</span></span> <span class="wm"><span class="wi">contenus</span></span>
+          <span class="wm"><span class="wi">qui</span></span> <span class="wm"><span class="wi">rendent</span></span> <span class="wm"><span class="wi">votre</span></span> <span class="wm"><span class="wi">marque</span></span>
+          <span class="wm wm--mark"><span class="wi"><em class="mark" id="heroMark">visible</em>.</span></span>
+        </h1>
+        <p class="hero-sub" data-enter>
+          Votre site, votre application et vos contenus pour les réseaux, conçus et développés au même endroit.
+          Vous parlez à une seule personne, du premier appel à la mise en ligne.
+        </p>
+        <div class="hero-ctas" data-enter>
+          <a href="contact.html" class="btn btn--primary fill-btn"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
+          <a href="#realisation" class="btn btn--ghost fill-btn"><span>Voir une réalisation</span></a>
+        </div>
+      </div>
+
+      <!-- L'ascension : le martin-pêcheur part du roseau, au ras de l'eau,
+           suit la trajectoire et se pose tout en haut (assets/js/bird.js). -->
+      <div class="hero-stage" id="heroStage">
+        <svg class="ascent" viewBox="0 0 500 520" aria-hidden="true">
+          <circle class="ascent-sky" cx="250" cy="250" r="214"/>
+          <circle class="ascent-ticks" cx="250" cy="250" r="232"/>
+          <g class="ascent-water">
+            <path d="M24 452 Q 64 444 104 452 T 184 452 T 264 452 T 344 452 T 424 452 T 484 452"/>
+            <path class="w2" d="M54 470 Q 94 463 134 470 T 214 470 T 294 470 T 374 470 T 454 470"/>
+          </g>
+          <ellipse class="ripple" cx="112" cy="452" rx="22" ry="4"/>
+          <ellipse class="ripple r2" cx="112" cy="452" rx="22" ry="4"/>
+          <path class="ascent-reed" d="M110 476 C 113 446 111 424 117 400"/>
+          <path class="ascent-leaf" d="M112 446 C 96 432 88 418 86 402 C 98 414 108 428 113 440Z"/>
+          <path class="ascent-guide" d="M117 398 C 160 330, 236 368, 268 282 S 338 146, 396 106"/>
+          <path class="ascent-path" id="ascentPath" d="M117 398 C 160 330, 236 368, 268 282 S 338 146, 396 106"/>
+          <circle class="milestone" cx="117" cy="398" r="7"/>
+          <circle class="milestone" cx="268" cy="282" r="7"/>
+          <circle class="milestone milestone--top" cx="396" cy="106" r="9"/>
+          <path class="ascent-summit" d="M372 106 H 420"/>
+        </svg>
+        <span class="ms ms--a">L'idée</span>
+        <span class="ms ms--b">La maquette</span>
+        <span class="ms ms--c">En ligne</span>
+        <span class="perch-pt" id="perchStart" data-perch="50" style="left:23.4%;top:76.4%"></span>
+        <span class="perch-pt" id="perchTop" data-perch="50" style="left:79.2%;top:20%"></span>
+      </div>
+    </section>
+
+    <!-- BANDEAU DES SERVICES ============================================ -->
+    <div class="strip" id="strip" aria-label="Ce que fait le studio">
+      <div class="strip-track">
+        <ul>
+          <li>Sites vitrines</li><li>E-commerce</li><li>Applications iOS et Android</li><li>SaaS</li>
+          <li>Identité de marque</li><li>Motion design</li><li>Reels et TikTok</li><li>Référencement</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CE QU'ON FABRIQUE : deux rangées d'images qui défilent ========== -->
+    <section class="collage-sec" id="travaux">
+      <header class="head head--split">
+        <div>
+          <p class="label">Ce qu'on fabrique</p>
+          <h2 class="split">Des sites, des applications et des contenus qui se ressemblent.</h2>
+        </div>
+        <a href="services.html" class="btn btn--ghost fill-btn"><span>Voir les services</span><svg><use href="#i-arrow"/></svg></a>
+      </header>
+      <div class="collage" aria-label="Exemples de ce que le studio conçoit">
+        <div class="collage-row">
+          <div class="collage-track">
+            {{img:col-site}}{{img:col-reel}}{{img:col-saas}}{{img:col-marque}}
+          </div>
+          <div class="collage-track" aria-hidden="true">
+            {{img:col-site}}{{img:col-reel}}{{img:col-saas}}{{img:col-marque}}
+          </div>
+        </div>
+        <div class="collage-row collage-row--rev">
+          <div class="collage-track">
+            {{img:col-app}}{{img:col-grille}}{{img:site-boutique}}{{img:saas-mobile}}
+          </div>
+          <div class="collage-track" aria-hidden="true">
+            {{img:col-app}}{{img:col-grille}}{{img:site-boutique}}{{img:saas-mobile}}
+          </div>
+        </div>
+      </div>
+      <p class="collage-note">Exemples d'interfaces dessinées pour présenter nos métiers, pas des projets clients.</p>
+    </section>
+
+    <!-- INCLUS DANS CHAQUE PROJET : encarts animés ======================== -->
+    <section class="bento-sec" id="inclus">
+      <header class="head">
+        <p class="label">Ce que vous obtenez</p>
+        <h2 class="split">Inclus dans chaque projet</h2>
+      </header>
+
+      <div class="bento">
+        <article class="cell cell--speed" data-perch="70">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="gauge"><svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50"/><circle class="gauge-fill" cx="60" cy="60" r="50"/></svg><span class="gauge-dot"></span></div>
+          </div>
+          <h3>Rapide à charger</h3>
+          <p>Un visiteur qui attend s'en va. Images compressées, code léger&nbsp;: vos pages s'ouvrent vite, même en 4G.</p>
+        </article>
+
+        <article class="cell cell--device cell--wide">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="morph" id="morph"><span class="morph-bar"><i></i><i></i><i></i></span><span class="morph-hero"></span><span class="morph-row"><i></i><i></i><i></i></span></div>
+            <div class="morph-labels"><span class="is-on">Ordinateur</span><span>Tablette</span><span>Téléphone</span></div>
+          </div>
+          <h3>Pensé pour chaque écran</h3>
+          <p>On dessine d'abord pour le téléphone, là où arrive la plupart de vos visiteurs, puis pour la tablette et l'ordinateur.</p>
+        </article>
+
+        <article class="cell cell--motion cell--tall">
+          <div class="cell-visual" aria-hidden="true">
+            <svg class="flight" id="flight" viewBox="0 0 260 300">
+              <path class="flight-path" id="flightPath" d="M40 250 C 20 170, 120 160, 130 110 C 140 60, 230 70, 220 30 C 210 -6, 120 20, 130 110 C 140 200, 250 190, 220 250 C 196 296, 60 296, 40 250Z"/>
+              <image class="flight-bird" id="flightBird" href="assets/img/kf.svg" width="64" height="58"/>
+            </svg>
+          </div>
+          <h3>Animations sur-mesure</h3>
+          <p>Les animations de cette page ont été dessinées pour ZkilZ. Les vôtres le seront pour votre marque. Survolez l'oiseau&nbsp;: il accélère.</p>
+        </article>
+
+        <article class="cell cell--seo" data-perch="74">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="search"><span class="search-ico"></span><span class="search-text" id="searchText"></span><span class="search-caret"></span></div>
+            <div class="result" id="searchResult"><b>Votre marque</b><i></i><i class="s"></i></div>
+          </div>
+          <h3>Trouvé sur Google</h3>
+          <p>Titres, descriptions et structure des pages préparés pour Google dès la maquette, et non une fois le site terminé.</p>
+        </article>
+
+        <article class="cell cell--admin">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="editor"><span class="editor-label">Titre de la page</span><span class="editor-field"><span id="editorText">Nouvelle collection</span><i class="editor-caret"></i></span>
+              <span class="editor-row"><span>Publier</span><span class="switch" id="editorSwitch"><i></i></span></span></div>
+          </div>
+          <h3>Vous gardez la main</h3>
+          <p>Changer un prix ou une photo ne devrait pas demander un appel. Vous le faites vous-même, depuis votre back-office.</p>
+        </article>
+
+        <article class="cell cell--chat">
+          <div class="cell-visual" aria-hidden="true">
+            <div class="chat" id="chat">
+              <img class="chat-avatar" src="assets/img/kf-head.svg" alt="">
+              <div class="chat-lines">
+                <span class="msg msg--in">Voici la maquette de la page d'accueil.</span>
+                <span class="msg msg--out">On garde le bleu, on valide.</span>
+                <span class="msg msg--in">Parfait, je lance le développement.</span>
+              </div>
+            </div>
+          </div>
+          <h3>Un seul interlocuteur</h3>
+          <p>Toujours la même personne au bout du fil. Pas de ticket, pas de transfert d'un service à l'autre.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SERVICES : les cartes défilent à gauche ; à droite, l'écran du
+         service en cours reste à l'écran et l'oiseau se pose dessus ===== -->
+    <section class="services" id="services">
+      <header class="head">
+        <p class="label">Services</p>
+        <h2 class="split">Trois métiers. Un&nbsp;seul interlocuteur.</h2>
+      </header>
+
+      <div class="svc-wrap">
+        <div class="svc-list">
+          <article class="svc" data-tone="blue">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-site.webp" alt="" width="969" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>01</b>Sites</p>
+              <h3>Un site qui donne envie de vous appeler.</h3>
+              <p class="svc-lead">Vitrine ou boutique, rapide sur téléphone. Vous changez un texte ou un prix vous-même, sans nous attendre.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Mise en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Un back-office simple, et une heure pour le prendre en main</li></ul>
+              <ul class="tags"><li>Sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li></ul>
+              <a class="svc-more" href="site-web.html">Le service en détail<svg><use href="#i-arrow"/></svg></a>
+            </div>
+          </article>
+          <article class="svc" data-tone="navy">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-app.webp" alt="" width="647" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>02</b>Applications et SaaS</p>
+              <h3>Votre service, dans leur poche.</h3>
+              <p class="svc-lead">Vous testez un prototype sur votre propre téléphone avant qu'on écrive la première ligne de code.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à essayer</li><li><svg><use href="#i-check"/></svg>Publication sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Un tableau de bord pour suivre l’usage</li></ul>
+              <ul class="tags"><li>iOS et Android</li><li>SaaS</li><li>Tableaux de bord</li></ul>
+              <span class="svc-more-row"><a class="svc-more" href="application-mobile.html">Applications<svg><use href="#i-arrow"/></svg></a><a class="svc-more" href="saas.html">SaaS<svg><use href="#i-arrow"/></svg></a></span>
+            </div>
+          </article>
+          <article class="svc" data-tone="sky">
+            <figure class="svc-art" aria-hidden="true"><img src="assets/img/mascotte/kf-reseaux.webp" alt="" width="502" height="1100" loading="lazy" decoding="async"></figure>
+            <div class="svc-card" data-perch="88">
+              <p class="svc-num"><b>03</b>Réseaux sociaux</p>
+              <h3>On vous reconnaît avant de lire votre nom.</h3>
+              <p class="svc-lead">Reels, motion design et visuels pensés pour chaque réseau, avec la même identité partout.</p>
+              <ul class="deliv"><li><svg><use href="#i-check"/></svg>Une charte pour vos réseaux</li><li><svg><use href="#i-check"/></svg>Des contenus prêts à publier</li><li><svg><use href="#i-check"/></svg>Des modèles que vous réutilisez</li></ul>
+              <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Identité visuelle</li></ul>
+              <a class="svc-more" href="reseaux-sociaux.html">Le service en détail<svg><use href="#i-arrow"/></svg></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- La scène : un écran par service ; l'oiseau se pose sur celui qui est actif -->
+        <div class="svc-stage" aria-hidden="true">
+          <div class="svc-sticky" id="svcStage">
+            <span class="stage-ring"></span>
+            <span class="stage-count"><span class="stage-roll" id="stageRoll"><b>01</b><b>02</b><b>03</b></span><i>/ 03</i></span>
+
+            <div class="dev dev--site is-on">
+              <span class="perch-pt" data-perch="78"></span>
+              <div class="dev-bar"><i></i><i></i><i></i><span class="dev-url">votre-marque.fr</span></div>
+              <div class="dev-body">
+                <div class="ds-nav"><b></b><span></span><span></span><span></span></div>
+                <div class="ds-hero"><span class="l1"></span><span class="l2"></span><span class="ds-btn">Réserver</span></div>
+                <div class="ds-cards"><span></span><span></span><span></span></div>
+              </div>
+              <span class="ds-cursor"></span>
+            </div>
+
+            <div class="dev dev--app">
+              <span class="perch-pt" data-perch="62"></span>
+              <div class="dev-notch"></div>
+              <div class="dev-body">
+                <div class="da-head"><span>Ventes</span><b id="appNum">1 284</b></div>
+                <svg class="da-chart" viewBox="0 0 200 90"><path class="da-area" d="M0 80 L0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10 L200 90 L0 90Z"/><path class="da-line" d="M0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10"/></svg>
+                <div class="da-rows"><span><i></i></span><span><i></i></span><span><i></i></span></div>
+                <span class="da-toast">Nouvelle commande</span>
+              </div>
+            </div>
+
+            <div class="dev dev--reel">
+              <span class="perch-pt" data-perch="64"></span>
+              <div class="dev-body">
+                <span class="dr-wave"></span><span class="dr-wave w2"></span>
+                <span class="dr-play"></span>
+                <div class="dr-side"><svg class="dr-heart" viewBox="0 0 24 22"><path d="M12 21 C 5 15 1 11.5 1 7 C 1 3.6 3.6 1 7 1 C 9 1 10.9 2 12 3.6 C 13.1 2 15 1 17 1 C 20.4 1 23 3.6 23 7 C 23 11.5 19 15 12 21Z"/></svg><b id="reelLikes">2,4 k</b></div>
+                <div class="dr-cap"><span></span><span></span></div>
+                <div class="dr-bar"><i></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RÉALISATION : une bulle grandit jusqu'à remplir l'écran ========== -->
+    <section class="work" id="realisation">
+      <div class="work-pin" id="workPin">
+        <div class="work-bubble" id="workBubble" aria-hidden="true"></div>
+
+        <div class="work-inner" id="workInner">
+          <div class="case-copy">
+            <p class="label label--on-dark">Réalisation</p>
+            <h2>MM Fragrances, parfumerie de niche en ligne</h2>
+            <p>Une boutique en clair-obscur pour une maison de parfums de niche&nbsp;: catalogue animé, flacons en 3D, quiz pour trouver son parfum et conseiller virtuel qui répond aux questions.</p>
+            <a href="mm-fragrances.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Lire l'étude de cas</span><svg><use href="#i-arrow"/></svg></a>
+          </div>
+
+          <div class="case-visual">
+            <div class="browser" id="caseBrowser" data-perch="82">
+              <div class="browser-bar"><i></i><i></i><i></i><span>mm-fragrances.fr</span></div>
+              <img src="assets/img/work/mm-home-dark.webp" alt="Page d'accueil du site MM Fragrances" width="1920" height="1200" loading="lazy" decoding="async">
+            </div>
+            <div class="iphone" id="casePhone">
+              <div class="iphone-screen" style="--top:#1c1c1e">
+                <div class="iphone-status" aria-hidden="true">
+                  <b>9:41</b>
+                  <svg viewBox="0 0 68 14"><path d="M1 10h3v3H1zM6 8h3v5H6zM11 5.5h3V13h-3zM16 3h3v10h-3z" fill="currentColor"/><path d="M27 5.6a8.6 8.6 0 0 1 11.6 0l-1.3 1.4a6.7 6.7 0 0 0-9 0zM29.3 8a5.3 5.3 0 0 1 7 0l-1.3 1.4a3.4 3.4 0 0 0-4.4 0zM32.8 12.4l-1.6-1.7a2.4 2.4 0 0 1 3.2 0z" fill="currentColor"/><rect x="45.5" y="2" width="19" height="10" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="47" y="3.5" width="16" height="7" rx="1.6" fill="currentColor"/><rect x="65.6" y="5" width="1.6" height="4" rx=".8" fill="currentColor" opacity=".5"/></svg>
+                </div>
+                <span class="iphone-island" aria-hidden="true"></span>
+                <img src="assets/img/work/mm-product-dark-m.webp" alt="Fiche produit du site MM Fragrances sur mobile" width="786" height="1596" loading="lazy" decoding="async">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÉTHODE ========================================================= -->
+    <section class="method" id="methode">
+      <header class="head">
+        <p class="label">Méthode</p>
+        <h2 class="split">Comment se déroule un projet</h2>
+      </header>
+
+      <div class="steps" id="steps">
+        <span class="steps-line" aria-hidden="true"><i id="stepsFill"></i></span>
+        <article class="step">
+          <span class="step-dot" aria-hidden="true"></span>
+          <span class="step-num">01</span>
+          <h3>Écouter</h3>
+          <p>Un premier échange pour comprendre votre activité, vos clients et ce qui coince aujourd'hui. Vous repartez avec un devis détaillé, étape par étape.</p>
+        </article>
+        <article class="step">
+          <span class="step-dot" aria-hidden="true"></span>
+          <span class="step-num">02</span>
+          <h3>Concevoir</h3>
+          <p>Maquettes, puis un prototype animé que vous testez sur votre téléphone. Le développement démarre quand vous avez validé.</p>
+        </article>
+        <article class="step" data-perch="78">
+          <span class="step-dot" aria-hidden="true"></span>
+          <span class="step-num">03</span>
+          <h3>Faire grandir</h3>
+          <p>Mise en ligne, suivi, contenus pour vos réseaux et nouvelles fonctions. Après la livraison, le studio reste joignable.</p>
+        </article>
+      </div>
+
+      <ul class="pledges">
+        <li><svg><use href="#i-check"/></svg>Design sur-mesure, sans template</li>
+        <li><svg><use href="#i-check"/></svg>Code, design et comptes vous appartiennent</li>
+        <li><svg><use href="#i-check"/></svg>Un seul interlocuteur pendant tout le projet</li>
+      </ul>
+      <p class="sec-more"><a href="methode.html" class="btn btn--ghost fill-btn"><span>La méthode en détail</span><svg><use href="#i-arrow"/></svg></a></p>
+    </section>
+
+    <!-- LE STUDIO ======================================================= -->
+    <section class="split-sec" id="studio">
+      <div class="split-row">
+        <div class="split-media" data-reveal>{{img:studio-bureau}}</div>
+        <div class="split-copy" data-reveal>
+          <p class="label">Le studio</p>
+          <h2>Petit studio, du premier croquis à la mise en ligne.</h2>
+          <p>Le design, le développement et les contenus sont faits au même endroit. Celui qui dessine votre maquette est celui qui la code, puis celui qui prépare vos reels.</p>
+          <a href="studio.html" class="btn btn--ghost fill-btn"><span>Découvrir le studio</span><svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUESTIONS ======================================================= -->
+    <section class="faq" id="questions">
+      <header class="head">
+        <p class="label">Questions</p>
+        <h2 class="split">Questions fréquentes</h2>
+      </header>
+      <div class="faq-list" data-perch="90">
+        <details class="qa">
+          <summary>Combien coûte un projet&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
+          <div class="qa-body"><p>Tout dépend de ce qu'on construit&nbsp;: une page de présentation et une application n'ont rien à voir. Après un premier échange gratuit, vous recevez un devis détaillé, ligne par ligne, sans frais cachés.</p></div>
+        </details>
+        <details class="qa">
+          <summary>Quels sont les délais&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
+          <div class="qa-body"><p>Le planning est fixé ensemble au démarrage, avec une date pour chaque validation. Vous savez toujours où en est le projet, sans avoir à relancer.</p></div>
+        </details>
+        <details class="qa">
+          <summary>Gérez-vous aussi les réseaux sociaux&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
+          <div class="qa-body"><p>Oui. Le studio crée vos reels, vos visuels et vos animations dans la même identité que votre site, pour que votre marque soit reconnaissable partout.</p></div>
+        </details>
+      </div>
+      <p class="sec-more"><a href="contact.html#questions" class="btn btn--ghost fill-btn"><span>Toutes les questions</span><svg><use href="#i-arrow"/></svg></a></p>
+    </section>
+
+{{cta}}

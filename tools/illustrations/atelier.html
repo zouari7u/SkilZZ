@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Atelier d'illustrations ZkilZ</title>
+<!--
+  Dessine en HTML / CSS les illustrations des pages, à 1600 px de large, aux
+  couleurs du site. Elles tiennent la place en attendant les versions IA
+  (prompts dans PROMPTS-MASCOTTE.md) : une image IA déposée avec le même nom
+  les remplace. Export : voir tools/illustrations/README.md.
+  #1 … #4 n'affiche qu'un groupe, #nom ou #nom1,nom2 une liste d'illustrations (une capture pleine page par groupe).
+-->
+<style>
+  body { margin: 0; background: #fff; font-family: system-ui, sans-serif; }
+  .ill { position: relative; width: 1600px; overflow: hidden; background: #E1EBFF; }
+  .ill i, .ill b, .ill span, .ill div { position: absolute; display: block; box-sizing: border-box; }
+  .soft { border-radius: 50%; }
+  .dev { box-shadow: 0 40px 80px -30px rgba(11, 27, 63, .45), 0 0 0 1px rgba(11, 27, 63, .08); }
+  .scr { overflow: hidden; background: #fff; }
+  .scr i { border-radius: 999px; }
+  .scr .sq { border-radius: 10%; }
+  .card { background: #fff; box-shadow: 0 24px 50px -24px rgba(11, 27, 63, .35); }
+  img { position: absolute; display: block; }
+  svg { position: absolute; overflow: visible; }
+</style>
+</head>
+<body>
+<script>
+// Couleurs du site
+var N = '#0B1B3F', A = '#1F6BFF', Z = '#1E9BFF', L = '#8FDBFF', I = '#E1EBFF', W = '#fff', G = '#D5DDEC', G2 = '#EEF2F9', S = '#B7CCF5';
+var M = '../../assets/img/mascotte/';
+
+// élément en % de son parent
+// un arrondi en % déforme les formes larges : on le passe en em (taille de l'écran)
+function rad(r) {
+  if (r === undefined || typeof r !== 'string' || r.slice(-1) !== '%' || r === '50%') return r;
+  return parseFloat(r) >= 18 ? '99em' : '.8em';
+}
+function e(x, y, w, h, bg, r, extra) {
+  r = rad(r);
+  return '<i style="left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + h + '%;background:' + bg + ';' +
+    (r !== undefined ? 'border-radius:' + r + ';' : '') + (extra || '') + '"></i>';
+}
+function sq(x, y, w, h, bg, r) { return e(x, y, w, h, bg, r === undefined ? '10%' : r); }
+function circ(x, y, w, bg, ratio) { return '<i style="left:' + x + '%;top:' + y + '%;width:' + w + '%;aspect-ratio:1;background:' + bg + ';border-radius:50%"></i>'; }
+// élément en px dans l'illustration
+function px(x, y, w, h, inner, cls, extra) {
+  var fs = /scr/.test(cls || '') ? 'font-size:' + (w / 32) + 'px;' : '';
+  return '<div class="' + (cls || '') + '" style="left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px;' + fs + (extra || '') + '">' + (inner || '') + '</div>';
+}
+// lignes de texte dessinées en barres
+function lines(x, y, w, n, color, h, gap) {
+  var s = '', ws = [100, 86, 92, 64, 78, 55];
+  for (var k = 0; k < n; k++) s += e(x, y + k * (h + gap), w * ws[k % ws.length] / 100, h, color);
+  return s;
+}
+function chart(x, y, w, h, color, area) {
+  return '<svg style="left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + h + '%" viewBox="0 0 200 90" preserveAspectRatio="none">' +
+    (area ? '<path d="M0 90 L0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10 L200 90Z" fill="' + area + '"/>' : '') +
+    '<path d="M0 70 C 20 66 30 52 50 56 S 80 40 100 44 S 140 20 160 26 S 190 8 200 10" fill="none" stroke="' + color + '" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/></svg>';
+}
+function barsChart(x, y, w, h, c1, c2) {
+  var s = '<svg style="left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + h + '%" viewBox="0 0 200 100" preserveAspectRatio="none">';
+  [40, 62, 48, 78, 58, 88, 70].forEach(function (v, k) { s += '<rect x="' + (k * 29 + 4) + '" y="' + (100 - v) + '" width="18" height="' + v + '" rx="5" fill="' + (k === 5 ? c1 : c2) + '"/>'; });
+  return s + '</svg>';
+}
+function check(x, y, w) {
+  return '<svg style="left:' + x + '%;top:' + y + '%;width:' + w + '%" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="' + A + '"/><path d="M6.5 12.5l3.5 3.5 7.5-8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+function ring(x, y, w, p) {
+  var c = 2 * Math.PI * 40;
+  return '<svg style="left:' + x + '%;top:' + y + '%;width:' + w + '%" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="' + I + '" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="' + A + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + (c * p) + ' ' + c + '" transform="rotate(-90 50 50)"/></svg>';
+}
+function bottle(x, y, w, color) {
+  return '<svg style="left:' + x + '%;top:' + y + '%;width:' + w + '%" viewBox="0 0 60 100"><rect x="22" y="2" width="16" height="14" rx="3" fill="' + N + '"/><rect x="26" y="15" width="8" height="8" fill="' + S + '"/><rect x="6" y="22" width="48" height="76" rx="14" fill="' + color + '"/><rect x="14" y="44" width="32" height="20" rx="4" fill="#fff" opacity=".85"/></svg>';
+}
+
+// --- Appareils (en px) ---------------------------------------------------------
+function laptop(x, y, w, ui, tilt) {
+  var h = w * .625, b = w * .022;
+  return px(x, y, w, h + w * .06,
+    px(0, 0, w, h, px(b, b, w - 2 * b, h - 2 * b, ui, 'scr', 'border-radius:' + (w * .008) + 'px'), 'dev', 'background:' + N + ';border-radius:' + (w * .03) + 'px ' + (w * .03) + 'px ' + (w * .008) + 'px ' + (w * .008) + 'px') +
+    px(-w * .07, h, w * 1.14, w * .045, '', '', 'background:linear-gradient(#C9D6EE,#AFC0E0);border-radius:0 0 ' + (w * .04) + 'px ' + (w * .04) + 'px;box-shadow:0 30px 50px -20px rgba(11,27,63,.4)') +
+    px(w * .42, h, w * .16, w * .014, '', '', 'background:#9DB0D6;border-radius:0 0 12px 12px'),
+    '', tilt ? 'transform:' + tilt : '');
+}
+function phone(x, y, w, ui, tilt, bg) {
+  var h = w * 2.08, b = w * .04;
+  return px(x, y, w, h,
+    px(b, b, w - 2 * b, h - 2 * b, ui + px((w - 2 * b) * .34, (h - 2 * b) * .018, (w - 2 * b) * .32, (h - 2 * b) * .028, '', '', 'background:' + N + ';border-radius:99px;z-index:3'), 'scr', 'border-radius:' + (w * .12) + 'px;background:' + (bg || W)),
+    'dev', 'background:' + N + ';border-radius:' + (w * .15) + 'px;' + (tilt ? 'transform:' + tilt : ''));
+}
+function monitor(x, y, w, ui) {
+  var h = w * .58, b = w * .016;
+  return px(x, y, w, h, px(b, b, w - 2 * b, h - 2 * b, ui, 'scr', 'border-radius:' + (w * .008) + 'px'), 'dev', 'background:' + N + ';border-radius:' + (w * .018) + 'px') +
+    px(x + w * .44, y + h, w * .12, w * .12, '', '', 'background:linear-gradient(#B9C9E8,#9FB3DA)') +
+    px(x + w * .32, y + h + w * .12, w * .36, w * .025, '', '', 'background:#AFC0E0;border-radius:' + (w * .02) + 'px;box-shadow:0 20px 40px -14px rgba(11,27,63,.4)');
+}
+function win(x, y, w, h, ui, extra) {
+  var bar = Math.max(26, w * .035);
+  return px(x, y, w, h,
+    px(0, 0, w, bar, '<i style="left:' + bar * .6 + 'px;top:' + bar * .38 + 'px;width:' + bar * .26 + 'px;height:' + bar * .26 + 'px;background:#F2B8B8;border-radius:50%"></i><i style="left:' + bar * 1.05 + 'px;top:' + bar * .38 + 'px;width:' + bar * .26 + 'px;height:' + bar * .26 + 'px;background:#F2DBA8;border-radius:50%"></i><i style="left:' + bar * 1.5 + 'px;top:' + bar * .38 + 'px;width:' + bar * .26 + 'px;height:' + bar * .26 + 'px;background:#B8E2C2;border-radius:50%"></i>' + e(35, 25, 30, 50, G2, '99px'), '', 'background:#F6F8FC') +
+    px(0, bar, w, h - bar, ui, 'scr'),
+    'dev', 'background:#fff;border-radius:' + Math.max(14, w * .016) + 'px;overflow:hidden;' + (extra || ''));
+}
+
+// --- Écrans (en %) --------------------------------------------------------------
+var UI = {
+  site: function () {
+    return e(5, 6, 4, 6, A, '50%') + e(60, 7.5, 6, 3, G) + e(69, 7.5, 6, 3, G) + e(78, 7.5, 6, 3, G) + e(87, 5.5, 9, 7, A) +
+      e(5, 22, 46, 8, N) + e(5, 33, 38, 8, N) + lines(5, 47, 40, 2, G, 3, 3) + e(5, 61, 18, 8, A) +
+      e(58, 18, 37, 52, I, '24px') + circ(64, 24, 22, L) + sq(78, 44, 14, 18, A, '20%') +
+      sq(5, 78, 28, 18, G2, '10%') + sq(36, 78, 28, 18, G2, '10%') + sq(67, 78, 28, 18, G2, '10%') + e(8, 84, 14, 3, S) + e(39, 84, 14, 3, S) + e(70, 84, 14, 3, S);
+  },
+  wire: function () {
+    return e(5, 6, 4, 6, G, '50%') + e(60, 7.5, 6, 3, G) + e(69, 7.5, 6, 3, G) + e(78, 7.5, 6, 3, G) + e(87, 5.5, 9, 7, G) +
+      e(5, 22, 46, 8, G) + e(5, 33, 38, 8, G) + lines(5, 47, 40, 2, G2, 3, 3) + e(5, 61, 18, 8, G) +
+      e(58, 18, 37, 52, G2, '12px', 'border:3px dashed ' + G) + sq(5, 78, 28, 18, G2) + sq(36, 78, 28, 18, G2) + sq(67, 78, 28, 18, G2);
+  },
+  shop: function () {
+    return e(4, 5, 4, 6, N, '50%') + e(70, 6, 6, 3, G) + e(80, 6, 6, 3, G) + e(90, 4.5, 6, 6, A, '50%') +
+      e(4, 18, 50, 76, I, '18px') + bottle(19, 26, 20, A) + e(60, 20, 30, 6, N) + e(60, 30, 20, 4, G) + e(60, 40, 14, 7, A) +
+      lines(60, 54, 34, 3, G, 2.5, 3) + e(60, 72, 9, 6, W, '99px', 'border:3px solid ' + A) + e(71, 72, 9, 6, G2) + e(82, 72, 9, 6, G2) + e(60, 84, 34, 9, A);
+  },
+  dash: function () {
+    var s = e(0, 0, 16, 100, N, '0') + e(3, 6, 10, 4, A) ;
+    for (var k = 0; k < 5; k++) s += e(3, 18 + k * 9, 10, 3.5, k === 0 ? Z : '#2A3A63');
+    s += e(20, 6, 30, 5, G2) + circ(92, 5, 4, L);
+    for (k = 0; k < 4; k++) s += sq(20 + k * 19.5, 16, 17.5, 16, G2, '10%') + e(22 + k * 19.5, 19, 8, 2.5, G) + e(22 + k * 19.5, 24, 11, 4, k === 0 ? A : N);
+    s += sq(20, 37, 49, 34, G2, '8%') + chart(23, 45, 43, 22, A, 'rgba(31,107,255,.16)') + e(23, 40, 14, 3, N);
+    s += sq(71, 37, 26, 34, G2, '8%') + barsChart(73.5, 46, 21, 21, A, S);
+    for (k = 0; k < 3; k++) s += e(20, 76 + k * 7.5, 77, 5.5, k % 2 ? W : G2, '8px') + e(22, 77.3 + k * 7.5, 18, 2.6, G) + e(86, 77 + k * 7.5, 8, 3.4, k === 1 ? L : I);
+    return s;
+  },
+  appHome: function () {
+    return e(8, 7, 30, 3, G) + e(8, 11.5, 55, 4, N) + circ(80, 7, 12, L) +
+      sq(8, 21, 84, 30, A, '12%') + ring(14, 25, 30, .68) + e(52, 29, 32, 3, '#BFD3FF') + e(52, 35, 24, 5, W) + e(52, 44, 30, 2.5, '#BFD3FF') +
+      sq(8, 55, 40, 20, G2, '14%') + sq(52, 55, 40, 20, G2, '14%') + circ(13, 59, 10, L) + circ(57, 59, 10, I) + e(13, 67, 26, 2.5, G) + e(57, 67, 26, 2.5, G) +
+      sq(8, 79, 84, 8, G2, '20%') + e(0, 91, 100, 9, W, '0', 'border-top:2px solid ' + G2) + circ(18, 93, 6, A) + circ(40, 93, 6, G) + circ(62, 93, 6, G) + circ(84, 93, 6, G);
+  },
+  booking: function () {
+    var s = e(8, 7, 50, 4, N) + e(8, 13, 34, 2.5, G);
+    for (var k = 0; k < 5; k++) s += sq(8 + k * 17.5, 20, 14, 10, k === 2 ? A : G2, '20%') + e(11 + k * 17.5, 23, 8, 2, k === 2 ? W : G) + e(11 + k * 17.5, 26.5, 8, 2, k === 2 ? '#BFD3FF' : G);
+    s += e(8, 36, 40, 3, N);
+    for (k = 0; k < 3; k++) s += sq(8, 43 + k * 10, 84, 8, k === 1 ? I : G2, '30%') + e(13, 46 + k * 10, 20, 2.5, k === 1 ? A : G) + e(70, 45.5 + k * 10, 16, 3.5, k === 1 ? A : W, '99px');
+    return s + sq(8, 78, 84, 10, A, '30%') + e(34, 82, 32, 2.5, W);
+  },
+  confirm: function () {
+    return check(32, 14, 36) + e(20, 46, 60, 4, N) + e(28, 53, 44, 2.5, G) +
+      sq(8, 62, 84, 22, G2, '14%') + lines(14, 66, 50, 3, G, 2.5, 3) + e(70, 66, 16, 3, A) + sq(8, 88, 84, 8, N, '30%');
+  },
+  reel: function () {
+    return e(0, 0, 100, 100, A, '0') + circ(-20, 10, 90, Z) + circ(30, 48, 70, '#4D8BFF') + e(-10, 60, 130, 14, L, '0', 'transform:rotate(-24deg)') +
+      sq(28, 30, 44, 26, W, '10%') + bottle(42, 33, 16, N) +
+      circ(84, 52, 9, 'rgba(255,255,255,.25)') + circ(84, 62, 9, 'rgba(255,255,255,.25)') + circ(84, 72, 9, 'rgba(255,255,255,.25)') +
+      '<svg style="left:86.5%;top:54.2%;width:4%" viewBox="0 0 24 22"><path d="M12 21 C 5 15 1 11.5 1 7 C 1 3.6 3.6 1 7 1 C 9 1 10.9 2 12 3.6 C 13.1 2 15 1 17 1 C 20.4 1 23 3.6 23 7 C 23 11.5 19 15 12 21Z" fill="#fff"/></svg>' +
+      e(8, 82, 40, 2.5, W) + e(8, 86.5, 60, 2, 'rgba(255,255,255,.7)') + e(0, 96, 100, 1.2, 'rgba(255,255,255,.3)', '0') + e(0, 96, 46, 1.2, W, '0');
+  },
+  profile: function () {
+    var s = circ(8, 6, 20, A) + e(34, 8, 14, 3, N) + e(54, 8, 14, 3, N) + e(74, 8, 14, 3, N) + e(34, 13, 14, 2, G) + e(54, 13, 14, 2, G) + e(74, 13, 14, 2, G) +
+      e(8, 21, 50, 3, N) + e(8, 26, 70, 2, G) + sq(8, 31, 84, 5, A, '30%');
+    var tiles = [[A, 'c'], [I, 'b'], [N, 'q'], [L, 'd'], [A, 'b'], [I, 'c'], [N, 'd'], [Z, 'q'], [I, 'b']];
+    tiles.forEach(function (t, k) {
+      var x = 2 + (k % 3) * 32.3, y = 40 + Math.floor(k / 3) * 19.5;
+      s += sq(x, y, 31.6, 19, t[0], '2%');
+      if (t[1] === 'c') s += circ(x + 9, y + 3, 14, t[0] === A ? L : A);
+      if (t[1] === 'b') s += bottle(x + 11, y + 2.5, 9, t[0] === I ? A : N);
+      if (t[1] === 'q') s += e(x + 6, y + 6, 20, 2.5, W) + e(x + 6, y + 10, 14, 2.5, W);
+      if (t[1] === 'd') s += e(x - 4, y + 7, 40, 4, W, '0', 'transform:rotate(-30deg);opacity:.7');
+    });
+    return s;
+  },
+  mobileSite: function () {
+    return UI.site() + e(0, 0, 100, 100, 'rgba(11,27,63,.35)', '0') +
+      e(0, 52, 100, 48, W, '28px 28px 0 0') + e(42, 54.5, 16, 1.2, G) +
+      [0, 1, 2, 3].map(function (k) { return e(10, 60 + k * 7, 50, 2.6, k === 0 ? A : N) + e(82, 60 + k * 7, 6, 2.6, G); }).join('') +
+      sq(8, 89, 84, 7, A, '30%');
+  },
+  admin: function () {
+    var s = e(0, 0, 20, 100, G2, '0') + e(3, 6, 12, 3.5, N);
+    for (var k = 0; k < 6; k++) s += e(3, 16 + k * 8, 14, 3.5, k === 1 ? A : G, '8px');
+    s += e(25, 6, 30, 5, N) + e(80, 5, 15, 7, A, '10px');
+    s += e(25, 18, 14, 2.5, G) + sq(25, 22, 45, 7, W, '12%') + e(27, 24.5, 22, 2.4, N) + e(49.5, 23.8, .5, 3.8, A, '0');
+    s += e(25, 34, 14, 2.5, G) + sq(25, 38, 45, 28, I, '6%') + bottle(42, 40, 9, A) + e(25, 69, 14, 2.5, G) + sq(25, 73, 20, 7, W, '12%') + e(27, 75.5, 9, 2.4, N);
+    s += sq(75, 18, 21, 46, G2, '10%') + e(78, 23, 12, 2.5, N) + e(78, 30, 15, 2.5, G) + e(78, 52, 10, 2.5, N) + e(86, 51, 8, 4.5, A, '99px') + circ(90.5, 51.6, 3, W);
+    return s;
+  },
+  onbAccount: function () { return e(30, 14, 40, 6, N) + e(36, 24, 28, 3, G) + sq(25, 34, 50, 10, G2, '18%') + sq(25, 48, 50, 10, G2, '18%') + sq(25, 64, 50, 10, A, '18%') + e(40, 68, 20, 2.5, W); },
+  onbPlans: function () {
+    var s = e(30, 10, 40, 6, N);
+    for (var k = 0; k < 3; k++) s += sq(8 + k * 29, 24, 26, 64, k === 1 ? A : G2, '8%') + e(12 + k * 29, 30, 12, 3, k === 1 ? '#BFD3FF' : G) + e(12 + k * 29, 37, 16, 6, k === 1 ? W : N) + lines(12 + k * 29, 50, 18, 3, k === 1 ? '#5C8FFF' : G, 2.5, 3) + e(12 + k * 29, 76, 18, 6, k === 1 ? W : W);
+    return s;
+  },
+  onbInvite: function () {
+    var s = e(30, 12, 40, 6, N);
+    for (var k = 0; k < 4; k++) s += circ(20 + k * 16, 30, 11, [A, L, Z, I][k]);
+    return s + sq(20, 58, 60, 10, G2, '18%') + e(24, 61.8, 26, 2.5, G) + sq(30, 74, 40, 10, A, '18%') + e(40, 78, 20, 2.5, W);
+  },
+  roles: function () {
+    var s = e(5, 7, 26, 5, N) + e(76, 6, 19, 7, A, '12px') + e(5, 19, 90, .4, G2, '0');
+    var cols = [A, L, Z, I, '#4D8BFF'], roles = [[A, W], [I, A], [G2, N], [I, A], [G2, N]];
+    for (var k = 0; k < 5; k++) {
+      var y = 24 + k * 14;
+      s += circ(5, y, 6.5, cols[k]) + e(14, y + 2, 22, 3, N) + e(14, y + 6.5, 30, 2.4, G) + e(70, y + 1.5, 17, 7, roles[k][0], '99px') + e(73, y + 4.2, 9, 2, roles[k][1]) + e(5, y + 12, 90, .3, G2, '0');
+    }
+    return s;
+  },
+  mobileDash: function () {
+    var s = e(8, 7, 40, 4, N) + circ(82, 6, 10, L);
+    for (var k = 0; k < 2; k++) s += sq(8 + k * 43, 17, 41, 15, G2, '14%') + e(13 + k * 43, 20, 16, 2.4, G) + e(13 + k * 43, 25, 24, 4, k ? N : A);
+    s += sq(8, 35, 84, 28, G2, '10%') + e(13, 39, 30, 2.6, N) + chart(13, 45, 74, 14, A, 'rgba(31,107,255,.16)');
+    for (k = 0; k < 2; k++) s += sq(8, 67 + k * 10, 84, 8, G2, '20%') + e(13, 70 + k * 10, 34, 2.4, G) + e(74, 69.5 + k * 10, 12, 3.4, I);
+    return s + e(0, 91, 100, 9, W, '0', 'border-top:2px solid ' + G2) + circ(18, 93, 6, A) + circ(40, 93, 6, G) + circ(62, 93, 6, G) + circ(84, 93, 6, G);
+  },
+  lock: function () {
+    var s = e(0, 0, 100, 100, A, '0') + circ(-30, -10, 110, Z) + circ(20, 55, 100, '#4D8BFF') + e(30, 12, 40, 9, W) + e(38, 23, 24, 2.4, 'rgba(255,255,255,.8)');
+    for (var k = 0; k < 3; k++) s += sq(7, 40 + k * 13.5, 86, 11.5, 'rgba(255,255,255,.92)', '18%') + circ(11, 42.5 + k * 13.5, 9, A) + e(25, 43 + k * 13.5, 34, 2.4, N) + e(25, 47.5 + k * 13.5, 50, 2.2, G) + e(80, 43 + k * 13.5, 9, 2, G);
+    return s + e(36, 95, 28, 1, W);
+  },
+  homeGrid: function () {
+    var s = e(0, 0, 100, 100, '#DCE6F7', '0');
+    for (var k = 0; k < 16; k++) {
+      var x = 9 + (k % 4) * 22, y = 10 + Math.floor(k / 4) * 20;
+      if (k === 6) s += sq(x - 1, y - 1, 18, 0, A, '1.6em').replace('height:0%', 'aspect-ratio:1;height:auto') ;
+      else s += sq(x, y, 16, 0, k % 3 ? '#C2CEE3' : '#B1BFD8', '1.4em').replace('height:0%', 'aspect-ratio:1;height:auto');
+      s += e(x + 3, y + 10.5, 10, 1.4, '#AEBBD3');
+    }
+    return s + '<svg style="left:57%;top:32.2%;width:10%" viewBox="0 0 40 40"><circle cx="20" cy="20" r="12" fill="none" stroke="#fff" stroke-width="5"/><path d="M14 20 l4 4 8-9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>' + e(9, 88, 82, 9, 'rgba(255,255,255,.45)', '24px');
+  },
+  story: function () {
+    return e(0, 0, 100, 100, N, '0') + circ(-10, 20, 120, A) + circ(40, 50, 70, Z) + e(6, 3, 88, .8, 'rgba(255,255,255,.35)', '99px') + e(6, 3, 40, .8, W, '99px') +
+      circ(6, 6, 9, L) + e(18, 7.5, 24, 2.4, W) + sq(18, 62, 64, 9, W, '30%') + e(28, 65.5, 44, 2.4, N) + bottle(35, 26, 30, W);
+  },
+  post: function () {
+    return e(0, 0, 100, 100, W, '0') + circ(6, 4, 9, A) + e(18, 6, 26, 2.4, N) + e(0, 13, 100, 50, A, '0') + circ(20, 18, 40, Z) + bottle(56, 18, 22, W) +
+      circ(6, 67, 6, G) + circ(16, 67, 6, G) + circ(26, 67, 6, G) + lines(6, 75, 70, 3, G, 2.4, 2.6);
+  }
+};
+
+// --- Fonds ------------------------------------------------------------------------
+function bg(h, variant) {
+  var s = px(-260, -300, 900, 900, '', 'soft', 'background:#D3E2FF') + px(1100, h - 500, 800, 800, '', 'soft', 'background:#EEF4FF');
+  if (variant !== 'plain') s += px(1340, 120, 26, 26, '', 'soft', 'background:' + L) + px(170, h - 170, 18, 18, '', 'soft', 'background:' + A) + px(1450, h * .55, 60, 8, '', '', 'background:#B9CCF5;border-radius:99px');
+  return s;
+}
+function card(x, y, w, h, inner, r) { return px(x, y, w, h, inner || '', 'card', 'border-radius:' + (r || 28) + 'px'); }
+function bird(src, x, y, w, extra) { return '<img src="' + M + src + '" style="left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;' + (extra || '') + '" alt="">'; }
+// une pose de la planche (0 posé, 1 posé, 2 envol, 3 vol, 4 plongeon)
+function pose(n, x, y, w, flip) {
+  var cuts = [[0, 598], [628, 400], [1040, 690], [1550, 720], [2270, 300]];
+  var c = cuts[n], h = w * 896 / c[1];
+  return px(x, y, w, h, '', '', 'background:url(' + M + 'kf-planche.webp) no-repeat;background-size:' + (2593 * w / c[1]) + 'px auto;background-position:' + (-c[0] * w / c[1]) + 'px 0;' + (flip ? 'transform:scaleX(-1);' : ''));
+}
+
+// --- Les illustrations ------------------------------------------------------------
+var ILL = [
+  // groupe 1 : accueil
+  ['col-site', '4/3', function (H) { return bg(H) + laptop(240, 230, 1120, UI.site()) + card(1140, 140, 300, 170, e(10, 18, 30, 0, A, '50%', 'aspect-ratio:1;height:auto') + e(46, 24, 44, 9, N) + e(46, 46, 34, 7, G) + e(10, 72, 80, 8, G2), 22); }],
+  ['col-app', '4/3', function (H) { return bg(H) + phone(420, 130, 400, UI.booking(), 'rotate(-6deg)') + phone(820, 160, 400, UI.confirm(), 'rotate(6deg)'); }],
+  ['col-saas', '4/3', function (H) { return bg(H) + monitor(180, 140, 1240, UI.dash()); }],
+  ['col-reel', '3/4', function (H) { return bg(H) + phone(370, 260, 860, UI.reel()); }],
+  ['col-marque', '4/3', function (H) {
+    var s = bg(H, 'plain') + card(130, 120, 640, 640, '', 36) + px(270, 220, 360, 360, '<svg style="left:0;top:0;width:100%" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="' + A + '"/><path d="M30 34 h40 L34 70 h36" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>') +
+      px(250, 620, 400, 26, '', '', 'background:' + N + ';border-radius:99px') + px(310, 666, 280, 16, '', '', 'background:' + G + ';border-radius:99px');
+    [N, A, Z, L].forEach(function (c, k) { s += card(840 + k * 160, 120, 140, 230, px(0, 0, 140, 150, '', '', 'background:' + c + ';border-radius:20px 20px 0 0') + e(14, 72, 60, 6, N) + e(14, 84, 44, 5, G), 20); });
+    s += card(840, 400, 620, 360, '<div style="left:40px;top:20px;font:800 230px/1 Georgia,serif;color:' + N + ';letter-spacing:-8px;position:absolute">Aa</div>' + e(56, 22, 36, 8, A) + e(56, 38, 30, 6, G) + e(56, 52, 34, 6, G) + e(7, 80, 86, 6, G2), 30);
+    return s + card(170, 830, 480, 270, e(10, 16, 18, 0, A, '50%', 'aspect-ratio:1;height:auto') + e(10, 60, 50, 9, N) + e(10, 76, 36, 7, G), 20) + card(720, 830, 740, 270, lines(6, 18, 70, 5, G, 7, 7), 20);
+  }],
+  ['col-grille', '3/4', function (H) { return bg(H) + phone(370, 260, 860, UI.profile()); }],
+  // groupe 2 : services
+  ['svc-site', '16/10', function (H) { return bg(H) + card(200, 200, 340, 200, e(10, 15, 50, 12, N) + e(10, 38, 70, 8, G) + e(10, 54, 60, 8, G) + e(10, 74, 34, 14, A), 26) + card(300, 480, 260, 240, ring(20, 10, 60, .7) + e(18, 82, 64, 7, G), 26) + bird('kf-site.webp', 760, 80, 760); }],
+  ['svc-app', '16/10', function (H) { return bg(H) + card(220, 260, 320, 190, e(10, 16, 22, 0, L, '50%', 'aspect-ratio:1;height:auto') + e(40, 20, 50, 10, N) + e(40, 40, 36, 8, G) + e(10, 70, 80, 14, A), 26) + card(280, 520, 260, 170, chart(10, 20, 80, 50, A, 'rgba(31,107,255,.16)'), 26) + bird('kf-app.webp', 860, 40, 540); }],
+  ['svc-saas', '16/10', function (H) { return bg(H) + win(640, 150, 820, 560, UI.dash()) + pose(0, 1220, 0, 260) + card(220, 300, 340, 200, e(10, 18, 40, 9, G) + e(10, 38, 56, 18, A) + chart(10, 66, 80, 22, Z), 26); }],
+  ['svc-reseaux', '16/10', function (H) { return bg(H) + phone(720, 170, 260, UI.story(), 'rotate(-8deg)') + phone(1180, 170, 260, UI.post(), 'rotate(8deg)') + phone(950, 110, 290, UI.reel()) + bird('kf-reseaux.webp', 300, 180, 300); }],
+  ['site-maquettes', '16/10', function (H) { return bg(H) + win(80, 260, 440, 330, UI.wire()) + px(560, 400, 60, 8, '', '', 'background:' + S + ';border-radius:99px') + win(640, 220, 440, 330, UI.site()) + px(1100, 400, 60, 8, '', '', 'background:' + S + ';border-radius:99px') + laptop(1180, 300, 360, UI.site()) + phone(1440, 380, 120, UI.mobileSite()); }],
+  ['site-mobile', '3/4', function (H) { return bg(H) + phone(370, 260, 860, UI.mobileSite()); }],
+  ['site-admin', '16/10', function (H) { return bg(H) + laptop(260, 110, 1080, UI.admin()); }],
+  ['site-boutique', '4/3', function (H) { return bg(H) + laptop(140, 240, 1040, UI.shop()) + phone(1150, 300, 300, UI.shop()); }],
+  // groupe 3 : applications, SaaS
+  ['app-prototype', '16/10', function (H) {
+    var s = bg(H), uis = [UI.onbAccount(), UI.booking(), UI.appHome(), UI.mobileDash(), UI.confirm()];
+    uis.forEach(function (u, k) { s += phone(110 + k * 290, 230 + (k % 2) * 60, 230, u); if (k < 4) s += '<svg style="left:' + (330 + k * 290) + 'px;top:' + (420 + (k % 2) * 30) + 'px;width:90px" viewBox="0 0 90 40"><path d="M4 30 C 30 0, 60 0, 82 22" fill="none" stroke="' + N + '" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 10"/><path d="M70 22 L84 24 L80 10" fill="none" stroke="' + N + '" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'; });
+    return s;
+  }],
+  ['app-main', '3/4', function (H) {
+    return bg(H) + phone(440, 330, 720, UI.appHome(), 'rotate(-5deg)') +
+      card(140, 1180, 470, 210, circ(8, 22, 18, A) + e(32, 26, 52, 10, N) + e(32, 48, 38, 8, G) + e(8, 76, 84, 8, G2), 28) +
+      card(1000, 520, 470, 330, ring(10, 14, 36, .72) + e(54, 24, 36, 8, N) + e(54, 40, 28, 7, G) + e(10, 80, 80, 8, I), 28);
+  }],
+  ['app-notif', '3/4', function (H) { return bg(H) + phone(370, 260, 860, UI.lock()); }],
+  ['app-icone', '4/3', function (H) { return bg(H, 'plain') + px(260, -260, 1080, 1700, px(42, 42, 996, 1616, UI.homeGrid(), 'scr', 'border-radius:120px'), 'dev', 'background:' + N + ';border-radius:150px;transform:rotate(-8deg)'); }],
+  ['saas-dashboard', '16/10', function (H) { return bg(H) + win(150, 110, 1300, 780, UI.dash()); }],
+  ['saas-onboarding', '16/10', function (H) { return bg(H) + win(110, 120, 640, 460, UI.onbAccount()) + win(480, 260, 640, 460, UI.onbPlans()) + win(850, 400, 640, 460, UI.onbInvite()); }],
+  ['saas-roles', '4/3', function (H) { return bg(H) + win(170, 180, 1260, 840, UI.roles()); }],
+  ['saas-mobile', '3/4', function (H) { return bg(H) + phone(370, 260, 860, UI.mobileDash()); }],
+  // groupe 4 : réseaux, méthode, studio
+  ['reseaux-storyboard', '16/10', function (H) {
+    var s = bg(H, 'plain') + card(140, 90, 1320, 820, '', 30), us = [UI.reel, UI.story, UI.post, UI.story, UI.reel, UI.profile];
+    us.forEach(function (u, k) { var x = 220 + (k % 3) * 420, y = 150 + Math.floor(k / 3) * 380; s += px(x, y, 200, 330, u(), 'scr', 'border-radius:18px;box-shadow:0 0 0 3px ' + G2) + e(0, 0, 0, 0, W) + px(x + 220, y + 40, 150, 14, '', '', 'background:' + G + ';border-radius:99px') + px(x + 220, y + 70, 110, 14, '', '', 'background:' + G2 + ';border-radius:99px') + px(x + 220, y + 120, 40, 40, '<i style="left:0;top:0;width:100%;height:100%;border-radius:50%;background:' + A + '"></i><b style="left:14px;top:11px;color:#fff;font:700 16px system-ui;position:absolute">' + (k + 1) + '</b>'); });
+    return s + px(1340, 820, 260, 26, '', '', 'background:' + N + ';border-radius:99px;transform:rotate(-30deg)') + px(1330, 868, 40, 26, '', '', 'background:#F2B8B8;border-radius:99px;transform:rotate(-30deg)');
+  }],
+  ['reseaux-charte', '4/3', function (H) {
+    var s = bg(H, 'plain') + card(100, 100, 1400, 1000, '', 34);
+    [N, A, Z, L, I].forEach(function (c, k) { s += px(170 + k * 130, 180, 110, 110, '', '', 'background:' + c + ';border-radius:50%;box-shadow:0 0 0 2px ' + G2); });
+    s += '<div style="position:absolute;left:880px;top:150px;font:800 150px/1 Georgia,serif;color:' + N + '">Aa</div><div style="position:absolute;left:1140px;top:190px;font:400 110px/1 system-ui;color:' + A + '">Aa</div>';
+    var posts = [UI.post, UI.reel, UI.story, UI.profile];
+    posts.forEach(function (u, k) { s += px(170 + k * 320, 400, 290, 420, u(), 'scr', 'border-radius:22px;box-shadow:0 20px 40px -20px rgba(11,27,63,.35)') + px(170 + k * 320, 850, 160, 16, '', '', 'background:' + G + ';border-radius:99px'); });
+    return s + px(170, 930, 1260, 2, '', '', 'background:' + G2) + px(170, 980, 600, 18, '', '', 'background:' + G + ';border-radius:99px') + px(170, 1020, 420, 18, '', '', 'background:' + G2 + ';border-radius:99px');
+  }],
+  ['reseaux-motion', '16/10', function (H) {
+    var s = bg(H, 'plain'), steps = [
+      '<circle cx="50" cy="50" r="5" fill="' + A + '"/>',
+      '<path d="M50 8 A42 42 0 0 1 92 50" fill="none" stroke="' + A + '" stroke-width="10" stroke-linecap="round"/>',
+      '<circle cx="50" cy="50" r="42" fill="none" stroke="' + A + '" stroke-width="10"/>',
+      '<circle cx="50" cy="50" r="46" fill="' + A + '"/><path d="M30 34 h40" stroke="#fff" stroke-width="9" stroke-linecap="round"/>',
+      '<circle cx="50" cy="50" r="46" fill="' + A + '"/><path d="M30 34 h40 L34 70 h36" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>'];
+    steps.forEach(function (st, k) {
+      var x = 70 + k * 300;
+      s += card(x, 310 - (k === 4 ? 30 : 0), 260, 360, '<svg style="left:15%;top:18%;width:70%" viewBox="0 0 100 100">' + st + '</svg>' + e(15, 82, 50, 4, G) + e(15, 90, 30, 3, G2), 24);
+      if (k < 4) s += px(x + 268, 486, 24, 8, '', '', 'background:' + S + ';border-radius:99px');
+    });
+    return s + px(70, 760, 1460, 6, '', '', 'background:' + G + ';border-radius:99px') + px(70, 760, 1100, 6, '', '', 'background:' + A + ';border-radius:99px') + px(1158, 748, 30, 30, '', 'soft', 'background:' + A + ';box-shadow:0 0 0 6px #fff');
+  }],
+  ['reseaux-telephones', '3/4', function (H) { return bg(H) + phone(260, 360, 620, UI.story(), 'rotate(-7deg)') + phone(720, 520, 620, UI.post(), 'rotate(6deg)'); }],
+  ['methode-ecouter', '4/3', function (H) {
+    return bg(H, 'plain') + card(120, 180, 640, 820, lines(10, 10, 70, 4, G, 2.6, 3.2) + px(70, 340, 220, 160, '', '', 'border:5px solid ' + S + ';border-radius:18px') + px(330, 380, 140, 8, '', '', 'background:' + S + ';border-radius:99px;transform:rotate(-12deg)') + px(400, 460, 160, 160, '', '', 'border:5px solid ' + A + ';border-radius:50%') + lines(10, 80, 60, 3, G2, 2.4, 3), 20) +
+      px(745, 520, 30, 340, '', '', 'background:' + N + ';border-radius:99px;transform:rotate(18deg)') +
+      laptop(820, 260, 680, UI.onbInvite().replace(/G2/, '')) + px(1060, 900, 170, 170, '<i style="left:20%;top:20%;width:60%;height:60%;border-radius:50%;background:#fff;opacity:.5"></i>', 'soft', 'background:' + A);
+  }],
+  ['methode-concevoir', '4/3', function (H) {
+    var s = bg(H, 'plain');
+    [[120, 120, -6, UI.site], [1140, 120, 5, UI.dash], [130, 760, 4, UI.wire], [1130, 780, -5, UI.shop]].forEach(function (p) { s += px(p[0], p[1], 360, 260, p[3](), 'scr', 'border-radius:16px;transform:rotate(' + p[2] + 'deg);box-shadow:0 24px 40px -22px rgba(11,27,63,.4)') + px(p[0] + 170, p[1] - 14, 22, 22, '', 'soft', 'background:' + A + ';transform:rotate(' + p[2] + 'deg)'); });
+    return s + phone(620, 160, 380, UI.appHome()) + px(805, 610, 46, 46, '', 'soft', 'background:rgba(31,107,255,.35);box-shadow:0 0 0 14px rgba(31,107,255,.15)');
+  }],
+  ['methode-grandir', '4/3', function (H) {
+    return bg(H, 'plain') + laptop(140, 230, 860, '<svg style="left:6%;top:12%;width:88%;height:76%" viewBox="0 0 200 100" preserveAspectRatio="none"><path d="M0 100 L0 86 C 30 84 40 70 70 66 S 110 50 130 40 S 170 16 200 6 L200 100Z" fill="rgba(31,107,255,.15)"/><path d="M0 86 C 30 84 40 70 70 66 S 110 50 130 40 S 170 16 200 6" fill="none" stroke="' + A + '" stroke-width="3" vector-effect="non-scaling-stroke"/></svg>' + e(6, 4, 30, 5, N)) +
+      card(1060, 170, 400, 420, check(10, 10, 12) + e(28, 13, 54, 4, N) + check(10, 32, 12) + e(28, 35, 46, 4, N) + check(10, 54, 12) + e(28, 57, 50, 4, N) + e(10, 76, 12, 11, I, '50%', 'border:3px dashed ' + A) + e(28, 79, 40, 4, G), 26) +
+      phone(1140, 640, 230, UI.post());
+  }],
+  ['studio-bureau', '4/3', function (H) {
+    var code = '';
+    for (var k = 0; k < 9; k++) code += e(6 + (k % 3) * 4, 10 + k * 9, [30, 46, 22, 52, 38, 28, 44, 20, 34][k], 4, [A, L, Z, '#8FA3C9'][k % 4]);
+    return bg(H, 'plain') + laptop(120, 200, 760, '<i style="left:0;top:0;width:100%;height:100%;background:' + N + ';border-radius:0"></i>' + code) +
+      card(950, 140, 520, 640, '', 14) + pose(0, 1090, 200, 250) + px(1000, 690, 420, 10, '', '', 'background:' + G2 + ';border-radius:99px') + px(1000, 724, 300, 10, '', '', 'background:' + G2 + ';border-radius:99px') +
+      phone(1000, 840, 170, UI.appHome(), 'rotate(-80deg)') +
+      [N, A, Z, L, '#BFD3FF'].map(function (c, k) { return px(300, 900, 320, 70, '', '', 'background:' + c + ';border-radius:20px;transform-origin:20px 35px;transform:rotate(' + (-50 + k * 14) + 'deg)'); }).join('') +
+      px(700, 860, 170, 170, '', '', 'background:' + A + ';border-radius:30px 30px 60px 60px') + px(710, 720, 70, 160, '', '', 'background:#3BB6A0;border-radius:70px 0;transform:rotate(-20deg)') + px(790, 700, 70, 170, '', '', 'background:#2F9E8A;border-radius:0 70px;transform:rotate(18deg)');
+  }],
+  ['studio-lac', '21/9', function (H) {
+    return '<i style="left:0;top:0;width:100%;height:100%;background:linear-gradient(#CFE0FF,#EEF4FF 70%)"></i>' +
+      px(1080, 120, 220, 220, '', 'soft', 'background:#fff;opacity:.85;box-shadow:0 0 120px 40px rgba(255,255,255,.7)') +
+      '<svg style="left:0;top:0;width:1600px;height:' + H + 'px" viewBox="0 0 1600 ' + H + '" preserveAspectRatio="none"><path d="M0 420 C 200 300 360 340 520 380 S 860 280 1040 340 S 1400 300 1600 360 L1600 470 L0 470Z" fill="#8FAEE8"/><path d="M0 450 C 260 380 520 420 760 430 S 1240 380 1600 420 L1600 480 L0 480Z" fill="#5E86D6"/><rect y="470" width="1600" height="' + (H - 470) + '" fill="#DCE8FF"/>' +
+      [520, 560, 600, 640].map(function (y, k) { return '<path d="M' + (120 + k * 160) + ' ' + y + ' h' + (300 - k * 30) + '" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/><path d="M' + (900 + k * 70) + ' ' + (y + 10) + ' h' + (180 - k * 20) + '" stroke="#B7CCF5" stroke-width="4" stroke-linecap="round"/>'; }).join('') +
+      '<path d="M1262 ' + H + ' C 1266 600 1258 520 1270 430" fill="none" stroke="#0B3BA8" stroke-width="8" stroke-linecap="round"/><path d="M1264 560 C 1230 530 1214 500 1210 466 C 1236 490 1256 518 1266 546Z" fill="#1450D8"/></svg>' +
+      pose(0, 1150, 250, 200);
+  }]
+];
+
+var GROUPS = { 1: ILL.slice(0, 6), 2: ILL.slice(6, 14), 3: ILL.slice(14, 22), 4: ILL.slice(22) };
+// #1 … #4 : un groupe ; #nom : une seule illustration ; rien : toutes
+var g = decodeURIComponent(location.hash.slice(1));
+(GROUPS[g] || (g ? ILL.filter(function (it) { return g.split(',').indexOf(it[0]) > -1; }) : ILL)).forEach(function (it) {
+  var r = it[1].split('/'), H = Math.round(1600 * r[1] / r[0]);
+  var d = document.createElement('div');
+  d.className = 'ill'; d.dataset.name = it[0]; d.style.height = H + 'px';
+  d.innerHTML = it[2](H);
+  document.body.appendChild(d);
+});
+</script>
+</body>
+</html>

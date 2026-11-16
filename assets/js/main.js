@@ -8,6 +8,8 @@
   'use strict';
   if (!(window.gsap && window.ScrollTrigger)) return;
   gsap.registerPlugin(ScrollTrigger);
+  // les pages n'ont pas toutes les mêmes sections : pas d'avertissement pour une cible absente
+  gsap.config({ nullTargetWarn: false });
   if (window.DrawSVGPlugin) gsap.registerPlugin(DrawSVGPlugin);
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -416,7 +418,7 @@
   // PIED DE PAGE : le fennec passe la tête, les lettres montent en bulles
   // =========================================================================
   gsap.from('#footerWord > *', { yPercent: 110, scaleY: 1.3, rotation: 6, duration: 1.2, stagger: .07, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#footerWord', start: 'top 95%' } });
-  gsap.from('.footer-top > *', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
+  gsap.from('.footer-grid > *, .footer-bottom', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
 
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();

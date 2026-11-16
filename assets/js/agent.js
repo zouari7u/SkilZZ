@@ -66,10 +66,10 @@
       chips: ['Comment se passe un projet ?', LEAD] },
     { re: /(appli|application|mobile|ios|android|iphone|store|saas|logiciel|plateforme|tableau de bord|dashboard)/,
       reply: "Applications et SaaS : vous testez d'abord un prototype sur votre propre téléphone, et le développement commence une fois qu'il vous convient. Livré : le prototype cliquable, l'application publiée sur l'App Store et Google Play, et un tableau de bord pour suivre l'usage.",
-      links: [{ label: 'Voir le service', href: '#services' }], chips: ['Combien coûte une application ?', LEAD] },
+      links: [{ label: 'Les applications', href: 'application-mobile.html' }, { label: 'Les SaaS', href: 'saas.html' }], chips: ['Combien coûte une application ?', LEAD] },
     { re: /(reseau|social|sociaux|instagram|tiktok|linkedin|reel|video|contenu|motion|post)/,
       reply: "Réseaux sociaux : reels, animations et visuels au bon format pour Instagram, TikTok et LinkedIn, dans la même identité que votre site. Livré : la charte de vos réseaux, des contenus prêts à publier et des gabarits réutilisables.",
-      links: [{ label: 'Voir le service', href: '#services' }], chips: ['Faut-il déjà un logo ?', LEAD] },
+      links: [{ label: 'Voir le service', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
     { re: /(logo|charte|identite|couleur|marque|branding|graphique)/,
       reply: "Pas besoin d'avoir déjà un logo ou une charte : le studio peut créer votre logo, vos couleurs et votre univers graphique avant de concevoir le site ou l'application.",
       chips: ['Que comprend un site ?', LEAD] },
@@ -87,13 +87,13 @@
       chips: ['Comment se passe un projet ?', LEAD] },
     { re: /(site|vitrine|e.?commerce|boutique|shop|vendre en ligne|landing|page web|wordpress|shopify)/,
       reply: "Sites vitrines et e-commerce : de la page unique qui présente votre activité à la boutique complète avec paiement. Livré : les maquettes validées avec vous, le site en ligne sur votre nom de domaine et la prise en main du back-office.",
-      links: [{ label: 'Voir le service', href: '#services' }, { label: 'Voir une réalisation', href: '#realisation' }], chips: ['Combien coûte un site ?', LEAD] },
+      links: [{ label: 'Voir le service', href: 'site-web.html' }, { label: 'Voir une réalisation', href: 'mm-fragrances.html' }], chips: ['Combien coûte un site ?', LEAD] },
     { re: /(etape|methode|deroule|se passe|process|comment (ca|vous) (marche|travaill)|fonctionne)/,
       reply: "Trois étapes. Écouter : un premier échange, puis un devis détaillé. Concevoir : maquettes et prototype animé, que vous testez sur votre téléphone. Faire grandir : mise en ligne, suivi et nouvelles fonctions.",
-      links: [{ label: 'Voir la méthode', href: '#methode' }], chips: ['Combien coûte un site ?', LEAD] },
+      links: [{ label: 'Voir la méthode', href: 'methode.html' }], chips: ['Combien coûte un site ?', LEAD] },
     { re: /(exemple|realisation|portfolio|projet deja|reference|client|\bmm\b|parfum)/,
       reply: "Une réalisation du studio : MM Fragrances, une parfumerie de niche en ligne, avec catalogue animé, flacons en 3D, quiz pour trouver son parfum et conseiller virtuel.",
-      links: [{ label: 'Voir la réalisation', href: '#realisation' }], chips: ['Que comprend un site ?', LEAD] },
+      links: [{ label: 'Voir la réalisation', href: 'mm-fragrances.html' }], chips: ['Que comprend un site ?', LEAD] },
     { re: /(interlocuteur|qui (me )?repond|equipe|freelance|agence|personne)/,
       reply: "Vous parlez toujours à la même personne, du premier appel à la mise en ligne. Pas de ticket, pas de transfert d'un service à l'autre.",
       chips: [LEAD] },
@@ -150,9 +150,12 @@
       var a = document.createElement('a');
       a.href = l.href; a.textContent = l.label; a.className = 'agent-link';
       a.addEventListener('click', function (e) {
-        if (l.href.charAt(0) !== '#') return;
+        var hash = l.href.indexOf('#') > -1 ? l.href.slice(l.href.indexOf('#')) : '';
+        var page = l.href.split('#')[0];
+        var here = !page || location.pathname.replace(/\.html$/, '').split('/').pop() === page.replace(/\.html$/, '');
+        if (!here || !hash || !document.querySelector(hash)) return;
         e.preventDefault();
-        goTo(l.href);
+        goTo(hash);
         if (window.innerWidth < 640) close();
       });
       box.appendChild(a);
@@ -242,11 +245,16 @@
     state.flow = null;
     fillContact(f.types || [], f.desc);
     return { reply: "C'est prêt : j'ai rempli le type de projet et votre message dans le formulaire. Il reste votre nom et votre email, puis « Envoyer le message ».",
-      links: [{ label: 'Aller au formulaire', href: '#contact' }], chips: ['Comment se passe un projet ?'] };
+      links: [{ label: 'Aller au formulaire', href: 'contact.html#contact' }], chips: ['Comment se passe un projet ?'] };
   }
   function fillContact(types, desc) {
     var cf = document.getElementById('contactForm');
-    if (!cf) return;
+    // pas de formulaire sur cette page : il est prérempli sur la page Contact
+    if (!cf) {
+      try { sessionStorage.setItem('skz-prefill', JSON.stringify({ types: types, desc: desc })); } catch (e) {}
+      setTimeout(function () { location.href = 'contact.html#contact'; }, 1400);
+      return;
+    }
     cf.querySelectorAll('input[name="type"]').forEach(function (c) { c.checked = types.indexOf(c.value) > -1; });
     var ta = cf.querySelector('textarea[name="message"]');
     if (ta) ta.value = desc;
@@ -407,6 +415,7 @@
   var HINTS = {
     services: 'Une question sur un service ? Demandez-moi.',
     realisation: 'Envie d’un site comme celui-ci ? Je vous explique.',
+    travaux: 'Vous ne savez pas par quel service commencer ? Je vous aide.',
     questions: 'Votre question n’est pas dans la liste ? Posez-la-moi.',
     contact: 'Je peux préparer ce message avec vous.'
   };
@@ -447,6 +456,18 @@
     }, { threshold: .35 });
     Object.keys(HINTS).forEach(function (id) { var s = document.getElementById(id); s && io.observe(s); });
   }
+
+  // arrivée sur la page Contact avec un message préparé par l'assistant
+  (function () {
+    var cf = document.getElementById('contactForm'), p = null;
+    if (!cf) return;
+    try { p = JSON.parse(sessionStorage.getItem('skz-prefill') || 'null'); sessionStorage.removeItem('skz-prefill'); } catch (e) {}
+    if (!p) return;
+    cf.querySelectorAll('input[name="type"]').forEach(function (c) { c.checked = (p.types || []).indexOf(c.value) > -1; });
+    var ta = cf.querySelector('textarea[name="message"]');
+    if (ta) ta.value = p.desc || '';
+    setTimeout(function () { var n = cf.querySelector('input[name="name"]'); n && n.focus({ preventScroll: true }); }, 600);
+  })();
 
   window.skzAgent = { open: openPanel, close: close, ask: function (q) { openPanel(); setTimeout(function () { ask(q); }, 500); } };
 })();

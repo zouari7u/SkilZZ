@@ -43,8 +43,8 @@
     svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     var narrow = W < 700, m = narrow ? 10 : Math.max(26, (W - 1180) / 4);
     var L = m, R = W - m;
-    var secs = ['#inclus', '#services', '#realisation', '#methode', '#questions', '#contact']
-      .map(function (s) { return document.querySelector(s); }).filter(Boolean);
+    var secs = Array.prototype.slice.call(document.querySelectorAll('main > section:not(#top)'))
+      .filter(function (s) { return s.offsetHeight > 160; });
     var hero = document.getElementById('top');
     if (!hero || !secs.length) return;
     // départ : dans l'espace sous le bandeau, côté droit (le fil ne coupe

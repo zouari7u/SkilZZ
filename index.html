@@ -7,8 +7,8 @@
   <meta name="description" content="ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des contenus pour les réseaux sociaux.">
   <meta name="theme-color" content="#F5F8FF" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#070C1C" media="(prefers-color-scheme: dark)">
-  <meta property="og:title" content="ZkilZ — Studio digital">
-  <meta property="og:description" content="Sites, applications et contenus pour les marques qui veulent monter.">
+  <meta property="og:title" content="ZkilZ — Studio digital : sites, applications et réseaux sociaux">
+  <meta property="og:description" content="ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des contenus pour les réseaux sociaux.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/img/og-zkilz.jpg">
   <meta property="og:image:width" content="1200">
@@ -31,9 +31,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body>
+<body class="page-index">
+<!-- Page générée par tools/build_pages.py : modifiez tools/pages/index.html puis relancez le script. -->
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -45,14 +46,10 @@
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 
-  <!-- =====================================================================
-       NAVBAR — pilule flottante en 3 colonnes, comme sur MM Fragrances :
-       [logo] [liens] [action · thème]. Anneau lumineux sur le contour.
-       ===================================================================== -->
   <nav class="nav" id="nav" aria-label="Navigation principale">
     <div class="nav-glow" aria-hidden="true"><svg preserveAspectRatio="none"><rect class="nav-glow-rect" fill="none"/></svg></div>
 
-    <a href="#top" class="nav-brand" aria-label="ZkilZ, retour en haut de page">
+    <a href="index.html" class="nav-brand" aria-label="ZkilZ, accueil">
       <span class="nav-logo"><img src="assets/img/kf-head.svg" alt="" width="40" height="40"></span>
       <span class="nav-word"><b>Z</b>kil<b>Z</b></span>
     </a>
@@ -61,17 +58,16 @@
       <button type="button" class="nav-arrow nav-arrow--l" aria-label="Lien précédent" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <ul class="nav-links" id="navLinks">
         <li class="nav-pill" aria-hidden="true"></li>
-        <li><a href="#inclus">Inclus</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#realisation">Réalisation</a></li>
-        <li><a href="#methode">Méthode</a></li>
-        <li><a href="#questions">Questions</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="realisations.html">Réalisations</a></li>
+        <li><a href="methode.html">Méthode</a></li>
+        <li><a href="studio.html">Studio</a></li>
       </ul>
       <button type="button" class="nav-arrow nav-arrow--r" aria-label="Lien suivant" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
 
     <div class="nav-end">
-      <a href="#contact" class="nav-cta fill-btn" data-fill="#DCE8FF">Parler de votre projet</a>
+      <a href="contact.html" class="nav-cta fill-btn" data-fill="#DCE8FF">Parler de votre projet</a>
       <label class="theme-switch" aria-label="Thème clair ou sombre">
         <input type="checkbox" id="themeToggle">
         <span class="slider"></span>
@@ -94,7 +90,7 @@
           Vous parlez à une seule personne, du premier appel à la mise en ligne.
         </p>
         <div class="hero-ctas" data-enter>
-          <a href="#contact" class="btn btn--primary fill-btn"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
+          <a href="contact.html" class="btn btn--primary fill-btn"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
           <a href="#realisation" class="btn btn--ghost fill-btn"><span>Voir une réalisation</span></a>
         </div>
       </div>
@@ -137,6 +133,36 @@
         </ul>
       </div>
     </div>
+
+    <!-- CE QU'ON FABRIQUE : deux rangées d'images qui défilent ========== -->
+    <section class="collage-sec" id="travaux">
+      <header class="head head--split">
+        <div>
+          <p class="label">Ce qu'on fabrique</p>
+          <h2 class="split">Des sites, des applications et des contenus qui se ressemblent.</h2>
+        </div>
+        <a href="services.html" class="btn btn--ghost fill-btn"><span>Voir les services</span><svg><use href="#i-arrow"/></svg></a>
+      </header>
+      <div class="collage" aria-label="Exemples de ce que le studio conçoit">
+        <div class="collage-row">
+          <div class="collage-track">
+            <figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-site.webp" alt="Un site vitrine affiché sur un ordinateur portable" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-site.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/col-reel.webp" alt="Un reel vertical sur un téléphone" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-reel.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-saas.webp" alt="Un tableau de bord de logiciel en ligne sur un grand écran" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-saas.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-marque.webp" alt="Une planche d&#x27;identité visuelle : logo, couleurs, typographie" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-marque.webp</b></figcaption></figure>
+          </div>
+          <div class="collage-track" aria-hidden="true">
+            <figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-site.webp" alt="Un site vitrine affiché sur un ordinateur portable" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-site.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/col-reel.webp" alt="Un reel vertical sur un téléphone" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-reel.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-saas.webp" alt="Un tableau de bord de logiciel en ligne sur un grand écran" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-saas.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-marque.webp" alt="Une planche d&#x27;identité visuelle : logo, couleurs, typographie" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-marque.webp</b></figcaption></figure>
+          </div>
+        </div>
+        <div class="collage-row collage-row--rev">
+          <div class="collage-track">
+            <figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-app.webp" alt="Deux écrans d&#x27;une application de réservation sur téléphone" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-app.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/col-grille.webp" alt="Le profil d&#x27;une marque sur un réseau social : une grille de publications" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-grille.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/site-boutique.webp" alt="Une fiche produit de boutique en ligne avec le bouton d&#x27;achat" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>site-boutique.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/saas-mobile.webp" alt="Le même logiciel, sur téléphone" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>saas-mobile.webp</b></figcaption></figure>
+          </div>
+          <div class="collage-track" aria-hidden="true">
+            <figure class="shot" style="--r:4/3"><img src="assets/img/pages/col-app.webp" alt="Deux écrans d&#x27;une application de réservation sur téléphone" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-app.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/col-grille.webp" alt="Le profil d&#x27;une marque sur un réseau social : une grille de publications" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>col-grille.webp</b></figcaption></figure><figure class="shot" style="--r:4/3"><img src="assets/img/pages/site-boutique.webp" alt="Une fiche produit de boutique en ligne avec le bouton d&#x27;achat" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>site-boutique.webp</b></figcaption></figure><figure class="shot" style="--r:3/4"><img src="assets/img/pages/saas-mobile.webp" alt="Le même logiciel, sur téléphone" width="1600" height="2133" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>saas-mobile.webp</b></figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <p class="collage-note">Exemples d'interfaces dessinées pour présenter nos métiers, pas des projets clients.</p>
+    </section>
 
     <!-- INCLUS DANS CHAQUE PROJET : encarts animés ======================== -->
     <section class="bento-sec" id="inclus">
@@ -227,6 +253,7 @@
               <p class="svc-lead">Vitrine ou boutique, rapide sur téléphone. Vous changez un texte ou un prix vous-même, sans nous attendre.</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Maquettes validées avec vous</li><li><svg><use href="#i-check"/></svg>Mise en ligne sur votre nom de domaine</li><li><svg><use href="#i-check"/></svg>Un back-office simple, et une heure pour le prendre en main</li></ul>
               <ul class="tags"><li>Sur-mesure</li><li>Boutique et paiement</li><li>Référencement</li></ul>
+              <a class="svc-more" href="site-web.html">Le service en détail<svg><use href="#i-arrow"/></svg></a>
             </div>
           </article>
           <article class="svc" data-tone="navy">
@@ -237,6 +264,7 @@
               <p class="svc-lead">Vous testez un prototype sur votre propre téléphone avant qu'on écrive la première ligne de code.</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Prototype cliquable à essayer</li><li><svg><use href="#i-check"/></svg>Publication sur l’App Store et Google Play</li><li><svg><use href="#i-check"/></svg>Un tableau de bord pour suivre l’usage</li></ul>
               <ul class="tags"><li>iOS et Android</li><li>SaaS</li><li>Tableaux de bord</li></ul>
+              <span class="svc-more-row"><a class="svc-more" href="application-mobile.html">Applications<svg><use href="#i-arrow"/></svg></a><a class="svc-more" href="saas.html">SaaS<svg><use href="#i-arrow"/></svg></a></span>
             </div>
           </article>
           <article class="svc" data-tone="sky">
@@ -247,6 +275,7 @@
               <p class="svc-lead">Reels, motion design et visuels pensés pour chaque réseau, avec la même identité partout.</p>
               <ul class="deliv"><li><svg><use href="#i-check"/></svg>Une charte pour vos réseaux</li><li><svg><use href="#i-check"/></svg>Des contenus prêts à publier</li><li><svg><use href="#i-check"/></svg>Des modèles que vous réutilisez</li></ul>
               <ul class="tags"><li>Reels et TikTok</li><li>Motion design</li><li>Identité visuelle</li></ul>
+              <a class="svc-more" href="reseaux-sociaux.html">Le service en détail<svg><use href="#i-arrow"/></svg></a>
             </div>
           </article>
         </div>
@@ -304,7 +333,7 @@
             <p class="label label--on-dark">Réalisation</p>
             <h2>MM Fragrances, parfumerie de niche en ligne</h2>
             <p>Une boutique en clair-obscur pour une maison de parfums de niche&nbsp;: catalogue animé, flacons en 3D, quiz pour trouver son parfum et conseiller virtuel qui répond aux questions.</p>
-            <a href="https://www.mm-fragrances.fr" target="_blank" rel="noopener" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Visiter mm-fragrances.fr</span><svg><use href="#i-out"/></svg></a>
+            <a href="mm-fragrances.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Lire l'étude de cas</span><svg><use href="#i-arrow"/></svg></a>
           </div>
 
           <div class="case-visual">
@@ -361,6 +390,20 @@
         <li><svg><use href="#i-check"/></svg>Code, design et comptes vous appartiennent</li>
         <li><svg><use href="#i-check"/></svg>Un seul interlocuteur pendant tout le projet</li>
       </ul>
+      <p class="sec-more"><a href="methode.html" class="btn btn--ghost fill-btn"><span>La méthode en détail</span><svg><use href="#i-arrow"/></svg></a></p>
+    </section>
+
+    <!-- LE STUDIO ======================================================= -->
+    <section class="split-sec" id="studio">
+      <div class="split-row">
+        <div class="split-media" data-reveal><figure class="shot" style="--r:4/3"><img src="assets/img/pages/studio-bureau.webp" alt="Le bureau du studio : ordinateur, croquis et téléphone de test" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>studio-bureau.webp</b></figcaption></figure></div>
+        <div class="split-copy" data-reveal>
+          <p class="label">Le studio</p>
+          <h2>Petit studio, du premier croquis à la mise en ligne.</h2>
+          <p>Le design, le développement et les contenus sont faits au même endroit. Celui qui dessine votre maquette est celui qui la code, puis celui qui prépare vos reels.</p>
+          <a href="studio.html" class="btn btn--ghost fill-btn"><span>Découvrir le studio</span><svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
     </section>
 
     <!-- QUESTIONS ======================================================= -->
@@ -382,64 +425,50 @@
           <summary>Gérez-vous aussi les réseaux sociaux&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
           <div class="qa-body"><p>Oui. Le studio crée vos reels, vos visuels et vos animations dans la même identité que votre site, pour que votre marque soit reconnaissable partout.</p></div>
         </details>
-        <details class="qa">
-          <summary>Que se passe-t-il après la mise en ligne&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
-          <div class="qa-body"><p>Le studio peut assurer la maintenance, les évolutions et la création de contenus. Vous êtes aussi formé pour modifier vous-même l'essentiel.</p></div>
-        </details>
-        <details class="qa">
-          <summary>Faut-il déjà avoir un logo et une charte graphique&nbsp;?<span class="qa-ico"><svg><use href="#i-plus"/></svg></span></summary>
-          <div class="qa-body"><p>Non. Le studio peut créer votre logo, vos couleurs et votre univers graphique avant de concevoir le site ou l'application.</p></div>
-        </details>
       </div>
+      <p class="sec-more"><a href="contact.html#questions" class="btn btn--ghost fill-btn"><span>Toutes les questions</span><svg><use href="#i-arrow"/></svg></a></p>
     </section>
 
-    <!-- CONTACT ========================================================= -->
-    <section class="contact" id="contact">
-      <div class="contact-panel" id="contactPanel">
-        <div class="contact-copy">
-          <img class="contact-bird" id="contactBird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1184" height="1100" loading="lazy" decoding="async">
-          <h2>Racontez-nous votre projet</h2>
-          <p>Pas besoin de cahier des charges. Dites ce que vous vendez et ce qui ne marche pas aujourd'hui&nbsp;: on revient vers vous avec des pistes concrètes. Le premier échange est gratuit.</p>
+    <section class="cta-sec">
+      <div class="cta-band" data-reveal>
+        <img class="cta-bird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1184" height="1100" loading="lazy" decoding="async">
+        <div class="cta-copy">
+          <h2>Un projet en tête&nbsp;?</h2>
+          <p>Dites ce que vous vendez et ce qui coince aujourd'hui. Le premier échange est gratuit, et vous repartez avec des pistes concrètes.</p>
         </div>
-        <!-- Envoi : renseignez data-endpoint (Formspree, route serveur…)
-             ou data-email (ouvre la messagerie du visiteur, message prérempli). -->
-        <form class="form" id="contactForm" data-endpoint="" data-email="" novalidate>
-          <div class="form-row">
-            <label class="field"><span>Nom</span><input name="name" autocomplete="name" required></label>
-            <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
-          </div>
-          <fieldset class="choices">
-            <legend>Type de projet</legend>
-            <label><input type="checkbox" name="type" value="Site"><span>Site</span></label>
-            <label><input type="checkbox" name="type" value="Application"><span>Application</span></label>
-            <label><input type="checkbox" name="type" value="SaaS"><span>SaaS</span></label>
-            <label><input type="checkbox" name="type" value="Réseaux sociaux"><span>Réseaux sociaux</span></label>
-          </fieldset>
-          <label class="field"><span>Message</span><textarea name="message" rows="4"></textarea></label>
-          <button class="btn btn--primary btn--block fill-btn" id="sendBtn" type="submit"><span>Envoyer le message</span><svg><use href="#i-arrow"/></svg></button>
-          <p class="form-status" role="status" aria-live="polite"></p>
-        </form>
+        <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
     </section>
   </main>
 
   <footer class="footer" id="footer">
-    <div class="footer-top">
-      <p class="footer-tag">Studio digital. Sites, applications et réseaux sociaux.</p>
-      <nav class="footer-links" aria-label="Pied de page">
-        <a href="#services">Services</a><a href="#realisation">Réalisation</a><a href="#methode">Méthode</a><a href="#questions">Questions</a><a href="#contact">Contact</a>
+    <div class="footer-grid">
+      <div class="footer-about">
+        <p class="footer-tag">Studio digital. Sites, applications et réseaux sociaux.</p>
+        <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <nav class="footer-col" aria-label="Services">
+        <p class="footer-h">Services</p>
+        <a href="site-web.html">Site web</a>
+        <a href="application-mobile.html">Application mobile</a>
+        <a href="saas.html">SaaS et outils métier</a>
+        <a href="reseaux-sociaux.html">Réseaux sociaux</a>
+      </nav>
+      <nav class="footer-col" aria-label="Le studio">
+        <p class="footer-h">Le studio</p>
+        <a href="realisations.html">Réalisations</a><a href="methode.html">Méthode</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
       </nav>
     </div>
     <p class="footer-word" id="footerWord" aria-label="ZkilZ"><b>Z</b><span>k</span><span>i</span><span data-perch="50" data-perch-ink>l</span><b>Z</b></p>
-    <p class="footer-legal">© 2026 ZkilZ</p>
+    <div class="footer-bottom">
+      <p class="footer-legal">© 2026 ZkilZ</p>
+      <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a></nav>
+    </div>
   </footer>
 
-  <!-- =====================================================================
-       AGENT IA — bulle en bas à droite (assets/js/agent.js).
-       Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat,
-       voir api/chat.js) ; sans adresse, un moteur local répond à partir
-       du contenu de la page.
-       ===================================================================== -->
+  <!-- AGENT IA — bulle en bas à droite (assets/js/agent.js).
+       Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat) ;
+       sans adresse, un moteur local répond. -->
   <div class="agent-tip" id="agentTip" hidden>
     <span id="agentTipText"></span>
     <button type="button" class="agent-tip-x" aria-label="Ne plus afficher ces messages"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
@@ -479,6 +508,7 @@
   <script src="assets/js/fx.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/scenes.js"></script>
+  <script src="assets/js/pages.js"></script>
   <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>
   <script src="assets/js/agent.js"></script>

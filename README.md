@@ -12,10 +12,41 @@ npm start
 
 Puis ouvrir **http://localhost:4000**. Le site est statique (HTML, CSS, JS), sans étape de build.
 
+## Les pages
+
+| Page | Fichier |
+|---|---|
+| Accueil | `index.html` |
+| Services, puis un service par page | `services.html`, `site-web.html`, `application-mobile.html`, `saas.html`, `reseaux-sociaux.html` |
+| Réalisations et étude de cas | `realisations.html`, `mm-fragrances.html` |
+| Méthode, Studio, Contact | `methode.html`, `studio.html`, `contact.html` |
+| Légal | `mentions-legales.html`, `confidentialite.html` |
+
+**Modifier une page :** son contenu est dans `tools/pages/<nom>.html`. La barre de navigation, le pied de page et
+l'assistant sont communs, dans `tools/build_pages.py`. Après une modification, relancer :
+
+```bash
+python3 tools/build_pages.py
+```
+
+Le script réécrit les pages `.html` à la racine (le site reste statique, rien à lancer pour le servir) et met à
+jour la liste des images dans `PROMPTS-MASCOTTE.md`.
+
+**Ajouter les images :** chaque image manquante s'affiche comme un cadre « Image à venir » avec son nom. Générer
+l'image avec son prompt (`PROMPTS-MASCOTTE.md`, partie « Images des pages »), la déposer en PNG ou JPG dans
+`assets/img/pages/src/`, puis :
+
+```bash
+python3 tools/convertir_images.py
+```
+
 ## Structure
 
 ```
-index.html              page d'accueil
+index.html              page d'accueil (et les autres pages .html, voir plus haut)
+tools/build_pages.py    fabrique les pages : gabarit commun + tools/pages/*.html + liste des images
+tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → .webp dans assets/img/pages/
+assets/js/pages.js      pages : cadres « image à venir », apparition au défilement, mosaïque
 assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
 assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème
 assets/js/deco.js       le fond : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
@@ -42,5 +73,9 @@ PROMPTS-MASCOTTE.md     prompts pour générer de nouvelles poses
 
 - **Formulaire de contact** : sur `#contactForm`, renseigner `data-endpoint` (Formspree, route serveur)
   ou `data-email` (ouvre la messagerie du visiteur avec le message prérempli).
-- **Mentions légales** et **politique de confidentialité** (pages à créer, puis lien dans le pied de page).
+- **Mentions légales** et **politique de confidentialité** : compléter les passages entre crochets dans
+  `tools/pages/mentions-legales.html` et `tools/pages/confidentialite.html`.
+- **Images des pages** : 36 emplacements attendent leur image (voir plus haut).
+- **mm-fragrances.fr** : le domaine ne répondait pas lors de la création des pages ; l'étude de cas n'a donc
+  plus de lien vers le site en ligne. À remettre quand il est en ligne.
 - Liens vers les réseaux sociaux du studio.

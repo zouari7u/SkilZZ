@@ -194,3 +194,293 @@ looking down at it. No logo, no readable text. [RÈGLES]
 | 7 | `kf-envol` | pied de page, image de partage | je l'intègre |
 | 8 | `og-zkilz` | aperçu des liens partagés | je l'intègre |
 | 9-11 | `kf-site`, `kf-app`, `kf-reseaux` | services sur téléphone | intégrées |
+
+---
+
+<!-- IMAGES DES PAGES : début -->
+
+# Images des pages du site
+
+Ces images remplissent les pages du site (accueil, services, méthode, studio…). En attendant tes versions, des illustrations dessinées en code (`tools/illustrations/`) occupent déjà les emplacements : une image IA déposée avec le même nom les remplace. Les vraies images (captures, photo) affichent un cadre « Image à venir » tant qu'elles manquent.
+
+**Où les mettre :** exporte chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom indiqué, puis lance `python3 tools/convertir_images.py` : il les redimensionne à 1600 px de large et les convertit en `.webp` dans `assets/img/pages/`.
+
+**Trois styles** : le titre de chaque image dit lequel utiliser.
+
+### Style A — illustration en aplats
+
+```text
+Flat vector editorial illustration, geometric and minimal, crisp shapes, very subtle gradients only, no outlines, no texture. Palette strictly blue and white: navy #0B1B3F, royal blue #1F6BFF, azure #1E9BFF, light azure #8FDBFF, ice blue #E1EBFF, white. No orange, red, yellow or green. Any text is drawn as rounded grey or navy bars, never readable letters. No logos of real brands, no watermark.
+```
+
+### Style B — écran ou appareil
+
+```text
+Clean product mock-up, soft studio lighting, minimal and premium, devices with thin dark bezels, gentle soft shadow on a flat ice-blue background (#E1EBFF). The on-screen interface is invented: palette navy #0B1B3F, royal blue #1F6BFF, azure #1E9BFF, ice blue and white, rounded corners, generous spacing. All text on screen is drawn as rounded grey bars, never readable letters. No real brand, no real logo, no watermark, no people's faces.
+```
+
+### Style C — le martin-pêcheur dans une scène
+
+Colle la **fiche du personnage (n° 0)** au début, joins la **planche n° 1** en image de référence, puis termine par le style A. Pas de fond vert ici : la scène a son propre fond.
+
+Le format (largeur:hauteur) est donné pour chaque image : règle ton générateur dessus.
+
+## P1. Une planche d'identité visuelle : logo, couleurs, typographie → `col-marque.png`
+
+*Pages : index, reseaux-sociaux, services · format 4:3 · Style A*
+
+```text
+A flat-lay brand identity board seen from above on an ice-blue desk: a round logo mark made of simple geometric shapes, four colour swatches (navy, royal blue, azure, white), a large sample letter 'Aa' drawn as shapes, a business card and a small notebook, all neatly aligned on a grid.
+```
+
+## P2. Le storyboard d'un reel : six images clés → `reseaux-storyboard.png`
+
+*Pages : reseaux-sociaux · format 16:10 · Style A*
+
+```text
+A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), with small arrows between frames and a pencil next to the sheet.
+```
+
+## P3. La charte des réseaux : couleurs, typographies, modèles de publication → `reseaux-charte.png`
+
+*Pages : reseaux-sociaux · format 4:3 · Style A*
+
+```text
+A social media style guide board laid flat: colour swatches, two type samples drawn as shapes, and four post templates (quote, product, announcement, carousel cover) all in navy, royal blue, azure and white. Top-down view, ice-blue background.
+```
+
+## P4. Les étapes d'une animation de logo, image par image → `reseaux-motion.png`
+
+*Pages : reseaux-sociaux · format 16:10 · Style A*
+
+```text
+A horizontal sequence of five frames showing a simple round logo mark being drawn: a dot, a growing arc, a full circle, an inner shape appearing, the final mark with a small bounce. Flat vector, navy and royal blue on white frames, ice-blue background, thin motion guide lines between frames.
+```
+
+## P5. Le premier échange : un carnet, des notes et un appel en visio → `methode-ecouter.png`
+
+*Pages : methode · format 4:3 · Style A*
+
+```text
+A flat-lay of a first project meeting seen from above: an open notebook with simple sketches (boxes, arrows), a laptop showing a video call with two plain circular avatars, a cup and a pen, on an ice-blue desk.
+```
+
+## P6. Le prototype testé sur un téléphone, à côté des maquettes → `methode-concevoir.png`
+
+*Pages : methode · format 4:3 · Style A*
+
+```text
+A desk seen from above with printed screen mock-ups pinned around, and in the centre a hand holding a smartphone running the prototype, a finger about to tap a royal-blue button. Flat vector, navy, blues and white.
+```
+
+## P7. Après la mise en ligne : le suivi et les nouvelles fonctions → `methode-grandir.png`
+
+*Pages : methode · format 4:3 · Style A*
+
+```text
+A laptop showing a simple analytics chart going up in royal blue, next to a small checklist card with three ticked items and one new item being added, and a phone showing a new post ready to publish. Ice-blue desk.
+```
+
+## P8. Le bureau du studio : ordinateur, croquis et téléphone de test → `studio-bureau.png`
+
+*Pages : index, studio · format 4:3 · Style A*
+
+```text
+A tidy studio desk seen from above: a laptop with code drawn as coloured bars, a sketchbook with a kingfisher doodle in navy ink, a phone used for testing, a colour swatch fan in blues, a plant with blue pot. Ice-blue desk.
+```
+
+## P9. Un site vitrine affiché sur un ordinateur portable → `col-site.png`
+
+*Pages : index · format 4:3 · Style B*
+
+```text
+A modern laptop seen from a three-quarter front angle, standing on a plain ice-blue surface. The screen shows a clean showcase website for a small local business: a large hero photo area filled with a soft abstract blue shape, a short bold headline drawn as thick navy bars, one rounded royal-blue button, and a row of three rounded cards below.
+```
+
+## P10. Deux écrans d'une application de réservation sur téléphone → `col-app.png`
+
+*Pages : index · format 4:3 · Style B*
+
+```text
+Two modern smartphones side by side, slightly tilted toward each other. Left screen: a booking app home with a calendar strip, three rounded time-slot chips, one highlighted in royal blue. Right screen: a confirmation screen with a large check mark in a blue circle and a summary card.
+```
+
+## P11. Un tableau de bord de logiciel en ligne sur un grand écran → `col-saas.png`
+
+*Pages : index · format 4:3 · Style B*
+
+```text
+A large desktop monitor with a thin bezel. The screen shows a SaaS dashboard: a left sidebar with icons, four KPI cards on top, a smooth royal-blue line chart with a light-blue area underneath, and a table of rows with small status pills.
+```
+
+## P12. Un reel vertical sur un téléphone → `col-reel.png`
+
+*Pages : index, reseaux-sociaux · format 3:4 · Style B*
+
+```text
+A modern smartphone held upright, shown straight on. The screen shows a vertical short video frame: a bold abstract blue composition with a large circle and a diagonal shape, a heart icon, a comment icon and a share icon stacked on the right edge, a thin progress bar at the bottom.
+```
+
+## P13. Le profil d'une marque sur un réseau social : une grille de publications → `col-grille.png`
+
+*Pages : index, reseaux-sociaux · format 3:4 · Style B*
+
+```text
+A modern smartphone shown straight on. The screen shows a social media profile: a round avatar, three counters drawn as short bars, and below a 3 x 3 grid of square posts that all share the same blue and white style (circles, diagonals, a product silhouette, a quote card), clearly one coherent brand.
+```
+
+## P14. De la maquette en gris au site final, sur ordinateur et téléphone → `site-maquettes.png`
+
+*Pages : services, site-web · format 16:10 · Style B*
+
+```text
+Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the mobile version. Clean, airy, on an ice-blue background.
+```
+
+## P15. Un site vu sur téléphone, avec le menu ouvert → `site-mobile.png`
+
+*Pages : site-web · format 3:4 · Style B*
+
+```text
+A smartphone shown straight on, displaying a mobile website with a rounded navigation sheet opened from the bottom: four menu rows and a large royal-blue call-to-action button. Ice-blue background.
+```
+
+## P16. L'écran d'administration où l'on change un texte et une photo → `site-admin.png`
+
+*Pages : site-web · format 16:10 · Style B*
+
+```text
+A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, uncluttered. Ice-blue background.
+```
+
+## P17. Une fiche produit de boutique en ligne avec le bouton d'achat → `site-boutique.png`
+
+*Pages : index, site-web · format 4:3 · Style B*
+
+```text
+A laptop and a phone showing the same online shop product page: a large product photo area with an abstract bottle silhouette, a price drawn as a bold bar, size chips and a big royal-blue add-to-cart button. Ice-blue background.
+```
+
+## P18. Le parcours d'une application : cinq écrans reliés par des flèches → `app-prototype.png`
+
+*Pages : application-mobile · format 16:10 · Style B*
+
+```text
+Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue buttons, text drawn as grey bars.
+```
+
+## P19. L'écran d'accueil de l'application, entouré de deux cartes → `app-main.png`
+
+*Pages : application-mobile · format 3:4 · Style B*
+
+```text
+A modern smartphone slightly tilted, showing an app home: a greeting bar, a large royal-blue card with a progress ring and two smaller cards. Two rounded white cards float around the phone: a reminder card with a small blue dot, and a progress card with a ring. Ice-blue background.
+```
+
+## P20. L'écran verrouillé d'un téléphone avec les notifications de l'application → `app-notif.png`
+
+*Pages : application-mobile · format 3:4 · Style B*
+
+```text
+A smartphone lock screen with a large clock drawn as shapes and three stacked rounded notification cards from the same app (a small blue round icon on each). Soft blue abstract wallpaper. Ice-blue background.
+```
+
+## P21. L'icône de l'application sur l'écran d'accueil d'un téléphone → `app-icone.png`
+
+*Pages : application-mobile · format 4:3 · Style B*
+
+```text
+Close-up of a smartphone home screen grid of app icons, all in muted grey, except one bright royal-blue rounded icon with a simple white geometric symbol in the centre, slightly raised with a soft shadow, as if just installed. Ice-blue background.
+```
+
+## P22. Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs → `saas-dashboard.png`
+
+*Pages : saas · format 16:10 · Style B*
+
+```text
+A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue background.
+```
+
+## P23. Les trois étapes d'inscription d'un logiciel en ligne → `saas-onboarding.png`
+
+*Pages : saas · format 16:10 · Style B*
+
+```text
+Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as circles). Ice-blue background.
+```
+
+## P24. La gestion des accès : chaque membre de l'équipe a son rôle → `saas-roles.png`
+
+*Pages : saas · format 4:3 · Style B*
+
+```text
+A browser window showing a team settings table: rows with round avatars (plain coloured circles, no faces), names as grey bars, a role dropdown pill on each row (admin, editor, viewer drawn as pills of different blues), and an 'invite' button in royal blue. Ice-blue background.
+```
+
+## P25. Le même logiciel, sur téléphone → `saas-mobile.png`
+
+*Pages : index, saas · format 3:4 · Style B*
+
+```text
+A smartphone showing the mobile version of a SaaS dashboard: a stacked column of KPI cards and a compact line chart in royal blue, a bottom tab bar. Ice-blue background.
+```
+
+## P26. Une story et une publication de la même marque sur deux téléphones → `reseaux-telephones.png`
+
+*Pages : reseaux-sociaux · format 3:4 · Style B*
+
+```text
+Two smartphones overlapping slightly: one shows a vertical story with a big blue shape and a sticker-like rounded label, the other shows a square post from the same brand. Same colours, same shapes: one coherent identity. Ice-blue background.
+```
+
+## P27. Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site → `svc-site.png`
+
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+
+```text
+The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen (clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space on the left for text.
+```
+
+## P28. Le martin-pêcheur à côté d'un téléphone qui affiche une application → `svc-app.png`
+
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+
+```text
+The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
+```
+
+## P29. Le martin-pêcheur devant un tableau de bord avec des graphiques → `svc-saas.png`
+
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+
+```text
+The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
+```
+
+## P30. Le martin-pêcheur au milieu de trois téléphones qui affichent des reels → `svc-reseaux.png`
+
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+
+```text
+Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
+```
+
+## P31. Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour → `studio-lac.png`
+
+*Pages : studio · format 21:9 · Style C*
+
+```text
+Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single reed just above the water, looking far ahead. Lots of open sky on the left. No text.
+```
+
+## Vraies images à fournir (pas d'IA)
+
+Ces images doivent être vraies : une capture de ton site client ou ta photo. Mets-les aussi dans `assets/img/pages/src/` puis lance le script de conversion.
+
+- **`studio-portrait.png`** (Portrait du fondateur du studio, format 4:5) — Vraie photo à fournir (pas d'IA) : un portrait de toi, de face ou de trois quarts, lumière naturelle, fond uni clair. Format vertical 4:5, au moins 1200 px de large.
+- **`mm-catalogue.png`** (Le catalogue de MM Fragrances sur ordinateur, format 16:10) — Capture d'écran réelle : la page catalogue / collection de mm-fragrances.fr, sur ordinateur (fenêtre de 1440 × 900), en mode sombre, sans barre d'adresse.
+- **`mm-quiz.png`** (Le quiz qui aide à trouver son parfum, format 16:10) — Capture d'écran réelle : le quiz « trouver son parfum » de mm-fragrances.fr, sur ordinateur, une question affichée avec ses réponses.
+- **`mm-flacon.png`** (Un flacon en 3D sur la fiche produit, format 16:10) — Capture d'écran réelle : une fiche produit de mm-fragrances.fr sur ordinateur, avec le flacon en 3D bien visible.
+- **`mm-conseiller.png`** (Le conseiller virtuel qui répond aux questions, sur téléphone, format 3:4) — Capture d'écran réelle : le conseiller virtuel de mm-fragrances.fr ouvert sur téléphone (390 × 844), avec une question et sa réponse.
+
+<!-- IMAGES DES PAGES : fin -->
