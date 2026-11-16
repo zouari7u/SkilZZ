@@ -4,7 +4,8 @@
      dans les deux sens, et se referme en bas en fin de page ;
    · au survol, une lueur suit le pointeur le long de la bordure ;
    · le logo vit : clignement, hochement de tête, reflet sur le bec ;
-   · se range quand on descend, revient dès qu'on remonte ;
+   · toujours visible : se resserre vers le centre quand on descend, reprend
+     sa largeur en haut de page ; entrée animée au chargement ;
    · bulle qui glisse sous le lien de la page ou de la section en cours ;
    · téléphone : un lien à la fois, flèches ‹ › ; interrupteur de thème.
    ========================================================================== */
@@ -60,6 +61,8 @@
   })();
   window.addEventListener('resize', sizeGlow, { passive: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeGlow);
+  // la barre change de largeur en se resserrant : le contour suit
+  if (window.ResizeObserver) new ResizeObserver(function () { sizeGlow(); movePill(active); }).observe(nav);
 
   // --- Lueur qui suit le pointeur -------------------------------------------
   nav.addEventListener('pointermove', function (e) {
@@ -145,12 +148,16 @@
     if (a && mq.matches) list.scrollTo({ left: a.parentElement.offsetLeft, behavior: 'smooth' });
   }
 
-  var lastY = window.scrollY, ticking = false;
+  var ticking = false, scrolled = null;
   function onScroll() {
     var y = window.scrollY;
-    if (y > lastY + 6 && y > 500) nav.classList.add('is-hidden');
-    else if (y < lastY - 6 || y < 200) { if (nav.classList.contains('is-hidden')) setTimeout(nod, 250); nav.classList.remove('is-hidden'); }
-    lastY = y;
+    var s = y > 60;
+    if (s !== scrolled) {
+      // de retour en haut de page : l'oiseau salue d'un hochement
+      if (scrolled && !s) setTimeout(nod, 300);
+      scrolled = s;
+      nav.classList.toggle('is-scrolled', s);
+    }
 
     var mid = window.innerHeight * .4, found = current;
     sections.forEach(function (s, i) {
@@ -164,7 +171,16 @@
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   if (current) { setActive(current); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { movePill(active); }); }
   window.addEventListener('resize', function () { movePill(active); }, { passive: true });
-  nav.addEventListener('focusin', function () { nav.classList.remove('is-hidden'); });
+  onScroll();
+
+  // --- Entrée : la barre descend en s'élargissant, puis les liens arrivent un
+  // à un.
+  if (G && !reduce) {
+    var items = nav.querySelectorAll('.nav-brand, .nav-links li:not(.nav-pill), .nav-end > *');
+    G.timeline({ delay: .1 })
+      .fromTo(nav, { y: -28, opacity: 0, scaleX: .86 }, { y: 0, opacity: 1, scaleX: 1, duration: 1, ease: 'expo.out', clearProps: 'transform,opacity' })
+      .fromTo(items, { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: .7, stagger: .05, ease: 'power3.out', clearProps: 'transform,opacity' }, .25);
+  }
 
   // Téléphone : ‹ lien ›
   function step(dir) {

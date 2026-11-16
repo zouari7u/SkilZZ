@@ -126,7 +126,6 @@
   // =========================================================================
   var intro = gsap.timeline({ defaults: { ease: EASE } });
   intro
-    .from('#nav', { y: -30, opacity: 0, duration: .9, clearProps: 'transform,opacity' })
     .from('#heroTitle .wi', { yPercent: 115, rotation: 5, duration: 1.1, stagger: .055 }, .15)
     .fromTo('#heroMark', { '--mark': 0 }, { '--mark': 1, duration: 1.1, ease: 'elastic.out(1, .55)' }, .85)
     .from('[data-enter]', { y: 18, opacity: 0, duration: .9, stagger: .08 }, .55)

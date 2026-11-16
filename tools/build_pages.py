@@ -394,7 +394,7 @@ HEAD = '''<!doctype html>
     </div>
 
     <div class="nav-end">
-      <a href="contact.html" class="nav-cta fill-btn" data-fill="#DCE8FF"{cta_current}>Parler de votre projet</a>
+      <a href="contact.html" class="nav-cta fill-btn" data-fill="#DCE8FF"{cta_current}><span>Parler de votre projet</span><svg class="nav-cta-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       <label class="theme-switch" aria-label="Thème clair ou sombre">
         <input type="checkbox" id="themeToggle">
         <span class="slider" aria-hidden="true">
