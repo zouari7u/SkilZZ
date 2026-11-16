@@ -20,6 +20,32 @@
     img.addEventListener('load', function () { var f = img.closest('.shot'); if (f) f.classList.remove('is-missing'); });
   });
 
+  // --- Mosaïque de l'accueil -------------------------------------------------
+  // Images chargées tout de suite (en différé, la copie qui entre à l'écran
+  // arrivait vide) ; chaque rangée a assez de copies de sa bande pour couvrir
+  // l'écran pendant toute la boucle, sinon un trou traversait la rangée.
+  document.querySelectorAll('.collage img').forEach(function (img) { img.loading = 'eager'; });
+  function fillRows() {
+    if (reduce) return;
+    document.querySelectorAll('.collage-row').forEach(function (row) {
+      var tracks = row.querySelectorAll('.collage-track');
+      var first = tracks[0], w = first.getBoundingClientRect().width;
+      if (!w) return;
+      var need = Math.ceil(window.innerWidth / w) + 1;
+      for (var k = tracks.length; k < need; k++) {
+        var c = first.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        row.appendChild(c);
+      }
+      // toutes les bandes repartent ensemble (une copie ajoutée en cours de
+      // route serait décalée)
+      row.querySelectorAll('.collage-track').forEach(function (t) { t.getAnimations().forEach(function (a) { a.currentTime = 0; }); });
+    });
+  }
+  window.addEventListener('load', fillRows);
+  var fillTimer = null;
+  window.addEventListener('resize', function () { clearTimeout(fillTimer); fillTimer = setTimeout(fillRows, 200); });
+
   if (!(window.gsap && window.ScrollTrigger) || reduce) return;
   gsap.registerPlugin(ScrollTrigger);
 
@@ -47,9 +73,10 @@
 
   // --- Mosaïque : ralentit au survol ----------------------------------------
   document.querySelectorAll('.collage-row').forEach(function (row) {
-    var tracks = row.querySelectorAll('.collage-track');
-    row.addEventListener('pointerenter', function () { tracks.forEach(function (t) { t.getAnimations().forEach(function (a) { a.updatePlaybackRate(.25); }); }); });
-    row.addEventListener('pointerleave', function () { tracks.forEach(function (t) { t.getAnimations().forEach(function (a) { a.updatePlaybackRate(1); }); }); });
+    // les bandes sont relues à chaque fois : des copies s'ajoutent après coup
+    function rate(r) { row.querySelectorAll('.collage-track').forEach(function (t) { t.getAnimations().forEach(function (a) { a.updatePlaybackRate(r); }); }); }
+    row.addEventListener('pointerenter', function () { rate(.25); });
+    row.addEventListener('pointerleave', function () { rate(1); });
   });
 
   // les images arrivent après coup : on recalcule les positions
