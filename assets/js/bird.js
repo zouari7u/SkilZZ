@@ -37,8 +37,11 @@
   // LA PLANCHE (fabriquée par tools/kf_sprite.py, qui affiche ces repères)
   // =========================================================================
   var SRC = 'assets/img/mascotte/kf-vol.webp';
-  var CELL = { w: 300, h: 284 }, COLS = 4, ROWS = 3;
-  var F = { perch: 0, perchUp: 1, up: 2, mid: 3, down: 4, down2: 5, level: 6, rise: 7, upFeet: 8, flare: 9, upAlt: 10 };
+  var CELL = { w: 300, h: 284 }, COLS = 4, ROWS = 4;
+  var F = { perch: 0, perchUp: 1, up: 2, mid: 3, down: 4, down2: 5, level: 6, rise: 7, upFeet: 8, flare: 9, upAlt: 10,
+    crouch: 11, land: 12, front: 13, back: 14, dive: 15 };
+  // poses où l'œil n'est pas à sa place de profil : pas de paupière
+  var NOLID = { perchUp: 1, front: 1, back: 1, dive: 1 };
   var EYE = { x: 186, y: 124.5, r: 6 }, FOOT = { x: 119.5, y: 237 };
   var CAP = '#2861b1';
 
@@ -87,7 +90,7 @@
     if (i === frameNow) return;
     frameNow = i;
     spr.style.backgroundPosition = ((i % COLS) / (COLS - 1) * 100) + '% ' + (Math.floor(i / COLS) / (ROWS - 1) * 100) + '%';
-    lid.style.visibility = name === 'perchUp' ? 'hidden' : '';
+    lid.style.visibility = NOLID[name] ? 'hidden' : '';
   }
   frame('perch');
 
@@ -179,7 +182,7 @@
     else {
       gsap.to(bob, { y: 0, duration: .12 });
       if (g === 'glide') frame('level');
-      else if (g === 'flare') frame('flare');
+      else if (g === 'flare') frame('land');
       else if (g === 'off') frame('perch');
     }
   }
@@ -291,15 +294,16 @@
   function takeoff(tl, dir) {
     tl.add(function () { stopIdle(); gsap.set(bob, { rotation: 0, y: 0, scaleX: 1, scaleY: 1 }); if (dir) face(dir, true); })
       // anticipation : il s'accroupit
-      .to(bob, { scaleY: .9, scaleX: 1.05, duration: .11, ease: 'power2.in' })
+      .call(frame, ['crouch'])
+      .to(bob, { scaleY: .92, scaleX: 1.04, duration: .08, ease: 'power2.in' })
       .call(frame, ['perchUp'])
-      .to(bob, { scaleY: 1, scaleX: 1, duration: .14, ease: 'power2.out' })
+      .to(bob, { scaleY: 1, scaleX: 1, duration: .1, ease: 'power2.out' })
       .call(frame, ['upFeet'], '-=.04')
       .add(function () { setGait('flap'); });
   }
   function landSeq(tl, b, el) {
     tl.add(function () { normTilt(); stopRhythm(); setGait('flare'); })
-      .add(travel(function () { var e = trk ? b : el ? perchPoint(el) : b; return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + e.x) / 2, y: e.y - 18 }, e], 6); }, .38, 'power2.out', { tilt: -16 }))
+      .add(travel(function () { var e = trk ? b : el ? perchPoint(el) : b; return spline([{ x: pos.x, y: pos.y }, { x: (pos.x + e.x) / 2, y: e.y - 18 }, e], 6); }, .3, 'power2.out', { tilt: -16 }))
       // contact : ailes encore levées, le corps amortit
       .add(function () { setGait('frozen'); frame('perchUp'); fadeTrail(); })
       .to(tilt, { rotation: 0, duration: .22, ease: 'power2.out', onComplete: function () { tiltNow = 0; } })
@@ -355,7 +359,7 @@
     tl.add(function () { startRhythm(); })
       .add(travel(sp, cruise, 'power1.inOut', { trail: true }))
       .to(trk, { w: 1, duration: cruise, ease: 'power1.inOut' }, '<');
-    hoverAt(tl, .4);
+    hoverAt(tl, .2);
     landSeq(tl, b, el);
     return tl;
   }
@@ -408,13 +412,13 @@
     tl.add(function () { ascentEvt({ p: 0 }); }, 0);
     var o = { p: 0 };
     tl.add(function () { startRhythm(); })
-      .add(travel(sp, 2.5, 'power1.inOut', { progress: function (t) { ascentEvt({ p: t * .96 }); } }))
-      .to(trk, { w: 1, duration: 2.5, ease: 'power1.inOut' }, '<')
-      .to(o, { p: 1, duration: 2.5, ease: 'power1.inOut', onUpdate: function () { gsap.set(pathEl, { strokeDashoffset: len * (1 - o.p) }); } }, '<');
-    hoverAt(tl, .45);
+      .add(travel(sp, 1.8, 'power1.inOut', { progress: function (t) { ascentEvt({ p: t * .96 }); } }))
+      .to(trk, { w: 1, duration: 1.8, ease: 'power1.inOut' }, '<')
+      .to(o, { p: 1, duration: 1.8, ease: 'power1.inOut', onUpdate: function () { gsap.set(pathEl, { strokeDashoffset: len * (1 - o.p) }); } }, '<');
+    hoverAt(tl, .25);
     landSeq(tl, end, endEl);
     // il touche le site : « en ligne »
-    tl.add(function () { ascentEvt({ p: 1, landed: true }); }, tl.duration() - 1.25);
+    tl.add(function () { ascentEvt({ p: 1, landed: true }); }, tl.duration() - 1.15);
   }
   function ascentEvt(d) { document.dispatchEvent(new CustomEvent('kf:ascent', { detail: d })); }
 
@@ -440,6 +444,7 @@
   function hoverFoot() { return footForTip(diveTip(1), HOVER_T); }
   function diveStart(center, radius) {
     if (reduce || mode) return;
+    chase = null;
     if (flight) { flight.kill(); flight = null; }
     bake();
     stopRhythm(); stopIdle();
@@ -491,6 +496,122 @@
     var t = best() || bestAny();
     if (t) flyTo(t, null, { air: true });
     else { setGait('hover'); }
+  }
+
+
+  // =========================================================================
+  // POURSUITE : pendant le défilement, il vole avec la page, en temps réel.
+  // Un ressort amorti le tire vers le perchoir qui sera le bon à l'arrêt
+  // (au-dessus de lui, en sur-place) ; il ne sort jamais de l'écran. La pose
+  // suit la vitesse : piqué quand on descend vite, vue de dos quand on
+  // remonte vite, vue de face pendant un demi-tour, sur-place au ralenti.
+  // À l'arrêt du défilement, il se pose aussitôt.
+  // =========================================================================
+  var chase = null, ascending = false;
+  function chaseStart() {
+    if (chase || mode || reduce || lock) return;
+    if (ascending) { ascending = false; ascentEvt({ p: 1, skip: true }); }
+    var wasPerched = !flying;
+    if (flight) { flight.kill(); flight = null; }
+    bake(); stopRhythm(); stopIdle(); normTilt();
+    gsap.killTweensOf(bob); gsap.set(bob, { rotation: 0, y: 0, scaleX: 1, scaleY: 1 });
+    flying = true; current = null; queued = null;
+    chase = { vx: 0, vy: 0, el: null, pick: 0, front: 0, settled: false, since: 0, launch: wasPerched ? .07 : 0 };
+    if (wasPerched) { setGait('frozen'); frame('crouch'); gsap.to(bob, { scaleY: .92, scaleX: 1.04, duration: .07, yoyo: true, repeat: 1 }); }
+    else setGait('flap');
+  }
+  function chaseTarget() {
+    var vh = window.innerHeight, sy = window.scrollY;
+    if (chase.el) {
+      var b = perchPoint(chase.el);
+      return { x: b.x - facing * 18, y: b.y - 58, b: b };
+    }
+    return { x: Math.max(80, Math.min(window.innerWidth - 80, pos.x)), y: sy + vh * .38 };
+  }
+  function chaseTick(dt) {
+    var c = chase;
+    var launching = c.launch > 0;
+    if (launching) {
+      c.launch -= dt;
+      if (c.launch <= 0) { frame('upFeet'); c.vy = -320; setGait('flap'); launching = false; }
+    }
+    c.since += dt;
+    // nouvelle cible seulement si elle reste la meilleure 0,3 s (sinon il
+    // zigzaguerait entre les perchoirs pendant le défilement)
+    c.pick -= dt;
+    if (c.pick <= 0) {
+      c.pick = .08;
+      var nb = best() || null;
+      if (nb === c.el || !c.el || c.settled) { c.el = nb || c.el; c.cand = null; }
+      else if (nb !== c.cand) { c.cand = nb; c.candT = 0; }
+      else if ((c.candT += .08) >= .3) { c.el = nb; c.cand = null; }
+    }
+    var T = chaseTarget();
+    // ressort amorti : rapide, un peu d'élan, pas d'oscillation ; plus
+    // ferme une fois le défilement arrêté, pour se poser vite
+    var k = c.settled ? 120 : 70, damp = c.settled ? 21 : 15;
+    if (launching) { c.vx = 0; c.vy = 0; k = 0; }
+    c.vx += ((T.x - pos.x) * k - c.vx * damp) * dt;
+    c.vy += ((T.y - pos.y) * k - c.vy * damp) * dt;
+    var sp = Math.hypot(c.vx, c.vy), max = 3200;
+    if (sp > max) { c.vx *= max / sp; c.vy *= max / sp; sp = max; }
+    pos.x += c.vx * dt; pos.y += c.vy * dt;
+    // il vole avec la page : le défilement l'emporte presque entièrement,
+    // le ressort ne fait que le rapprocher de sa cible
+    var sy = window.scrollY;
+    if (c.sy !== undefined) pos.y += (sy - c.sy) * .85;
+    c.sy = sy;
+    // l'écran l'entraîne : il reste toujours visible, sous la barre de navigation
+    var navEl = document.getElementById('nav'), navB = navEl ? navEl.getBoundingClientRect().bottom : 0;
+    var top = sy + navB + H * .85 + 6, bottom = window.scrollY + window.innerHeight - 12;
+    if (pos.y < top) { pos.y = top; c.vy = Math.max(c.vy, 0); }
+    if (pos.y > bottom) { pos.y = bottom; c.vy = Math.min(c.vy, 0); }
+    pos.x = Math.max(W * .5, Math.min(window.innerWidth - W * .5, pos.x));
+    place();
+    if (launching) return;
+
+    // orientation : demi-tour en passant par la vue de face
+    if (Math.abs(c.vx) > 140) {
+      var dir = c.vx > 0 ? 1 : -1;
+      if (dir !== facing) { if (sp > 260) c.front = .13; face(dir, true); }
+    }
+    var tiltTarget;
+    if (c.front > 0) { c.front -= dt; setGait('frozen'); frame('front'); tiltTarget = 0; }
+    else if (c.vy > 650 && c.vy > Math.abs(c.vx) * 1.4) { setGait('frozen'); frame('dive'); tiltTarget = 0; }
+    else if (c.vy < -1300 && -c.vy > Math.abs(c.vx) * 1.4) { setGait('frozen'); frame('back'); tiltTarget = 0; }
+    else if (sp < 150) { setGait('hover'); tiltTarget = -14; }
+    else {
+      setGait('flap');
+      flapTl.timeScale(.85 + Math.min(1, sp / 1400) * .9);
+      tiltTarget = Math.max(-30, Math.min(26, Math.atan2(c.vy, Math.abs(c.vx) + 60) * 180 / Math.PI * .6));
+    }
+    tiltNow += (tiltTarget - tiltNow) * Math.min(1, dt * 12);
+    gsap.set(tilt, { rotation: tiltNow });
+
+    // arrêt du défilement : il se pose dès qu'il est au-dessus du perchoir
+    if (c.settled && c.el && T.b) {
+      var d = Math.hypot(T.x - pos.x, T.y - pos.y);
+      if ((d < 40 && sp < 700) || c.settled > .8) chaseLand(c.el);
+      else c.settled += dt;
+    }
+  }
+  function chaseLand(el) {
+    chase = null;
+    current = { el: el };
+    var b = perchPoint(el);
+    track(el, b, 1);
+    var tl = flight = gsap.timeline({ onComplete: endFlight(el) });
+    landSeq(tl, b, el);
+  }
+  // le perchoir actuel convient-il encore ?
+  function needsMove() {
+    if (ascending) return window.scrollY > 260;
+    if (flying) return !!flight;
+    if (!current || !current.el) return true;
+    var r = current.el.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.top < vh * .06 || r.top > vh * .86) return true;
+    var b = best();
+    return !!b && b !== current.el;
   }
 
   // =========================================================================
@@ -591,7 +712,15 @@
   function snapTo(el) { var b = perchPoint(el); pos.x = b.x; pos.y = b.y; current = { el: el }; place(); }
   function onScreen() { var r = root.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
   var perches = [], lock = null;
-  function collect() { perches = Array.prototype.slice.call(document.querySelectorAll('[data-perch]')); }
+  // perchoirs automatiques : le haut des cartes, encarts et images de toutes
+  // les pages (un data-perch posé à la main garde la priorité)
+  var AUTO = 'main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
+  function collect() {
+    document.querySelectorAll(AUTO).forEach(function (el, i) {
+      if (!el.hasAttribute('data-perch') && !el.closest('[data-perch]')) el.setAttribute('data-perch', String(i % 2 ? 22 : 80));
+    });
+    perches = Array.prototype.slice.call(document.querySelectorAll('[data-perch]'));
+  }
   // n'importe quel perchoir visible, faute de mieux (sortie du plongeon)
   function bestAny() {
     var vh = window.innerHeight, pick = null, d = 1e9;
@@ -627,18 +756,25 @@
   }
   function onScrollEnd() {
     if (!ready || lock || mode) return;
+    if (chase) { if (!chase.settled) chase.settled = .001; if (!chase.el) chase.el = best() || bestAny(); return; }
     go(best());
   }
+  var moveCheck = 0;
   window.addEventListener('scroll', function () {
     lastScroll = Date.now();
+    if (ready && !lock && !mode && !reduce) {
+      if (chase) chase.settled = false;
+      else if (Date.now() - moveCheck > 90) { moveCheck = Date.now(); if (needsMove()) chaseStart(); }
+    }
     clearTimeout(settle);
-    settle = setTimeout(onScrollEnd, reduce ? 0 : 200);
+    settle = setTimeout(onScrollEnd, reduce ? 0 : 120);
   }, { passive: true });
   // À chaque image (juste après le défilement doux) : posé, il colle à son
   // perchoir, même s'il est fixe à l'écran (téléphone des services) ou s'il
   // bouge (lettre soulevée) ; en sur-place au-dessus du cercle, il suit le
   // cercle.
-  gsap.ticker.add(function () {
+  gsap.ticker.add(function (time, deltaMs) {
+    if (chase) { if (host) setHost(null); chaseTick(Math.min(.05, (deltaMs || 16) / 1000)); return; }
     if (host && (flying || mode || !current || !current.el)) setHost(null);
     if (!flying && !mode && current && current.el) setHost(hostOf(current.el));
     if (reduce) return;
@@ -689,6 +825,8 @@
   // DÉMARRAGE (après chargement de la planche)
   // =========================================================================
   function start() {
+    if (started) return;
+    started = true;
     document.body.appendChild(trailSvg);
     document.body.appendChild(root);
     sizeTrail();
@@ -697,24 +835,33 @@
     var topEl = document.getElementById('perchTop');
     var path = document.getElementById('ascentPath');
     if (reduce) { var e = topEl || best(); if (e) snapTo(e); ready = true; ascentEvt({ p: 1, skip: true }); return; }
-    if (!startEl || !topEl) { var b = best(); if (b) snapTo(b); ready = true; startIdle(); return; }
+    ready = true;
+    if (!startEl || !topEl || window.scrollY > 200) {
+      if (startEl) ascentEvt({ p: 1, skip: true });
+      // il arrive tout de suite en volant, par le haut de l'écran
+      pos.x = window.innerWidth * (Math.random() < .5 ? .15 : .85); pos.y = window.scrollY + H; place();
+      chaseStart(); if (chase) { chase.settled = .001; chase.vy = 600; }
+      return;
+    }
     snapTo(startEl);
     startIdle();
-    gsap.from(root, { opacity: 0, duration: .6, ease: 'power2.out' });
+    gsap.from(root, { opacity: 0, duration: .4, ease: 'power2.out' });
     setTimeout(function () {
-      if (mode) return;
-      if (window.scrollY > 200) { ready = true; ascentEvt({ p: 1, skip: true }); onScrollEnd(); return; }
-      if (path) ascend(path, topEl, function () { ready = true; onScrollEnd(); });
-      else flyTo(topEl, function () { ready = true; });
-    }, 1500);
+      if (mode || chase || flying) return;
+      if (window.scrollY > 200) { ascentEvt({ p: 1, skip: true }); onScrollEnd(); return; }
+      ascending = true;
+      ascend(path, topEl, function () { ascending = false; onScrollEnd(); });
+    }, 550);
   }
+  var started = false;
   var img = new Image();
-  var go0 = function () { if (document.readyState === 'complete') start(); else window.addEventListener('load', start); };
+  // dès que la page est lisible (sans attendre toutes ses images)
+  var go0 = function () { if (document.readyState !== 'loading') start(); else document.addEventListener('DOMContentLoaded', start); };
   img.onload = go0; img.onerror = go0;
   img.src = SRC;
 
   window.SKZBird = {
-    perch: function (el, o) { if (o && o.lock) lock = el; go(el); },
+    perch: function (el, o) { if (o && o.lock) { lock = el; if (chase) chaseLand(el); } go(el); },
     unlock: function () { lock = null; onScrollEnd(); },
     celebrate: loop,
     diveStart: diveStart,

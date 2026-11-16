@@ -1626,3 +1626,31 @@ section.agent-panel { padding: 0; }
 
 /* Logo du studio dans le pied de page */
 .footer-logo { width: 64px; height: 64px; margin-bottom: 20px; border-radius: 50%; background: #F2F7FE; }
+
+/* ==========================================================================
+   LE CIEL DU FOND (assets/js/sky.js) — aplats très pâles, en parallaxe
+   ========================================================================== */
+.sky {
+  position: absolute; left: 0; top: 0; z-index: -2; width: 100%; overflow: hidden; pointer-events: none;
+  --sky-disc: #E3ECFD; --sky-disc-b: #E6F1FF; --sky-ring: rgba(31, 107, 255, .1); --sky-cloud: #FFFFFF; --sky-cloud-b: #EDF3FE;
+  --sky-bird: rgba(11, 59, 168, .32); --sky-dot: rgba(31, 107, 255, .2); --sky-reed: rgba(11, 59, 168, .22); --sky-water: rgba(31, 107, 255, .28);
+}
+:root[data-theme="dark"] .sky {
+  --sky-disc: #0C1634; --sky-disc-b: #0B1838; --sky-ring: rgba(143, 182, 255, .08); --sky-cloud: #0F1A3A; --sky-cloud-b: #0C1734;
+  --sky-bird: rgba(143, 182, 255, .3); --sky-dot: rgba(143, 182, 255, .14); --sky-reed: rgba(143, 182, 255, .18); --sky-water: rgba(143, 182, 255, .22);
+}
+.sky-it { position: absolute; will-change: transform; }
+.sky-it svg { display: block; overflow: visible; }
+.sky-disc { display: block; border-radius: 50%; background: var(--sky-disc); }
+.sky-disc--b { background: var(--sky-disc-b); }
+.sky-ring { display: block; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--sky-ring); }
+.sky-cloud path { fill: var(--sky-cloud); }
+.sky-cloud { filter: drop-shadow(0 6px 10px rgba(31, 107, 255, .06)); }
+:root[data-theme="dark"] .sky-cloud { filter: none; }
+.sky-cloud--b path { fill: var(--sky-cloud-b); }
+.sky-b { fill: none; stroke: var(--sky-bird); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.sky-dots { display: block; width: 200px; height: 140px; background-image: radial-gradient(circle, var(--sky-dot) 1.3px, transparent 1.6px); background-size: 18px 18px; }
+.sky-reed { fill: none; stroke: var(--sky-reed); stroke-width: 2.2; stroke-linecap: round; }
+.sky-cat { fill: var(--sky-reed); }
+.sky-water { fill: none; stroke: var(--sky-water); stroke-width: 1.6; stroke-linecap: round; }
+.sky-shore--l { transform: scaleX(-1); }

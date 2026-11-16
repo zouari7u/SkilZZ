@@ -50,8 +50,10 @@ tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → .webp dans ass
 assets/js/pages.js      pages : cadres « image à venir », apparition au défilement, mosaïque
 assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
 assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème
-assets/js/deco.js       le fond : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
-assets/js/bird.js       l'oiseau, animé image par image (planche kf-vol.webp) + GSAP : décollage, battements, planés, sur-place, atterrissage, attente, perchoirs
+assets/js/sky.js        le décor du fond : disques, nuages, vols d'oiseaux, trames, roseaux (parallaxe)
+assets/js/deco.js       le fil : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
+assets/js/bird.js       l'oiseau, animé image par image (planche kf-vol.webp, 16 poses) + GSAP : il suit le défilement en
+                        temps réel (piqué, vue de face, vue de dos selon la vitesse) et se pose dès qu'on s'arrête
 tools/kf_sprite.py      refait kf-vol.webp à partir des planches de référence (assets/mascotte/Gemini_*)
 assets/js/agent.js      assistant en bas à droite
 assets/img/kf*.svg      l'oiseau en fichiers statiques (logo, avatar, favicon)
