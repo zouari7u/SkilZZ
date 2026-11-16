@@ -97,7 +97,34 @@
 
   // Position = point d'appui (sous les pattes), en coordonnées document
   var pos = { x: 0, y: 0 }, facing = 1;
-  function place() { gsap.set(root, { x: pos.x - W * FOOT.x / CELL.w, y: pos.y - H * FOOT.y / CELL.h }); }
+  // Hôte : posé sur un perchoir dans un bloc collant (sticky) ou fixe,
+  // l'oiseau devient l'enfant de ce bloc. Le navigateur les déplace alors
+  // ensemble pendant le défilement (Safari défile hors du JS : recaler
+  // l'oiseau à chaque image laissait une image de retard).
+  var host = null;
+  function hostOf(el) {
+    for (var n = el; n && n !== document.body; n = n.parentElement) {
+      var cs = getComputedStyle(n), p = cs.position;
+      // un bloc qui rogne son contenu couperait l'oiseau : on reste dans la page
+      if (p === 'sticky' || p === 'fixed') return cs.overflow === 'visible' ? n : null;
+    }
+    return null;
+  }
+  function hostOrigin() {
+    if (!host) return { x: 0, y: 0 };
+    var r = host.getBoundingClientRect();
+    return { x: r.left + host.clientLeft + window.scrollX, y: r.top + host.clientTop + window.scrollY };
+  }
+  function setHost(h) {
+    if (h === host) return;
+    host = h;
+    (h || document.body).appendChild(root);
+    place();
+  }
+  function place() {
+    var o = hostOrigin();
+    gsap.set(root, { x: pos.x - o.x - W * FOOT.x / CELL.w, y: pos.y - o.y - H * FOOT.y / CELL.h });
+  }
   function face(dir, fast) {
     if (dir === facing) return;
     facing = dir;
@@ -578,6 +605,8 @@
   // bouge (lettre soulevée) ; en sur-place au-dessus du cercle, il suit le
   // cercle.
   gsap.ticker.add(function () {
+    if (host && (flying || mode || !current || !current.el)) setHost(null);
+    if (!flying && !mode && current && current.el) setHost(hostOf(current.el));
     if (reduce) return;
     if (mode) {
       if (mode.ready && mode.p <= 0) { var h = hoverFoot(); pos.x = h.x; pos.y = h.y; place(); }
