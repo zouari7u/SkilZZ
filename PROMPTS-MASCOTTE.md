@@ -435,7 +435,7 @@ Two smartphones overlapping slightly: one shows a vertical story with a big blue
 
 ## P27. Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site → `svc-site.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
+*Pages : 404, application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen (clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space on the left for text.
@@ -443,7 +443,7 @@ The kingfisher is perched on the top edge of an open laptop screen, looking down
 
 ## P28. Le martin-pêcheur à côté d'un téléphone qui affiche une application → `svc-app.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
+*Pages : 404, application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
@@ -451,7 +451,7 @@ The kingfisher stands next to a smartphone that is as tall as it is, one wing po
 
 ## P29. Le martin-pêcheur devant un tableau de bord avec des graphiques → `svc-saas.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
+*Pages : 404, application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
@@ -459,7 +459,7 @@ The kingfisher is perched on the corner of a floating dashboard panel showing a 
 
 ## P30. Le martin-pêcheur au milieu de trois téléphones qui affichent des reels → `svc-reseaux.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
+*Pages : 404, application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.

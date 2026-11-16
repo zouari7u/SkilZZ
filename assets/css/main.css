@@ -1065,6 +1065,9 @@ section.agent-panel { padding: 0; }
 .collage-row--rev .collage-track { animation-direction: reverse; animation-duration: 70s; }
 .collage-track .shot { flex: none; height: clamp(200px, 24vw, 320px); width: auto; box-shadow: var(--shadow); }
 @keyframes collage { to { transform: translateX(-100%); } }
+/* piloté par pages.js : la rangée glisse d'un bloc, plus d'animation par bande */
+.collage-js .collage-track { animation: none; }
+.collage-js .collage-row { will-change: transform; }
 .collage-note { max-width: var(--maxw); margin: 20px auto 0; padding: 0 var(--gutter); font-size: 13px; color: var(--muted); }
 
 /* --- Liens « service en détail » sur les cartes de l'accueil --- */
@@ -1231,7 +1234,8 @@ section.agent-panel { padding: 0; }
 /* --- Responsive des pages --- */
 @media (max-width: 980px) {
   .page-hero, .split-row, .phase, .project, .case-hero, .case-mobile-inner { grid-template-columns: minmax(0, 1fr); }
-  .split-row--rev .split-media, .phase--rev .phase-media { order: 0; }
+  /* sur téléphone et tablette : toujours l'image, puis le texte */
+  .split-row .split-media, .phase .phase-media { order: -1; }
   .extras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .incl, .tiles-sec--more .svc-cards, .values, .ways { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cta-band { grid-template-columns: minmax(0, 1fr); justify-items: start; }

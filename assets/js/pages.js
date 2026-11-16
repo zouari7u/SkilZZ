@@ -21,30 +21,64 @@
   });
 
   // --- Mosaïque de l'accueil -------------------------------------------------
-  // Images chargées tout de suite (en différé, la copie qui entre à l'écran
-  // arrivait vide) ; chaque rangée a assez de copies de sa bande pour couvrir
-  // l'écran pendant toute la boucle, sinon un trou traversait la rangée.
+  // Chaque rangée glisse d'un seul bloc, piloté ici : sa position est
+  // recalculée à chaque image, modulo la largeur d'une bande. Les bandes ne
+  // peuvent donc pas se décaler entre elles, et le retour au début ne se voit
+  // pas. (Avec une animation CSS par bande, une copie se décalait au
+  // rebouclage et la rangée se vidait une seconde.)
+  // Images chargées tout de suite : en différé, la copie qui entre arrivait vide.
   document.querySelectorAll('.collage img').forEach(function (img) { img.loading = 'eager'; });
-  function fillRows() {
-    if (reduce) return;
-    document.querySelectorAll('.collage-row').forEach(function (row) {
-      var tracks = row.querySelectorAll('.collage-track');
-      var first = tracks[0], w = first.getBoundingClientRect().width;
-      if (!w) return;
-      var need = Math.ceil(window.innerWidth / w) + 1;
+  var rows = Array.prototype.map.call(document.querySelectorAll('.collage-row'), function (row) {
+    return { el: row, rev: row.classList.contains('collage-row--rev'), w: 0, speed: 1, target: 1, x: 0, on: true };
+  });
+  // vitesse en px par seconde (une bande défile en ~60 s sur ordinateur)
+  function pxPerSec(r) { return r.w / (r.rev ? 70 : 60); }
+  function measure() {
+    rows.forEach(function (r) {
+      var tracks = r.el.querySelectorAll('.collage-track');
+      var first = tracks[0];
+      r.w = first.getBoundingClientRect().width;
+      if (!r.w) return;
+      // assez de copies pour couvrir l'écran plus une bande, quelle que soit la position
+      var need = Math.ceil(window.innerWidth / r.w) + 1;
       for (var k = tracks.length; k < need; k++) {
         var c = first.cloneNode(true);
         c.setAttribute('aria-hidden', 'true');
-        row.appendChild(c);
+        r.el.appendChild(c);
       }
-      // toutes les bandes repartent ensemble (une copie ajoutée en cours de
-      // route serait décalée)
-      row.querySelectorAll('.collage-track').forEach(function (t) { t.getAnimations().forEach(function (a) { a.currentTime = 0; }); });
     });
   }
-  window.addEventListener('load', fillRows);
-  var fillTimer = null;
-  window.addEventListener('resize', function () { clearTimeout(fillTimer); fillTimer = setTimeout(fillRows, 200); });
+  if (rows.length && !reduce) {
+    document.documentElement.classList.add('collage-js');
+    measure();
+    window.addEventListener('load', measure);
+    var mTimer = null;
+    window.addEventListener('resize', function () { clearTimeout(mTimer); mTimer = setTimeout(measure, 150); });
+    // une image qui finit de charger change la largeur des bandes
+    document.querySelectorAll('.collage img').forEach(function (img) { if (!img.complete) img.addEventListener('load', measure); });
+    rows.forEach(function (r) {
+      r.el.addEventListener('pointerenter', function () { r.target = .25; });
+      r.el.addEventListener('pointerleave', function () { r.target = 1; });
+    });
+    // hors de l'écran, on ne calcule rien
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { rows.forEach(function (r) { if (r.el === e.target) r.on = e.isIntersecting; }); }); });
+      rows.forEach(function (r) { io.observe(r.el); });
+    }
+    var last = performance.now();
+    (function tick(now) {
+      var dt = Math.min(.1, (now - last) / 1000); last = now;
+      rows.forEach(function (r) {
+        if (!r.w || !r.on) return;
+        r.speed += (r.target - r.speed) * Math.min(1, dt * 4);   // ralentit en douceur
+        r.x = (r.x + pxPerSec(r) * r.speed * dt) % r.w;
+        // à gauche : de 0 à -w ; à droite (rangée inverse) : de -w à 0
+        var tx = r.rev ? r.x - r.w : -r.x;
+        r.el.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,0,0)';
+      });
+      requestAnimationFrame(tick);
+    })(last);
+  }
 
   if (!(window.gsap && window.ScrollTrigger) || reduce) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -70,14 +104,6 @@
   // --- En-tête des pages : l'image entre en douceur ------------------------
   var hm = document.querySelector('.page-hero-media .shot, .page-hero-media img');
   if (hm) gsap.from(hm, { scale: .92, rotation: -2, opacity: 0, duration: 1.4, ease: 'expo.out', delay: .3 });
-
-  // --- Mosaïque : ralentit au survol ----------------------------------------
-  document.querySelectorAll('.collage-row').forEach(function (row) {
-    // les bandes sont relues à chaque fois : des copies s'ajoutent après coup
-    function rate(r) { row.querySelectorAll('.collage-track').forEach(function (t) { t.getAnimations().forEach(function (a) { a.updatePlaybackRate(r); }); }); }
-    row.addEventListener('pointerenter', function () { rate(.25); });
-    row.addEventListener('pointerleave', function () { rate(1); });
-  });
 
   // les images arrivent après coup : on recalcule les positions
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });

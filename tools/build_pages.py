@@ -51,6 +51,7 @@ PAGES = [
      'Racontez votre projet au studio ZkilZ. Le premier échange est gratuit.', 'contact'),
     ('mentions-legales', 'Mentions légales — ZkilZ', 'Mentions légales du site ZkilZ.', None),
     ('confidentialite', 'Politique de confidentialité — ZkilZ', 'Comment ZkilZ traite vos données personnelles.', None),
+    ('404', 'Page introuvable — ZkilZ', "Cette page n'existe pas ou plus.", None),
 ]
 
 NAV = [('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 'Méthode'), ('studio', 'Studio')]
@@ -446,6 +447,20 @@ def expand(text):
     return text
 
 
+def versioned(out):
+    """Ajoute ?v=<empreinte du fichier> aux CSS et JS du site : après une
+    modification, le navigateur recharge le fichier au lieu de garder
+    l'ancienne version en cache."""
+    import hashlib
+    def rep(m):
+        path = os.path.join(ROOT, m.group(2))
+        if not os.path.exists(path):
+            return m.group(0)
+        h = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
+        return '%s="%s?v=%s"' % (m.group(1), m.group(2), h)
+    return re.sub(r'(href|src)="(assets/(?:css|js)/[\w.-]+\.(?:css|js))"', rep, out)
+
+
 def build():
     for page, title, desc, active in PAGES:
         src = os.path.join(PARTS, page + '.html')
@@ -457,6 +472,12 @@ def build():
         out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav,
                           cta_current=' aria-current="page"' if active == 'contact' else '')
         out += '\n  <main>\n' + main.rstrip() + '\n  </main>\n' + FOOT.format(svc_links=svc_links)
+        out = versioned(out)
+        if page == '404':
+            # servie à n'importe quelle adresse : liens absolus
+            out = re.sub(r'(href|src)="(?![a-z]+:|#|/)', r'\1="/', out)
+            # et les chemins construits en JavaScript (oiseau, assistant) aussi
+            out = out.replace('<head>\n', '<head>\n  <base href="/">\n', 1)
         with open(os.path.join(ROOT, page + '.html'), 'w', encoding='utf-8') as f:
             f.write(out)
         print('ok', page + '.html')
