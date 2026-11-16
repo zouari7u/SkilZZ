@@ -5,7 +5,7 @@ Convertit les images des pages en .webp.
     python3 tools/convertir_images.py
 
 Prend chaque PNG / JPG de assets/img/pages/src/, le met à 1600 px de
-large et l'écrit en .webp dans assets/img/pages/, avec
+large, puis régénère les pages et l'écrit en .webp dans assets/img/pages/, avec
 le même nom. Il faut cwebp (brew install webp).
 """
 import os
@@ -29,3 +29,6 @@ for name in sorted(os.listdir(SRC)):
     print('ok', base + '.webp')
     done += 1
 print(done, 'image(s) convertie(s).' if done else 'Aucune image dans assets/img/pages/src/.')
+# les pages pointent sur les nouvelles images, et la liste des images à faire se met à jour
+if done:
+    subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'build_pages.py')], check=True)

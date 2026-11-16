@@ -225,6 +225,12 @@ Colle la **fiche du personnage (n° 0)** au début, joins la **planche n° 1** e
 
 Le format (largeur:hauteur) est donné pour chaque image : règle ton générateur dessus.
 
+### Style D — Studio Moumous, noir et blanc
+
+```text
+Studio Moumous art direction: strictly black, white and greys, no colour at all, high contrast, clean editorial look, flat shapes or crisp product mock-up, soft studio shadows on a light grey background (#F2F2F2). Any text is drawn as black or grey bars, never readable letters. No real brand, no real logo, no watermark, no kingfisher.
+```
+
 ## P1. Une planche d'identité visuelle : logo, couleurs, typographie → `col-marque.png`
 
 *Pages : services · format 4:3 · Style A*
@@ -233,25 +239,25 @@ Le format (largeur:hauteur) est donné pour chaque image : règle ton générate
 A flat-lay brand identity board seen from above on an ice-blue desk: a round logo mark made of simple geometric shapes, four colour swatches (navy, royal blue, azure, white), a large sample letter 'Aa' drawn as shapes, a business card and a small notebook, all neatly aligned on a grid.
 ```
 
-## P2. Le storyboard d'un reel : six images clés → `reseaux-storyboard.png`
+## P2. L'état des lieux : les tâches d'une journée de travail posées sur la table → `conseil-etat-des-lieux.png`
 
-*Pages : reseaux-sociaux · format 16:9 · Style A*
+*Pages : conseil · format 4:3 · Style A*
 
 ```text
-A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), with small arrows between frames and a pencil next to the sheet.
+A top-down view of a work table during an audit session: printed spreadsheets with dense grey grids, sticky notes in two blues grouped into columns (today, problems, ideas), a hand-drawn flow of boxes and arrows on a large sheet, a laptop showing a cluttered spreadsheet, a pen and a cup. Calm, organised, ice-blue background.
 ```
 
-## P3. La charte des réseaux : couleurs, typographies, modèles de publication → `reseaux-charte.png`
+## P3. La prise en main : l'outil montré à l'équipe sur un grand écran → `conseil-equipe.png`
 
-*Pages : reseaux-sociaux · format 4:3 · Style A*
+*Pages : conseil · format 4:3 · Style A*
 
 ```text
-A social media style guide board laid flat: colour swatches, two type samples drawn as shapes, and four post templates (quote, product, announcement, carousel cover) all in navy, royal blue, azure and white. Top-down view, ice-blue background.
+A small meeting room seen from behind: a large wall screen showing a simple custom app dashboard in royal blue, three people seen from behind as simple flat silhouettes (navy and blue clothes, no faces), one pointing at the screen, laptops on the table. Flat vector, calm, ice-blue walls.
 ```
 
 ## P4. Le premier échange : un carnet, des notes et un appel en visio → `methode-ecouter.png`
 
-*Pages : conseil, methode · format 4:3 · Style A*
+*Pages : methode · format 4:3 · Style A*
 
 ```text
 A flat-lay of a first project meeting seen from above: an open notebook with simple sketches (boxes, arrows), a laptop showing a video call with two plain circular avatars, a cup and a pen, on an ice-blue desk.
@@ -305,15 +311,23 @@ Two modern smartphones side by side, slightly tilted toward each other. Left scr
 A large desktop monitor with a thin bezel. The screen shows a SaaS dashboard: a left sidebar with icons, four KPI cards on top, a smooth royal-blue line chart with a light-blue area underneath, and a table of rows with small status pills.
 ```
 
-## P11. Le profil d'une marque sur un réseau social : une grille de publications → `col-grille.png`
+## P11. Deux pistes comparées côte à côte : un logiciel existant et un outil sur mesure → `conseil-solutions.png`
 
-*Pages : reseaux-sociaux · format 3:4 · Style B*
+*Pages : conseil · format 16:9 · Style B*
 
 ```text
-A modern smartphone shown straight on. The screen shows a social media profile: a round avatar, three counters drawn as short bars, and below a 3 x 3 grid of square posts that all share the same blue and white style (circles, diagonals, a product silhouette, a quote card), clearly one coherent brand.
+Two browser windows side by side with a thin vertical divider between them. Left: a generic off-the-shelf software screen with many grey menus and features. Right: a simple custom app screen with only three rounded royal-blue cards. Under each window, a small card with three bars and a check mark, like a comparison sheet. Ice-blue background.
 ```
 
-## P12. De la maquette en gris au site final, sur ordinateur et téléphone → `site-maquettes.png`
+## P12. La bascule : les données d'un tableur passent dans le nouvel outil → `conseil-transition.png`
+
+*Pages : conseil · format 16:9 · Style B*
+
+```text
+A laptop on the left showing a dense grey spreadsheet; a phone and a laptop on the right showing a clean custom app with royal-blue cards; between them, a gentle flow of small rounded rectangles (data rows) travelling along a thin curved dotted path from left to right. Ice-blue background.
+```
+
+## P13. De la maquette en gris au site final, sur ordinateur et téléphone → `site-maquettes.png`
 
 *Pages : services, site-web · format 16:9 · Style B*
 
@@ -321,7 +335,7 @@ A modern smartphone shown straight on. The screen shows a social media profile: 
 Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the mobile version. Clean, airy, on an ice-blue background.
 ```
 
-## P13. Un site vu sur téléphone, avec le menu ouvert → `site-mobile.png`
+## P14. Un site vu sur téléphone, avec le menu ouvert → `site-mobile.png`
 
 *Pages : index, site-web · format 3:4 · Style B*
 
@@ -329,7 +343,7 @@ Three stages of the same web page side by side from left to right: a grey wirefr
 A smartphone shown straight on, displaying a mobile website with a rounded navigation sheet opened from the bottom: four menu rows and a large royal-blue call-to-action button. Ice-blue background.
 ```
 
-## P14. L'écran d'administration où l'on change un texte et une photo → `site-admin.png`
+## P15. L'écran d'administration où l'on change un texte et une photo → `site-admin.png`
 
 *Pages : site-web · format 16:9 · Style B*
 
@@ -337,7 +351,7 @@ A smartphone shown straight on, displaying a mobile website with a rounded navig
 A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, uncluttered. Ice-blue background.
 ```
 
-## P15. Une fiche produit de boutique en ligne avec le bouton d'achat → `site-boutique.png`
+## P16. Une fiche produit de boutique en ligne avec le bouton d'achat → `site-boutique.png`
 
 *Pages : index, site-web · format 4:3 · Style B*
 
@@ -345,7 +359,7 @@ A laptop showing a simple content editor: on the left a list of pages, in the ce
 A laptop and a phone showing the same online shop product page: a large product photo area with an abstract bottle silhouette, a price drawn as a bold bar, size chips and a big royal-blue add-to-cart button. Ice-blue background.
 ```
 
-## P16. Le parcours d'une application : cinq écrans reliés par des flèches → `app-prototype.png`
+## P17. Le parcours d'une application : cinq écrans reliés par des flèches → `app-prototype.png`
 
 *Pages : application-mobile · format 16:9 · Style B*
 
@@ -353,7 +367,7 @@ A laptop and a phone showing the same online shop product page: a large product 
 Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue buttons, text drawn as grey bars.
 ```
 
-## P17. L'écran d'accueil de l'application, entouré de deux cartes → `app-main.png`
+## P18. L'écran d'accueil de l'application, entouré de deux cartes → `app-main.png`
 
 *Pages : application-mobile, index · format 3:4 · Style B*
 
@@ -361,7 +375,7 @@ Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin 
 A modern smartphone slightly tilted, showing an app home: a greeting bar, a large royal-blue card with a progress ring and two smaller cards. Two rounded white cards float around the phone: a reminder card with a small blue dot, and a progress card with a ring. Ice-blue background.
 ```
 
-## P18. L'écran verrouillé d'un téléphone avec les notifications de l'application → `app-notif.png`
+## P19. L'écran verrouillé d'un téléphone avec les notifications de l'application → `app-notif.png`
 
 *Pages : application-mobile · format 3:4 · Style B*
 
@@ -369,7 +383,7 @@ A modern smartphone slightly tilted, showing an app home: a greeting bar, a larg
 A smartphone lock screen with a large clock drawn as shapes and three stacked rounded notification cards from the same app (a small blue round icon on each). Soft blue abstract wallpaper. Ice-blue background.
 ```
 
-## P19. L'icône de l'application sur l'écran d'accueil d'un téléphone → `app-icone.png`
+## P20. L'icône de l'application sur l'écran d'accueil d'un téléphone → `app-icone.png`
 
 *Pages : application-mobile · format 4:3 · Style B*
 
@@ -377,31 +391,31 @@ A smartphone lock screen with a large clock drawn as shapes and three stacked ro
 Close-up of a smartphone home screen grid of app icons, all in muted grey, except one bright royal-blue rounded icon with a simple white geometric symbol in the centre, slightly raised with a soft shadow, as if just installed. Ice-blue background.
 ```
 
-## P20. Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs → `saas-dashboard.png`
+## P21. Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs → `saas-dashboard.png`
 
-*Pages : conseil, saas · format 16:9 · Style B*
+*Pages : saas · format 16:9 · Style B*
 
 ```text
 A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue background.
 ```
 
-## P21. Les trois étapes d'inscription d'un logiciel en ligne → `saas-onboarding.png`
+## P22. Les trois étapes d'inscription d'un logiciel en ligne → `saas-onboarding.png`
 
-*Pages : conseil, index, saas · format 16:9 · Style B*
+*Pages : index, saas · format 16:9 · Style B*
 
 ```text
 Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as circles). Ice-blue background.
 ```
 
-## P22. La gestion des accès : chaque membre de l'équipe a son rôle → `saas-roles.png`
+## P23. La gestion des accès : chaque membre de l'équipe a son rôle → `saas-roles.png`
 
-*Pages : conseil, saas · format 4:3 · Style B*
+*Pages : saas · format 4:3 · Style B*
 
 ```text
 A browser window showing a team settings table: rows with round avatars (plain coloured circles, no faces), names as grey bars, a role dropdown pill on each row (admin, editor, viewer drawn as pills of different blues), and an 'invite' button in royal blue. Ice-blue background.
 ```
 
-## P23. Le même logiciel, sur téléphone → `saas-mobile.png`
+## P24. Le même logiciel, sur téléphone → `saas-mobile.png`
 
 *Pages : index, saas · format 3:4 · Style B*
 
@@ -409,7 +423,7 @@ A browser window showing a team settings table: rows with round avatars (plain c
 A smartphone showing the mobile version of a SaaS dashboard: a stacked column of KPI cards and a compact line chart in royal blue, a bottom tab bar. Ice-blue background.
 ```
 
-## P24. Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site → `svc-site.png`
+## P25. Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site → `svc-site.png`
 
 *Pages : 404, application-mobile, conseil, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
@@ -417,7 +431,7 @@ A smartphone showing the mobile version of a SaaS dashboard: a stacked column of
 The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen (clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space on the left for text.
 ```
 
-## P25. Le martin-pêcheur à côté d'un téléphone qui affiche une application → `svc-app.png`
+## P26. Le martin-pêcheur à côté d'un téléphone qui affiche une application → `svc-app.png`
 
 *Pages : 404, application-mobile, conseil, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
@@ -425,20 +439,12 @@ The kingfisher is perched on the top edge of an open laptop screen, looking down
 The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
 ```
 
-## P26. Le martin-pêcheur devant un tableau de bord avec des graphiques → `svc-saas.png`
+## P27. Le martin-pêcheur devant un tableau de bord avec des graphiques → `svc-saas.png`
 
 *Pages : 404, application-mobile, conseil, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
-```
-
-## P27. Le martin-pêcheur au milieu de trois téléphones qui affichent des reels → `svc-reseaux.png`
-
-*Pages : reseaux-sociaux, services, site-web, studio · format 16:9 · Style C*
-
-```text
-Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
 ```
 
 ## P28. Le martin-pêcheur penché sur un plan de travail, entre l'ancien tableur et le nouvel outil → `svc-conseil.png`
@@ -455,6 +461,38 @@ The kingfisher stands on a desk next to two screens: on the left an old cluttere
 
 ```text
 Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single reed just above the water, looking far ahead. Lots of open sky on the left. No text.
+```
+
+## P30. Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc → `moumous-hero.png`
+
+*Pages : reseaux-sociaux, services, site-web, studio · format 16:9 · Style D*
+
+```text
+Three smartphones standing in a gentle arc, each showing a different vertical social media frame: a bold typographic quote drawn as thick black bars, a product photo in high-contrast black and white, a profile grid of nine squares. Clean studio light, soft shadows on a light grey background.
+```
+
+## P31. Le storyboard d'un reel, en noir et blanc → `moumous-reseaux.png`
+
+*Pages : reseaux-sociaux · format 16:9 · Style D*
+
+```text
+A storyboard sheet on a light grey desk: six vertical frames in two rows, each a bold black and white composition (product appears, close-up, text card drawn as bars, logo reveal), small arrows between frames, a black marker next to the sheet.
+```
+
+## P32. Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc → `moumous-identite.png`
+
+*Pages : reseaux-sociaux · format 4:3 · Style D*
+
+```text
+A flat-lay brand identity board on a light grey surface: a bold abstract monogram logo, black and white colour swatches with grey steps, a large type specimen drawn as shapes, a business card, an envelope and a notebook, all perfectly aligned on a grid.
+```
+
+## P33. Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc → `moumous-referencement.png`
+
+*Pages : reseaux-sociaux · format 3:4 · Style D*
+
+```text
+A smartphone shown straight on: the screen shows a list of search results drawn as black and grey bars, the first result highlighted with a thick black outline; next to the phone, a small floating card with a black line chart rising to the right. Light grey background.
 ```
 
 ## Vraies images à fournir (pas d'IA)

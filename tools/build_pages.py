@@ -123,6 +123,43 @@ IMAGES = {
         "to the app, and the bird points its beak along the arrow. Flat ice-blue background (#E1EBFF). Wide composition, "
         "subject on the right half."),
 
+    # --- Conseil et transition ----------------------------------------------
+    'conseil-etat-des-lieux': ('4/3', "L'état des lieux : les tâches d'une journée de travail posées sur la table", 'scene',
+        "A top-down view of a work table during an audit session: printed spreadsheets with dense grey grids, sticky notes "
+        "in two blues grouped into columns (today, problems, ideas), a hand-drawn flow of boxes and arrows on a large sheet, "
+        "a laptop showing a cluttered spreadsheet, a pen and a cup. Calm, organised, ice-blue background."),
+    'conseil-solutions': ('16/9', "Deux pistes comparées côte à côte : un logiciel existant et un outil sur mesure", 'device',
+        "Two browser windows side by side with a thin vertical divider between them. Left: a generic off-the-shelf software "
+        "screen with many grey menus and features. Right: a simple custom app screen with only three rounded royal-blue "
+        "cards. Under each window, a small card with three bars and a check mark, like a comparison sheet. Ice-blue "
+        "background."),
+    'conseil-transition': ('16/9', "La bascule : les données d'un tableur passent dans le nouvel outil", 'device',
+        "A laptop on the left showing a dense grey spreadsheet; a phone and a laptop on the right showing a clean custom app "
+        "with royal-blue cards; between them, a gentle flow of small rounded rectangles (data rows) travelling along a thin "
+        "curved dotted path from left to right. Ice-blue background."),
+    'conseil-equipe': ('4/3', "La prise en main : l'outil montré à l'équipe sur un grand écran", 'scene',
+        "A small meeting room seen from behind: a large wall screen showing a simple custom app dashboard in royal blue, "
+        "three people seen from behind as simple flat silhouettes (navy and blue clothes, no faces), one pointing at the "
+        "screen, laptops on the table. Flat vector, calm, ice-blue walls."),
+
+    # --- Studio Moumous (direction artistique noir et blanc) -----------------
+    'moumous-hero': ('16/9', "Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc", 'mono',
+        "Three smartphones standing in a gentle arc, each showing a different vertical social media frame: a bold "
+        "typographic quote drawn as thick black bars, a product photo in high-contrast black and white, a profile grid of "
+        "nine squares. Clean studio light, soft shadows on a light grey background."),
+    'moumous-reseaux': ('16/9', "Le storyboard d'un reel, en noir et blanc", 'mono',
+        "A storyboard sheet on a light grey desk: six vertical frames in two rows, each a bold black and white composition "
+        "(product appears, close-up, text card drawn as bars, logo reveal), small arrows between frames, a black marker "
+        "next to the sheet."),
+    'moumous-identite': ('4/3', "Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc", 'mono',
+        "A flat-lay brand identity board on a light grey surface: a bold abstract monogram logo, black and white colour "
+        "swatches with grey steps, a large type specimen drawn as shapes, a business card, an envelope and a notebook, all "
+        "perfectly aligned on a grid."),
+    'moumous-referencement': ('3/4', "Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc", 'mono',
+        "A smartphone shown straight on: the screen shows a list of search results drawn as black and grey bars, the first "
+        "result highlighted with a thick black outline; next to the phone, a small floating card with a black line chart "
+        "rising to the right. Light grey background."),
+
     # --- Site web ---------------------------------------------------------
     'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
         "Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design "
@@ -229,6 +266,22 @@ IMAGES = {
         "question et sa réponse."),
 }
 
+# Tant qu'une de ces images manque, la page affiche l'image existante indiquée.
+# Dès qu'elle est déposée (tools/convertir_images.py relance ce script), elle
+# prend sa place.
+FALLBACK = {
+    'svc-conseil': 'col-saas',
+    'conseil-etat-des-lieux': 'methode-ecouter', 'conseil-solutions': 'saas-onboarding',
+    'conseil-transition': 'saas-dashboard', 'conseil-equipe': 'saas-roles',
+    'moumous-hero': 'svc-reseaux', 'moumous-reseaux': 'reseaux-storyboard',
+    'moumous-identite': 'reseaux-charte', 'moumous-referencement': 'col-grille',
+}
+
+
+def has_image(name):
+    return os.path.exists(os.path.join(ROOT, IMG_DIR, name + '.webp'))
+
+
 FAMILY_RULES = {
     'scene': "SCENE",
     'device': "DEVICE",
@@ -240,6 +293,10 @@ STYLE_SCENE = (
     "no texture. Palette strictly blue and white: navy #0B1B3F, royal blue #1F6BFF, azure #1E9BFF, light azure "
     "#8FDBFF, ice blue #E1EBFF, white. No orange, red, yellow or green. Any text is drawn as rounded grey or navy bars, "
     "never readable letters. No logos of real brands, no watermark.")
+STYLE_MONO = (
+    "Studio Moumous art direction: strictly black, white and greys, no colour at all, high contrast, clean editorial "
+    "look, flat shapes or crisp product mock-up, soft studio shadows on a light grey background (#F2F2F2). Any text is "
+    "drawn as black or grey bars, never readable letters. No real brand, no real logo, no watermark, no kingfisher.")
 STYLE_DEVICE = (
     "Clean product mock-up, soft studio lighting, minimal and premium, devices with thin dark bezels, gentle soft "
     "shadow on a flat ice-blue background (#E1EBFF). The on-screen interface is invented: palette navy #0B1B3F, royal "
@@ -258,9 +315,10 @@ def figure(name, extra=''):
     r, alt, fam, _ = IMAGES[name]
     w, h = ratio_px(r)
     cls = ('shot ' + ('shot--real ' if fam in ('capture', 'photo') else '') + extra).strip()
+    src = name if (has_image(name) or name not in FALLBACK) else FALLBACK[name]
     return ('<figure class="%s" style="--r:%s"><img src="%s/%s.webp" alt="%s" width="%d" height="%d" loading="lazy" '
             'decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>%s.webp</b>'
-            '</figcaption></figure>') % (cls, r, IMG_DIR, name, html.escape(alt, quote=True), w, h, name)
+            '</figcaption></figure>') % (cls, r, IMG_DIR, src, html.escape(alt, quote=True), w, h, name)
 
 
 # ---------------------------------------------------------------------------
@@ -318,7 +376,7 @@ HEAD = '''<!doctype html>
     <div class="nav-glow" aria-hidden="true"><svg preserveAspectRatio="none"><rect class="nav-glow-rect" fill="none"/><rect class="nav-glow-rect" fill="none"/></svg></div>
 
     <a href="index.html" class="nav-brand" aria-label="ZkilZ, accueil">
-      <span class="nav-logo">{logo}</span>
+      <span class="nav-mark"><svg class="nav-ring" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="25" pathLength="100"/></svg><span class="nav-logo">{logo}</span></span>
       <span class="nav-word"><b>Z</b>kil<b>Z</b></span>
     </a>
 
@@ -477,7 +535,7 @@ def services_grid(exclude=None):
 
 def expand(text):
     text = text.replace('{{cta}}', CTA)
-    text = text.replace('{{partner}}', PARTNER % figure('svc-reseaux'))
+    text = text.replace('{{partner}}', PARTNER % figure('moumous-hero'))
     text = re.sub(r'\{\{services-grid(?:\|([\w-]+))?\}\}', lambda m: services_grid(m.group(1)), text)
     text = re.sub(r'\{\{img:([\w-]+)(?:\|([^}]*))?\}\}', lambda m: figure(m.group(1), m.group(2) or ''), text)
     return text
@@ -550,7 +608,7 @@ def write_prompts():
         if '{{services-grid' in t:
             names += [c[1] for c in SVC_CARDS]
         if '{{partner}}' in t:
-            names.append('svc-reseaux')
+            names.append('moumous-hero')
         for n in names:
             used.setdefault(n, []).append(page)
     lines = [start, '', '# Images des pages du site', '',
@@ -568,7 +626,8 @@ def write_prompts():
              "Colle la **fiche du personnage (n° 0)** au début, joins la **planche n° 1** en image de référence, puis "
              "termine par le style A. Pas de fond vert ici : la scène a son propre fond.", '',
              "Le format (largeur:hauteur) est donné pour chaque image : règle ton générateur dessus.", '']
-    groups = [('scene', 'Style A'), ('device', 'Style B'), ('mascot', 'Style C')]
+    lines += ['### Style D — Studio Moumous, noir et blanc', '', '```text', STYLE_MONO, '```', '']
+    groups = [('scene', 'Style A'), ('device', 'Style B'), ('mascot', 'Style C'), ('mono', 'Style D')]
     n = 0
     for fam, style in groups:
         for name, (r, alt, f, prompt) in IMAGES.items():
@@ -593,6 +652,51 @@ def write_prompts():
     with open(path, 'w', encoding='utf-8') as f:
         f.write(doc)
     print('ok PROMPTS-MASCOTTE.md (%d images)' % len(used))
+    write_todo(used, doc)
+
+
+def write_todo(used, doc):
+    """PROMPTS-A-FAIRE.md : seulement les images qui manquent encore."""
+    fiche = doc[doc.index('## 0. Fiche'):doc.index('## 0 bis')].strip() if '## 0. Fiche' in doc else ''
+    todo = [n for n in IMAGES if n in used and not has_image(n)]
+    ai = [n for n in todo if IMAGES[n][2] not in ('capture', 'photo')]
+    real = [n for n in todo if IMAGES[n][2] in ('capture', 'photo')]
+    styles = {'scene': ('A — illustration en aplats', STYLE_SCENE), 'device': ('B — écran ou appareil', STYLE_DEVICE),
+              'mascot': ('C — le martin-pêcheur dans une scène', STYLE_SCENE), 'mono': ('D — Studio Moumous, noir et blanc', STYLE_MONO)}
+    L = ['# Images à faire', '',
+         "Ce fichier ne liste que les images qui manquent encore sur le site (%d à générer, %d vraies à fournir). "
+         "Il est réécrit par `tools/build_pages.py` : une image livrée disparaît de la liste." % (len(ai), len(real)), '',
+         '**Comment les livrer :** enregistre chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom '
+         'indiqué (par exemple `conseil-solutions.png`), puis lance :', '', '```bash', 'python3 tools/convertir_images.py', '```', '',
+         "Le script les convertit en WebP et régénère les pages. En attendant, chaque emplacement affiche l'image "
+         "actuelle (indiquée sous chaque prompt).", '',
+         '**Pour chaque prompt :** colle le texte du prompt, puis le style indiqué (en bas de ce fichier), et règle le '
+         'format. Pour une image avec le martin-pêcheur, colle aussi la fiche du personnage au début et joins la '
+         'planche de référence (`assets/img/mascotte/kf-planche.webp`).', '']
+    for i, n in enumerate(ai, 1):
+        r, alt, fam, prompt = IMAGES[n]
+        pages = ', '.join(sorted(set(used[n])))
+        L += ['## %d. %s → `%s.png`' % (i, alt, n), '',
+              '*Format %s · style %s · pages : %s*' % (r.replace('/', ':'), styles[fam][0], pages)]
+        if n in FALLBACK:
+            L += ['', "*En attendant : l'image `%s` tient la place.*" % FALLBACK[n]]
+        L += ['', '```text', prompt, '```', '']
+    if real:
+        L += ['## Vraies images à fournir (pas d\'IA)', '']
+        for n in real:
+            r, alt, fam, prompt = IMAGES[n]
+            L += ['- **`%s.png`** — %s (format %s). %s' % (n, alt, r.replace('/', ':'), prompt)]
+        L += ['']
+    L += ['---', '', '# Styles à coller à la fin des prompts', '']
+    for fam in ('scene', 'device', 'mascot', 'mono'):
+        if any(IMAGES[n][2] == fam for n in ai):
+            name, txt = styles[fam]
+            L += ['## Style %s' % name, '', '```text', txt, '```', '']
+    if fiche and any(IMAGES[n][2] == 'mascot' for n in ai):
+        L += ['# ' + fiche.lstrip('# '), '']
+    with open(os.path.join(ROOT, 'PROMPTS-A-FAIRE.md'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(L))
+    print('ok PROMPTS-A-FAIRE.md (%d à générer, %d à fournir)' % (len(ai), len(real)))
 
 
 if __name__ == '__main__':

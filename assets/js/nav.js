@@ -87,15 +87,15 @@
       return tl;
     };
     // hochement : il « pompe » comme le vrai martin-pêcheur
+    // hochement discret : il « pompe » comme le vrai martin-pêcheur
     nod = function () {
       G.timeline()
-        .to(head, { rotation: 9, y: 1.5, duration: .16, ease: 'power2.out' })
-        .to(head, { rotation: -3, y: 0, duration: .22, ease: 'power2.inOut' })
-        .to(head, { rotation: 0, duration: .5, ease: 'elastic.out(1, .5)' });
+        .to(head, { rotation: 4, y: .6, duration: .45, ease: 'sine.inOut' })
+        .to(head, { rotation: 0, y: 0, duration: .7, ease: 'sine.inOut' });
     };
-    var shine = function () {
-      G.fromTo(glint, { strokeDashoffset: 14, opacity: 1 }, { strokeDashoffset: -100, duration: .8, ease: 'power2.inOut' });
-      G.to(glint, { opacity: 0, duration: .25, delay: .6 });
+    var shine = function (slow) {
+      G.fromTo(glint, { strokeDashoffset: 14, opacity: .9 }, { strokeDashoffset: -100, duration: slow ? 1.2 : .9, ease: 'sine.inOut' });
+      G.to(glint, { opacity: 0, duration: .3, delay: slow ? .95 : .7 });
     };
     // vie au repos, à intervalles irréguliers
     (function idle() {
@@ -107,13 +107,14 @@
         idle();
       }, 2600 + Math.random() * 4200);
     })();
-    // au survol : il lève la tête, un reflet glisse sur le bec, il cligne
-    var brand = nav.querySelector('.nav-brand');
+    // au survol : l'anneau se trace (CSS), un reflet glisse lentement le
+    // long du bec, puis un seul clignement
+    var brand = nav.querySelector('.nav-brand'), hoverT = null;
     brand.addEventListener('pointerenter', function () {
-      G.to(head, { rotation: -10, y: -1, duration: .45, ease: 'back.out(2)' });
-      shine(); setTimeout(function () { blink(); }, 380);
+      shine(true);
+      clearTimeout(hoverT); hoverT = setTimeout(function () { blink(); }, 650);
     });
-    brand.addEventListener('pointerleave', function () { G.to(head, { rotation: 0, y: 0, duration: .6, ease: 'elastic.out(1, .5)' }); });
+    brand.addEventListener('pointerleave', function () { clearTimeout(hoverT); });
     setTimeout(function () { blink(true); }, 1300);
   }
 
