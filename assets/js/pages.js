@@ -107,8 +107,7 @@
   var hm = document.querySelector('.page-hero-media .shot, .page-hero-media img');
   if (hm) gsap.from(hm, { scale: .92, rotation: -2, opacity: 0, duration: 1.4, ease: 'expo.out', delay: .3 });
 
-  // les images arrivent après coup : on recalcule les positions
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  // (ScrollTrigger se recalcule seul à la fin du chargement)
   // et chaque fois que la page change de hauteur (images, mosaïque, question
   // ouverte…) : sinon un déclencheur calculé sur l'ancienne hauteur peut ne
   // jamais être atteint, et l'élément reste à moitié animé
@@ -117,7 +116,8 @@
     new ResizeObserver(function () {
       var h = document.body.offsetHeight;
       if (Math.abs(h - stH) < 4) return;
-      stH = h; clearTimeout(stT); stT = setTimeout(function () { ScrollTrigger.refresh(); }, 250);
+      if (!stH) { stH = h; return; }   // première mesure : rien n'a changé
+      stH = h; if (window.skzRefresh) window.skzRefresh();
     }).observe(document.body);
   }
 })();

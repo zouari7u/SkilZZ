@@ -5,3 +5,4 @@ node_modules/
 assets/img/src/
 assets/img/pages/src/*
 !assets/img/pages/src/.gitkeep
+assets/img/moumous/src/

@@ -306,5 +306,4 @@
     } else { solid.style.strokeDashoffset = 0; }
   }
 
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();

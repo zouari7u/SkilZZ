@@ -1383,3 +1383,16 @@ section.agent-panel { padding: 0; }
   :root[data-theme="dark"] .svc.svc--partner.is-active .svc-card { box-shadow: 0 0 0 2px #F2F2F2, 0 30px 60px -26px rgba(0, 0, 0, .6); }
   .svc.svc--partner.is-active .svc-num b { background: #fff; color: #0A0A0A; }
 }
+
+/* Logo de Studio Moumous */
+.partner-brand { display: flex; align-items: center; gap: 14px; }
+.partner-brand img { width: 56px; height: 56px; border-radius: 14px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); }
+:root[data-theme="dark"] .partner-brand img { box-shadow: none; }
+.footer-partner { display: inline-flex; align-items: center; gap: 10px; }
+.footer-partner img { width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16); }
+.mono-brand { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.mono-brand img { width: 64px; height: 64px; border-radius: 16px; box-shadow: var(--shadow); }
+.mono-label--logo { display: flex; align-items: center; gap: 10px; opacity: 1; }
+.mono-label--logo img { width: 32px; height: 32px; border-radius: 8px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .2); }
+.svc-art .svc-art-logo { left: 22%; top: 22%; width: 56%; height: 56%; object-fit: contain; filter: none; border-radius: 18%; }
+.svc[data-tone="mono"] .svc-art .svc-art-logo { filter: none; }

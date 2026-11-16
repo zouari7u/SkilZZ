@@ -316,9 +316,13 @@ def figure(name, extra=''):
     w, h = ratio_px(r)
     cls = ('shot ' + ('shot--real ' if fam in ('capture', 'photo') else '') + extra).strip()
     src = name if (has_image(name) or name not in FALLBACK) else FALLBACK[name]
-    return ('<figure class="%s" style="--r:%s"><img src="%s/%s.webp" alt="%s" width="%d" height="%d" loading="lazy" '
+    # version 800 px : le navigateur la prend quand l'image s'affiche petite
+    small = ''
+    if has_image(src + '-800'):
+        small = ' srcset="%s/%s-800.webp 800w, %s/%s.webp 1600w" sizes="(max-width: 980px) 92vw, 50vw"' % (IMG_DIR, src, IMG_DIR, src)
+    return ('<figure class="%s" style="--r:%s"><img src="%s/%s.webp"%s alt="%s" width="%d" height="%d" loading="lazy" '
             'decoding="async"><figcaption class="shot-ph" aria-hidden="true"><span>Image à venir</span><b>%s.webp</b>'
-            '</figcaption></figure>') % (cls, r, IMG_DIR, src, html.escape(alt, quote=True), w, h, name)
+            '</figcaption></figure>') % (cls, r, IMG_DIR, src, small, html.escape(alt, quote=True), w, h, name)
 
 
 # ---------------------------------------------------------------------------
@@ -425,7 +429,7 @@ FOOT = '''
       </nav>
       <nav class="footer-col footer-col--partner" aria-label="Partenaire">
         <p class="footer-h">Partenaire</p>
-        <a href="reseaux-sociaux.html">Studio Moumous</a>
+        <a href="reseaux-sociaux.html" class="footer-partner"><img src="assets/img/moumous/moumous-logo.webp" width="28" height="28" alt="" loading="lazy" decoding="async">Studio Moumous</a>
         <span>Réseaux sociaux, marketing et référencement</span>
       </nav>
     </div>
@@ -510,7 +514,7 @@ PARTNER = '''    <section class="partner-sec">
       <a class="partner" href="reseaux-sociaux.html" data-reveal>
         <span class="partner-media">%s</span>
         <span class="partner-copy">
-          <span class="partner-label">Partenaire</span>
+          <span class="partner-brand"><img src="assets/img/moumous/moumous-logo.webp" width="56" height="56" alt="Studio Moumous" loading="lazy" decoding="async"><span class="partner-label">Partenaire</span></span>
           <span class="partner-title">Réseaux sociaux, marketing et référencement&nbsp;: Studio Moumous.</span>
           <span class="partner-text">ZkilZ développe vos outils, Studio Moumous les fait connaître. Un seul point de contact, et des équipes qui se parlent.</span>
           <span class="partner-go">Découvrir le partenariat<svg><use href="#i-arrow"/></svg></span>

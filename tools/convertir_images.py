@@ -26,6 +26,8 @@ for name in sorted(os.listdir(SRC)):
         continue
     src, dst = os.path.join(SRC, name), os.path.join(OUT, base + '.webp')
     subprocess.run(['cwebp', '-quiet', '-q', '82', '-resize', '1600', '0', src, '-o', dst], check=True)
+    # et une version 800 px pour les affichages plus petits (mosaïque, tuiles)
+    subprocess.run(['cwebp', '-quiet', '-q', '80', '-resize', '800', '0', src, '-o', dst.replace('.webp', '-800.webp')], check=True)
     print('ok', base + '.webp')
     done += 1
 print(done, 'image(s) convertie(s).' if done else 'Aucune image dans assets/img/pages/src/.')

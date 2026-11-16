@@ -36,7 +36,14 @@
     return d;
   }
 
-  function build() {
+  var builtW = 0, builtH = 0;
+  function build(force) {
+    // un recalcul des déclencheurs ne change pas forcément la page : on ne
+    // redessine le fil que si sa taille a changé (le redessiner coûte cher)
+    var fw = document.documentElement.clientWidth, ff = document.querySelector('.footer');
+    var fh = ff ? Math.ceil(docTop(ff) + ff.offsetHeight) : document.body.offsetHeight;
+    if (force !== true && fw === builtW && Math.abs(fh - builtH) < 2) return;
+    builtW = fw; builtH = fh;
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     marks = []; winds.forEach(function (w) { w.kill(); }); winds = [];
     // hauteur du contenu = bas du pied de page (pas la hauteur du document,
@@ -74,7 +81,8 @@
     line.style.strokeDasharray = total; line.style.strokeDashoffset = reduce ? 0 : total;
     // table hauteur → longueur, pour dessiner jusqu'au niveau de lecture
     table = [];
-    for (var l = 0; l <= total; l += 12) table.push([line.getPointAtLength(l).y, l]);
+    for (var l = 0; l <= total; l += 36) table.push([line.getPointAtLength(l).y, l]);
+    table.push([line.getPointAtLength(total).y, total]);
     stops.forEach(function (p) {
       // ronds dans l'eau autour du repère (la précision du plongeon)
       var rg = el('g', { class: 'route-rings', transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')' });
@@ -102,9 +110,14 @@
 
   function lengthAt(y) {
     if (!table.length) return 0;
-    var best = 0;
-    for (var i = 0; i < table.length; i++) { if (table[i][0] <= y) best = Math.max(best, table[i][1]); }
-    return best;
+    var best = 0, prev = null;
+    for (var i = 0; i < table.length; i++) {
+      var t = table[i];
+      if (t[0] <= y) best = Math.max(best, t[1]);
+      else if (prev && prev[0] <= y && t[1] === prev[1] + 36) best = Math.max(best, prev[1] + (y - prev[0]) / Math.max(1, t[0] - prev[0]) * 36);
+      prev = t;
+    }
+    return Math.min(total, best);
   }
   var drawn = 0;
   function update() {
@@ -127,7 +140,7 @@
   }
   gsap.ticker.add(update);
   ScrollTrigger.addEventListener('refresh', build);
-  window.addEventListener('load', function () { setTimeout(build, 300); });
+
   // le contenu change de hauteur sans redimensionnement (image masquée,
   // question ouverte…) : on redessine
   if ('ResizeObserver' in window) {
@@ -138,5 +151,5 @@
       lastH = h; clearTimeout(rTimer); rTimer = setTimeout(build, 200);
     }).observe(document.querySelector('main') || document.body);
   }
-  build();
+  build(true);
 })();
