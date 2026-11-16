@@ -426,10 +426,24 @@
   // =========================================================================
   // PERCHOIRS
   // =========================================================================
+  // data-perch-ink : le perchoir est le haut du dessin de la lettre, pas
+  // celui de sa boîte (interligne et marges internes compris)
+  var inkCtx = null;
+  function inkTop(el) {
+    var cs = getComputedStyle(el);
+    inkCtx = inkCtx || document.createElement('canvas').getContext('2d');
+    inkCtx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+    var m = inkCtx.measureText(el.textContent.trim() || 'l');
+    var fa = m.fontBoundingBoxAscent, fd = m.fontBoundingBoxDescent;
+    if (!fa) return 0;
+    var lh = parseFloat(cs.lineHeight) || (fa + fd);
+    return parseFloat(cs.paddingTop) + (lh - (fa + fd)) / 2 + fa - m.actualBoundingBoxAscent;
+  }
   function perchPoint(el) {
     var r = el.getBoundingClientRect(), at2 = parseFloat(el.dataset.perch);
     if (isNaN(at2)) at2 = 85;
-    return { x: r.left + window.scrollX + r.width * at2 / 100, y: r.top + window.scrollY + 1 };
+    var dy = el.hasAttribute('data-perch-ink') ? inkTop(el) : 0;
+    return { x: r.left + window.scrollX + r.width * at2 / 100, y: r.top + window.scrollY + dy + 1 };
   }
   function snapTo(el) { var b = perchPoint(el); pos.x = b.x; pos.y = b.y; current = { el: el }; place(); }
   function onScreen() { var r = root.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
@@ -465,6 +479,15 @@
     clearTimeout(settle);
     settle = setTimeout(onScrollEnd, reduce ? 0 : 200);
   }, { passive: true });
+  // le perchoir a bougé après l'atterrissage (lettre qui finit d'entrer,
+  // lettre soulevée au survol…) : il le suit au lieu de rester en l'air
+  setInterval(function () {
+    if (flying || !current || !current.el || !ready || reduce) return;
+    var b = perchPoint(current.el);
+    if (Math.abs(b.x - pos.x) > 3 || Math.abs(b.y - pos.y) > 3) {
+      gsap.to(pos, { x: b.x, y: b.y, duration: .3, ease: 'power2.out', onUpdate: place, overwrite: true });
+    }
+  }, 250);
   window.addEventListener('resize', function () {
     applySize(); sizeTrail();
     if (current && current.el && !flying) snapTo(current.el);

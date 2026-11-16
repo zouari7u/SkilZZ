@@ -878,8 +878,6 @@ section.agent-panel { padding: 0; }
    23. IMAGES DU MARTIN-PÊCHEUR (générées, détourées par tools/detourer.py)
    ========================================================================== */
 /* plongeon : l'image est déjà tête en bas */
-.work-rider { width: 92px; margin: -150px 0 0 -46px; }
-@media (max-width: 640px) { .work-rider { width: 70px; margin: -118px 0 0 -35px; } }
 /* contact : l'envol */
 .contact-bird { width: clamp(130px, 14vw, 190px); height: auto; margin-bottom: 14px; filter: drop-shadow(0 14px 18px rgba(11, 27, 63, .18)); }
 
@@ -1000,3 +998,8 @@ section.agent-panel { padding: 0; }
   .route-guide, .route-rings { display: none; }
 }
 .step-ring { position: absolute; inset: -2px; border-radius: 50%; box-shadow: 0 0 0 2px var(--accent); pointer-events: none; }
+
+/* Réalisation : le plongeon. La pointe du bec (5 % / 97,5 % de l'image) est
+   posée sur le centre du cercle ; le JS la recule le long de l'axe du corps. */
+.work-rider { --w: 118px; width: var(--w); height: auto; margin: calc(var(--w) * -1.7689) 0 0 calc(var(--w) * -.0495); transform-origin: 4.95% 97.45%; }
+@media (max-width: 640px) { .work-rider { --w: 78px; } }

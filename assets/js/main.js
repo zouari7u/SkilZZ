@@ -306,7 +306,13 @@
   var pin = document.getElementById('workPin');
   var rider = document.getElementById('workRider');
   if (pin) {
-    var riderFloat = gsap.to(rider, { y: -10, duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    // l'oiseau attend au-dessus du cercle, dans l'axe de son corps (incliné
+    // d'environ 24°) ; il plonge le long de cet axe, bec au centre
+    var AX = Math.sin(24 * Math.PI / 180), AY = Math.cos(24 * Math.PI / 180);
+    function riderGap() { var b = document.getElementById('workBubble').getBoundingClientRect(); return b.width / 2 + rider.offsetWidth * .3; }
+    var gap0 = riderGap();
+    gsap.set(rider, { x: AX * gap0, y: -AY * gap0 });
+    var riderFloat = gsap.to(rider, { x: '+=' + (AX * 8), y: '-=' + (AY * 8), duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     var splash = document.createElement('span'); splash.className = 'work-ripple'; pin.appendChild(splash);
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
@@ -316,9 +322,9 @@
     });
     tl.fromTo('#workBubble', { scale: .06 }, { scale: 1, duration: 1, ease: 'power2.in' }, 0)
       // il pique vers le centre, bec en avant, et disparaît dans l'eau
-      .to(rider, { y: 150, scale: .85, duration: .28, ease: 'power2.in', onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.resume(); } }, 0)
+      .fromTo(rider, { x: function () { return AX * gap0; }, y: function () { return -AY * gap0; }, scale: 1 }, { x: 0, y: 0, scale: .8, duration: .28, ease: 'power2.in', immediateRender: false, onStart: function () { riderFloat.pause(); }, onReverseComplete: function () { riderFloat.restart(); } }, 0)
       .to(rider, { opacity: 0, duration: .06 }, .27)
-      .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out' }, .27)
+      .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out', immediateRender: false }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
       .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92);
