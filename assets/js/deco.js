@@ -39,7 +39,10 @@
   function build() {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     marks = []; winds.forEach(function (w) { w.kill(); }); winds = [];
-    var W = document.documentElement.clientWidth, H = document.documentElement.scrollHeight;
+    // hauteur du contenu = bas du pied de page (pas la hauteur du document,
+    // qui inclut ce calque et l'empêchait de rapetisser)
+    var foot0 = document.querySelector('.footer');
+    var W = document.documentElement.clientWidth, H = foot0 ? Math.ceil(docTop(foot0) + foot0.offsetHeight) : document.body.offsetHeight;
     svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     var narrow = W < 700, m = narrow ? 10 : Math.max(26, (W - 1180) / 4);
     var L = m, R = W - m;
@@ -125,5 +128,15 @@
   gsap.ticker.add(update);
   ScrollTrigger.addEventListener('refresh', build);
   window.addEventListener('load', function () { setTimeout(build, 300); });
+  // le contenu change de hauteur sans redimensionnement (image masquée,
+  // question ouverte…) : on redessine
+  if ('ResizeObserver' in window) {
+    var lastH = 0, rTimer = null;
+    new ResizeObserver(function () {
+      var h = document.querySelector('main') ? document.querySelector('main').offsetHeight : 0;
+      if (Math.abs(h - lastH) < 2) return;
+      lastH = h; clearTimeout(rTimer); rTimer = setTimeout(build, 200);
+    }).observe(document.querySelector('main') || document.body);
+  }
   build();
 })();

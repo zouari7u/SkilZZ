@@ -67,8 +67,16 @@
   trailSvg.setAttribute('aria-hidden', 'true');
   var trail = document.createElementNS(NS, 'path');
   trailSvg.appendChild(trail);
+  // Hauteur du contenu : le bas du pied de page. (La hauteur du document
+  // inclut ce calque : il ne pouvait jamais rapetisser, et une page devenue
+  // plus courte — fenêtre élargie, image masquée — gardait un vide sous le
+  // pied de page.)
+  function contentHeight() {
+    var f = document.querySelector('.footer');
+    return f ? Math.ceil(f.getBoundingClientRect().bottom + window.scrollY) : document.body.offsetHeight;
+  }
   function sizeTrail() {
-    var w = document.documentElement.scrollWidth, h = document.documentElement.scrollHeight;
+    var w = document.documentElement.clientWidth, h = contentHeight();
     trailSvg.setAttribute('width', w); trailSvg.setAttribute('height', h);
     trailSvg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
   }
@@ -651,6 +659,7 @@
       if (moved) gsap.set(root, { x: '+=' + dx, y: '+=' + dy });
     } else if (moved) { pos.x += dx; pos.y += dy; place(); }
   });
+  if ('ResizeObserver' in window) new ResizeObserver(function () { sizeTrail(); }).observe(document.querySelector('main') || document.body);
   window.addEventListener('resize', function () {
     applySize(); sizeTrail();
     if (current && current.el && !flying) snapTo(current.el);
