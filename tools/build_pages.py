@@ -96,33 +96,33 @@ IMAGES = {
         "(circles, diagonals, a product silhouette, a quote card), clearly one coherent brand."),
 
     # --- Services : une scène par métier ---------------------------------
-    'svc-site': ('16/10', "Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site", 'mascot',
+    'svc-site': ('16/9', "Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site", 'mascot',
         "The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen "
         "(clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few "
         "floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space "
         "on the left for text."),
-    'svc-app': ('16/10', "Le martin-pêcheur à côté d'un téléphone qui affiche une application", 'mascot',
+    'svc-app': ('16/9', "Le martin-pêcheur à côté d'un téléphone qui affiche une application", 'mascot',
         "The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows "
         "a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, "
         "subject on the right half."),
-    'svc-saas': ('16/10', "Le martin-pêcheur devant un tableau de bord avec des graphiques", 'mascot',
+    'svc-saas': ('16/9', "Le martin-pêcheur devant un tableau de bord avec des graphiques", 'mascot',
         "The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and "
         "three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide "
         "composition, subject on the right half."),
-    'svc-reseaux': ('16/10', "Le martin-pêcheur au milieu de trois téléphones qui affichent des reels", 'mascot',
+    'svc-reseaux': ('16/9', "Le martin-pêcheur au milieu de trois téléphones qui affichent des reels", 'mascot',
         "Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and "
         "white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat "
         "ice-blue background (#E1EBFF). Wide composition, subject on the right half."),
 
     # --- Site web ---------------------------------------------------------
-    'site-maquettes': ('16/10', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
+    'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
         "Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design "
         "mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the "
         "mobile version. Clean, airy, on an ice-blue background."),
     'site-mobile': ('3/4', "Un site vu sur téléphone, avec le menu ouvert", 'device',
         "A smartphone shown straight on, displaying a mobile website with a rounded navigation sheet opened from the "
         "bottom: four menu rows and a large royal-blue call-to-action button. Ice-blue background."),
-    'site-admin': ('16/10', "L'écran d'administration où l'on change un texte et une photo", 'device',
+    'site-admin': ('16/9', "L'écran d'administration où l'on change un texte et une photo", 'device',
         "A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, "
         "an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, "
         "uncluttered. Ice-blue background."),
@@ -132,7 +132,7 @@ IMAGES = {
         "background."),
 
     # --- Application mobile ----------------------------------------------
-    'app-prototype': ('16/10', "Le parcours d'une application : cinq écrans reliés par des flèches", 'device',
+    'app-prototype': ('16/9', "Le parcours d'une application : cinq écrans reliés par des flèches", 'device',
         "Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a "
         "clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue "
         "buttons, text drawn as grey bars."),
@@ -149,11 +149,11 @@ IMAGES = {
         "installed. Ice-blue background."),
 
     # --- SaaS -------------------------------------------------------------
-    'saas-dashboard': ('16/10', "Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs", 'device',
+    'saas-dashboard': ('16/9', "Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs", 'device',
         "A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar "
         "chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue "
         "background."),
-    'saas-onboarding': ('16/10', "Les trois étapes d'inscription d'un logiciel en ligne", 'device',
+    'saas-onboarding': ('16/9', "Les trois étapes d'inscription d'un logiciel en ligne", 'device',
         "Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), "
         "choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as "
         "circles). Ice-blue background."),
@@ -166,7 +166,7 @@ IMAGES = {
         "chart in royal blue, a bottom tab bar. Ice-blue background."),
 
     # --- Réseaux sociaux -------------------------------------------------
-    'reseaux-storyboard': ('16/10', "Le storyboard d'un reel : six images clés", 'scene',
+    'reseaux-storyboard': ('16/9', "Le storyboard d'un reel : six images clés", 'scene',
         "A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white "
         "composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), "
         "with small arrows between frames and a pencil next to the sheet."),
@@ -174,7 +174,7 @@ IMAGES = {
         "A social media style guide board laid flat: colour swatches, two type samples drawn as shapes, and four post "
         "templates (quote, product, announcement, carousel cover) all in navy, royal blue, azure and white. Top-down view, "
         "ice-blue background."),
-    'reseaux-motion': ('16/10', "Les étapes d'une animation de logo, image par image", 'scene',
+    'reseaux-motion': ('16/9', "Les étapes d'une animation de logo, image par image", 'scene',
         "A horizontal sequence of five frames showing a simple round logo mark being drawn: a dot, a growing arc, a full "
         "circle, an inner shape appearing, the final mark with a small bounce. Flat vector, navy and royal blue on white "
         "frames, ice-blue background, thin motion guide lines between frames."),
@@ -195,7 +195,7 @@ IMAGES = {
         "ticked items and one new item being added, and a phone showing a new post ready to publish. Ice-blue desk."),
 
     # --- Studio --------------------------------------------------------------
-    'studio-lac': ('21/9', "Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour", 'mascot',
+    'studio-lac': ('33/14', "Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour", 'mascot',
         "Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, "
         "ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single "
         "reed just above the water, looking far ahead. Lots of open sky on the left. No text."),

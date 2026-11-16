@@ -235,7 +235,7 @@ A flat-lay brand identity board seen from above on an ice-blue desk: a round log
 
 ## P2. Le storyboard d'un reel : six images clés → `reseaux-storyboard.png`
 
-*Pages : reseaux-sociaux · format 16:10 · Style A*
+*Pages : reseaux-sociaux · format 16:9 · Style A*
 
 ```text
 A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), with small arrows between frames and a pencil next to the sheet.
@@ -251,7 +251,7 @@ A social media style guide board laid flat: colour swatches, two type samples dr
 
 ## P4. Les étapes d'une animation de logo, image par image → `reseaux-motion.png`
 
-*Pages : reseaux-sociaux · format 16:10 · Style A*
+*Pages : reseaux-sociaux · format 16:9 · Style A*
 
 ```text
 A horizontal sequence of five frames showing a simple round logo mark being drawn: a dot, a growing arc, a full circle, an inner shape appearing, the final mark with a small bounce. Flat vector, navy and royal blue on white frames, ice-blue background, thin motion guide lines between frames.
@@ -331,7 +331,7 @@ A modern smartphone shown straight on. The screen shows a social media profile: 
 
 ## P14. De la maquette en gris au site final, sur ordinateur et téléphone → `site-maquettes.png`
 
-*Pages : services, site-web · format 16:10 · Style B*
+*Pages : services, site-web · format 16:9 · Style B*
 
 ```text
 Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the mobile version. Clean, airy, on an ice-blue background.
@@ -347,7 +347,7 @@ A smartphone shown straight on, displaying a mobile website with a rounded navig
 
 ## P16. L'écran d'administration où l'on change un texte et une photo → `site-admin.png`
 
-*Pages : site-web · format 16:10 · Style B*
+*Pages : site-web · format 16:9 · Style B*
 
 ```text
 A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, uncluttered. Ice-blue background.
@@ -363,7 +363,7 @@ A laptop and a phone showing the same online shop product page: a large product 
 
 ## P18. Le parcours d'une application : cinq écrans reliés par des flèches → `app-prototype.png`
 
-*Pages : application-mobile · format 16:10 · Style B*
+*Pages : application-mobile · format 16:9 · Style B*
 
 ```text
 Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue buttons, text drawn as grey bars.
@@ -395,7 +395,7 @@ Close-up of a smartphone home screen grid of app icons, all in muted grey, excep
 
 ## P22. Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs → `saas-dashboard.png`
 
-*Pages : saas · format 16:10 · Style B*
+*Pages : saas · format 16:9 · Style B*
 
 ```text
 A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue background.
@@ -403,7 +403,7 @@ A wide browser window showing a SaaS dashboard: left sidebar, a header with a se
 
 ## P23. Les trois étapes d'inscription d'un logiciel en ligne → `saas-onboarding.png`
 
-*Pages : saas · format 16:10 · Style B*
+*Pages : saas · format 16:9 · Style B*
 
 ```text
 Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as circles). Ice-blue background.
@@ -435,7 +435,7 @@ Two smartphones overlapping slightly: one shows a vertical story with a big blue
 
 ## P27. Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site → `svc-site.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen (clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space on the left for text.
@@ -443,7 +443,7 @@ The kingfisher is perched on the top edge of an open laptop screen, looking down
 
 ## P28. Le martin-pêcheur à côté d'un téléphone qui affiche une application → `svc-app.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
@@ -451,7 +451,7 @@ The kingfisher stands next to a smartphone that is as tall as it is, one wing po
 
 ## P29. Le martin-pêcheur devant un tableau de bord avec des graphiques → `svc-saas.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
@@ -459,7 +459,7 @@ The kingfisher is perched on the corner of a floating dashboard panel showing a 
 
 ## P30. Le martin-pêcheur au milieu de trois téléphones qui affichent des reels → `svc-reseaux.png`
 
-*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:10 · Style C*
+*Pages : application-mobile, realisations, reseaux-sociaux, saas, services, site-web · format 16:9 · Style C*
 
 ```text
 Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat ice-blue background (#E1EBFF). Wide composition, subject on the right half.
@@ -467,7 +467,7 @@ Three vertical smartphones stand in a gentle arc, each showing a different verti
 
 ## P31. Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour → `studio-lac.png`
 
-*Pages : studio · format 21:9 · Style C*
+*Pages : studio · format 33:14 · Style C*
 
 ```text
 Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single reed just above the water, looking far ahead. Lots of open sky on the left. No text.
