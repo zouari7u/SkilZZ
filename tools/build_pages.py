@@ -270,26 +270,26 @@ FOOT = '''
     </div>
   </footer>
 
-  <!-- AGENT IA — bulle en bas à droite (assets/js/agent.js).
+  <!-- ASSISTANT IA — en bas à droite (assets/js/agent.js).
        Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat) ;
-       sans adresse, un moteur local répond. -->
+       sans adresse, un moteur local répond à partir du contenu du site. -->
   <div class="agent-tip" id="agentTip" hidden>
     <span id="agentTipText"></span>
     <button type="button" class="agent-tip-x" aria-label="Ne plus afficher ces messages"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
   <button type="button" class="agent-fab" id="agentFab" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
-    <span class="agent-fab-bubble soap" aria-hidden="true"><span class="soap-rim"></span></span>
-    <span class="agent-fab-head" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="124" height="124" decoding="async"></span>
-    <span class="agent-fab-shine" aria-hidden="true"></span>
+    <span class="agent-fab-av" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="1100" height="1100" decoding="async"></span>
+    <span class="agent-fab-label" aria-hidden="true">Une question&nbsp;?</span>
     <span class="agent-fab-dot" aria-hidden="true"></span>
+    <svg class="agent-fab-x" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </button>
 
   <section class="agent-panel" id="agentPanel" role="dialog" aria-modal="false" aria-labelledby="agentTitle" aria-hidden="true" hidden data-lenis-prevent data-endpoint="">
-    <div class="agent-peek" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="124" height="124"></div>
     <header class="agent-head">
+      <span class="agent-av" aria-hidden="true"><img id="agentAv" src="assets/img/mascotte/agent-avatar.webp" alt="" width="1100" height="1100" decoding="async"></span>
       <div class="agent-id">
-        <p class="agent-title" id="agentTitle">Assistant ZkilZ</p>
-        <p class="agent-status"><i aria-hidden="true"></i><span id="agentStatus" aria-live="polite">En ligne</span></p>
+        <p class="agent-title" id="agentTitle">Le martin-pêcheur</p>
+        <p class="agent-status"><i aria-hidden="true"></i><span id="agentStatus" aria-live="polite">Assistant de ZkilZ · en ligne</span></p>
       </div>
       <button type="button" class="agent-icon" id="agentReset" aria-label="Nouvelle conversation" title="Nouvelle conversation"><svg viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.8v3.6h3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button type="button" class="agent-icon" id="agentClose" aria-label="Fermer l'assistant"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
@@ -301,7 +301,7 @@ FOOT = '''
       <input id="agentInput" type="text" maxlength="500" placeholder="Posez votre question…" enterkeyhint="send">
       <button type="submit" id="agentSend" class="agent-send" aria-label="Envoyer" disabled><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </form>
-    <p class="agent-foot">Assistant virtuel du studio. Pour un devis, le formulaire de contact.</p>
+    <p class="agent-foot">Assistant virtuel&nbsp;: il répond à partir du contenu du site. Pour un devis, <a href="contact.html">écrivez au studio</a>.</p>
   </section>
 
   <script src="assets/vendor/gsap.min.js"></script>
