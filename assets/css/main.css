@@ -1998,3 +1998,36 @@ body { background: transparent; }
 .demo .reel-keys button::before { top: 7px; width: 8px; height: 8px; left: -4px; }
 .demo .reel-keys button:first-child::before { left: 0; }
 .demo .reel-tl { padding-bottom: 8px; }
+
+/* ==========================================================================
+   NAVBAR : page en cours, interrupteur de thème, hauteurs alignées
+   ========================================================================== */
+/* page en cours : un trait court sous le mot, qui se dessine depuis le centre */
+.nav-links a::after { left: 50%; bottom: 5px; width: 16px; height: 2px; margin-left: -8px; border-radius: 2px; background: #8FB6FF;
+  transform: scaleX(0); transition: transform .45s var(--ease); }
+.nav-links a.is-active::after, .nav-links a[aria-current="page"]::after { transform: scaleX(1); }
+.nav-links a[aria-current="page"] { color: #fff; }
+
+/* le bouton et l'interrupteur : même hauteur (40 px) */
+.nav-cta { height: 40px; }
+.nav-end { gap: 8px; }
+
+/* interrupteur sobre : un bouton rond, soleil ou lune */
+.theme-switch { position: relative; display: block; width: 40px; height: 40px; flex: none; cursor: pointer; }
+.theme-switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.ts-btn { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16); color: #DCE6FF; transition: background-color .25s ease, box-shadow .25s ease; }
+.ts-btn svg { grid-area: 1 / 1; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  transition: opacity .3s ease, transform .45s var(--ease); }
+.ts-sun circle { fill: none; }
+.ts-moon { opacity: 0; transform: rotate(-40deg) scale(.6); }
+.theme-switch input:checked + .ts-btn .ts-sun { opacity: 0; transform: rotate(40deg) scale(.6); }
+.theme-switch input:checked + .ts-btn .ts-moon { opacity: 1; transform: none; }
+@media (hover: hover) { .theme-switch:hover .ts-btn { background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); } }
+.theme-switch input:focus-visible + .ts-btn { outline: 2px solid #8FB6FF; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .ts-btn svg { transition: none; } }
+
+/* Titres : une seule ligne quand la place le permet ; sinon, des lignes
+   équilibrées (text-wrap: balance). Même règle partout. Seul le grand titre
+   de l'accueil garde sa largeur dessinée. */
+.head h2, .split-copy h2, .page-title, .page-hero--text .page-title, .svc-card h3, .moumous-copy h2, .case-copy h2, .cta-copy h2, .mono-col h2 { max-width: none; text-wrap: balance; }
