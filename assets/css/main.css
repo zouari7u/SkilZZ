@@ -2031,3 +2031,9 @@ body { background: transparent; }
    équilibrées (text-wrap: balance). Même règle partout. Seul le grand titre
    de l'accueil garde sa largeur dessinée. */
 .head h2, .split-copy h2, .page-title, .page-hero--text .page-title, .svc-card h3, .moumous-copy h2, .case-copy h2, .cta-copy h2, .mono-col h2 { max-width: none; text-wrap: balance; }
+/* barre plus fine : boutons et logo moins hauts (demande du 17/11) */
+.nav-cta { height: 34px; padding: 0 16px; font-size: 13.5px; }
+.theme-switch { width: 34px; height: 34px; }
+.ts-btn svg { width: 16px; height: 16px; }
+.nav-logo, .nav.is-scrolled .nav-logo { width: 36px; height: 36px; }
+.nav-links a { padding: .45rem 1rem; }
