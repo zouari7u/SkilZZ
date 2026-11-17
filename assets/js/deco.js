@@ -8,6 +8,9 @@
    ========================================================================== */
 (function () {
   'use strict';
+  function scrollNow() { return window.SKZ && window.SKZ.y != null ? window.SKZ.y : window.scrollY; }
+  var VH = window.innerHeight;
+  window.addEventListener('resize', function () { VH = window.innerHeight; });
   if (!(window.gsap && window.ScrollTrigger)) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
@@ -15,7 +18,7 @@
   svg.setAttribute('class', 'route');
   svg.setAttribute('aria-hidden', 'true');
   document.body.appendChild(svg);
-  var guide, line, marks = [], winds = [], table = [], total = 0;
+  var guide, line, marks = [], winds = [], table = [], total = 0, samp = [], segs = [];
 
   function el(tag, attrs, parent) {
     var e = document.createElementNS(NS, tag);
@@ -76,13 +79,22 @@
 
     var d = curve(pts);
     guide = el('path', { d: d, class: 'route-guide' });
-    line = el('path', { d: d, class: 'route-line' });
+    // le tracé sert de mesure ; on dessine des tronçons : pendant le
+    // défilement, seul le tronçon en cours change (et se redessine), pas
+    // un tracé de la hauteur de toute la page
+    line = el('path', { d: d, class: 'route-measure' });
     total = line.getTotalLength();
-    line.style.strokeDasharray = total; line.style.strokeDashoffset = reduce ? 0 : total;
-    // table hauteur → longueur, pour dessiner jusqu'au niveau de lecture
-    table = [];
-    for (var l = 0; l <= total; l += 36) table.push([line.getPointAtLength(l).y, l]);
-    table.push([line.getPointAtLength(total).y, total]);
+    table = []; samp = [];
+    for (var l = 0; l <= total; l += 12) { var q = line.getPointAtLength(l); samp.push([q.x, q.y, l]); if (l % 36 === 0) table.push([q.y, l]); }
+    var qe = line.getPointAtLength(total); samp.push([qe.x, qe.y, total]); table.push([qe.y, total]);
+    segs = [];
+    for (var s0 = 0; s0 < samp.length - 1; s0 += 40) {
+      var s1 = Math.min(samp.length - 1, s0 + 40), dd = 'M' + samp[s0][0].toFixed(1) + ' ' + samp[s0][1].toFixed(1);
+      for (var k = s0 + 1; k <= s1; k++) dd += 'L' + samp[k][0].toFixed(1) + ' ' + samp[k][1].toFixed(1);
+      var sp = el('path', { d: dd, class: 'route-line' }), sl = sp.getTotalLength();
+      sp.style.strokeDasharray = sl + ' ' + (sl + 2); sp.style.strokeDashoffset = reduce ? 0 : sl;
+      segs.push({ p: sp, a: samp[s0][2], len: sl, span: samp[s1][2] - samp[s0][2], v: reduce ? sl : 0 });
+    }
     stops.forEach(function (p) {
       // ronds dans l'eau autour du repère (la précision du plongeon)
       var rg = el('g', { class: 'route-rings', transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')' });
@@ -102,7 +114,8 @@
         var len = 90 - k * 22;
         el('path', { d: 'M' + x + ' ' + (y + dy) + ' q ' + (dir * len * .5) + ' -10 ' + (dir * len) + ' 0', class: 'wind-l', 'stroke-dasharray': '30 ' + (len + 20) }, g);
       });
-      winds.push(gsap.to(g.querySelectorAll('.wind-l'), { strokeDashoffset: -120, duration: 3.4, ease: 'none', repeat: -1, stagger: .5 }));
+      var wl = gsap.to(g.querySelectorAll('.wind-l'), { strokeDashoffset: -120, duration: 3.4, ease: 'none', repeat: -1, stagger: .5, paused: true });
+      wl._y = y; winds.push(wl);
       winds.push(gsap.fromTo(g, { x: -dir * 10 }, { x: dir * 10, ease: 'none', scrollTrigger: { trigger: document.body, start: p.y - window.innerHeight + ' top', end: p.y + ' top', scrub: true } }));
     });
     update();
@@ -122,12 +135,22 @@
   var drawn = 0;
   function update() {
     if (!line || reduce) return;
-    var y = window.scrollY + window.innerHeight * .62;
+    var y = scrollNow() + VH * .62;
     var target = lengthAt(y);
     drawn += (target - drawn) * .14;
     if (Math.abs(target - drawn) < .5) drawn = target;
-    line.style.strokeDashoffset = total - drawn;
-    var tipY = drawn ? line.getPointAtLength(drawn).y : 0;
+    for (var s = 0; s < segs.length; s++) {
+      var sg = segs[s], v = Math.max(0, Math.min(sg.len, (drawn - sg.a) / (sg.span || 1) * sg.len));
+      if (Math.abs(v - sg.v) > .3 || (v === 0) !== (sg.v === 0)) { sg.v = v; sg.p.style.strokeDashoffset = sg.len - v; }
+    }
+    var si = Math.min(samp.length - 1, Math.round(drawn / 12)), tipY = samp.length ? samp[si][1] : 0;
+    // le vent ne souffle que près de l'écran
+    var vy = scrollNow(), vh = VH;
+    for (var w = 0; w < winds.length; w++) {
+      var wt = winds[w]; if (wt._y === undefined) continue;
+      var near = wt._y > vy - 300 && wt._y < vy + vh + 300;
+      if (near && wt.paused()) wt.play(); else if (!near && !wt.paused()) wt.pause();
+    }
     marks.forEach(function (mk) {
       var on = tipY >= mk.y - 2;
       if (on !== mk.on) {

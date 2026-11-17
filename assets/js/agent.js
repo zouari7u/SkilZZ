@@ -136,7 +136,7 @@
   // =========================================================================
   // AFFICHAGE
   // =========================================================================
-  function scrollLog() { log.scrollTop = log.scrollHeight; }
+  function scrollLog() { if (panel.hidden) return; log.scrollTop = log.scrollHeight; }
   function bubbleEl(role) {
     var row = document.createElement('div');
     row.className = 'agent-msg agent-msg--' + (role === 'user' ? 'out' : 'in');

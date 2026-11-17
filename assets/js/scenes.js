@@ -101,9 +101,10 @@
         if (SKZ.burst) SKZ.burst(r.left + r.width / 2, r.top + r.height / 2, { count: 14, spread: 140 });
       });
       // une petite ondulation d'invitation, de temps en temps
-      gsap.timeline({ repeat: -1, repeatDelay: 6, delay: 3.2 })
+      var wave = gsap.timeline({ repeat: -1, repeatDelay: 6, delay: 3.2 })
         .to(chars, { y: -8, duration: .25, stagger: .05, ease: 'power2.out' })
         .to(chars, { y: 0, duration: .7, stagger: .05, ease: 'elastic.out(1, .4)' }, .2);
+      if (window.SKZ && SKZ.onScreen) SKZ.onScreen(mark, [wave]);
     }
   }
 

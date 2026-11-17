@@ -27,11 +27,30 @@
   var root = document.documentElement;
   function css(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
 
+  // --- Boucles en pause hors de l'écran ---------------------------------------
+  // Une animation qui tourne en boucle ne coûte rien tant que sa zone est
+  // hors de l'écran : elle s'arrête, et reprend là où elle en était.
+  function onScreen(el, tweens) {
+    tweens = tweens.filter(Boolean);
+    if (!el || !tweens.length || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      var on = es[0].isIntersecting;
+      tweens.forEach(function (tw) { if (on) tw.resume(); else tw.pause(); });
+    }, { rootMargin: '120px 0px' }).observe(el);
+  }
+  window.SKZ = window.SKZ || {};
+  window.SKZ.onScreen = onScreen;
+  // Position de défilement partagée : mise à jour une fois par image par le
+  // défilement doux (ou l'évènement natif) ; les scripts du décor la lisent
+  // sans forcer le navigateur à recalculer la page (window.scrollY le fait).
+  window.SKZ.y = window.scrollY;
+  window.addEventListener('scroll', function () { if (!lenis) window.SKZ.y = window.scrollY; }, { passive: true });
+
   // --- Défilement doux -------------------------------------------------------
   var lenis = null;
   if (!reduce && window.Lenis) {
     lenis = new Lenis({ duration: 1.15, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', function (l) { window.SKZ.y = l.scroll; ScrollTrigger.update(); });
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
@@ -90,7 +109,7 @@
   }
   // il plane doucement en attendant
   var cb = document.getElementById('contactBird');
-  if (cb && !reduce) gsap.to(cb, { yPercent: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  if (cb && !reduce) onScreen(cb, [gsap.to(cb, { yPercent: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
   var form = document.getElementById('contactForm');
   if (form) {
     var status = form.querySelector('.form-status');
@@ -157,14 +176,16 @@
     .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.2);
 
   // L'eau ondule au pied du roseau, les nuages passent, les mouettes planent
-  gsap.timeline({ repeat: -1, repeatDelay: .4 })
-    .fromTo('.ripple', { scale: .4, opacity: .7, svgOrigin: '118 408' }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' });
-  gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-  gsap.to('.sc-shine path', { x: function (i) { return i % 2 ? 10 : -12; }, opacity: .4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 });
-  gsap.to('.sc-cloud', { x: function (i) { return i ? -26 : 34; }, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-  gsap.to('.sc-gull', { x: 18, y: -8, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 1.2 });
-  gsap.to('.sc-gull', { scaleY: .55, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .5, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .25 });
-  gsap.to('.ascent-reed, .ascent-leaf, .sc-cat', { rotation: 2.5, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .2 });
+  var heroLoops = [];
+  heroLoops.push(gsap.timeline({ repeat: -1, repeatDelay: .4 })
+    .fromTo('.ripple', { scale: .4, opacity: .7, svgOrigin: '118 408' }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' }));
+  heroLoops.push(gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  heroLoops.push(gsap.to('.sc-shine path', { x: function (i) { return i % 2 ? 10 : -12; }, opacity: .4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 }));
+  heroLoops.push(gsap.to('.sc-cloud', { x: function (i) { return i ? -26 : 34; }, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  heroLoops.push(gsap.to('.sc-gull', { x: 18, y: -8, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 1.2 }));
+  heroLoops.push(gsap.to('.sc-gull', { scaleY: .55, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .5, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .25 }));
+  heroLoops.push(gsap.to('.ascent-reed, .ascent-leaf, .sc-cat', { rotation: 2.5, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .2 }));
+  onScreen(document.getElementById('heroStage'), heroLoops);
 
   // Les trois étapes, au passage de l'oiseau (bird.js envoie « kf:ascent »)
   var hStage = document.getElementById('heroStage');
@@ -198,6 +219,7 @@
           .to('.site-el--btn', { scale: .9, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .1, yoyo: true, repeat: 1 })
           .to('.site-el--card', { y: -3, duration: .25, stagger: .08, yoyo: true, repeat: 1, ease: 'power2.out' }, '<')
           .to('.site-cursor', { x: 470, y: 120, opacity: 0, duration: .9, ease: 'power2.in' }, '+=.5');
+        onScreen(hStage, [cursorTl]);
       }
     };
     document.addEventListener('kf:ascent', function (e) {
@@ -426,8 +448,8 @@
       if (tl.progress() >= .5) diveOff();
       else if (tl.scrollTrigger && tl.scrollTrigger.isActive) diveOn();
     });
-    gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-  gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    onScreen(document.getElementById('workPin'), [gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }),
+      gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
     // Survol : l'iPhone se soulève, le navigateur recule légèrement
     if (fine) {
       var cv = document.querySelector('.case-visual');
@@ -497,7 +519,7 @@
       s.innerHTML = '<span class="soap-rim"></span><span class="soap-shine"></span>';
       s.style.cssText = 'width:' + p[2] + 'px;height:' + p[2] + 'px;left:' + (p[0] * 100) + '%;top:' + (p[1] * 100) + '%;opacity:.8;--soap-fill:rgba(255,255,255,.35)';
       panel.insertBefore(s, panel.firstChild);
-      gsap.to(s, { y: -20, x: i ? -14 : 14, duration: 3.6 + i, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      onScreen(panel, [gsap.to(s, { y: -20, x: i ? -14 : 14, duration: 3.6 + i, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
     });
   }
 

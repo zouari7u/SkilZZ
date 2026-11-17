@@ -1638,13 +1638,13 @@ section.agent-panel { padding: 0; }
   --sky-disc: #0C1634; --sky-disc-b: #0B1838; --sky-ring: rgba(143, 182, 255, .08); --sky-cloud: #0F1A3A; --sky-cloud-b: #0C1734;
   --sky-bird: rgba(143, 182, 255, .3); --sky-dot: rgba(143, 182, 255, .14); --sky-reed: rgba(143, 182, 255, .18); --sky-water: rgba(143, 182, 255, .22);
 }
-.sky-it { position: absolute; will-change: transform; }
+.sky-it { position: absolute; }
 .sky-it svg { display: block; overflow: visible; }
 .sky-disc { display: block; border-radius: 50%; background: var(--sky-disc); }
 .sky-disc--b { background: var(--sky-disc-b); }
 .sky-ring { display: block; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--sky-ring); }
 .sky-cloud path { fill: var(--sky-cloud); }
-.sky-cloud { filter: drop-shadow(0 6px 10px rgba(31, 107, 255, .06)); }
+.sky-cloud { filter: none; }
 :root[data-theme="dark"] .sky-cloud { filter: none; }
 .sky-cloud--b path { fill: var(--sky-cloud-b); }
 .sky-b { fill: none; stroke: var(--sky-bird); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
@@ -1986,3 +1986,4 @@ section.agent-panel { padding: 0; }
 @media (max-width: 1099px) { .cell--motion .cell-visual { height: 380px; } }
 @media (prefers-reduced-motion: reduce) { .dl-skel i, .dl-rows i, .dl-rows b, .db-caret { animation: none; } }
 .dr-line--t { margin-top: 12px; }
+.route-measure { fill: none; stroke: none; }

@@ -736,10 +736,10 @@
   function best() {
     var vh = window.innerHeight, target = vh * .32, pick = null, d = 1e9;
     perches.forEach(function (el) {
-      if (el.offsetParent === null) return;
-      for (var n = el, k = 0; n && k < 4; n = n.parentElement, k++) { if (parseFloat(getComputedStyle(n).opacity) < .6) return; }
+      // d'abord la position (bon marché), puis seulement l'opacité des parents
       var r = el.getBoundingClientRect();
-      if (r.top < vh * .1 || r.top > vh * .78 || r.bottom < 0) return;
+      if (r.top < vh * .1 || r.top > vh * .78 || r.bottom < 0 || (!r.width && !r.height)) return;
+      for (var n = el, k = 0; n && k < 4; n = n.parentElement, k++) { if (parseFloat(getComputedStyle(n).opacity) < .6) return; }
       var px = r.left + r.width * (parseFloat(el.dataset.perch) || 85) / 100;
       if (px < 40 || px > window.innerWidth - 40) return;
       var dd = Math.abs(r.top - target);

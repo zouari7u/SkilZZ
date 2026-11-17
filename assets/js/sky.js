@@ -10,6 +10,9 @@
    ========================================================================== */
 (function () {
   'use strict';
+  function scrollNow() { return window.SKZ && window.SKZ.y != null ? window.SKZ.y : window.scrollY; }
+  var VH = window.innerHeight;
+  window.addEventListener('resize', function () { VH = window.innerHeight; });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var G = window.gsap;
   var NS = 'http://www.w3.org/2000/svg';
@@ -19,6 +22,7 @@
   document.body.insertBefore(layer, document.body.firstChild);
   var items = [], loops = [];
 
+  function tag(tw, el) { tw._el = el; return tw; }
   var CLOUD = 'M10 40 h92 a20 20 0 0 0 -20 -20 a26 26 0 0 0 -46 -6 a17 17 0 0 0 -26 26z';
   function svg(w, h, inner, cls) {
     return '<svg class="' + cls + '" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' + inner + '</svg>';
@@ -63,18 +67,18 @@
         Math.round(left ? W - r2 * (narrow ? .45 : .7) : -r2 * (narrow ? .55 : .3)), Math.round(top + h * (.62 + rnd() * .25)), .32);
       // anneau fin autour, un peu plus près
       if (!narrow && i % 2) add('<span class="sky-ring" style="width:' + (R * 1.35) + 'px;height:' + (R * 1.35) + 'px"></span>',
-        Math.round(cx - R * .175), Math.round(top + h * .2), .3);
+        Math.round(cx - R * .175), Math.round(top + h * .2), 0);
       if (narrow && i % 2) return;
       // 2. nuages, dans la marge opposée
       var cw = narrow ? 100 : 170 + rnd() * 90;
       var nx = left ? W - Math.max(margin * .9, cw * .6) - cw * .2 : Math.max(-cw * .3, margin * .1 - cw * .3);
       var cl = add(svg(112, 44, '<path d="' + CLOUD + '"/>', 'sky-cloud') , Math.round(nx), Math.round(top + h * (.05 + rnd() * .25)), .4 + rnd() * .15);
       cl.firstChild.style.width = cw + 'px'; cl.firstChild.style.height = (cw * 44 / 112) + 'px';
-      if (!reduce && G) loops.push(G.to(cl.firstChild, { x: left ? -40 : 40, duration: 14 + rnd() * 8, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+      if (!reduce && G) loops.push(tag(G.to(cl.firstChild, { paused: true,  x: left ? -40 : 40, duration: 14 + rnd() * 8, ease: 'sine.inOut', yoyo: true, repeat: -1 }), cl));
       if (i % 2 === 0 && !narrow) {
         var c2 = add(svg(112, 44, '<path d="' + CLOUD + '"/>', 'sky-cloud sky-cloud--b'), Math.round(nx + (left ? -70 : 60)), Math.round(top + h * .45), .55);
         c2.firstChild.style.width = cw * .6 + 'px'; c2.firstChild.style.height = (cw * .6 * 44 / 112) + 'px';
-        if (!reduce && G) loops.push(G.to(c2.firstChild, { x: left ? 30 : -30, duration: 11, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+        if (!reduce && G) loops.push(tag(G.to(c2.firstChild, { paused: true,  x: left ? 30 : -30, duration: 11, ease: 'sine.inOut', yoyo: true, repeat: -1 }), c2));
       }
       // 3. un vol d'oiseaux au loin (une section sur deux)
       if (i % 2 === 1 || i === 0 || (!narrow && i % 3 === 0)) {
@@ -85,12 +89,12 @@
         }
         var fl = add(svg(140, 70, birds, 'sky-flock'), Math.round(left ? W - margin - 150 : margin + 10), Math.round(top + 40 + rnd() * 60), .6);
         if (!reduce && G) {
-          loops.push(G.to(fl.firstChild, { x: left ? -120 : 120, y: -30, duration: 22 + rnd() * 8, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
-          loops.push(G.to(fl.querySelectorAll('.sky-b'), { scaleY: .45, transformOrigin: '50% 60%', transformBox: 'fill-box', duration: .42, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: .13, from: 'random' } }));
+          loops.push(tag(G.to(fl.firstChild, { paused: true,  x: left ? -120 : 120, y: -30, duration: 22 + rnd() * 8, ease: 'sine.inOut', yoyo: true, repeat: -1 }), fl));
+          loops.push(tag(G.to(fl.querySelectorAll('.sky-b'), { paused: true,  scaleY: .45, transformOrigin: '50% 60%', transformBox: 'fill-box', duration: .42, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: .13, from: 'random' } }), fl));
         }
       }
       // 4. trame de points (table à dessin)
-      if (!narrow && i % 3 === 2) add('<span class="sky-dots"></span>', Math.round(left ? W - margin - 60 : margin - 140), Math.round(top + h * .6), .12);
+      if (!narrow && i % 3 === 2) add('<span class="sky-dots"></span>', Math.round(left ? W - margin - 60 : margin - 140), Math.round(top + h * .6), 0);
     });
     // 5. en bas : l'eau et les roseaux, au pied du pied de page
     if (foot) {
@@ -178,11 +182,17 @@
   // moins que le contenu, compté depuis le moment où il passe au centre
   var lastY = -1;
   function update(force) {
-    var sy = window.scrollY;
+    var sy = scrollNow();
     if (!force && sy === lastY) return;
     lastY = sy;
     if (reduce) return;
-    var vh = window.innerHeight, mid = sy + vh / 2;
+    var vh = VH, mid = sy + vh / 2;
+    // les boucles (nuages, vols d'oiseaux) ne tournent que près de l'écran
+    for (var j = 0; j < loops.length; j++) {
+      var lp = loops[j], ly = lp._el ? parseFloat(lp._el.style.top) : 0;
+      var near = ly > sy - vh && ly < sy + vh * 2;
+      if (near && lp.paused()) lp.play(); else if (!near && !lp.paused()) lp.pause();
+    }
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       if (!it.d) continue;
