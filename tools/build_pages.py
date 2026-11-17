@@ -279,13 +279,13 @@ FOOT = '''
   </div>
   <button type="button" class="agent-fab" id="agentFab" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
     <span class="agent-fab-bubble soap" aria-hidden="true"><span class="soap-rim"></span></span>
-    <span class="agent-fab-head" aria-hidden="true"><img src="assets/img/kf-head.svg" alt="" width="124" height="124" decoding="async"></span>
+    <span class="agent-fab-head" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="124" height="124" decoding="async"></span>
     <span class="agent-fab-shine" aria-hidden="true"></span>
     <span class="agent-fab-dot" aria-hidden="true"></span>
   </button>
 
   <section class="agent-panel" id="agentPanel" role="dialog" aria-modal="false" aria-labelledby="agentTitle" aria-hidden="true" hidden data-lenis-prevent data-endpoint="">
-    <div class="agent-peek" aria-hidden="true"><img src="assets/img/kf-head.svg" alt="" width="124" height="124"></div>
+    <div class="agent-peek" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="124" height="124"></div>
     <header class="agent-head">
       <div class="agent-id">
         <p class="agent-title" id="agentTitle">Assistant ZkilZ</p>
@@ -313,6 +313,7 @@ FOOT = '''
   <script src="assets/js/main.js"></script>
   <script src="assets/js/scenes.js"></script>
   <script src="assets/js/pages.js"></script>
+  <script src="assets/js/reel.js"></script>
   <script src="assets/js/sky.js"></script>
   <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>
@@ -414,7 +415,7 @@ def versioned(out):
             return m.group(0)
         h = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
         return '%s="%s?v=%s"' % (m.group(1), m.group(2), h)
-    return re.sub(r'(href|src)="(assets/(?:css|js)/[\w.-]+\.(?:css|js))"', rep, out)
+    return re.sub(r'(href|src)="((?:assets/(?:css|js)/[\w.-]+\.(?:css|js))|(?:assets/img/(?:favicon[\w-]*|apple-touch-icon|icon-[\w-]+)\.(?:svg|png))|site\.webmanifest)"', rep, out)
 
 
 def logo_svg(prefix='nv', cls='nav-kf', view='25 24 152 152'):

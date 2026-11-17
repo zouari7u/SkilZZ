@@ -132,7 +132,14 @@
   // =========================================================================
   var cells = gsap.utils.toArray('.cell');
   if (!reduce && cells.length) {
-    gsap.from(cells, { y: 60, scale: .94, opacity: 0, duration: 1, stagger: { each: .08, from: 'start' }, ease: 'expo.out', scrollTrigger: { trigger: '.bento', start: 'top 82%' } });
+    // entrée en CSS (classe « is-in ») : rien ne peut la laisser à mi-chemin
+    var bento = document.querySelector('.bento');
+    cells.forEach(function (c, i) { c.style.setProperty('--i', i); });
+    bento.classList.add('is-wait');
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) {
+      if (es[0].isIntersecting) { bento.classList.add('is-in'); o.disconnect(); }
+    }, { threshold: .15 }).observe(bento);
+    else bento.classList.add('is-in');
   }
 
   // 1. Jauge de vitesse

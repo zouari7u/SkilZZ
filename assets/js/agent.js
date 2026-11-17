@@ -44,7 +44,7 @@
   var blinkSrc = null, thinkSrc = null, ideaSrc = null;
   var avatarSrc = head.getAttribute('src');
   probe(IMG + 'agent-avatar.webp', function (s) { avatarSrc = s; head.src = s; peekHead.src = s; probe(IMG + 'agent-avatar-clin.webp', function (b) { blinkSrc = b; }); });
-  probe('assets/img/kf-head-clin.svg', function (s) { if (!blinkSrc) blinkSrc = s; });
+  
   probe(IMG + 'agent-reflechit.webp', function (s) { thinkSrc = s; });
   probe(IMG + 'agent-idee.webp', function (s) { ideaSrc = s; });
 
