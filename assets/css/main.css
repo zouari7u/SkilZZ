@@ -1883,32 +1883,6 @@ section.agent-panel { padding: 0; }
   .bento-sec .head h2 { font-size: clamp(28px, 3.2vw, 40px); }
 }
 
-/* ==========================================================================
-   L'ENCART « ANIMATIONS » : la scène de particules, sur fond nuit
-   ========================================================================== */
-.cell--motion { background: #0B1B3F; color: #EEF3FF; }
-:root[data-theme="dark"] .cell--motion { background: #060B1A; box-shadow: 0 0 0 1px rgba(143, 182, 255, .14); }
-.cell--motion p { color: #B4C0DA; }
-.cell--motion .cell-visual { position: relative; margin: calc(var(--pad-card) * -1) calc(var(--pad-card) * -1) 0; min-height: 240px; }
-.reel { position: absolute; inset: 0; overflow: hidden; border-radius: 28px 28px 0 0; cursor: crosshair; }
-.reel::before { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(circle at 50% 42%, rgba(79, 141, 255, .16), transparent 62%); }
-.reel-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.reel-fps { position: absolute; left: 16px; top: 16px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 99px;
-  background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); font-size: 11px; font-weight: 600; color: #B4C0DA; letter-spacing: .02em; pointer-events: none; }
-.reel-fps i { width: 6px; height: 6px; border-radius: 50%; background: #5BE0A0; box-shadow: 0 0 8px #5BE0A0; }
-.reel-fps b { color: #fff; font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; }
-.reel-tl { position: absolute; left: 16px; right: 16px; bottom: 12px; }
-.reel-track { position: relative; display: block; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, .14); }
-.reel-head { position: absolute; left: 0; top: -5px; width: 2px; height: 12px; margin-left: -1px; border-radius: 2px; background: #8FB6FF; box-shadow: 0 0 10px #4F8DFF; }
-.reel-keys { display: flex; justify-content: space-between; margin-top: 8px; }
-.reel-keys button { position: relative; padding: 2px 0 0; border: 0; background: none; color: #6F7FA6; font: 600 10.5px var(--font-body); letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: color .3s ease; }
-.reel-keys button::before { content: ""; position: absolute; left: 50%; top: -15px; width: 7px; height: 7px; margin-left: -3.5px; transform: rotate(45deg); background: #0B1B3F; box-shadow: inset 0 0 0 1.5px #6F7FA6; transition: background-color .3s ease, box-shadow .3s ease; }
-.reel-keys button.is-on { color: #fff; }
-.reel-keys button.is-on::before { background: #8FB6FF; box-shadow: 0 0 10px #4F8DFF; }
-:root[data-theme="dark"] .reel-keys button::before { background: #060B1A; }
-@media (max-width: 1099px) { .cell--motion .cell-visual { height: 340px; } }
-.reel-keys button { flex: 1; text-align: center; }
 .cv-in { position: relative; }
 .cell--seo .cv-in { width: 260px; max-width: 100%; height: 132px; place-items: start center; }
 .cell--seo .result { top: 66px; }
@@ -1926,7 +1900,89 @@ section.agent-panel { padding: 0; }
 @media (min-width: 1100px) { .bento-sec .head { width: 100%; } }
 .cell-visual { display: flex !important; align-items: center; justify-content: center; }
 .cell--motion .cell-visual { display: block !important; }
-/* frise : chaque losange au début de son étape (la tête de lecture y passe au démarrage du tableau) */
-.reel-keys button { text-align: left; padding-left: 0; }
-.reel-keys button::before { left: 0; margin-left: -3.5px; }
-.reel-keys button:first-child::before { margin-left: 0; }
+
+/* ==========================================================================
+   L'ENCART « ANIMATIONS » : une mini-page qui montre quatre animations
+   courantes d'un site (apparition, micro-interaction, chargement, transition)
+   ========================================================================== */
+.cell--motion .cell-visual { position: relative; display: block !important; min-height: 280px; }
+.demo { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px; }
+.demo-screen { position: relative; flex: 1; min-height: 0; overflow: hidden; border-radius: 20px; background: var(--bg); box-shadow: inset 0 0 0 1.5px var(--line); }
+.demo-chip { position: absolute; z-index: 5; left: 50%; top: 10px; translate: -50% 0; display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px 5px 9px; border-radius: 99px; white-space: nowrap;
+  background: var(--surface); box-shadow: var(--shadow); font-size: 11px; font-weight: 600; color: var(--ink); }
+.demo-chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.ds { position: absolute; inset: 0; padding: 48px 16px 16px; opacity: 0; visibility: hidden; }
+.demo-cursor { position: absolute; z-index: 6; left: 70%; top: 80%; width: 22px; height: 22px; opacity: 0; filter: drop-shadow(0 3px 4px rgba(11, 27, 63, .25)); pointer-events: none; }
+
+/* 1. apparition */
+.dr-nav { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+.dr-nav b { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); margin-right: auto; }
+.dr-nav i { width: 26px; height: 5px; border-radius: 3px; background: var(--line); }
+.dr-title { margin: 0 0 12px; font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2vw, 25px); line-height: 1.08; letter-spacing: -.03em; color: var(--ink); }
+.dr-title .m { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.dr-title .m > span { display: inline-block; }
+.dr-title .m:last-child > span { color: var(--accent); }
+.dr-line { display: block; height: 6px; width: 92%; margin-bottom: 7px; border-radius: 3px; background: var(--line); }
+.dr-line--s { width: 64%; margin-bottom: 16px; }
+.dr-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 7px; }
+.dr-cards i { height: 52px; border-radius: 10px; background: var(--tint-blue); }
+.dr-cards i:nth-child(2) { background: var(--accent); opacity: .9; }
+.dr-cards--wide { grid-template-columns: 1.4fr 1fr; }
+.dr-cards--wide i { height: 64px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.dr-cards--wide i:nth-child(2) { background: var(--tint-blue); opacity: 1; box-shadow: none; }
+
+/* 2. micro-interaction */
+.ds--button { display: flex; flex-direction: column; justify-content: center; gap: 10px; padding-top: 30px; }
+.db-label { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.db-field { display: flex; align-items: center; height: 42px; padding: 0 14px; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--accent); font-size: 14px; font-weight: 500; color: var(--ink); }
+.db-caret { width: 1.5px; height: 17px; margin-left: 2px; background: var(--accent); animation: caret 1s steps(1) infinite; }
+.db-btn { position: relative; overflow: hidden; display: grid; place-items: center; height: 44px; border-radius: 99px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 600; }
+.db-btn > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 6px; }
+.db-t2 { opacity: 0; }
+.db-t2 svg { width: 17px; height: 17px; }
+.db-ripple { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px; border-radius: 50%; background: rgba(255, 255, 255, .45); transform: scale(0); }
+
+/* 3. chargement */
+.dl-card { position: relative; height: 150px; margin-bottom: 10px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+.dl-skel, .dl-real { position: absolute; inset: 0; padding: 16px; }
+.dl-skel { display: grid; align-content: start; gap: 10px; }
+.dl-skel i, .dl-rows i, .dl-rows b { display: block; border-radius: 6px; background: linear-gradient(90deg, var(--tint-blue) 0 40%, var(--surface) 50%, var(--tint-blue) 60% 100%); background-size: 300% 100%; animation: dlShimmer 1.2s linear infinite; }
+.dl-skel i { height: 12px; width: 50%; } .dl-skel i:nth-child(2) { height: 30px; width: 40%; } .dl-skel i.s { height: 52px; width: 100%; margin-top: 4px; }
+@keyframes dlShimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+.dl-real { opacity: 0; }
+.dl-real p { font-size: 11px; font-weight: 600; color: var(--muted); }
+.dl-num { display: inline-block; margin-top: 2px; font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dl-up { margin-left: 6px; padding: 2px 7px; border-radius: 99px; background: var(--tint-blue); color: var(--accent); font-size: 11px; font-weight: 700; }
+.dl-bars { position: absolute; left: 16px; right: 16px; bottom: 14px; height: 50px; display: flex; align-items: flex-end; gap: 5px; }
+.dl-bars i { flex: 1; height: calc(var(--h) * 100%); border-radius: 4px 4px 2px 2px; background: var(--tint-blue); transform-origin: 50% 100%; }
+.dl-bars i:last-child { background: var(--accent); }
+.dl-rows { display: grid; gap: 8px; }
+.dl-rows span { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.dl-rows i { width: 18px; height: 18px; border-radius: 50%; }
+.dl-rows b { flex: 1; height: 8px; }
+.ds--load.is-done .dl-rows i { animation: none; background: var(--accent); opacity: .7; }
+.ds--load.is-done .dl-rows b { animation: none; background: var(--line); }
+
+/* 4. transition de page */
+.dt-grid { position: absolute; inset: 48px 16px 16px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; }
+.dt-grid i { border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.dt-grid i:first-child { background: var(--accent); box-shadow: none; }
+.dt-page { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; gap: 8px; padding: 0 0 16px; background: var(--accent); clip-path: inset(48px 50% 50% 16px round 12px); }
+.dt-hero { height: 46%; background: linear-gradient(160deg, rgba(255, 255, 255, .22), transparent); margin-bottom: 8px; }
+.dt-l { height: 9px; width: 70%; margin: 0 16px; border-radius: 5px; background: rgba(255, 255, 255, .85); opacity: 0; }
+.dt-l--s { width: 46%; background: rgba(255, 255, 255, .5); }
+.dt-btn { width: 90px; height: 30px; margin: 10px 16px 0; border-radius: 99px; background: #fff; opacity: 0; }
+
+/* la frise, en clair */
+.demo .reel-tl { position: relative; left: auto; right: auto; bottom: auto; flex: none; padding: 6px 2px 0; }
+.demo .reel-track { position: relative; display: block; height: 2px; border-radius: 2px; background: var(--line); }
+.demo .reel-head { position: absolute; left: 0; top: -5px; width: 2px; height: 12px; margin-left: -1px; border-radius: 2px; background: var(--accent); }
+.demo .reel-keys { display: flex; margin-top: 10px; }
+.demo .reel-keys button { position: relative; flex: 1; padding: 2px 0 0; border: 0; background: none; text-align: left; color: var(--muted); font: 600 10.5px var(--font-body); letter-spacing: .03em; text-transform: uppercase; cursor: pointer; transition: color .3s ease; }
+.demo .reel-keys button::before { content: ""; position: absolute; left: -3px; top: -15px; width: 7px; height: 7px; transform: rotate(45deg); background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--muted); transition: background-color .3s ease, box-shadow .3s ease; }
+.demo .reel-keys button:first-child::before { left: 0; }
+.demo .reel-keys button.is-on { color: var(--accent); }
+.demo .reel-keys button.is-on::before { background: var(--accent); box-shadow: none; }
+@media (max-width: 1099px) { .cell--motion .cell-visual { height: 380px; } }
+@media (prefers-reduced-motion: reduce) { .dl-skel i, .dl-rows i, .dl-rows b, .db-caret { animation: none; } }
+.dr-line--t { margin-top: 12px; }

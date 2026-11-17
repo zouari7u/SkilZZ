@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/main.css?v=c87dad04">
+  <link rel="stylesheet" href="assets/css/main.css?v=4bf49f00">
 </head>
 <body class="page-index">
 <!-- Page générée par tools/build_pages.py : modifiez tools/pages/index.html puis relancez le script. -->
@@ -333,17 +333,49 @@
 
         <article class="cell cell--motion cell--tall">
           <div class="cell-visual" aria-hidden="true">
-            <div class="reel" id="reel">
-              <canvas class="reel-canvas" id="reelCanvas"></canvas>
-              <span class="reel-fps"><i></i><b id="reelFps">60</b> i/s · rendu en direct</span>
+            <div class="demo" id="demo">
+              <div class="demo-screen" id="demoScreen">
+                <span class="demo-chip"><i></i><span id="demoChip">Apparition au défilement</span></span>
+                <!-- 1. apparition au défilement -->
+                <div class="ds ds--reveal">
+                  <div class="dr-nav"><b></b><i></i><i></i></div>
+                  <p class="dr-title"><span class="m"><span>Votre</span></span> <span class="m"><span>marque,</span></span> <span class="m"><span>en</span></span> <span class="m"><span>mouvement.</span></span></p>
+                  <span class="dr-line"></span><span class="dr-line dr-line--s"></span>
+                  <div class="dr-cards"><i></i><i></i><i></i></div>
+                  <div class="dr-cards dr-cards--wide"><i></i><i></i></div>
+                  <span class="dr-line dr-line--t"></span><span class="dr-line dr-line--s"></span>
+                  <div class="dr-cards"><i></i><i></i><i></i></div>
+                </div>
+                <!-- 2. micro-interaction -->
+                <div class="ds ds--button">
+                  <p class="db-label">Votre message</p>
+                  <div class="db-field"><span class="db-text"></span><i class="db-caret"></i></div>
+                  <span class="db-btn"><i class="db-ripple"></i><span class="db-t1">Envoyer</span><span class="db-t2"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Envoyé</span></span>
+                </div>
+                <!-- 3. chargement -->
+                <div class="ds ds--load">
+                  <div class="dl-card">
+                    <div class="dl-skel"><i></i><i></i><i class="s"></i></div>
+                    <div class="dl-real"><p>Ventes du mois</p><b class="dl-num">0</b><span class="dl-up">+24 %</span>
+                      <span class="dl-bars"><i style="--h:.38"></i><i style="--h:.52"></i><i style="--h:.45"></i><i style="--h:.66"></i><i style="--h:.58"></i><i style="--h:.8"></i><i style="--h:.95"></i></span></div>
+                  </div>
+                  <div class="dl-rows"><span><i></i><b></b></span><span><i></i><b></b></span><span><i></i><b></b></span></div>
+                </div>
+                <!-- 4. transition de page -->
+                <div class="ds ds--trans">
+                  <div class="dt-grid"><i></i><i></i><i></i><i></i></div>
+                  <div class="dt-page"><span class="dt-hero"></span><span class="dt-l"></span><span class="dt-l dt-l--s"></span><span class="dt-btn"></span></div>
+                </div>
+                <svg class="demo-cursor" viewBox="0 0 24 24"><path d="M5 3l14 8.2-6.2 1.4 3.6 6.6-2.6 1.4-3.6-6.6L5.6 18z" fill="#0B1B3F" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </div>
               <div class="reel-tl">
                 <span class="reel-track"><i class="reel-head" id="reelHead"></i></span>
-                <span class="reel-keys" id="reelKeys"><button type="button" tabindex="-1" data-k="0">Logo</button><button type="button" tabindex="-1" data-k="1">Texte</button><button type="button" tabindex="-1" data-k="2">3D</button><button type="button" tabindex="-1" data-k="3">Spirale</button></span>
+                <span class="reel-keys" id="reelKeys"><button type="button" tabindex="-1" data-k="0">Apparition</button><button type="button" tabindex="-1" data-k="1">Bouton</button><button type="button" tabindex="-1" data-k="2">Chargement</button><button type="button" tabindex="-1" data-k="3">Transition</button></span>
               </div>
             </div>
           </div>
           <h3>Animations uniques</h3>
-          <p>Tout ce qui bouge ici est calculé en direct, image par image. Passez la souris sur les particules, cliquez pour les disperser.</p>
+          <p>Apparitions, boutons, chargements, transitions&nbsp;: des mouvements discrets qui guident vos visiteurs. Cliquez sur une étape pour la revoir.</p>
         </article>
 
         <article class="cell cell--seo" data-perch="74">
@@ -702,7 +734,7 @@
   <script src="assets/js/main.js?v=36126de5"></script>
   <script src="assets/js/scenes.js?v=9092fb5c"></script>
   <script src="assets/js/pages.js?v=45515fbc"></script>
-  <script src="assets/js/reel.js?v=f6f2ee2e"></script>
+  <script src="assets/js/reel.js?v=805c7836"></script>
   <script src="assets/js/sky.js?v=47085a7a"></script>
   <script src="assets/js/deco.js?v=47ab3c50"></script>
   <script src="assets/js/bird.js?v=ea39ec56"></script>
