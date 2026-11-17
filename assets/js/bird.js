@@ -1,9 +1,9 @@
 /* ==========================================================================
    ZkilZ — le martin-pêcheur (animation image par image + GSAP)
-   Les poses viennent des planches de référence (assets/mascotte/Gemini_*),
+   Les poses viennent des planches dessinées dans le style du logo
    détourées et calées sur la tête : comme chez un vrai oiseau, la tête
    reste stable pendant que le corps monte et descend avec les ailes.
-   Une seule image (kf-vol.webp) contient les 11 poses ; on change de pose
+   Une seule image (kf-vol.webp) contient les 16 poses ; on change de pose
    en déplaçant le fond, sans rien recharger.
 
    Le vol
@@ -37,12 +37,12 @@
   // LA PLANCHE (fabriquée par tools/kf_sprite.py, qui affiche ces repères)
   // =========================================================================
   var SRC = 'assets/img/mascotte/kf-vol.webp';
-  var CELL = { w: 300, h: 284 }, COLS = 4, ROWS = 4;
+  var CELL = { w: 302, h: 313 }, COLS = 4, ROWS = 4;
   var F = { perch: 0, perchUp: 1, up: 2, mid: 3, down: 4, down2: 5, level: 6, rise: 7, upFeet: 8, flare: 9, upAlt: 10,
     crouch: 11, land: 12, front: 13, back: 14, dive: 15 };
   // poses où l'œil n'est pas à sa place de profil : pas de paupière
   var NOLID = { perchUp: 1, front: 1, back: 1, dive: 1 };
-  var EYE = { x: 186, y: 124.5, r: 6 }, FOOT = { x: 119.5, y: 237 };
+  var EYE = { x: 190.7, y: 109.7, r: 9.3 }, FOOT = { x: 169.4, y: 249 };
   var CAP = '#2861b1';
 
   // =========================================================================
@@ -427,7 +427,7 @@
   // sur-place en visant, puis le défilement pilote son piqué jusqu'à ce que
   // le bec entre au centre. Plus loin, il ressort de l'eau et repart.
   // =========================================================================
-  var TIP = { x: 263, y: 134 }, DIVE = 64, HOVER_T = -14;
+  var TIP = { x: 283, y: 120 }, DIVE = 64, HOVER_T = -14;
   // position des pattes pour que la pointe du bec soit en T, corps tourné de θ
   function footForTip(T, th) {
     var r = th * Math.PI / 180, c = Math.cos(r), s = Math.sin(r);
@@ -542,7 +542,7 @@
     if (c.pick <= 0) {
       c.pick = .08;
       var nb = best() || null;
-      if (nb === c.el || !c.el || c.settled) { c.el = nb || c.el; c.cand = null; }
+      if (nb === c.el || !c.el || c.settled) { c.el = nb || (c.settled ? bestAny() : c.el) || c.el; c.cand = null; }
       else if (nb !== c.cand) { c.cand = nb; c.candT = 0; }
       else if ((c.candT += .08) >= .3) { c.el = nb; c.cand = null; }
     }
@@ -714,7 +714,7 @@
   var perches = [], lock = null;
   // perchoirs automatiques : le haut des cartes, encarts et images de toutes
   // les pages (un data-perch posé à la main garde la priorité)
-  var AUTO = 'main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
+  var AUTO = 'main .strip, main .head, main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
   function collect() {
     document.querySelectorAll(AUTO).forEach(function (el, i) {
       if (!el.hasAttribute('data-perch') && !el.closest('[data-perch]')) el.setAttribute('data-perch', String(i % 2 ? 22 : 80));
@@ -756,7 +756,8 @@
   }
   function onScrollEnd() {
     if (!ready || lock || mode) return;
-    if (chase) { if (!chase.settled) chase.settled = .001; if (!chase.el) chase.el = best() || bestAny(); return; }
+    // à l'arrêt : toujours le meilleur perchoir visible (l'ancienne cible a pu sortir de l'écran)
+    if (chase) { if (!chase.settled) chase.settled = .001; chase.el = best() || bestAny() || null; chase.cand = null; return; }
     go(best());
   }
   var moveCheck = 0;

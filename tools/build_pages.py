@@ -324,7 +324,7 @@ FOOT = '''
 # Blocs réutilisables dans les contenus : {{cta}}, {{services-grid}}
 CTA = '''    <section class="cta-sec">
       <div class="cta-band" data-reveal>
-        <img class="cta-bird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1184" height="1100" loading="lazy" decoding="async">
+        <img class="cta-bird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1126" height="1100" loading="lazy" decoding="async">
         <div class="cta-copy">
           <h2>Un projet en tête&nbsp;?</h2>
           <p>Dites ce que vous vendez et ce qui coince aujourd'hui. Le premier échange est gratuit, et vous repartez avec des pistes concrètes.</p>

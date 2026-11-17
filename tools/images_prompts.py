@@ -5,11 +5,11 @@ Utilisé par tools/build_pages.py (emplacements des images, PROMPTS-*.md) et
 tools/convertir_images.py (recadrage au format exact de chaque emplacement).
 
 Chaque image : nom → (format de l'emplacement, texte alternatif, famille, scène)
-  famille « device » : rendu produit 3D (écrans, appareils)
-  famille « scene »  : illustration éditoriale en couches
-  famille « mascot » : le martin-pêcheur dans une scène
-  famille « mono »   : Studio Moumous, noir et blanc
-  famille « capture » / « photo » : vraie image à fournir, pas d'IA
+  famille device : rendu produit 3D (écrans, appareils)
+  famille scene  : illustration éditoriale en couches
+  famille mascot : le martin-pêcheur dans une scène
+  famille mono   : Studio Moumous, noir et blanc
+  famille capture / photo : vraie image à fournir, pas d'IA
 
 Les prompts sont en anglais : les modèles d'image le suivent plus fidèlement.
 Le prompt complet (direction commune + style + scène + format) est assemblé par
@@ -35,7 +35,8 @@ STYLES = {
         "level or slight three-quarter view, very shallow depth of field on the background only, soft ambient "
         "occlusion, subtle floor reflection. The on-screen interfaces are invented but look like a real, finished "
         "product: clean grid, rounded cards, generous spacing, navy titles, royal-blue buttons, crisp icons. "
-        "On-screen text: only the few short French words given in the scene, large and perfectly spelled; every "
+        "On-screen text: only the few short French words given in the scene, written plainly (never inside quotation "
+        "marks or guillemets), large and perfectly spelled; every "
         "other line of text is a soft grey placeholder line, never fake gibberish words."),
     'scene': (
         "Style: refined editorial vector illustration, like the illustrations of a premium software brand. Flat "
@@ -70,7 +71,7 @@ CHARACTER = (
     "every image.")
 
 AVOID = (
-    "Avoid: text other than the words specified, misspelled words, real brand logos, watermark, people's faces, "
+    "Avoid: text other than the words specified, misspelled words, quotation marks or guillemets around words, real brand logos, watermark, people's faces, "
     "extra fingers, warped or melted device shapes, cluttered composition, neon glow, lens flare, colours outside "
     "the palette.")
 
@@ -103,20 +104,20 @@ IMAGES = {
     'col-site': ('4/3', "Un site vitrine affiché sur un ordinateur portable", 'device',
         "An open laptop in three-quarter front view, standing on a low rounded ice-blue pedestal. The screen shows "
         "a finished showcase website for a local bakery-café: a wide hero photo area filled with a soft abstract "
-        "royal-blue and azure composition of overlapping circles, the large headline « Bienvenue » in navy, one "
-        "royal-blue pill button « Réserver », and below it a row of three rounded cards with small blue "
+        "royal-blue and azure composition of overlapping circles, the large headline Bienvenue in navy, one "
+        "royal-blue pill button Réserver, and below it a row of three rounded cards with small blue "
         "illustrations. A small white ceramic cup and a closed navy notebook sit next to the laptop, slightly out "
         "of focus. Laptop occupies about 70 % of the width, centred."),
     'col-app': ('4/3', "Deux écrans d'une application de réservation sur téléphone", 'device',
         "Two modern smartphones standing upright side by side on an ice-blue surface, slightly turned toward each "
         "other, the left one a little in front. Left screen: a booking app home with a horizontal calendar strip, "
-        "three rounded time-slot chips, the middle one filled royal blue, and a large button « Réserver ». Right "
+        "three rounded time-slot chips, the middle one filled royal blue, and a large button Réserver. Right "
         "screen: a confirmation screen with a big white check mark inside a royal-blue circle, the word "
-        "« Confirmé » and a summary card. A soft white geometric block behind them adds depth."),
+        "Confirmé and a summary card. A soft white geometric block behind them adds depth."),
     'col-saas': ('4/3', "Un tableau de bord de logiciel en ligne sur un grand écran", 'device',
         "A large thin-bezel desktop monitor on a slim aluminium stand, front three-quarter view, on a white desk "
         "surface against the ice-blue backdrop. The screen shows a polished SaaS dashboard in light mode: a navy "
-        "left sidebar with simple icons, four KPI cards on top (one shows « +24 % » in royal blue), a smooth "
+        "left sidebar with simple icons, four KPI cards on top (one shows +24 % in royal blue), a smooth "
         "royal-blue line chart with a pale azure area beneath, and a tidy table with small status pills. A wireless "
         "keyboard in front, slightly blurred."),
     'col-reel': ('3/4', "Un reel vertical sur un téléphone", 'device',
@@ -127,7 +128,7 @@ IMAGES = {
     'col-marque': ('4/3', "Une planche d'identité visuelle : logo, couleurs, typographie", 'scene',
         "A carefully styled flat-lay seen from directly above on an ice-blue desk: a large round logo mark made of "
         "simple geometric shapes, a fan of four colour swatch cards (navy, royal blue, azure, white), a big type "
-        "specimen card with a bold « Aa » drawn as clean shapes, two stacked business cards, a closed notebook "
+        "specimen card with a bold Aa drawn as clean shapes, two stacked business cards, a closed notebook "
         "with an elastic band, and a pencil, all aligned on an invisible grid with even spacing."),
     'col-grille': ('3/4', "Le profil d'une marque sur un réseau social : une grille de publications", 'device',
         "A smartphone seen straight on, standing on an ice-blue pedestal. The screen shows a social media profile: "
@@ -173,7 +174,7 @@ IMAGES = {
     'conseil-solutions': ('16/9', "Deux pistes comparées côte à côte : un logiciel existant et un outil sur mesure", 'device',
         "Two laptops side by side on a long ice-blue pedestal, a thin vertical white divider panel between them. "
         "Left laptop: a generic off-the-shelf software screen crowded with grey menus, tabs and tiny icons. Right "
-        "laptop: a simple custom app with only three large rounded royal-blue cards and a clear button « Valider ». "
+        "laptop: a simple custom app with only three large rounded royal-blue cards and a clear button Valider. "
         "In front of each laptop, a small white card with three bars and a check mark, like a comparison sheet."),
     'conseil-transition': ('16/9', "La bascule : les données d'un tableur passent dans le nouvel outil", 'device',
         "On the left, a laptop showing a dense grey spreadsheet; on the right, a laptop and a phone showing the same "
@@ -189,7 +190,7 @@ IMAGES = {
     # --- Studio Moumous (noir et blanc) ------------------------------------
     'moumous-hero': ('16/9', "Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc", 'mono',
         "Three smartphones standing in a gentle arc on a low matte black plinth, each showing a different vertical "
-        "social media frame: a bold typographic quote card with the word « Nouveau » in heavy black type, a "
+        "social media frame: a bold typographic quote card with the word Nouveau in heavy black type, a "
         "high-contrast black-and-white product photo of a perfume bottle, a profile grid of nine squares. Large "
         "soft key light from the left, long soft shadows to the right. Wide composition with space on the left."),
     'moumous-reseaux': ('16/9', "Le storyboard d'un reel, en noir et blanc", 'mono',
@@ -200,46 +201,46 @@ IMAGES = {
     'moumous-identite': ('4/3', "Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc", 'mono',
         "A flat-lay brand identity board on a light-grey surface, seen from directly above: a bold abstract "
         "monogram logo printed large on a black card, black, white and grey swatches in even steps, a type "
-        "specimen card with a huge « Aa », a business card, an envelope and a black notebook, all perfectly "
+        "specimen card with a huge Aa, a business card, an envelope and a black notebook, all perfectly "
         "aligned on a grid with crisp shadows."),
     'moumous-referencement': ('3/4', "Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc", 'mono',
         "A smartphone standing upright on a black plinth, seen straight on: the screen shows a list of search "
         "results drawn as black and grey bars, the first result highlighted with a thick black outline and a small "
-        "« 1 » badge. Next to the phone, a small white card floats with a bold black line chart rising to the "
+        "1 badge. Next to the phone, a small white card floats with a bold black line chart rising to the "
         "right. Soft key light from the upper left."),
 
     # --- Site web ----------------------------------------------------------
     'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
         "Three stages of the same web page, left to right, on three floating panels at different depths: a grey "
         "wireframe of boxes, then a coloured design mock-up in navy, royal blue and white, then the finished page "
-        "on a laptop with a phone beside it showing the mobile version, headline « Bienvenue ». A thin dotted line "
+        "on a laptop with a phone beside it showing the mobile version, headline Bienvenue. A thin dotted line "
         "connects the three stages. Airy, ice-blue set."),
     'site-mobile': ('3/4', "Un site vu sur téléphone, avec le menu ouvert", 'device',
         "A smartphone seen straight on, standing on an ice-blue pedestal, showing a mobile website with a rounded "
         "navigation sheet opened from the bottom: four menu rows with small icons and a large royal-blue button "
-        "« Contact ». The page behind the sheet is softly dimmed. A finger-shaped soft shadow suggests a tap."),
+        "Contact. The page behind the sheet is softly dimmed. A finger-shaped soft shadow suggests a tap."),
     'site-admin': ('16/9', "L'écran d'administration où l'on change un texte et une photo", 'device',
         "A laptop in three-quarter view showing a simple, friendly content editor: a list of pages on the left, a "
         "form in the centre with a title field, an image upload box with a thumbnail, a price field, and a "
-        "royal-blue toggle labelled « Publier ». A small floating card next to the laptop shows « Enregistré » with "
+        "royal-blue toggle labelled Publier. A small floating card next to the laptop shows Enregistré with "
         "a check mark. Ice-blue set."),
     'site-boutique': ('4/3', "Une fiche produit de boutique en ligne avec le bouton d'achat", 'device',
         "A laptop and a phone showing the same online shop product page: a large product photo of an elegant "
-        "glass bottle on a pale blue background, a price, size chips and a big royal-blue button « Ajouter au "
-        "panier ». The phone leans against a rounded white block in front of the laptop. Ice-blue set."),
+        "glass bottle on a pale blue background, a price, size chips and a big royal-blue button Ajouter au "
+        "panier. The phone leans against a rounded white block in front of the laptop. Ice-blue set."),
 
     # --- Application mobile ------------------------------------------------
     'app-prototype': ('16/9', "Le parcours d'une application : cinq écrans reliés par des flèches", 'device',
         "Five smartphone screens floating in a gentle wave from left to right on an ice-blue canvas, linked by thin "
         "curved navy arrows like a clickable prototype: welcome, sign-up, home, detail, confirmation. Rounded "
-        "cards and royal-blue buttons; the welcome screen says « Bonjour ». Soft shadows under each screen."),
+        "cards and royal-blue buttons; the welcome screen says Bonjour. Soft shadows under each screen."),
     'app-main': ('3/4', "L'écran d'accueil de l'application, entouré de deux cartes", 'device',
-        "A smartphone slightly tilted, standing on an ice-blue pedestal, showing an app home: a greeting « Bonjour "
-        "Léa », a large royal-blue card with a white progress ring at 72 %, and two smaller cards below. Two rounded "
+        "A smartphone slightly tilted, standing on an ice-blue pedestal, showing an app home: a greeting Bonjour "
+        "Léa, a large royal-blue card with a white progress ring at 72 %, and two smaller cards below. Two rounded "
         "white cards float around the phone at different depths: a reminder card with a small blue dot and a "
         "progress card with a ring."),
     'app-notif': ('3/4', "L'écran verrouillé d'un téléphone avec les notifications de l'application", 'device',
-        "A smartphone lock screen seen straight on: a large clock « 9:41 », a soft abstract blue wallpaper of "
+        "A smartphone lock screen seen straight on: a large clock 9:41, a soft abstract blue wallpaper of "
         "overlapping circles, and three stacked rounded notification cards from the same app, each with a small "
         "royal-blue round icon. The phone rests on an ice-blue pedestal."),
     'app-icone': ('4/3', "L'icône de l'application sur l'écran d'accueil d'un téléphone", 'device',
@@ -251,16 +252,16 @@ IMAGES = {
     'saas-dashboard': ('16/9', "Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs", 'device',
         "A wide browser window floating in three-quarter view above an ice-blue set, showing a polished SaaS "
         "dashboard: left sidebar, a header with a search field, four KPI cards, a bar chart and a line chart in "
-        "royal blue and azure, and a recent activity list. Title « Tableau de bord ». A second smaller window "
+        "royal blue and azure, and a recent activity list. Title Tableau de bord. A second smaller window "
         "peeks from behind, slightly blurred."),
     'saas-onboarding': ('16/9', "Les trois étapes d'inscription d'un logiciel en ligne", 'device',
         "Three browser windows overlapping diagonally like cards in a hand, showing the steps of an onboarding: "
-        "« Créer un compte » with two fields, « Choisir une offre » with three plan cards (the middle one in royal "
-        "blue), « Inviter l'équipe » with round avatars as plain coloured circles. Ice-blue set, soft shadows."),
+        "Créer un compte with two fields, Choisir une offre with three plan cards (the middle one in royal "
+        "blue), Inviter l'équipe with round avatars as plain coloured circles. Ice-blue set, soft shadows."),
     'saas-roles': ('4/3', "La gestion des accès : chaque membre de l'équipe a son rôle", 'device',
         "A browser window showing a team settings table: rows with round avatars (plain blue circles, no faces), "
-        "names as grey lines, and a role pill on each row « Admin », « Éditeur », « Lecteur » in different blues, "
-        "plus a royal-blue button « Inviter ». A small floating permission card with a toggle sits in front."),
+        "names as grey lines, and a role pill on each row Admin, Éditeur, Lecteur in different blues, "
+        "plus a royal-blue button Inviter. A small floating permission card with a toggle sits in front."),
     'saas-mobile': ('3/4', "Le même logiciel, sur téléphone", 'device',
         "A smartphone on an ice-blue pedestal showing the mobile version of a SaaS dashboard: a stacked column of "
         "KPI cards, a compact royal-blue line chart, a bottom tab bar. Behind it, out of focus, a laptop shows the "
@@ -281,7 +282,7 @@ IMAGES = {
         "bounce. Thin motion guide lines and easing curves link the frames, like an animator's sheet."),
     'reseaux-telephones': ('3/4', "Une story et une publication de la même marque sur deux téléphones", 'device',
         "Two smartphones overlapping slightly, one in front of the other, on an ice-blue pedestal: one shows a "
-        "vertical story with a big blue circle and a rounded sticker « Nouveau », the other a square post from the "
+        "vertical story with a big blue circle and a rounded sticker Nouveau, the other a square post from the "
         "same brand. Same colours, same shapes: one coherent identity."),
 
     # --- Méthode -----------------------------------------------------------
@@ -317,7 +318,7 @@ IMAGES = {
         "Capture d'écran réelle : la page catalogue / collection de mm-fragrances.fr, sur ordinateur (fenêtre de "
         "1440 × 900), en mode sombre, sans barre d'adresse."),
     'mm-quiz': ('16/10', "Le quiz qui aide à trouver son parfum", 'capture',
-        "Capture d'écran réelle : le quiz « trouver son parfum » de mm-fragrances.fr, sur ordinateur, une question "
+        "Capture d'écran réelle : le quiz trouver son parfum de mm-fragrances.fr, sur ordinateur, une question "
         "affichée avec ses réponses."),
     'mm-flacon': ('16/10', "Un flacon en 3D sur la fiche produit", 'capture',
         "Capture d'écran réelle : une fiche produit de mm-fragrances.fr sur ordinateur, avec le flacon en 3D bien visible."),

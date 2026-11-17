@@ -56,7 +56,8 @@ assets/js/sky.js        le décor du fond : disques, nuages, vols d'oiseaux, tra
 assets/js/deco.js       le fil : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
 assets/js/bird.js       l'oiseau, animé image par image (planche kf-vol.webp, 16 poses) + GSAP : il suit le défilement en
                         temps réel (piqué, vue de face, vue de dos selon la vitesse) et se pose dès qu'on s'arrête
-tools/kf_sprite.py      refait kf-vol.webp à partir des planches de référence (assets/mascotte/Gemini_*)
+tools/kf_sprite.py      refait kf-vol.webp (16 poses) à partir des planches de vol (assets/mascotte/kf-vol-*.jpg)
+                        et met à jour les repères de bird.js (œil, pattes, bec)
 assets/js/agent.js      assistant en bas à droite
 assets/img/kf*.svg      l'oiseau en fichiers statiques (logo, avatar, favicon)
 assets/js/main.js       animations (GSAP, ScrollTrigger, Lenis), FAQ, formulaire
