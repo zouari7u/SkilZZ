@@ -40,6 +40,17 @@
     if (lenis) lenis.scrollTo(el, { offset: el.id === 'top' ? 0 : -96, duration: 1.4 });
     else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   };
+  // En bas de page, la bulle de l'assistant s'efface pour ne pas cacher la barre du bas
+  var fbot = document.querySelector('.footer-bottom');
+  if (fbot && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    document.body.classList.toggle('at-foot', es[0].isIntersecting);
+  }).observe(fbot);
+  // Haut de page (pied de page)
+  var toTop = document.getElementById('toTop');
+  if (toTop) toTop.addEventListener('click', function () {
+    if (lenis) lenis.scrollTo(0, { duration: 1.6 });
+    else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');
@@ -494,6 +505,6 @@
   // PIED DE PAGE : le fennec passe la tête, les lettres montent en bulles
   // =========================================================================
   gsap.from('#footerWord > *', { yPercent: 110, scaleY: 1.3, rotation: 6, duration: 1.2, stagger: .07, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#footerWord', start: 'top 95%' } });
-  gsap.from('.footer-grid > *, .footer-bottom', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
+  gsap.from('.footer-pledges li, .footer-grid > *, .footer-bottom', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
 
 })();

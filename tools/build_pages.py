@@ -229,10 +229,19 @@ HEAD = '''<!doctype html>
 
 FOOT = '''
   <footer class="footer" id="footer">
+    <!-- Décor de nuit : étoiles, lune, route de vol jusqu'à l'oiseau posé sur le « l », eau et roseaux -->
+    <svg class="footer-deco" id="footerDeco" aria-hidden="true" preserveAspectRatio="none"></svg>
+
+    <ul class="footer-pledges" aria-label="Nos engagements">
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Premier échange gratuit</b>Vous repartez avec des pistes concrètes.</span></li>
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Devis détaillé</b>Ligne par ligne, sans frais cachés.</span></li>
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Un seul interlocuteur</b>Du premier croquis à la mise en ligne.</span></li>
+    </ul>
+
     <div class="footer-grid">
       <div class="footer-about">
-        <img class="footer-logo" src="assets/img/favicon.svg" width="64" height="64" alt="Logo de ZkilZ : un martin-pêcheur" loading="lazy" decoding="async">
-        <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure.</p>
+        <a href="index.html" class="footer-brand" aria-label="ZkilZ, accueil"><img class="footer-logo" src="assets/img/favicon.svg" width="56" height="56" alt="" loading="lazy" decoding="async"><span><b>Z</b>kil<b>Z</b></span></a>
+        <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure, conçus et développés au même endroit.</p>
         <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
       <nav class="footer-col" aria-label="Services">
@@ -243,16 +252,21 @@ FOOT = '''
         <p class="footer-h">Le studio</p>
         <a href="realisations.html">Réalisations</a><a href="methode.html">Méthode</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
       </nav>
-      <nav class="footer-col footer-col--partner" aria-label="Partenaire">
+      <div class="footer-col footer-col--partner">
         <p class="footer-h">Partenaire</p>
-        <a href="reseaux-sociaux.html" class="footer-partner"><img src="assets/img/moumous/moumous-logo.webp" width="28" height="28" alt="" loading="lazy" decoding="async">Studio Moumous</a>
-        <span>Réseaux sociaux, marketing et référencement</span>
-      </nav>
+        <a href="reseaux-sociaux.html" class="footer-partner">
+          <img src="assets/img/moumous/moumous-logo.webp" width="48" height="48" alt="" loading="lazy" decoding="async">
+          <span class="fpa-copy"><b>Studio Moumous</b><span>Réseaux sociaux, marketing et référencement.</span><i>Découvrir<svg aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+        </a>
+      </div>
     </div>
+
     <p class="footer-word" id="footerWord" aria-label="ZkilZ"><b>Z</b><span>k</span><span>i</span><span data-perch="50" data-perch-ink>l</span><b>Z</b></p>
+
     <div class="footer-bottom">
-      <p class="footer-legal">© 2026 ZkilZ</p>
-      <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a></nav>
+      <p class="footer-legal">© 2026 ZkilZ · Studio digital</p>
+      <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="sitemap.xml">Plan du site</a></nav>
+      <button type="button" class="footer-totop" id="toTop">Haut de page<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </footer>
 
