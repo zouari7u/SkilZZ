@@ -33,9 +33,10 @@ python3 tools/build_pages.py
 Le script réécrit les pages `.html` à la racine (le site reste statique, rien à lancer pour le servir) et met à
 jour la liste des images dans `PROMPTS-MASCOTTE.md`.
 
-**Ajouter les images :** chaque image manquante s'affiche comme un cadre « Image à venir » avec son nom. Générer
-l'image avec son prompt (`PROMPTS-MASCOTTE.md`, partie « Images des pages »), la déposer en PNG ou JPG dans
-`assets/img/pages/src/`, puis :
+**Ajouter ou refaire les images :** les prompts de toutes les images des pages sont dans `PROMPTS-IMAGES.md`
+(modèle conseillé, méthode, un prompt complet par image) ; ceux qui manquent encore, dans `PROMPTS-A-FAIRE.md`.
+On modifie un prompt dans `tools/images_prompts.py`. Déposer l'image en PNG ou JPG dans
+`assets/img/pages/src/`, avec le nom indiqué, puis :
 
 ```bash
 python3 tools/convertir_images.py
@@ -46,7 +47,8 @@ python3 tools/convertir_images.py
 ```
 index.html              page d'accueil (et les autres pages .html, voir plus haut)
 tools/build_pages.py    fabrique les pages : gabarit commun + tools/pages/*.html + liste des images
-tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → .webp dans assets/img/pages/
+tools/images_prompts.py    les images des pages : formats, textes alternatifs, direction artistique, prompts
+tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → recadrés au format, .webp dans assets/img/pages/
 assets/js/pages.js      pages : cadres « image à venir », apparition au défilement, mosaïque
 assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
 assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème

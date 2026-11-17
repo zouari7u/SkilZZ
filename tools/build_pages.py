@@ -85,200 +85,10 @@ SERVICES = [
 #   famille « capture »: capture d'écran réelle à faire (pas d'IA)
 #   famille « photo »  : vraie photo à fournir (pas d'IA)
 # ---------------------------------------------------------------------------
-IMAGES = {
-    # --- Accueil : la mosaïque -------------------------------------------
-    'col-site': ('4/3', "Un site vitrine affiché sur un ordinateur portable", 'device',
-        "A modern laptop seen from a three-quarter front angle, standing on a plain ice-blue surface. The screen shows a "
-        "clean showcase website for a small local business: a large hero photo area filled with a soft abstract blue shape, "
-        "a short bold headline drawn as thick navy bars, one rounded royal-blue button, and a row of three rounded cards below."),
-    'col-app': ('4/3', "Deux écrans d'une application de réservation sur téléphone", 'device',
-        "Two modern smartphones side by side, slightly tilted toward each other. Left screen: a booking app home with a "
-        "calendar strip, three rounded time-slot chips, one highlighted in royal blue. Right screen: a confirmation screen "
-        "with a large check mark in a blue circle and a summary card."),
-    'col-saas': ('4/3', "Un tableau de bord de logiciel en ligne sur un grand écran", 'device',
-        "A large desktop monitor with a thin bezel. The screen shows a SaaS dashboard: a left sidebar with icons, four KPI "
-        "cards on top, a smooth royal-blue line chart with a light-blue area underneath, and a table of rows with small "
-        "status pills."),
-    'col-reel': ('3/4', "Un reel vertical sur un téléphone", 'device',
-        "A modern smartphone held upright, shown straight on. The screen shows a vertical short video frame: a bold "
-        "abstract blue composition with a large circle and a diagonal shape, a heart icon, a comment icon and a share "
-        "icon stacked on the right edge, a thin progress bar at the bottom."),
-    'col-marque': ('4/3', "Une planche d'identité visuelle : logo, couleurs, typographie", 'scene',
-        "A flat-lay brand identity board seen from above on an ice-blue desk: a round logo mark made of simple geometric "
-        "shapes, four colour swatches (navy, royal blue, azure, white), a large sample letter 'Aa' drawn as shapes, a "
-        "business card and a small notebook, all neatly aligned on a grid."),
-    'col-grille': ('3/4', "Le profil d'une marque sur un réseau social : une grille de publications", 'device',
-        "A modern smartphone shown straight on. The screen shows a social media profile: a round avatar, three counters "
-        "drawn as short bars, and below a 3 x 3 grid of square posts that all share the same blue and white style "
-        "(circles, diagonals, a product silhouette, a quote card), clearly one coherent brand."),
-
-    # --- Services : une scène par métier ---------------------------------
-    'svc-site': ('16/9', "Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site", 'mascot',
-        "The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen "
-        "(clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few "
-        "floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space "
-        "on the left for text."),
-    'svc-app': ('16/9', "Le martin-pêcheur à côté d'un téléphone qui affiche une application", 'mascot',
-        "The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows "
-        "a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, "
-        "subject on the right half."),
-    'svc-saas': ('16/9', "Le martin-pêcheur devant un tableau de bord avec des graphiques", 'mascot',
-        "The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and "
-        "three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide "
-        "composition, subject on the right half."),
-    'svc-reseaux': ('16/9', "Le martin-pêcheur au milieu de trois téléphones qui affichent des reels", 'mascot',
-        "Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and "
-        "white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat "
-        "ice-blue background (#E1EBFF). Wide composition, subject on the right half."),
-
-    'svc-conseil': ('16/9', "Le martin-pêcheur penché sur un plan de travail, entre l'ancien tableur et le nouvel outil", 'mascot',
-        "The kingfisher stands on a desk next to two screens: on the left an old cluttered spreadsheet drawn as a dense grey "
-        "grid, on the right a clean custom app with rounded royal-blue cards; a thin dotted arrow goes from the spreadsheet "
-        "to the app, and the bird points its beak along the arrow. Flat ice-blue background (#E1EBFF). Wide composition, "
-        "subject on the right half."),
-
-    # --- Conseil et transition ----------------------------------------------
-    'conseil-etat-des-lieux': ('4/3', "L'état des lieux : les tâches d'une journée de travail posées sur la table", 'scene',
-        "A top-down view of a work table during an audit session: printed spreadsheets with dense grey grids, sticky notes "
-        "in two blues grouped into columns (today, problems, ideas), a hand-drawn flow of boxes and arrows on a large sheet, "
-        "a laptop showing a cluttered spreadsheet, a pen and a cup. Calm, organised, ice-blue background."),
-    'conseil-solutions': ('16/9', "Deux pistes comparées côte à côte : un logiciel existant et un outil sur mesure", 'device',
-        "Two browser windows side by side with a thin vertical divider between them. Left: a generic off-the-shelf software "
-        "screen with many grey menus and features. Right: a simple custom app screen with only three rounded royal-blue "
-        "cards. Under each window, a small card with three bars and a check mark, like a comparison sheet. Ice-blue "
-        "background."),
-    'conseil-transition': ('16/9', "La bascule : les données d'un tableur passent dans le nouvel outil", 'device',
-        "A laptop on the left showing a dense grey spreadsheet; a phone and a laptop on the right showing a clean custom app "
-        "with royal-blue cards; between them, a gentle flow of small rounded rectangles (data rows) travelling along a thin "
-        "curved dotted path from left to right. Ice-blue background."),
-    'conseil-equipe': ('4/3', "La prise en main : l'outil montré à l'équipe sur un grand écran", 'scene',
-        "A small meeting room seen from behind: a large wall screen showing a simple custom app dashboard in royal blue, "
-        "three people seen from behind as simple flat silhouettes (navy and blue clothes, no faces), one pointing at the "
-        "screen, laptops on the table. Flat vector, calm, ice-blue walls."),
-
-    # --- Studio Moumous (direction artistique noir et blanc) -----------------
-    'moumous-hero': ('16/9', "Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc", 'mono',
-        "Three smartphones standing in a gentle arc, each showing a different vertical social media frame: a bold "
-        "typographic quote drawn as thick black bars, a product photo in high-contrast black and white, a profile grid of "
-        "nine squares. Clean studio light, soft shadows on a light grey background."),
-    'moumous-reseaux': ('16/9', "Le storyboard d'un reel, en noir et blanc", 'mono',
-        "A storyboard sheet on a light grey desk: six vertical frames in two rows, each a bold black and white composition "
-        "(product appears, close-up, text card drawn as bars, logo reveal), small arrows between frames, a black marker "
-        "next to the sheet."),
-    'moumous-identite': ('4/3', "Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc", 'mono',
-        "A flat-lay brand identity board on a light grey surface: a bold abstract monogram logo, black and white colour "
-        "swatches with grey steps, a large type specimen drawn as shapes, a business card, an envelope and a notebook, all "
-        "perfectly aligned on a grid."),
-    'moumous-referencement': ('3/4', "Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc", 'mono',
-        "A smartphone shown straight on: the screen shows a list of search results drawn as black and grey bars, the first "
-        "result highlighted with a thick black outline; next to the phone, a small floating card with a black line chart "
-        "rising to the right. Light grey background."),
-
-    # --- Site web ---------------------------------------------------------
-    'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
-        "Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design "
-        "mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the "
-        "mobile version. Clean, airy, on an ice-blue background."),
-    'site-mobile': ('3/4', "Un site vu sur téléphone, avec le menu ouvert", 'device',
-        "A smartphone shown straight on, displaying a mobile website with a rounded navigation sheet opened from the "
-        "bottom: four menu rows and a large royal-blue call-to-action button. Ice-blue background."),
-    'site-admin': ('16/9', "L'écran d'administration où l'on change un texte et une photo", 'device',
-        "A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, "
-        "an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, "
-        "uncluttered. Ice-blue background."),
-    'site-boutique': ('4/3', "Une fiche produit de boutique en ligne avec le bouton d'achat", 'device',
-        "A laptop and a phone showing the same online shop product page: a large product photo area with an abstract "
-        "bottle silhouette, a price drawn as a bold bar, size chips and a big royal-blue add-to-cart button. Ice-blue "
-        "background."),
-
-    # --- Application mobile ----------------------------------------------
-    'app-prototype': ('16/9', "Le parcours d'une application : cinq écrans reliés par des flèches", 'device',
-        "Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a "
-        "clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue "
-        "buttons, text drawn as grey bars."),
-    'app-main': ('3/4', "L'écran d'accueil de l'application, entouré de deux cartes", 'device',
-        "A modern smartphone slightly tilted, showing an app home: a greeting bar, a large royal-blue card with a "
-        "progress ring and two smaller cards. Two rounded white cards float around the phone: a reminder card with a "
-        "small blue dot, and a progress card with a ring. Ice-blue background."),
-    'app-notif': ('3/4', "L'écran verrouillé d'un téléphone avec les notifications de l'application", 'device',
-        "A smartphone lock screen with a large clock drawn as shapes and three stacked rounded notification cards from the "
-        "same app (a small blue round icon on each). Soft blue abstract wallpaper. Ice-blue background."),
-    'app-icone': ('4/3', "L'icône de l'application sur l'écran d'accueil d'un téléphone", 'device',
-        "Close-up of a smartphone home screen grid of app icons, all in muted grey, except one bright royal-blue rounded "
-        "icon with a simple white geometric symbol in the centre, slightly raised with a soft shadow, as if just "
-        "installed. Ice-blue background."),
-
-    # --- SaaS -------------------------------------------------------------
-    'saas-dashboard': ('16/9', "Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs", 'device',
-        "A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar "
-        "chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue "
-        "background."),
-    'saas-onboarding': ('16/9', "Les trois étapes d'inscription d'un logiciel en ligne", 'device',
-        "Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), "
-        "choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as "
-        "circles). Ice-blue background."),
-    'saas-roles': ('4/3', "La gestion des accès : chaque membre de l'équipe a son rôle", 'device',
-        "A browser window showing a team settings table: rows with round avatars (plain coloured circles, no faces), "
-        "names as grey bars, a role dropdown pill on each row (admin, editor, viewer drawn as pills of different blues), "
-        "and an 'invite' button in royal blue. Ice-blue background."),
-    'saas-mobile': ('3/4', "Le même logiciel, sur téléphone", 'device',
-        "A smartphone showing the mobile version of a SaaS dashboard: a stacked column of KPI cards and a compact line "
-        "chart in royal blue, a bottom tab bar. Ice-blue background."),
-
-    # --- Réseaux sociaux -------------------------------------------------
-    'reseaux-storyboard': ('16/9', "Le storyboard d'un reel : six images clés", 'scene',
-        "A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white "
-        "composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), "
-        "with small arrows between frames and a pencil next to the sheet."),
-    'reseaux-charte': ('4/3', "La charte des réseaux : couleurs, typographies, modèles de publication", 'scene',
-        "A social media style guide board laid flat: colour swatches, two type samples drawn as shapes, and four post "
-        "templates (quote, product, announcement, carousel cover) all in navy, royal blue, azure and white. Top-down view, "
-        "ice-blue background."),
-    'reseaux-motion': ('16/9', "Les étapes d'une animation de logo, image par image", 'scene',
-        "A horizontal sequence of five frames showing a simple round logo mark being drawn: a dot, a growing arc, a full "
-        "circle, an inner shape appearing, the final mark with a small bounce. Flat vector, navy and royal blue on white "
-        "frames, ice-blue background, thin motion guide lines between frames."),
-    'reseaux-telephones': ('3/4', "Une story et une publication de la même marque sur deux téléphones", 'device',
-        "Two smartphones overlapping slightly: one shows a vertical story with a big blue shape and a sticker-like rounded "
-        "label, the other shows a square post from the same brand. Same colours, same shapes: one coherent identity. "
-        "Ice-blue background."),
-
-    # --- Méthode -----------------------------------------------------------
-    'methode-ecouter': ('4/3', "Le premier échange : un carnet, des notes et un appel en visio", 'scene',
-        "A flat-lay of a first project meeting seen from above: an open notebook with simple sketches (boxes, arrows), a "
-        "laptop showing a video call with two plain circular avatars, a cup and a pen, on an ice-blue desk."),
-    'methode-concevoir': ('4/3', "Le prototype testé sur un téléphone, à côté des maquettes", 'scene',
-        "A desk seen from above with printed screen mock-ups pinned around, and in the centre a hand holding a smartphone "
-        "running the prototype, a finger about to tap a royal-blue button. Flat vector, navy, blues and white."),
-    'methode-grandir': ('4/3', "Après la mise en ligne : le suivi et les nouvelles fonctions", 'scene',
-        "A laptop showing a simple analytics chart going up in royal blue, next to a small checklist card with three "
-        "ticked items and one new item being added, and a phone showing a new post ready to publish. Ice-blue desk."),
-
-    # --- Studio --------------------------------------------------------------
-    'studio-lac': ('33/14', "Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour", 'mascot',
-        "Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, "
-        "ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single "
-        "reed just above the water, looking far ahead. Lots of open sky on the left. No text."),
-    'studio-bureau': ('4/3', "Le bureau du studio : ordinateur, croquis et téléphone de test", 'scene',
-        "A tidy studio desk seen from above: a laptop with code drawn as coloured bars, a sketchbook with a kingfisher "
-        "doodle in navy ink, a phone used for testing, a colour swatch fan in blues, a plant with blue pot. Ice-blue desk."),
-    'studio-portrait': ('4/5', "Portrait du fondateur du studio", 'photo',
-        "Vraie photo à fournir (pas d'IA) : un portrait de toi, de face ou de trois quarts, lumière naturelle, fond "
-        "uni clair. Format vertical 4:5, au moins 1200 px de large."),
-
-    # --- MM Fragrances (vraies captures) -----------------------------------
-    'mm-catalogue': ('16/10', "Le catalogue de MM Fragrances sur ordinateur", 'capture',
-        "Capture d'écran réelle : la page catalogue / collection de mm-fragrances.fr, sur ordinateur (fenêtre de "
-        "1440 × 900), en mode sombre, sans barre d'adresse."),
-    'mm-quiz': ('16/10', "Le quiz qui aide à trouver son parfum", 'capture',
-        "Capture d'écran réelle : le quiz « trouver son parfum » de mm-fragrances.fr, sur ordinateur, une question "
-        "affichée avec ses réponses."),
-    'mm-flacon': ('16/10', "Un flacon en 3D sur la fiche produit", 'capture',
-        "Capture d'écran réelle : une fiche produit de mm-fragrances.fr sur ordinateur, avec le flacon en 3D bien visible."),
-    'mm-conseiller': ('3/4', "Le conseiller virtuel qui répond aux questions, sur téléphone", 'capture',
-        "Capture d'écran réelle : le conseiller virtuel de mm-fragrances.fr ouvert sur téléphone (390 × 844), avec une "
-        "question et sa réponse."),
-}
+# Les images, leurs descriptions et leurs prompts : tools/images_prompts.py
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from images_prompts import IMAGES, full_prompt, FAMILY_NAMES, GEMINI_RATIO  # noqa: E402
 
 # Tant qu'une de ces images manque, la page affiche l'image existante indiquée.
 # Dès qu'elle est déposée (tools/convertir_images.py relance ce script), elle
@@ -294,28 +104,6 @@ FALLBACK = {
 
 def has_image(name):
     return os.path.exists(os.path.join(ROOT, IMG_DIR, name + '.webp'))
-
-
-FAMILY_RULES = {
-    'scene': "SCENE",
-    'device': "DEVICE",
-    'mascot': "MASCOT",
-}
-
-STYLE_SCENE = (
-    "Flat vector editorial illustration, geometric and minimal, crisp shapes, very subtle gradients only, no outlines, "
-    "no texture. Palette strictly blue and white: navy #0B1B3F, royal blue #1F6BFF, azure #1E9BFF, light azure "
-    "#8FDBFF, ice blue #E1EBFF, white. No orange, red, yellow or green. Any text is drawn as rounded grey or navy bars, "
-    "never readable letters. No logos of real brands, no watermark.")
-STYLE_MONO = (
-    "Studio Moumous art direction: strictly black, white and greys, no colour at all, high contrast, clean editorial "
-    "look, flat shapes or crisp product mock-up, soft studio shadows on a light grey background (#F2F2F2). Any text is "
-    "drawn as black or grey bars, never readable letters. No real brand, no real logo, no watermark, no kingfisher.")
-STYLE_DEVICE = (
-    "Clean product mock-up, soft studio lighting, minimal and premium, devices with thin dark bezels, gentle soft "
-    "shadow on a flat ice-blue background (#E1EBFF). The on-screen interface is invented: palette navy #0B1B3F, royal "
-    "blue #1F6BFF, azure #1E9BFF, ice blue and white, rounded corners, generous spacing. All text on screen is drawn "
-    "as rounded grey bars, never readable letters. No real brand, no real logo, no watermark, no people's faces.")
 
 
 def ratio_px(r, w=1600):
@@ -761,11 +549,44 @@ def build():
     write_seo_files()
 
 
-def write_prompts():
-    path = os.path.join(ROOT, 'PROMPTS-MASCOTTE.md')
-    with open(path, encoding='utf-8') as f:
-        doc = f.read()
-    start, end = '<!-- IMAGES DES PAGES : début -->', '<!-- IMAGES DES PAGES : fin -->'
+GUIDE = """## Quel modèle utiliser
+
+**Nano Banana Pro** (Gemini 3 Pro Image) : c'est le plus soigné des modèles d'image de Google, le meilleur pour
+les rendus produit, la cohérence d'un personnage et les mots écrits sur les écrans. Dans l'application Gemini,
+choisis « Créer des images » puis le modèle **Pro** (ou « Réflexion ») s'il est proposé. À défaut, **Nano Banana
+2.1** (le modèle par défaut, plus rapide) donne de très bons résultats avec ces prompts.
+
+« Hydrogen » (Gemini 4 Hydrogen) n'est pas un modèle d'image : il ne fait que du texte.
+
+## Comment travailler
+
+1. **Une conversation Gemini par style** (A, B, C, D, plus bas). La première image réussie fixe le rendu : les
+   suivantes de la même conversation lui ressembleront.
+2. **Joins des images de référence** au premier message de chaque conversation :
+   - style C (le martin-pêcheur) : ton logo en PNG et la planche `assets/img/mascotte/kf-planche.webp` ;
+   - styles A, B et D : la première image que tu trouves réussie, pour les suivantes (« même rendu, même lumière »).
+3. **Choisis le format indiqué** pour chaque image (menu de format de Gemini, ou ajoute « 16:9 » au message).
+4. **Colle le prompt en entier**, tel quel : il contient la direction artistique, le style, la scène et le format.
+5. **Retouche dans la même conversation**, une chose à la fois : « Garde tout, mais rends le bouton plus grand »,
+   « Même image, sans la tasse », « Corrige le mot du bouton : Réserver ». Ne relance pas de zéro pour un détail.
+6. **Vérifie les mots** sur les écrans (accents, fautes) : demande une correction si besoin.
+
+## Livrer une image
+
+Enregistre-la en PNG avec le nom indiqué (par exemple `col-site.png`) dans `assets/img/pages/src/`, puis :
+
+```bash
+python3 tools/convertir_images.py
+```
+
+Le script la recadre au format exact de son emplacement, la convertit en WebP (1600 et 800 px) et régénère les
+pages : elle remplace aussitôt l'ancienne.
+"""
+
+FAMILY_ORDER = ('device', 'scene', 'mascot', 'mono')
+
+
+def images_used():
     used = {}
     for page, *_ in PAGES:
         with open(os.path.join(PARTS, page + '.html'), encoding='utf-8') as f:
@@ -777,92 +598,81 @@ def write_prompts():
             names.append('moumous-hero')
         for n in names:
             used.setdefault(n, []).append(page)
-    lines = [start, '', '# Images des pages du site', '',
-             "Ces images remplissent les pages du site (accueil, services, méthode, studio…). En attendant tes "
-             "versions, des illustrations dessinées en code (`tools/illustrations/`) occupent déjà les emplacements : "
-             "une image IA déposée avec le même nom les remplace. Les vraies images (captures, photo) affichent un "
-             "cadre « Image à venir » tant qu'elles manquent.", '',
-             '**Où les mettre :** exporte chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom indiqué, '
-             'puis lance `python3 tools/convertir_images.py` : il les redimensionne à 1600 px de large et les '
-             'convertit en `.webp` dans `assets/img/pages/`.', '',
-             "**Trois styles** : le titre de chaque image dit lequel utiliser.", '',
-             '### Style A — illustration en aplats', '', '```text', STYLE_SCENE, '```', '',
-             '### Style B — écran ou appareil', '', '```text', STYLE_DEVICE, '```', '',
-             "### Style C — le martin-pêcheur dans une scène", '',
-             "Colle la **fiche du personnage (n° 0)** au début, joins la **planche n° 1** en image de référence, puis "
-             "termine par le style A. Pas de fond vert ici : la scène a son propre fond.", '',
-             "Le format (largeur:hauteur) est donné pour chaque image : règle ton générateur dessus.", '']
-    lines += ['### Style D — Studio Moumous, noir et blanc', '', '```text', STYLE_MONO, '```', '']
-    groups = [('scene', 'Style A'), ('device', 'Style B'), ('mascot', 'Style C'), ('mono', 'Style D')]
-    n = 0
-    for fam, style in groups:
-        for name, (r, alt, f, prompt) in IMAGES.items():
-            if f != fam or name not in used:
-                continue
-            n += 1
-            lines += ['## P%d. %s → `%s.png`' % (n, alt, name), '',
-                      '*Pages : %s · format %s · %s*' % (', '.join(sorted(set(used[name]))), r.replace('/', ':'), style),
-                      '', '```text', prompt, '```', '']
-    lines += ['## Vraies images à fournir (pas d\'IA)', '',
-              "Ces images doivent être vraies : une capture de ton site client ou ta photo. Mets-les aussi dans "
-              "`assets/img/pages/src/` puis lance le script de conversion.", '']
-    for name, (r, alt, f, prompt) in IMAGES.items():
-        if f in ('capture', 'photo') and name in used:
-            lines += ['- **`%s.png`** (%s, format %s) — %s' % (name, alt, r.replace('/', ':'), prompt)]
-    lines += ['', end]
-    block = '\n'.join(lines)
+    return used
+
+
+def prompt_block(n, used, num):
+    r, alt, fam, _ = IMAGES[n]
+    L = ['## %s. %s → `%s.png`' % (num, alt, n), '',
+         '*Style %s · format Gemini **%s** · pages : %s · %s*' % (
+             FAMILY_NAMES[fam], GEMINI_RATIO.get(r, r.replace('/', ':')), ', '.join(sorted(set(used[n]))),
+             'déjà en ligne, à refaire en mieux' if has_image(n) else 'manque encore')]
+    if not has_image(n) and n in FALLBACK:
+        L += ['', "*En attendant : l'image `%s` tient la place.*" % FALLBACK[n]]
+    L += ['', '```text', full_prompt(n), '```', '']
+    return L
+
+
+def write_prompts():
+    used = images_used()
+    ai = [n for n in IMAGES if n in used and IMAGES[n][2] not in ('capture', 'photo')]
+    real = [n for n in IMAGES if n in used and IMAGES[n][2] in ('capture', 'photo')]
+    # 1. PROMPTS-IMAGES.md : toutes les images IA du site, par style
+    L = ['# Prompts des images du site', '',
+         "Ce fichier est réécrit par `tools/build_pages.py` à partir de `tools/images_prompts.py` (modifier les "
+         "prompts là-bas). Il contient toutes les images générées du site (%d), regroupées par style." % len(ai), '',
+         GUIDE.strip(), '']
+    num = 0
+    for fam in FAMILY_ORDER:
+        names = [n for n in ai if IMAGES[n][2] == fam]
+        if not names:
+            continue
+        L += ['---', '', '# Style %s (%d images)' % (FAMILY_NAMES[fam], len(names)), '']
+        for n in names:
+            num += 1
+            L += prompt_block(n, used, num)
+    if real:
+        L += ['---', '', "# Vraies images à fournir (pas d'IA)", '']
+        for n in real:
+            r, alt, fam, prompt = IMAGES[n]
+            L += ['- **`%s.png`** — %s (format %s). %s%s' % (n, alt, r.replace('/', ':'), prompt,
+                                                           '' if not has_image(n) else ' *(déjà fournie)*')]
+        L += ['']
+    with open(os.path.join(ROOT, 'PROMPTS-IMAGES.md'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(L))
+    print('ok PROMPTS-IMAGES.md (%d images)' % len(ai))
+
+    # 2. PROMPTS-MASCOTTE.md : la partie « images des pages » renvoie au nouveau fichier
+    path = os.path.join(ROOT, 'PROMPTS-MASCOTTE.md')
+    doc = open(path, encoding='utf-8').read()
+    start, end = '<!-- IMAGES DES PAGES : début -->', '<!-- IMAGES DES PAGES : fin -->'
+    block = '\n'.join([start, '', '# Images des pages du site', '',
+                       "Les prompts des images des pages sont dans **`PROMPTS-IMAGES.md`** (et ceux qui manquent "
+                       "encore dans `PROMPTS-A-FAIRE.md`).", '', end])
     if start in doc:
         doc = doc[:doc.index(start)] + block + doc[doc.index(end) + len(end):]
     else:
         doc = doc.rstrip() + '\n\n---\n\n' + block + '\n'
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write(doc)
-    print('ok PROMPTS-MASCOTTE.md (%d images)' % len(used))
-    write_todo(used, doc)
+    open(path, 'w', encoding='utf-8').write(doc)
 
-
-def write_todo(used, doc):
-    """PROMPTS-A-FAIRE.md : seulement les images qui manquent encore."""
-    fiche = doc[doc.index('## 0. Fiche'):doc.index('## 0 bis')].strip() if '## 0. Fiche' in doc else ''
-    todo = [n for n in IMAGES if n in used and not has_image(n)]
-    ai = [n for n in todo if IMAGES[n][2] not in ('capture', 'photo')]
-    real = [n for n in todo if IMAGES[n][2] in ('capture', 'photo')]
-    styles = {'scene': ('A — illustration en aplats', STYLE_SCENE), 'device': ('B — écran ou appareil', STYLE_DEVICE),
-              'mascot': ('C — le martin-pêcheur dans une scène', STYLE_SCENE), 'mono': ('D — Studio Moumous, noir et blanc', STYLE_MONO)}
+    # 3. PROMPTS-A-FAIRE.md : seulement ce qui manque encore
+    todo_ai = [n for n in ai if not has_image(n)]
+    todo_real = [n for n in real if not has_image(n)]
     L = ['# Images à faire', '',
-         "Ce fichier ne liste que les images qui manquent encore sur le site (%d à générer, %d vraies à fournir). "
-         "Il est réécrit par `tools/build_pages.py` : une image livrée disparaît de la liste." % (len(ai), len(real)), '',
-         '**Comment les livrer :** enregistre chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom '
-         'indiqué (par exemple `conseil-solutions.png`), puis lance :', '', '```bash', 'python3 tools/convertir_images.py', '```', '',
-         "Le script les convertit en WebP et régénère les pages. En attendant, chaque emplacement affiche l'image "
-         "actuelle (indiquée sous chaque prompt).", '',
-         '**Pour chaque prompt :** colle le texte du prompt, puis le style indiqué (en bas de ce fichier), et règle le '
-         'format. Pour une image avec le martin-pêcheur, colle aussi la fiche du personnage au début et joins la '
-         'planche de référence (`assets/img/mascotte/kf-planche.webp`).', '']
-    for i, n in enumerate(ai, 1):
-        r, alt, fam, prompt = IMAGES[n]
-        pages = ', '.join(sorted(set(used[n])))
-        L += ['## %d. %s → `%s.png`' % (i, alt, n), '',
-              '*Format %s · style %s · pages : %s*' % (r.replace('/', ':'), styles[fam][0], pages)]
-        if n in FALLBACK:
-            L += ['', "*En attendant : l'image `%s` tient la place.*" % FALLBACK[n]]
-        L += ['', '```text', prompt, '```', '']
-    if real:
-        L += ['## Vraies images à fournir (pas d\'IA)', '']
-        for n in real:
+         "Ce fichier ne liste que les images qui manquent encore (%d à générer, %d vraies à fournir). Pour refaire "
+         "toutes les images du site en mieux : `PROMPTS-IMAGES.md`." % (len(todo_ai), len(todo_real)), '',
+         GUIDE.strip(), '']
+    for i, n in enumerate(todo_ai, 1):
+        L += prompt_block(n, used, i)
+    if todo_real:
+        L += ["## Vraies images à fournir (pas d'IA)", '']
+        for n in todo_real:
             r, alt, fam, prompt = IMAGES[n]
             L += ['- **`%s.png`** — %s (format %s). %s' % (n, alt, r.replace('/', ':'), prompt)]
         L += ['']
-    L += ['---', '', '# Styles à coller à la fin des prompts', '']
-    for fam in ('scene', 'device', 'mascot', 'mono'):
-        if any(IMAGES[n][2] == fam for n in ai):
-            name, txt = styles[fam]
-            L += ['## Style %s' % name, '', '```text', txt, '```', '']
-    if fiche and any(IMAGES[n][2] == 'mascot' for n in ai):
-        L += ['# ' + fiche.lstrip('# '), '']
     with open(os.path.join(ROOT, 'PROMPTS-A-FAIRE.md'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(L))
-    print('ok PROMPTS-A-FAIRE.md (%d à générer, %d à fournir)' % (len(ai), len(real)))
+    print('ok PROMPTS-A-FAIRE.md (%d à générer, %d à fournir)' % (len(todo_ai), len(todo_real)))
 
 
 if __name__ == '__main__':
