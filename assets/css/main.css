@@ -1742,3 +1742,118 @@ section.agent-panel { padding: 0; }
 }
 .agent-tip { transition: opacity .3s ease, transform .3s var(--ease); }
 .at-foot .agent-tip { opacity: 0 !important; transform: translateY(8px); pointer-events: none; }
+
+/* ==========================================================================
+   STUDIO MOUMOUS — la direction artistique « viseur de caméra »
+   Noir et blanc, grain, grille de cadrage ; un seul rouge : celui du REC.
+   ========================================================================== */
+:root { --mm-red: #FF2E2E; }
+/* le viseur */
+.vf { position: relative; margin: 0; width: 100%; max-width: 320px; aspect-ratio: 480 / 854; border-radius: 22px; overflow: hidden; background: #000;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 40px 80px -30px rgba(0, 0, 0, .9); isolation: isolate; }
+.vf-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.vf-hud { position: absolute; inset: 0; z-index: 2; pointer-events: none; font: 600 10px/1 var(--font-body); letter-spacing: .08em; color: #fff; text-transform: uppercase; }
+.vf-c { position: absolute; width: 18px; height: 18px; border: 0 solid rgba(255, 255, 255, .85); }
+.vf-c--tl { left: 12px; top: 12px; border-left-width: 2px; border-top-width: 2px; }
+.vf-c--tr { right: 12px; top: 12px; border-right-width: 2px; border-top-width: 2px; }
+.vf-c--bl { left: 12px; bottom: 12px; border-left-width: 2px; border-bottom-width: 2px; }
+.vf-c--br { right: 12px; bottom: 12px; border-right-width: 2px; border-bottom-width: 2px; }
+.vf-rec { position: absolute; left: 22px; top: 22px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px 4px 6px; border-radius: 6px; background: rgba(0, 0, 0, .55); font-size: 11px; font-weight: 700; color: var(--mm-red); }
+.vf-rec b { width: 9px; height: 9px; border-radius: 50%; background: var(--mm-red); box-shadow: 0 0 10px var(--mm-red); }
+.vf.is-playing .vf-rec b { animation: vfBlink 1s steps(1) infinite; }
+@keyframes vfBlink { 50% { opacity: .15; } }
+.vf-tally { position: absolute; right: 22px; top: 24px; padding: 3px 6px; border-radius: 4px; background: rgba(255, 255, 255, .92); color: #000; font-size: 9px; }
+.vf-fmt { position: absolute; left: 22px; bottom: 24px; display: inline-flex; align-items: center; gap: 6px; }
+.vf-fmt b { padding: 2px 4px; border: 1.5px solid #fff; border-radius: 3px; font-size: 9px; }
+.vf-tc { position: absolute; right: 22px; bottom: 24px; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.vf-meter { position: absolute; right: 24px; top: 50%; display: flex; gap: 3px; height: 70px; translate: 0 -50%; }
+.vf-meter i { width: 4px; height: 100%; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .85) 0 2px, transparent 2px 4px); transform-origin: 50% 100%; transform: scaleY(.25); opacity: .8; }
+.vf.is-sound .vf-meter i { animation: vfMeter .45s ease-in-out infinite alternate; }
+.vf.is-sound .vf-meter i + i { animation-duration: .38s; animation-delay: .1s; }
+@keyframes vfMeter { from { transform: scaleY(.3); } to { transform: scaleY(.95); } }
+.vf-cross { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px; opacity: .45; background: linear-gradient(#fff, #fff) 50% 0 / 1px 100% no-repeat, linear-gradient(#fff, #fff) 0 50% / 100% 1px no-repeat; }
+.vf.is-playing .vf-cross { opacity: 0; transition: opacity .6s ease; }
+.vf-sound { position: absolute; z-index: 3; left: 50%; bottom: 52px; translate: -50% 0; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px 0 10px; border: 0; border-radius: 99px;
+  background: rgba(0, 0, 0, .6); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: background-color .25s ease; }
+.vf-sound svg { width: 18px; height: 18px; }
+.vf-sound .vf-on { display: none; } .vf.is-sound .vf-sound .vf-on { display: inline; } .vf.is-sound .vf-sound .vf-off { display: none; }
+@media (hover: hover) { .vf-sound:hover { background: rgba(0, 0, 0, .85); } }
+.vf.is-manual { cursor: pointer; }
+
+/* la section de l'accueil : le plateau */
+.moumous-panel { position: relative; overflow: hidden; isolation: isolate; }
+@media (min-width: 981px) { .moumous-panel { grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); } }
+.moumous-panel::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 64px 64px; background-position: -1px -1px; }
+.moumous-panel::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .35;
+  background-image: radial-gradient(rgba(255, 255, 255, .22) 1px, transparent 1.4px); background-size: 6px 6px;
+  -webkit-mask-image: linear-gradient(115deg, #000, transparent 45%); mask-image: linear-gradient(115deg, #000, transparent 45%); }
+:root[data-theme="dark"] .moumous-panel::before { background-image: linear-gradient(rgba(0, 0, 0, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, .06) 1px, transparent 1px); }
+:root[data-theme="dark"] .moumous-panel::after { background-image: radial-gradient(rgba(0, 0, 0, .25) 1px, transparent 1.4px); }
+.moumous-media { position: relative; display: flex; justify-content: center; align-items: center; gap: 18px; }
+.moumous-vert { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.4vw, 46px); letter-spacing: .02em; line-height: 1; color: transparent; -webkit-text-stroke: 1.2px rgba(255, 255, 255, .55); user-select: none; }
+:root[data-theme="dark"] .moumous-vert { -webkit-text-stroke-color: rgba(0, 0, 0, .45); }
+.moumous-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.moumous-list li { position: relative; }
+.moumous-list li::before { content: ""; position: absolute; right: 14px; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--mm-red); opacity: 0; transition: opacity .25s ease; }
+@media (hover: hover) { .moumous-list li:hover::before { opacity: 1; } }
+@media (max-width: 980px) { .moumous-media { order: -1; } }
+@media (max-width: 640px) {
+  .moumous-list { grid-template-columns: minmax(0, 1fr); }
+  .moumous-vert { display: none; }
+  .vf { max-width: 260px; }
+}
+@media (prefers-reduced-motion: reduce) { .vf-rec b, .vf-meter i { animation: none !important; } }
+/* la caméra-logo : carré gris (le fond du film), sous le viseur dessiné */
+.vf--cam { max-width: none; aspect-ratio: 486 / 480; background: #6A6A6A; border-radius: 24px; }
+.vf--cam .vf-video { object-fit: contain; }
+.vf--cam .vf-meter { right: 22px; }
+/* timecode qui tourne aussi sur le viseur dessiné (moumous.js) */
+
+/* Page Studio Moumous : le plateau (haut de page), toujours noir */
+.mm-plateau { position: relative; isolation: isolate; color: #F5F5F5; max-width: none; padding-left: max(var(--gutter), calc((100% - var(--maxw)) / 2)); padding-right: max(var(--gutter), calc((100% - var(--maxw)) / 2)); padding-bottom: clamp(64px, 7vw, 104px); }
+.mm-plateau::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #0A0A0A;
+  background-image: linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 64px 64px; border-radius: 0 0 48px 48px; }
+.mm-plateau::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .4; border-radius: 0 0 48px 48px;
+  background-image: radial-gradient(rgba(255, 255, 255, .2) 1px, transparent 1.4px); background-size: 6px 6px;
+  -webkit-mask-image: linear-gradient(100deg, transparent 45%, #000); mask-image: linear-gradient(100deg, transparent 45%, #000); }
+.mm-plateau .crumbs, .mm-plateau .crumbs a { color: #9A9A9A; }
+.mm-plateau .crumbs [aria-current] { color: #F5F5F5; }
+.mm-plateau .mono-brand { color: #A3A3A3; }
+.mm-plateau .mono-brand img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .2); }
+.mm-plateau .page-title { color: #fff; }
+.mm-plateau .page-lead { color: #C7C7C7; }
+.mm-plateau .btn--primary { background: #fff; color: #0A0A0A; }
+.mm-plateau .btn--primary .btn-fill { --fill: var(--mm-red); }
+.mm-plateau .btn--primary.is-hover { color: #fff; }
+.mm-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--sp-group); }
+.mm-tags li { padding: 7px 13px; border-radius: 99px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); color: #E5E5E5; }
+.mm-tags li:first-child::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--mm-red); box-shadow: 0 0 8px var(--mm-red); vertical-align: 1px; }
+.mm-hero-media { display: flex; justify-content: center; align-items: center; gap: 18px; }
+.mm-hero-media .vf { max-width: 340px; }
+/* l'image du viseur garde son rouge sur cette page */
+.page-reseaux-sociaux main .shot:has(img[src*="moumous-hero"]), .page-reseaux-sociaux main .shot:has(img[src*="moumous-identite"]) { filter: none; }
+.page-reseaux-sociaux main .shot img[src*="moumous-hero"], .page-reseaux-sociaux main .shot img[src*="moumous-identite"] { filter: none; }
+
+/* La signature : caméra-logo, image du viseur, trois règles */
+.mm-sig-grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.6fr); grid-template-areas: "cam shot" "rules rules"; gap: var(--gap-cards); }
+.mm-sig-cam { grid-area: cam; }
+.mm-sig-cam .vf { width: 100%; height: 100%; aspect-ratio: auto; min-height: 300px; border-radius: 28px; }
+.mm-sig-shot { grid-area: shot; }
+.mm-sig-shot .shot { height: 100%; border-radius: 28px; }
+.mm-sig-shot .shot img { height: 100%; object-fit: cover; }
+.mm-sig-rules { grid-area: rules; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-cards); }
+.mm-sig-rules li { display: grid; gap: var(--sp-card); align-content: start; padding: var(--pad-card); border-radius: 28px; background: var(--surface); box-shadow: var(--shadow); }
+.mm-sig-rules b { font-family: var(--font-display); font-size: 20px; letter-spacing: -.02em; }
+.mm-sig-rules span { color: var(--ink-2); font-size: 15px; }
+.mm-sig-rules li:nth-child(2) b::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 10px; border-radius: 50%; background: var(--mm-red); vertical-align: 3px; }
+@media (max-width: 980px) {
+  .mm-sig-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "shot" "cam" "rules"; }
+  .mm-sig-cam .vf { aspect-ratio: 486 / 480; height: auto; }
+  .mm-sig-rules { grid-template-columns: minmax(0, 1fr); }
+  .mm-hero-media .moumous-vert { display: none; }
+  .mm-hero-media .vf { max-width: 280px; }
+  .mm-plateau::before, .mm-plateau::after { border-radius: 0 0 32px 32px; }
+}

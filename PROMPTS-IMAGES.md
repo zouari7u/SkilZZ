@@ -527,9 +527,7 @@ Avoid: text other than the words specified, misspelled words, quotation marks or
 
 ## 30. Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc → `moumous-hero.png`
 
-*Style D — Studio Moumous, noir et blanc · format Gemini **16:9** · pages : reseaux-sociaux, services, site-web, studio · manque encore*
-
-*En attendant : l'image `svc-reseaux` tient la place.*
+*Style D — Studio Moumous, noir et blanc · format Gemini **16:9** · pages : reseaux-sociaux, services, site-web, studio · déjà en ligne, à refaire en mieux*
 
 ```text
 Art direction for Studio Moumous, a content and marketing studio: strictly black, white and greys, no colour at all. Style: high-end black-and-white editorial studio photography (or a photoreal 3D render that looks like it), seamless light-grey backdrop (#F2F2F2), one large soft key light with crisp but soft shadows, strong graphic composition, deep blacks and clean whites, like a fashion or design magazine still life. Generic objects only: no real brand, no real logo. On-screen or printed text: only the few short French words given in the scene, perfectly spelled; everything else is solid black or grey bars. No kingfisher, no blue.
@@ -559,9 +557,7 @@ Avoid: text other than the words specified, misspelled words, quotation marks or
 
 ## 32. Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc → `moumous-identite.png`
 
-*Style D — Studio Moumous, noir et blanc · format Gemini **4:3** · pages : reseaux-sociaux · manque encore*
-
-*En attendant : l'image `reseaux-charte` tient la place.*
+*Style D — Studio Moumous, noir et blanc · format Gemini **4:3** · pages : reseaux-sociaux · déjà en ligne, à refaire en mieux*
 
 ```text
 Art direction for Studio Moumous, a content and marketing studio: strictly black, white and greys, no colour at all. Style: high-end black-and-white editorial studio photography (or a photoreal 3D render that looks like it), seamless light-grey backdrop (#F2F2F2), one large soft key light with crisp but soft shadows, strong graphic composition, deep blacks and clean whites, like a fashion or design magazine still life. Generic objects only: no real brand, no real logo. On-screen or printed text: only the few short French words given in the scene, perfectly spelled; everything else is solid black or grey bars. No kingfisher, no blue.

@@ -316,6 +316,7 @@ FOOT = '''
   <script src="assets/js/sky.js"></script>
   <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>
+  <script src="assets/js/moumous.js"></script>
   <script src="assets/js/agent.js"></script>
 </body>
 </html>
@@ -354,6 +355,30 @@ PARTNER = '''    <section class="partner-sec">
     </section>'''
 
 
+
+# Studio Moumous : le reel (il a son propre viseur : REC, TALLY, timecode) et
+# la caméra-logo en 3D, sous un viseur dessiné en CSS. Les vidéos ne
+# démarrent qu'à l'écran, en muet (assets/js/moumous.js).
+SOUND = """<button type="button" class="vf-sound" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="vf-on" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="vf-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Activer le son</span></button>"""
+VISEUR = """<figure class="vf%s" data-vf>
+          <video class="vf-video" muted loop playsinline preload="none" poster="assets/video/moumous-reel.jpg" width="480" height="854" aria-label="Le reel de Studio Moumous : le logo M apparaît dans le viseur d'une caméra, puis les mots marketing, audiovisuel, création de contenu et promotion.">
+            <source src="assets/video/moumous-reel.mp4" type="video/mp4">
+          </video>
+          """ + SOUND + """
+        </figure>"""
+CAMERA = """<figure class="vf vf--cam%s" data-vf>
+          <video class="vf-video" muted loop playsinline preload="none" poster="assets/video/moumous-camera.jpg" width="486" height="480" aria-label="La caméra-logo de Studio Moumous, en 3D, qui tourne sur elle-même.">
+            <source src="assets/video/moumous-camera.mp4" type="video/mp4">
+          </video>
+          <span class="vf-hud" aria-hidden="true">
+            <i class="vf-c vf-c--tl"></i><i class="vf-c vf-c--tr"></i><i class="vf-c vf-c--bl"></i><i class="vf-c vf-c--br"></i>
+            <span class="vf-rec"><b></b>REC</span><span class="vf-tally">TALLY</span>
+            <span class="vf-fmt"><b>4K</b>24 FPS</span><span class="vf-tc">00:04:12:09</span>
+            <span class="vf-meter"><i></i><i></i></span>
+          </span>
+        </figure>"""
+
+
 def services_grid(exclude=None):
     out = ['      <div class="svc-cards">']
     for slug, img, num, title, text in SVC_CARDS:
@@ -370,6 +395,8 @@ def services_grid(exclude=None):
 
 def expand(text):
     text = text.replace('{{cta}}', CTA)
+    text = re.sub(r'\{\{viseur(?:\|([\w -]+))?\}\}', lambda m: VISEUR % ((' ' + m.group(1)) if m.group(1) else ''), text)
+    text = re.sub(r'\{\{camera(?:\|([\w -]+))?\}\}', lambda m: CAMERA % ((' ' + m.group(1)) if m.group(1) else ''), text)
     text = text.replace('{{partner}}', PARTNER % figure('moumous-hero'))
     text = re.sub(r'\{\{services-grid(?:\|([\w-]+))?\}\}', lambda m: services_grid(m.group(1)), text)
     text = re.sub(r'\{\{img:([\w-]+)(?:\|([^}]*))?\}\}', lambda m: figure(m.group(1), m.group(2) or ''), text)

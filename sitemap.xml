@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.zkilz.fr/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://www.zkilz.fr/assets/img/pages/col-site.webp</image:loc></image:image>
@@ -72,10 +72,12 @@
     <lastmod>2026-11-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.zkilz.fr/assets/img/pages/moumous-hero.webp</image:loc></image:image>
+    <image:image><image:loc>https://www.zkilz.fr/assets/img/pages/moumous-identite.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.zkilz.fr/realisations.html</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -90,7 +92,7 @@
   </url>
   <url>
     <loc>https://www.zkilz.fr/methode.html</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image><image:loc>https://www.zkilz.fr/assets/img/pages/methode-ecouter.webp</image:loc></image:image>
@@ -99,7 +101,7 @@
   </url>
   <url>
     <loc>https://www.zkilz.fr/studio.html</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image><image:loc>https://www.zkilz.fr/assets/img/pages/studio-lac.webp</image:loc></image:image>
@@ -107,7 +109,7 @@
   </url>
   <url>
     <loc>https://www.zkilz.fr/contact.html</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

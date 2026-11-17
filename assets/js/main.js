@@ -226,10 +226,10 @@
     }
   }
 
-  // Studio Moumous : l'anneau de texte tourne avec le défilement
-  if (document.querySelector('.moumous-ring')) {
-    gsap.fromTo('.moumous-ring', { rotation: -40 }, { rotation: 140, transformOrigin: '50% 50%', ease: 'none', scrollTrigger: { trigger: '.moumous', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.from('.moumous-logo', { scale: .7, rotation: -8, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.moumous', start: 'top 70%' } });
+  // Studio Moumous : le viseur entre en glissant, les métiers suivent
+  if (document.querySelector('.moumous')) {
+    gsap.from('.moumous-media .vf', { y: 40, rotation: -3, opacity: 0, duration: 1.1, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
+    gsap.from('.moumous-vert', { yPercent: 30, opacity: 0, duration: 1.2, ease: EASE, scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
     gsap.from('.moumous-list li', { y: 24, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '.moumous-list', start: 'top 85%' } });
   }
 

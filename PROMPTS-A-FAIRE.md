@@ -1,6 +1,6 @@
 # Images à faire
 
-Ce fichier ne liste que les images qui manquent encore (4 à générer, 2 vraies à fournir). Pour refaire toutes les images du site en mieux : `PROMPTS-IMAGES.md`.
+Ce fichier ne liste que les images qui manquent encore (2 à générer, 2 vraies à fournir). Pour refaire toutes les images du site en mieux : `PROMPTS-IMAGES.md`.
 
 ## Quel modèle utiliser
 
@@ -35,23 +35,7 @@ python3 tools/convertir_images.py
 Le script la recadre au format exact de son emplacement, la convertit en WebP (1600 et 800 px) et régénère les
 pages : elle remplace aussitôt l'ancienne.
 
-## 1. Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc → `moumous-hero.png`
-
-*Style D — Studio Moumous, noir et blanc · format Gemini **16:9** · pages : reseaux-sociaux, services, site-web, studio · manque encore*
-
-*En attendant : l'image `svc-reseaux` tient la place.*
-
-```text
-Art direction for Studio Moumous, a content and marketing studio: strictly black, white and greys, no colour at all. Style: high-end black-and-white editorial studio photography (or a photoreal 3D render that looks like it), seamless light-grey backdrop (#F2F2F2), one large soft key light with crisp but soft shadows, strong graphic composition, deep blacks and clean whites, like a fashion or design magazine still life. Generic objects only: no real brand, no real logo. On-screen or printed text: only the few short French words given in the scene, perfectly spelled; everything else is solid black or grey bars. No kingfisher, no blue.
-
-Scene: Three smartphones standing in a gentle arc on a low matte black plinth, each showing a different vertical social media frame: a bold typographic quote card with the word Nouveau in heavy black type, a high-contrast black-and-white product photo of a perfume bottle, a profile grid of nine squares. Large soft key light from the left, long soft shadows to the right. Wide composition with space on the left.
-
-Format: 16:9 aspect ratio, high resolution (2K or more), the whole subject inside the frame with a comfortable margin.
-
-Avoid: text other than the words specified, misspelled words, quotation marks or guillemets around words, real brand logos, watermark, people's faces, extra fingers, warped or melted device shapes, cluttered composition, neon glow, lens flare, any colour.
-```
-
-## 2. Le storyboard d'un reel, en noir et blanc → `moumous-reseaux.png`
+## 1. Le storyboard d'un reel, en noir et blanc → `moumous-reseaux.png`
 
 *Style D — Studio Moumous, noir et blanc · format Gemini **16:9** · pages : reseaux-sociaux · manque encore*
 
@@ -67,23 +51,7 @@ Format: 16:9 aspect ratio, high resolution (2K or more), the whole subject insid
 Avoid: text other than the words specified, misspelled words, quotation marks or guillemets around words, real brand logos, watermark, people's faces, extra fingers, warped or melted device shapes, cluttered composition, neon glow, lens flare, any colour.
 ```
 
-## 3. Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc → `moumous-identite.png`
-
-*Style D — Studio Moumous, noir et blanc · format Gemini **4:3** · pages : reseaux-sociaux · manque encore*
-
-*En attendant : l'image `reseaux-charte` tient la place.*
-
-```text
-Art direction for Studio Moumous, a content and marketing studio: strictly black, white and greys, no colour at all. Style: high-end black-and-white editorial studio photography (or a photoreal 3D render that looks like it), seamless light-grey backdrop (#F2F2F2), one large soft key light with crisp but soft shadows, strong graphic composition, deep blacks and clean whites, like a fashion or design magazine still life. Generic objects only: no real brand, no real logo. On-screen or printed text: only the few short French words given in the scene, perfectly spelled; everything else is solid black or grey bars. No kingfisher, no blue.
-
-Scene: A flat-lay brand identity board on a light-grey surface, seen from directly above: a bold abstract monogram logo printed large on a black card, black, white and grey swatches in even steps, a type specimen card with a huge Aa, a business card, an envelope and a black notebook, all perfectly aligned on a grid with crisp shadows.
-
-Format: 4:3 aspect ratio, high resolution (2K or more), the whole subject inside the frame with a comfortable margin.
-
-Avoid: text other than the words specified, misspelled words, quotation marks or guillemets around words, real brand logos, watermark, people's faces, extra fingers, warped or melted device shapes, cluttered composition, neon glow, lens flare, any colour.
-```
-
-## 4. Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc → `moumous-referencement.png`
+## 2. Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc → `moumous-referencement.png`
 
 *Style D — Studio Moumous, noir et blanc · format Gemini **3:4** · pages : reseaux-sociaux · manque encore*
 
