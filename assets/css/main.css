@@ -1991,3 +1991,10 @@ body { background: transparent; }
 .agent-hello { gap: 12px; }
 .agent-hello-hi { font-size: 20px; }
 @media (max-width: 640px) { .agent-fab.is-open { visibility: hidden; } }
+/* frise : les losanges seuls (le nom de l'étape est en haut de la mini-page) */
+.demo .reel-keys { margin-top: 0; height: 0; }
+.demo .reel-keys button { height: 22px; margin-top: -11px; font-size: 0; color: transparent; }
+.demo .reel-keys button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.demo .reel-keys button::before { top: 7px; width: 8px; height: 8px; left: -4px; }
+.demo .reel-keys button:first-child::before { left: 0; }
+.demo .reel-tl { padding-bottom: 8px; }
