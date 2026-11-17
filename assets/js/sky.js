@@ -106,6 +106,71 @@
     }
     measure();
     update(true);
+    buildFooter();
+  }
+
+  // -------------------------------------------------------------------------
+  // LE PIED DE PAGE, LA NUIT : étoiles (quelques-unes scintillent), une lune,
+  // la route de vol en pointillés qui finit sur le « l » où l'oiseau se pose,
+  // et l'eau avec des roseaux, de part et d'autre du logotype.
+  // -------------------------------------------------------------------------
+  function buildFooter() {
+    var f = document.querySelector('.footer'), s = document.getElementById('footerDeco');
+    if (!f || !s) return;
+    var W = f.clientWidth, H = f.clientHeight, narrow = W < 760;
+    s.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var fr = f.getBoundingClientRect();
+    var word = document.getElementById('footerWord');
+    var wr = word ? word.getBoundingClientRect() : null;
+    var wTop = wr ? wr.top - fr.top : H * .6, wBot = wr ? wr.bottom - fr.top : H - 80;
+    // position du « l » sans les transformations de l'animation d'entrée
+    var l = word && word.querySelector('[data-perch]');
+    var lx = l && wr ? wr.left - fr.left + l.offsetLeft + l.offsetWidth / 2 : 0;
+    // zones de contenu : pas d'étoile dessus (on les prendrait pour des points)
+    var busy = Array.prototype.map.call(f.querySelectorAll('.footer-pledges, .footer-grid > *, .footer-bottom, .footer-word'), function (e) {
+      var r = e.getBoundingClientRect();
+      return { l: r.left - fr.left - 14, t: r.top - fr.top - 14, r: r.right - fr.left + 14, b: r.bottom - fr.top + 14 };
+    });
+    function free(x, y) { for (var q = 0; q < busy.length; q++) { var z = busy[q]; if (x > z.l && x < z.r && y > z.t && y < z.b) return false; } return true; }
+    var o = [];
+    // étoiles : seulement dans les zones libres (bords, au-dessus du logotype)
+    seed = 31;
+    var n = narrow ? 26 : 70;
+    for (var i = 0; i < n; i++) {
+      var x = rnd() * W, y = rnd() * (wBot - 20);
+      var r = rnd() < .15 ? 1.6 : .7 + rnd() * .6;
+      if (!free(x, y)) { rnd(); rnd(); continue; }
+      o.push('<circle class="fd-star' + (rnd() < .35 ? ' tw' : '') + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(2) + '" opacity="' + (.25 + rnd() * .5).toFixed(2) + '" style="animation-delay:' + (rnd() * 3.6).toFixed(2) + 's"/>');
+    }
+    // lune en croissant, en haut à droite, avec deux halos
+    var mx = W - (narrow ? 46 : Math.max(90, (W - 1180) / 2 * .55)), my = narrow ? 40 : 70, mr = narrow ? 20 : 30;
+    o.push('<circle class="fd-halo" cx="' + mx + '" cy="' + my + '" r="' + mr * 2 + '"/><circle class="fd-halo" cx="' + mx + '" cy="' + my + '" r="' + mr * 3.2 + '"/>');
+    o.push('<circle class="fd-moon" cx="' + mx + '" cy="' + my + '" r="' + mr + '"/><circle class="fd-moon-cut" cx="' + (mx + mr * .42) + '" cy="' + (my - mr * .28) + '" r="' + mr * .86 + '"/>');
+    // route de vol : part du bas à gauche et monte se poser sur le « l »
+    // (elle passe au-dessus des lettres et s'arrête juste derrière l'oiseau)
+    if (l && wr && !narrow) {
+      var tx = lx - 70, ty = wTop - 14;
+      var sx = Math.max(30, (W - 1180) / 2 - 30), sy = wBot - 30;
+      o.push('<path class="fd-route" d="M' + sx + ' ' + sy + ' C ' + (sx + 60) + ' ' + (wTop - 40) + ', ' + (tx - 260) + ' ' + (wTop - 110) + ', ' + tx + ' ' + ty + '"/>');
+    }
+    // l'eau sous le logotype, et des roseaux dans les deux coins
+    var wy = wBot + 6;
+    for (var k = 0; k < 3; k++) {
+      var yy = wy + k * 10, d = 'M0 ' + yy;
+      for (var xx = 0; xx < W; xx += 60) d += ' q 15 ' + (k % 2 ? 3 : -3) + ' 30 0 t 30 0';
+      o.push('<path class="fd-water" d="' + d + '" opacity="' + (1 - k * .3) + '"/>');
+    }
+    function reeds(x0, dir) {
+      var g = '';
+      for (var j = 0; j < (narrow ? 4 : 7); j++) {
+        var x = x0 + dir * j * 10 + rnd() * 4, h = 40 + rnd() * (narrow ? 30 : 60), b = wy + 4;
+        g += '<path class="fd-reed" d="M' + x.toFixed(1) + ' ' + b + ' C ' + (x + 1).toFixed(1) + ' ' + (b - h * .5).toFixed(1) + ' ' + (x - 2).toFixed(1) + ' ' + (b - h * .8).toFixed(1) + ' ' + (x + dir * 3).toFixed(1) + ' ' + (b - h).toFixed(1) + '"/>';
+        if (j % 3 === 1) g += '<ellipse class="fd-cat" cx="' + (x + dir * 3).toFixed(1) + '" cy="' + (b - h).toFixed(1) + '" rx="2.6" ry="7"/>';
+      }
+      return g;
+    }
+    o.push(reeds(narrow ? 10 : 30, 1), reeds(W - (narrow ? 10 : 30), -1));
+    s.innerHTML = o.join('');
   }
   function measure() { items.forEach(function (it) { it.h = it.el.offsetHeight || 200; }); }
 
@@ -131,10 +196,11 @@
   else window.addEventListener('scroll', function () { update(false); }, { passive: true });
 
   var rt = null;
-  function soon() { clearTimeout(rt); rt = setTimeout(function () { build(false); }, 220); }
+  function soon() { clearTimeout(rt); rt = setTimeout(function () { build(false); buildFooter(); }, 220); }
   window.addEventListener('resize', soon);
   if ('ResizeObserver' in window) new ResizeObserver(soon).observe(document.querySelector('main') || document.body);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { build(true); });
   else build(true);
-  window.addEventListener('load', function () { build(false); });
+  window.addEventListener('load', function () { build(false); buildFooter(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFooter);
 })();
