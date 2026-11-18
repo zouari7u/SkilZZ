@@ -2188,3 +2188,20 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 @keyframes srPing { 0%, 64% { transform: scale(1); opacity: 0; } 68% { opacity: .9; } 96%, 100% { transform: scale(3.4); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .sr-beam { display: none; } .sr-node, .sr-ping { animation: none !important; } }
 @media (max-width: 480px) { .svc-relay { padding: 18px 16px 14px; } .sr-end { font-size: 12.5px; } .sr-end b { font-size: 15px; white-space: nowrap; } }
+/* les logos aux deux bouts de la ligne, « Partenaires » au milieu */
+.svc--partner .svc-card h3 { margin-top: var(--sp-big); }
+.sr-line { height: 44px; margin: 0; }
+.sr-rail { left: 22px; right: 22px; top: 21px; }
+.sr-clip { left: 22px; right: 22px; }
+.sr-beam { top: 19px; }
+.sr-node { top: 0; width: 44px; height: 44px; overflow: hidden; z-index: 2; background: #000; }
+.sr-node img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sr-node--a { left: 0; border-radius: 50%; background: #F2F7FE; box-shadow: 0 0 0 2px #4F8DFF, 0 0 0 5px rgba(79, 141, 255, .2); }
+.sr-node--b { right: 0; border-radius: 12px; box-shadow: 0 0 0 2px #FF2E2E, 0 0 0 5px rgba(255, 46, 46, .2); }
+.sr-ping { right: 0; top: 0; width: 44px; height: 44px; border-radius: 12px; }
+.sr-tag { position: absolute; z-index: 2; left: 50%; top: 50%; translate: -50% -50%; padding: 3px 10px; border-radius: 99px; background: #0A0A0A;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2); font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #C7C7C7; white-space: nowrap; }
+.sr-ends { margin-top: 14px; }
+@keyframes srA { 0% { transform: scale(1); } 6% { transform: scale(1.1); box-shadow: 0 0 0 2px #4F8DFF, 0 0 0 7px rgba(79, 141, 255, .35), 0 0 18px #4F8DFF; } 22%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #4F8DFF, 0 0 0 5px rgba(79, 141, 255, .2); } }
+@keyframes srB { 0%, 62% { transform: scale(1); } 68% { transform: scale(1.1); box-shadow: 0 0 0 2px #FF2E2E, 0 0 0 7px rgba(255, 46, 46, .35), 0 0 18px #FF2E2E; } 86%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #FF2E2E, 0 0 0 5px rgba(255, 46, 46, .2); } }
+@keyframes srPing { 0%, 64% { transform: scale(1); opacity: 0; } 68% { opacity: .9; } 96%, 100% { transform: scale(1.8); opacity: 0; } }
