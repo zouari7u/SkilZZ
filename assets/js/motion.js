@@ -7,7 +7,9 @@
    · images : un rideau de couleur se retire, l'image se resserre ;
    · titres : les mots montent un à un dans leur masque ;
    · étiquettes : un trait se dessine devant ;
-   · grilles de cartes : les cartes basculent en place, l'une après l'autre ;
+   · grilles de cartes : les cartes basculent en place, l'une après l'autre
+     (sauf celles qui ont déjà leur animation GSAP : questions, étapes,
+     engagements, métiers de Studio Moumous) ;
    · blocs [data-reveal] : ils montent.
    Survol (souris) : cartes et images s'inclinent vers le pointeur, avec un
    reflet ; les boutons principaux sont attirés par le pointeur.
@@ -53,7 +55,7 @@
   $$('main .label').forEach(function (l) { if (!l.closest('.head, .hero, .work')) watch(l, 'label'); });
 
   // 4. grilles de cartes
-  $$('main .svc-cards, main .extras, main .incl, main .values, main .ways, main .mm-sig-rules, main .moumous-list, main .faq-list, main .pledges, main .projects, main .gallery, main .mono-split-inner, main .steps, main .case-facts, .footer-pledges').forEach(function (g) {
+  $$('main .svc-cards, main .extras, main .incl, main .values, main .ways, main .mm-sig-rules, main .projects, main .gallery, main .mono-split-inner, main .case-facts').forEach(function (g) {
     $$(':scope > *', g).forEach(function (c, i) { c.style.setProperty('--i', i); c.removeAttribute('data-reveal'); });
     watch(g, 'grid');
   });
@@ -91,9 +93,9 @@
     b.classList.add('mx-mag');
     b.addEventListener('pointermove', function (e) {
       var r = b.getBoundingClientRect();
-      b.style.setProperty('--mx', ((e.clientX - r.left - r.width / 2) * .18).toFixed(1) + 'px');
-      b.style.setProperty('--my', ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px');
+      b.style.setProperty('--mgx', ((e.clientX - r.left - r.width / 2) * .18).toFixed(1) + 'px');
+      b.style.setProperty('--mgy', ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px');
     });
-    b.addEventListener('pointerleave', function () { b.style.setProperty('--mx', '0px'); b.style.setProperty('--my', '0px'); });
+    b.addEventListener('pointerleave', function () { b.style.setProperty('--mgx', '0px'); b.style.setProperty('--mgy', '0px'); });
   });
 })();

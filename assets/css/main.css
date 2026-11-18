@@ -2078,7 +2078,7 @@ body { background: transparent; }
 .mx-tilt.is-tilt::before { opacity: 1; }
 .mx-tilt { position: relative; }
 /* boutons : attirés par le pointeur */
-.mx-mag { translate: var(--mx, 0px) var(--my, 0px); transition: translate .35s var(--mx-ease), color .3s var(--ease), box-shadow .3s ease, padding .45s var(--ease), gap .45s var(--ease); }
+.mx-mag { --mgx: 0px; --mgy: 0px; translate: var(--mgx) var(--mgy); transition: translate .35s var(--mx-ease), color .3s var(--ease), box-shadow .3s ease, padding .45s var(--ease), gap .45s var(--ease); }
 
 /* Transition entre les pages (View Transitions, natif : Chrome, Edge, Safari
    récents ; ailleurs, la page change simplement). La barre de navigation
