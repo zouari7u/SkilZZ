@@ -6,7 +6,7 @@
       animations courantes d'un site : apparition au défilement,
       micro-interaction sur un bouton, chargement (squelette, chiffre qui
       compte, barres), transition de page (une carte devient la page).
-      Une frise montre l'étape en cours ; un clic y saute. Hors de l'écran :
+      Une barre unie se remplit au fil de la boucle. Hors de l'écran :
       pause. « Réduire les animations » : une image fixe par étape.
    ========================================================================== */
 (function () {
@@ -76,7 +76,7 @@
   }
 
   var tl = G.timeline({ repeat: -1, paused: true, onRepeat: reset, onUpdate: function () {
-    if (head) head.style.left = (tl.time() / tl.duration() * 100).toFixed(2) + '%';
+    if (head) head.style.transform = 'scaleX(' + (tl.time() / tl.duration()).toFixed(4) + ')';
     show(Math.min(3, Math.floor(tl.time() / D)));
   } });
 

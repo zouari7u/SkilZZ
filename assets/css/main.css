@@ -2160,3 +2160,6 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 .svc-art--video { width: min(56%, 220px); aspect-ratio: 480 / 854; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 24px 48px -20px rgba(0, 0, 0, .6); }
 .svc-art--video video { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (max-width: 640px) { .svc-split { grid-template-columns: minmax(0, 1fr); } .svc-split svg { transform: rotate(90deg); justify-self: start; } }
+/* barre de progression unie de l'encart « Animations » */
+.demo-bar { position: relative; flex: none; height: 3px; margin: 2px 2px 4px; border-radius: 3px; overflow: hidden; background: var(--line); }
+.demo-bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
