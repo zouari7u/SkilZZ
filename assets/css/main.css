@@ -2205,3 +2205,21 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 @keyframes srA { 0% { transform: scale(1); } 6% { transform: scale(1.1); box-shadow: 0 0 0 2px #4F8DFF, 0 0 0 7px rgba(79, 141, 255, .35), 0 0 18px #4F8DFF; } 22%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #4F8DFF, 0 0 0 5px rgba(79, 141, 255, .2); } }
 @keyframes srB { 0%, 62% { transform: scale(1); } 68% { transform: scale(1.1); box-shadow: 0 0 0 2px #FF2E2E, 0 0 0 7px rgba(255, 46, 46, .35), 0 0 18px #FF2E2E; } 86%, 100% { transform: scale(1); box-shadow: 0 0 0 2px #FF2E2E, 0 0 0 5px rgba(255, 46, 46, .2); } }
 @keyframes srPing { 0%, 64% { transform: scale(1); opacity: 0; } 68% { opacity: .9; } 96%, 100% { transform: scale(1.8); opacity: 0; } }
+
+/* ==========================================================================
+   RÉALISATION : le décor de la bulle (ronds dans l'eau, halo, trame)
+   ========================================================================== */
+.work-deco { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.wd-grid { position: absolute; inset: 0; opacity: 0; background-image: radial-gradient(rgba(143, 182, 255, .16) 1px, transparent 1.4px); background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, transparent 30%, #000 75%); mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, transparent 30%, #000 75%); }
+.wd-glow { position: absolute; left: 62%; top: 52%; width: 70vmin; height: 70vmin; translate: -50% -50%; border-radius: 50%; opacity: 0;
+  background: radial-gradient(closest-side, rgba(79, 141, 255, .32), rgba(79, 141, 255, .1) 55%, transparent); }
+.wd-ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; translate: -50% -50%; opacity: 0; box-shadow: inset 0 0 0 1px rgba(143, 182, 255, .14); will-change: transform; }
+.wd-ring--1 { width: 44vmax; height: 44vmax; }
+.wd-ring--2 { width: 72vmax; height: 72vmax; box-shadow: inset 0 0 0 1px rgba(143, 182, 255, .1); }
+.wd-ring--3 { width: 104vmax; height: 104vmax; box-shadow: inset 0 0 0 1px rgba(143, 182, 255, .07); }
+.wd-ring--dash { width: 58vmax; height: 58vmax; box-shadow: none; border: 1.5px dashed rgba(143, 182, 255, .2); animation: rimSpin 120s linear infinite; }
+.wd-star { position: absolute; left: var(--x); top: var(--y); width: 4px; height: 4px; border-radius: 50%; background: #BFD6FF; opacity: 0; box-shadow: 0 0 10px #8FB6FF; }
+.work-inner { z-index: 3; }
+@media (prefers-reduced-motion: reduce) { .wd-ring, .wd-glow, .wd-grid, .wd-star { opacity: 1 !important; } .wd-ring--dash { animation: none; } }
+@media (max-width: 980px) { .wd-glow { left: 50%; top: 70%; } }

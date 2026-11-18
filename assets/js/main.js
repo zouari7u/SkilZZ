@@ -444,7 +444,19 @@
     var dive = { p: 0 }, diving = false;
     function kf() { return window.SKZBird; }
     function diveOn() { if (!diving && kf()) { diving = true; kf().diveStart(circleCenter, circleRadius); kf().diveTo(dive.p); } }
-    function diveOff() { if (diving && kf()) { diving = false; kf().diveEnd(); } }
+    // à la sortie de l'eau, il va droit se poser sur la fenêtre du site (sans
+    // attendre qu'elle ait fini d'apparaître pour la reconnaître)
+    var landT = null;
+    function diveOff() {
+      if (diving && kf()) {
+        diving = false; kf().diveEnd();
+        clearTimeout(landT);
+        landT = setTimeout(function () {
+          var br = document.getElementById('caseBrowser'), r = br && br.getBoundingClientRect();
+          if (r && r.top > 60 && r.top < window.innerHeight * .8 && kf()) kf().perch(br);
+        }, 450);
+      }
+    }
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: desktop
@@ -457,7 +469,10 @@
       .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out', immediateRender: false }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
-      .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92);
+      .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92)
+      // le décor de la bulle : les ronds s'élargissent depuis le centre, le halo s'allume
+      .fromTo('.wd-ring', { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, stagger: .06, ease: 'power3.out' }, .55)
+      .fromTo('.wd-glow, .wd-grid, .wd-star', { opacity: 0 }, { opacity: 1, duration: .4 }, .7);
     if (desktop) tl.to({}, { duration: .5 });
     // il vise dès que le cercle arrive à l'écran ; il ressort de l'eau quand
     // le site apparaît dans la bulle (et y replonge si on remonte)
