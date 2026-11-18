@@ -88,12 +88,12 @@
   });
 
   // --- Boutons principaux : attirés par le pointeur --------------------------
-  $$('.btn--primary, .btn--light, .nav-cta').forEach(function (b) {
+  $$('main .btn--primary, main .btn--light, .cta-band .btn').forEach(function (b) {
     b.classList.add('mx-mag');
     b.addEventListener('pointermove', function (e) {
       var r = b.getBoundingClientRect();
-      b.style.setProperty('--mgx', ((e.clientX - r.left - r.width / 2) * .18).toFixed(1) + 'px');
-      b.style.setProperty('--mgy', ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px');
+      b.style.setProperty('--mgx', ((e.clientX - r.left - r.width / 2) * .1).toFixed(1) + 'px');
+      b.style.setProperty('--mgy', '0px');   // horizontal seulement : pas de saut vertical
     });
     b.addEventListener('pointerleave', function () { b.style.setProperty('--mgx', '0px'); b.style.setProperty('--mgy', '0px'); });
   });
