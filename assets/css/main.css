@@ -2164,26 +2164,39 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 .demo-bar { position: relative; flex: none; height: 3px; margin: 2px 2px 4px; border-radius: 3px; overflow: hidden; background: var(--line); }
 .demo-bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
 
-/* La liaison ZkilZ → Studio Moumous : une impulsion parcourt la piste, la
-   pointe s'allume à l'arrivée, le voyant de Studio Moumous émet une onde.
-   transform et opacity seulement ; ne tourne que sur la carte active. */
-.svc-split { grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); }
-.svc-flow { position: relative; display: block; width: 64px; height: 14px; color: #fff; }
-.sf-track { position: absolute; left: 0; right: 8px; top: 6px; height: 2px; border-radius: 2px;
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .28) 0 4px, transparent 4px 8px); }
-.sf-pulse { position: absolute; left: 0; top: 4px; width: 18px; height: 6px; margin-left: -9px; border-radius: 6px; opacity: 0;
-  background: radial-gradient(closest-side, #fff, rgba(255, 255, 255, .55) 45%, rgba(255, 46, 46, 0)); filter: drop-shadow(0 0 6px rgba(255, 255, 255, .7));
-  animation: sfPulse 1.8s cubic-bezier(.65, 0, .35, 1) infinite; animation-play-state: paused; will-change: transform, opacity; }
-.sf-pulse--2 { animation-delay: .9s; width: 10px; margin-left: -5px; }
-.sf-head { position: absolute; right: 0; top: 1px; width: 12px; height: 12px; opacity: .45; animation: sfHead 1.8s ease-out infinite; animation-play-state: paused; }
-.svc-split span.sf-to b::before { animation: sfRec 1.8s ease-out infinite; animation-play-state: paused; }
-.svc-split span.sf-to b { position: relative; }
-.svc-split span.sf-to b::after { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -4.5px; border-radius: 50%; background: var(--mm-red); opacity: 0;
-  animation: sfRing 1.8s ease-out infinite; animation-play-state: paused; }
-.svc.is-active .sf-pulse, .svc.is-active .sf-head, .svc.is-active .sf-to b::before, .svc.is-active .sf-to b::after { animation-play-state: running; }
-@keyframes sfPulse { 0% { transform: translateX(0) scaleX(.6); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateX(54px) scaleX(1.4); opacity: 1; } 85%, 100% { transform: translateX(58px) scaleX(.4); opacity: 0; } }
-@keyframes sfHead { 0%, 62% { opacity: .45; transform: none; } 74% { opacity: 1; transform: translateX(3px); } 100% { opacity: .45; transform: none; } }
-@keyframes sfRec { 0%, 66% { transform: none; } 76% { transform: scale(1.5); } 100% { transform: none; } }
-@keyframes sfRing { 0%, 68% { transform: scale(1); opacity: 0; } 72% { opacity: .8; } 100% { transform: scale(3.4); opacity: 0; } }
-@media (max-width: 640px) { .svc-split { grid-template-columns: minmax(0, 1fr); } .svc-flow { transform: rotate(90deg); margin: 6px 0 6px -20px; } }
-@media (prefers-reduced-motion: reduce) { .sf-pulse { display: none; } .sf-head { opacity: 1; } .sf-head, .sf-to b::before, .sf-to b::after { animation: none !important; } }
+/* La liaison ZkilZ → Studio Moumous : une capsule bleue (ZkilZ) part, la
+   piste se remplit du bleu au rouge derrière elle, la capsule devient rouge
+   (Studio Moumous) ; à l'arrivée la pointe s'allume et le voyant émet une
+   onde ; la piste s'efface, et le relais recommence. transform et opacity
+   seulement ; ne tourne que sur la carte active. */
+.svc-split { grid-template-columns: minmax(0, 1fr) 76px minmax(0, 1fr); align-items: start; column-gap: 18px; }
+.svc-flow { position: relative; display: block; justify-self: center; width: 76px; height: 12px; margin-top: 5px; color: rgba(255, 255, 255, .5); }
+.sf-track, .sf-fill { position: absolute; left: 2px; right: 10px; top: 5px; height: 2px; border-radius: 2px; }
+.sf-track { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .22) 0 4px, transparent 4px 8px); }
+.sf-fill { background: linear-gradient(90deg, #4F8DFF, #FF2E2E); transform-origin: 0 50%; transform: scaleX(0); opacity: 0; box-shadow: 0 0 8px rgba(255, 90, 90, .45); }
+.sf-cap { position: absolute; left: 0; top: 2px; width: 14px; height: 8px; border-radius: 6px; opacity: 0; will-change: transform, opacity; }
+.sf-cap--b { background: #4F8DFF; box-shadow: 0 0 10px #4F8DFF; }
+.sf-cap--r { background: #FF2E2E; box-shadow: 0 0 10px #FF2E2E; }
+.sf-head { position: absolute; right: 0; top: 0; width: 12px; height: 12px; transition: color .2s ease; }
+.svc-split .sf-to b { position: relative; }
+.svc-split .sf-to b::after { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -4.5px; border-radius: 50%; background: var(--mm-red); opacity: 0; }
+.sf-fill, .sf-cap--b, .sf-cap--r, .sf-head, .svc-split .sf-to b::before, .svc-split .sf-to b::after { animation-duration: 2.4s; animation-iteration-count: infinite; animation-play-state: paused; }
+.sf-fill { animation-name: sfFill; animation-timing-function: linear; }
+.sf-cap--b { animation-name: sfCapB; animation-timing-function: linear; }
+.sf-cap--r { animation-name: sfCapR; animation-timing-function: linear; }
+.sf-head { animation-name: sfHead2; }
+.svc-split .sf-to b::before { animation-name: sfRec2; }
+.svc-split .sf-to b::after { animation-name: sfRing2; animation-timing-function: ease-out; }
+.svc.is-active .sf-fill, .svc.is-active .sf-cap, .svc.is-active .sf-head, .svc.is-active .sf-to b::before, .svc.is-active .sf-to b::after { animation-play-state: running; }
+/* trajet de 0 à 56 px, avec une sortie douce (cubic en étapes) */
+@keyframes sfCapB { 0% { transform: translateX(0) scaleX(.4); opacity: 0; } 6% { opacity: 1; transform: translateX(1px) scaleX(1); } 20% { transform: translateX(10px) scaleX(1.25); opacity: 1; } 34% { transform: translateX(27px) scaleX(1.4); opacity: 1; } 44% { transform: translateX(41px) scaleX(1.2); opacity: 0; } 100% { transform: translateX(41px); opacity: 0; } }
+@keyframes sfCapR { 0%, 30% { transform: translateX(22px) scaleX(1.4); opacity: 0; } 44% { transform: translateX(41px) scaleX(1.2); opacity: 1; } 54% { transform: translateX(52px) scaleX(.9); opacity: 1; } 60% { transform: translateX(55px) scaleX(.5); opacity: 0; } 100% { transform: translateX(55px); opacity: 0; } }
+@keyframes sfFill { 0% { transform: scaleX(0); opacity: 0; } 6% { opacity: 1; } 20% { transform: scaleX(.16); } 34% { transform: scaleX(.46); } 44% { transform: scaleX(.7); } 54% { transform: scaleX(.92); } 60% { transform: scaleX(1); opacity: 1; } 82% { transform: scaleX(1); opacity: 0; } 100% { transform: scaleX(0); opacity: 0; } }
+@keyframes sfHead2 { 0%, 54% { color: rgba(255, 255, 255, .5); transform: none; } 62% { color: #FF2E2E; transform: translateX(3px); } 84% { color: #FF2E2E; transform: none; } 100% { color: rgba(255, 255, 255, .5); } }
+@keyframes sfRec2 { 0%, 58% { transform: none; box-shadow: none; } 64% { transform: scale(1.6); box-shadow: 0 0 10px #FF2E2E; } 80%, 100% { transform: none; box-shadow: none; } }
+@keyframes sfRing2 { 0%, 58% { transform: scale(1); opacity: 0; } 62% { opacity: .85; } 92%, 100% { transform: scale(3.6); opacity: 0; } }
+@media (max-width: 640px) {
+  .svc-split { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+  .svc-flow { justify-self: start; width: 76px; margin: 26px 0 26px -18px; transform: rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) { .sf-cap, .sf-fill { display: none; } .sf-head, .sf-to b::before, .sf-to b::after { animation: none !important; } }
