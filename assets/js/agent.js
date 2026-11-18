@@ -478,7 +478,7 @@
   var shown = 0, muted = false, tipTimer = null, lastTip = 0;
   try { muted = sessionStorage.getItem('skz-agent-tips') === 'off'; } catch (e) {}
   function showTip(text) {
-    if (muted || open || shown >= 3 || Date.now() - lastTip < 15000) return;
+    if (!text || muted || open || shown >= 3 || Date.now() - lastTip < 15000) return;
     shown++; lastTip = Date.now();
     tip.hidden = false;
     tipText.textContent = text;

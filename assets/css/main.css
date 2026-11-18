@@ -2037,3 +2037,5 @@ body { background: transparent; }
 .ts-btn svg { width: 16px; height: 16px; }
 .nav-logo, .nav.is-scrolled .nav-logo { width: 36px; height: 36px; }
 .nav-links a { padding: .45rem 1rem; }
+.agent-tip[hidden], .agent-panel[hidden] { display: none !important; }
+.agent-tip > span { flex: 1; min-width: 0; }
