@@ -2148,7 +2148,7 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 .svc-split span { display: grid; gap: 2px; font-size: 13.5px; line-height: 1.4; color: #A3A3A3; }
 .svc-split b { font-family: var(--font-display); font-size: 16px; color: #fff; }
 .svc-split span:last-child b::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: var(--mm-red); vertical-align: 2px; }
-.svc-split svg { width: 22px; height: 22px; color: #fff; opacity: .7; }
+.svc-split > svg { width: 22px; height: 22px; color: #fff; opacity: .7; }
 /* l'écran de la scène : le vrai reel */
 .dev--mm .dev-body { background: #000; }
 .dm-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -2159,7 +2159,31 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 /* téléphone, tablette : le reel dans la carte, à la place du logo */
 .svc-art--video { width: min(56%, 220px); aspect-ratio: 480 / 854; border-radius: 22px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 24px 48px -20px rgba(0, 0, 0, .6); }
 .svc-art--video video { width: 100%; height: 100%; object-fit: cover; display: block; }
-@media (max-width: 640px) { .svc-split { grid-template-columns: minmax(0, 1fr); } .svc-split svg { transform: rotate(90deg); justify-self: start; } }
+@media (max-width: 640px) { .svc-split { grid-template-columns: minmax(0, 1fr); } .svc-split > svg { transform: rotate(90deg); justify-self: start; } }
 /* barre de progression unie de l'encart « Animations » */
 .demo-bar { position: relative; flex: none; height: 3px; margin: 2px 2px 4px; border-radius: 3px; overflow: hidden; background: var(--line); }
 .demo-bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
+
+/* La liaison ZkilZ → Studio Moumous : une impulsion parcourt la piste, la
+   pointe s'allume à l'arrivée, le voyant de Studio Moumous émet une onde.
+   transform et opacity seulement ; ne tourne que sur la carte active. */
+.svc-split { grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); }
+.svc-flow { position: relative; display: block; width: 64px; height: 14px; color: #fff; }
+.sf-track { position: absolute; left: 0; right: 8px; top: 6px; height: 2px; border-radius: 2px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .28) 0 4px, transparent 4px 8px); }
+.sf-pulse { position: absolute; left: 0; top: 4px; width: 18px; height: 6px; margin-left: -9px; border-radius: 6px; opacity: 0;
+  background: radial-gradient(closest-side, #fff, rgba(255, 255, 255, .55) 45%, rgba(255, 46, 46, 0)); filter: drop-shadow(0 0 6px rgba(255, 255, 255, .7));
+  animation: sfPulse 1.8s cubic-bezier(.65, 0, .35, 1) infinite; animation-play-state: paused; will-change: transform, opacity; }
+.sf-pulse--2 { animation-delay: .9s; width: 10px; margin-left: -5px; }
+.sf-head { position: absolute; right: 0; top: 1px; width: 12px; height: 12px; opacity: .45; animation: sfHead 1.8s ease-out infinite; animation-play-state: paused; }
+.svc-split span.sf-to b::before { animation: sfRec 1.8s ease-out infinite; animation-play-state: paused; }
+.svc-split span.sf-to b { position: relative; }
+.svc-split span.sf-to b::after { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -4.5px; border-radius: 50%; background: var(--mm-red); opacity: 0;
+  animation: sfRing 1.8s ease-out infinite; animation-play-state: paused; }
+.svc.is-active .sf-pulse, .svc.is-active .sf-head, .svc.is-active .sf-to b::before, .svc.is-active .sf-to b::after { animation-play-state: running; }
+@keyframes sfPulse { 0% { transform: translateX(0) scaleX(.6); opacity: 0; } 15% { opacity: 1; } 70% { transform: translateX(54px) scaleX(1.4); opacity: 1; } 85%, 100% { transform: translateX(58px) scaleX(.4); opacity: 0; } }
+@keyframes sfHead { 0%, 62% { opacity: .45; transform: none; } 74% { opacity: 1; transform: translateX(3px); } 100% { opacity: .45; transform: none; } }
+@keyframes sfRec { 0%, 66% { transform: none; } 76% { transform: scale(1.5); } 100% { transform: none; } }
+@keyframes sfRing { 0%, 68% { transform: scale(1); opacity: 0; } 72% { opacity: .8; } 100% { transform: scale(3.4); opacity: 0; } }
+@media (max-width: 640px) { .svc-split { grid-template-columns: minmax(0, 1fr); } .svc-flow { transform: rotate(90deg); margin: 6px 0 6px -20px; } }
+@media (prefers-reduced-motion: reduce) { .sf-pulse { display: none; } .sf-head { opacity: 1; } .sf-head, .sf-to b::before, .sf-to b::after { animation: none !important; } }
