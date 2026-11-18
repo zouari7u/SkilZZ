@@ -252,7 +252,6 @@
   if (document.querySelector('.moumous')) {
     gsap.from('.moumous-media .vf', { y: 40, rotation: -3, opacity: 0, duration: 1.1, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
     gsap.from('.moumous-vert', { yPercent: 30, opacity: 0, duration: 1.2, ease: EASE, scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
-    gsap.from('.moumous-list li', { y: 24, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '.moumous-list', start: 'top 85%' } });
   }
 
   // En quittant le hero : le texte remonte, la scène descend plus lentement
@@ -329,13 +328,14 @@
     var tl = gsap.timeline({ repeat: -1, repeatDelay: .6, paused: true });
     tl.fromTo(d.querySelectorAll('.ds-nav > *, .ds-hero > *, .ds-cards span'), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .5, stagger: .06, ease: 'back.out(1.8)' })
       .fromTo(d.querySelector('.ds-cursor'), { x: 60, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: .8, ease: 'power3.inOut' }, '+=.2')
-      .to(d.querySelector('.ds-cursor'), { left: '22%', top: '47%', duration: .7, ease: 'power3.inOut' })
+      // vers le bouton, par translation (left/top recalculeraient la page à chaque image)
+      .to(d.querySelector('.ds-cursor'), { x: function () { return -.48 * d.offsetWidth; }, y: function () { return -.23 * d.offsetHeight; }, duration: .7, ease: 'power3.inOut' })
       .to(d.querySelector('.ds-cursor'), { scale: .7, duration: .1, yoyo: true, repeat: 1 })
       .to(d.querySelector('.ds-btn'), { scale: .92, duration: .1, yoyo: true, repeat: 1 }, '<')
       .to(d.querySelector('.ds-btn'), { backgroundColor: '#0B3BA8', duration: .2 }, '<')
       .to({}, { duration: 1.6 })
       .to(d.querySelector('.ds-cursor'), { opacity: 0, duration: .3 })
-      .set(d.querySelector('.ds-cursor'), { left: '70%', top: '70%' })
+      .set(d.querySelector('.ds-cursor'), { x: 0, y: 0 })
       .set(d.querySelector('.ds-btn'), { clearProps: 'backgroundColor' });
     return tl;
   }
@@ -496,12 +496,10 @@
     }
   });
   gsap.from('.step > :not(.step-dot)', { y: 26, opacity: 0, duration: .9, stagger: .06, ease: EASE, scrollTrigger: { trigger: '#steps', start: 'top 78%' } });
-  gsap.from('.pledges li', { scale: .7, opacity: 0, duration: 1, stagger: .1, ease: 'back.out(2)', scrollTrigger: { trigger: '.pledges', start: 'top 90%' } });
 
   // =========================================================================
   // QUESTIONS
   // =========================================================================
-  gsap.from('.qa', { y: 24, opacity: 0, duration: .9, stagger: .07, ease: EASE, scrollTrigger: { trigger: '.faq-list', start: 'top 85%' } });
 
   // =========================================================================
   // CONTACT : l'encart s'ouvre comme une bulle qui s'étire ; le fennec
@@ -527,6 +525,6 @@
   // PIED DE PAGE : le fennec passe la tête, les lettres montent en bulles
   // =========================================================================
   gsap.from('#footerWord > *', { yPercent: 110, scaleY: 1.3, rotation: 6, duration: 1.2, stagger: .07, ease: 'back.out(1.6)', scrollTrigger: { trigger: '#footerWord', start: 'top 95%' } });
-  gsap.from('.footer-pledges li, .footer-grid > *, .footer-bottom', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
+  gsap.from('.footer-grid > *, .footer-bottom', { y: 20, opacity: 0, duration: .8, stagger: .1, ease: EASE, scrollTrigger: { trigger: '#footer', start: 'top 85%' } });
 
 })();

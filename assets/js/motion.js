@@ -8,8 +8,7 @@
    · titres : les mots montent un à un dans leur masque ;
    · étiquettes : un trait se dessine devant ;
    · grilles de cartes : les cartes basculent en place, l'une après l'autre
-     (sauf celles qui ont déjà leur animation GSAP : questions, étapes,
-     engagements, métiers de Studio Moumous) ;
+     (une seule animation par élément : celles-ci n'en ont plus en GSAP) ;
    · blocs [data-reveal] : ils montent.
    Survol (souris) : cartes et images s'inclinent vers le pointeur, avec un
    reflet ; les boutons principaux sont attirés par le pointeur.
@@ -55,7 +54,7 @@
   $$('main .label').forEach(function (l) { if (!l.closest('.head, .hero, .work')) watch(l, 'label'); });
 
   // 4. grilles de cartes
-  $$('main .svc-cards, main .extras, main .incl, main .values, main .ways, main .mm-sig-rules, main .projects, main .gallery, main .mono-split-inner, main .case-facts').forEach(function (g) {
+  $$('main .svc-cards, main .extras, main .incl, main .values, main .ways, main .mm-sig-rules, main .moumous-list, main .faq-list, main .pledges, .footer-pledges, main .projects, main .gallery, main .mono-split-inner, main .case-facts').forEach(function (g) {
     $$(':scope > *', g).forEach(function (c, i) { c.style.setProperty('--i', i); c.removeAttribute('data-reveal'); });
     watch(g, 'grid');
   });

@@ -17,6 +17,12 @@
   var svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'route');
   svg.setAttribute('aria-hidden', 'true');
+  // le tracé en pointillés, fixe, dans sa propre couche : dessiné une fois,
+  // jamais redessiné quand le trait avance
+  var svgBg = document.createElementNS(NS, 'svg');
+  svgBg.setAttribute('class', 'route route--bg');
+  svgBg.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(svgBg);
   document.body.appendChild(svg);
   var guide, line, marks = [], winds = [], table = [], total = 0, samp = [], segs = [];
 
@@ -48,12 +54,13 @@
     if (force !== true && fw === builtW && Math.abs(fh - builtH) < 2) return;
     builtW = fw; builtH = fh;
     while (svg.firstChild) svg.removeChild(svg.firstChild);
+    while (svgBg.firstChild) svgBg.removeChild(svgBg.firstChild);
     marks = []; winds.forEach(function (w) { w.kill(); }); winds = [];
     // hauteur du contenu = bas du pied de page (pas la hauteur du document,
     // qui inclut ce calque et l'empêchait de rapetisser)
     var foot0 = document.querySelector('.footer');
     var W = document.documentElement.clientWidth, H = foot0 ? Math.ceil(docTop(foot0) + foot0.offsetHeight) : document.body.offsetHeight;
-    svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    [svg, svgBg].forEach(function (s) { s.setAttribute('width', W); s.setAttribute('height', H); s.setAttribute('viewBox', '0 0 ' + W + ' ' + H); });
     var narrow = W < 700, m = narrow ? 10 : Math.max(26, (W - 1180) / 4);
     var L = m, R = W - m;
     var secs = Array.prototype.slice.call(document.querySelectorAll('main > section:not(#top)'))
@@ -78,7 +85,6 @@
     pts.push({ x: W * .5, y: docTop(foot) - 10 });
 
     var d = curve(pts);
-    guide = el('path', { d: d, class: 'route-guide' });
     // le tracé sert de mesure ; on dessine des tronçons : pendant le
     // défilement, seul le tronçon en cours change (et se redessine), pas
     // un tracé de la hauteur de toute la page
@@ -94,6 +100,7 @@
       var sp = el('path', { d: dd, class: 'route-line' }), sl = sp.getTotalLength();
       sp.style.strokeDasharray = sl + ' ' + (sl + 2); sp.style.strokeDashoffset = reduce ? 0 : sl;
       segs.push({ p: sp, a: samp[s0][2], len: sl, span: samp[s1][2] - samp[s0][2], v: reduce ? sl : 0 });
+      el('path', { d: dd, class: 'route-guide' }, svgBg);
     }
     stops.forEach(function (p) {
       // ronds dans l'eau autour du repère (la précision du plongeon)

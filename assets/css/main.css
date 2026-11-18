@@ -2064,7 +2064,7 @@ body { background: transparent; }
 /* grilles : les cartes basculent en place, l'une après l'autre */
 .mx-grid { perspective: 1400px; }
 .mx-grid > * { opacity: 0; translate: 0 56px; rotate: x -16deg; transform-origin: 50% 0;
-  transition: opacity .8s ease calc(var(--i, 0) * 85ms), translate 1.15s var(--mx-ease) calc(var(--i, 0) * 85ms), rotate 1.15s var(--mx-ease) calc(var(--i, 0) * 85ms); }
+  transition: opacity .8s ease calc(var(--i, 0) * 85ms), translate 1.15s var(--mx-ease) calc(var(--i, 0) * 85ms), rotate 1.15s var(--mx-ease) calc(var(--i, 0) * 85ms), transform .4s var(--ease), box-shadow .3s ease, background-color .3s ease; }
 .mx-grid.is-in > * { opacity: 1; translate: 0 0; rotate: x 0deg; }
 /* blocs [data-reveal] : ils montent */
 .mx-rise { opacity: 0; translate: 0 44px; transition: opacity .8s ease, translate 1.1s var(--mx-ease); }
@@ -2092,3 +2092,13 @@ body { background: transparent; }
 }
 @keyframes vtOut { to { opacity: 0; transform: translateY(-36px) scale(.985); } }
 @keyframes vtIn { from { opacity: 0; transform: translateY(48px); } }
+/* ce qui bouge dans le décor a sa propre couche : la couche de l'élément
+   parent n'est pas redessinée à chaque image */
+.sky-cloud, .sky-flock { will-change: transform; }
+.wind { will-change: transform; }
+.route { will-change: transform; }
+.route--bg { z-index: -1; }
+/* chaque écran de la scène des services est isolé : ses animations ne
+   redessinent pas la scène autour */
+.dev { contain: layout paint style; }
+.ds-cursor, .da-toast, .dr-wave { will-change: transform; }
