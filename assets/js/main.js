@@ -319,6 +319,15 @@
       .from(h.querySelectorAll('.wi'), { yPercent: 115, rotation: 4, duration: 1, stagger: .06, ease: EASE }, .1);
   });
 
+  // Carte Studio Moumous (téléphone, tablette) : son reel joue quand il est à l'écran
+  document.querySelectorAll('.svc-art--video video').forEach(function (v) {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && getComputedStyle(v.parentElement).display !== 'none') { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else v.pause();
+    }, { threshold: .3 }).observe(v);
+  });
+
   // =========================================================================
   // SERVICES : les cartes défilent ; à droite, l'écran du service en cours
   // reste à l'écran, change de forme, s'anime, et l'oiseau se pose dessus
@@ -357,15 +366,16 @@
       .to(d.querySelector('.da-toast'), { y: -30, opacity: 0, duration: .4, ease: 'power2.in' }, '+=1.4');
     return tl;
   }
+  // le reel de Studio Moumous : la vraie vidéo, lancée quand son écran est actif
   function reelLoop(d) {
-    var likes = d.querySelector('#reelLikes'), o = { v: 2.4 };
-    var tl = gsap.timeline({ repeat: -1, paused: true });
-    tl.fromTo(d.querySelector('.dr-bar i'), { scaleX: 0 }, { scaleX: 1, duration: 5, ease: 'none' }, 0)
-      .fromTo(d.querySelectorAll('.dr-wave'), { scale: .8, opacity: .8 }, { scale: 1.8, opacity: 0, duration: 1.6, stagger: .8, repeat: 2, ease: 'power2.out' }, 0)
-      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.6)
-      .fromTo(o, { v: 2.4 }, { v: 2.9, duration: 3, ease: 'power1.inOut', onUpdate: function () { likes.textContent = o.v.toFixed(1).replace('.', ',') + ' k'; } }, 1.6)
-      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 3.4);
-    return tl;
+    var v = d.querySelector('video');
+    function play() { if (!v) return; if (v.preload === 'none') v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    return {
+      pause: function () { if (v) v.pause(); return this; },
+      restart: function () { if (v) { try { v.currentTime = 0; } catch (e) {} play(); } return this; },
+      play: function () { play(); return this; }, resume: function () { play(); return this; },
+      paused: function () { return !v || v.paused; }
+    };
   }
 
   function setSvc(i) {
@@ -392,6 +402,10 @@
 
   if (desktop && stage) {
     devLoops = [siteLoop(devs[0]), appLoop(devs[1]), reelLoop(devs[2])];
+    // la scène hors de l'écran : la vidéo du reel s'arrête
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) devLoops[2].pause(); else if (svcIdx === 2) devLoops[2].play();
+    }).observe(stage);
     gsap.set(devs, { opacity: 0 });
     svcs.forEach(function (s, i) {
       ScrollTrigger.create({ trigger: s, start: 'top 58%', end: 'bottom 58%', onToggle: function (self) { if (self.isActive) setSvc(i); } });
@@ -412,7 +426,7 @@
     svcs.forEach(function (s) {
       s.classList.add('is-active');
       gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 80%' } });
-      gsap.from(s.querySelector('.svc-art img'), { y: 40, rotation: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: s, start: 'top 85%' } });
+      gsap.from(s.querySelector('.svc-art img, .svc-art video'), { y: 40, rotation: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: s, start: 'top 85%' } });
     });
   }
 
