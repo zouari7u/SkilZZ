@@ -33,6 +33,9 @@
     el.style.left = x + 'px'; el.style.top = y + 'px';
     el.innerHTML = html;
     layer.appendChild(el);
+    // seuls les éléments qui bougent au défilement ont leur propre couche :
+    // le navigateur les déplace sans repeindre le calque du décor
+    if (depth && !reduce) el.style.willChange = 'transform';
     items.push({ el: el, y: y, d: depth, h: 0 });
     return el;
   }

@@ -308,6 +308,7 @@ FOOT = '''
   <script src="assets/js/scenes.js"></script>
   <script src="assets/js/pages.js"></script>
   <script src="assets/js/reel.js"></script>
+  <script src="assets/js/motion.js"></script>
   <script src="assets/js/sky.js"></script>
   <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>

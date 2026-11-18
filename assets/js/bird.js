@@ -714,12 +714,24 @@
   var perches = [], lock = null;
   // perchoirs automatiques : le haut des cartes, encarts et images de toutes
   // les pages (un data-perch posé à la main garde la priorité)
-  var AUTO = 'main .strip, main .head, main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
+  var AUTO = 'main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
+  function px(v, w) { var n = parseFloat(v) || 0; return /%/.test(v) ? n / 100 * w : n; }
   function collect() {
     document.querySelectorAll(AUTO).forEach(function (el, i) {
       if (!el.hasAttribute('data-perch') && !el.closest('[data-perch]')) el.setAttribute('data-perch', String(i % 2 ? 22 : 80));
     });
     perches = Array.prototype.slice.call(document.querySelectorAll('[data-perch]'));
+    // jamais dans le vide : sur un disque, au sommet ; sur un encart arrondi,
+    // hors des coins (là où le bord haut est encore droit)
+    perches.forEach(function (el) {
+      if (el.classList.contains('perch-pt') || el.hasAttribute('data-perch-ink')) return;
+      if (el._p0 === undefined) el._p0 = parseFloat(el.dataset.perch) || 85;
+      var w = el.offsetWidth; if (!w) return;
+      var cs = getComputedStyle(el), rad = Math.max(px(cs.borderTopLeftRadius, w), px(cs.borderTopRightRadius, w));
+      if (rad >= w / 2 - 1) { el.dataset.perch = '50'; return; }
+      var lo = (rad + 14) / w * 100, hi = 100 - lo;
+      el.dataset.perch = String(Math.max(lo, Math.min(hi, el._p0)).toFixed(1));
+    });
   }
   // n'importe quel perchoir visible, faute de mieux (sortie du plongeon)
   function bestAny() {
@@ -803,7 +815,7 @@
   });
   if ('ResizeObserver' in window) new ResizeObserver(function () { sizeTrail(); }).observe(document.querySelector('main') || document.body);
   window.addEventListener('resize', function () {
-    applySize(); sizeTrail();
+    applySize(); sizeTrail(); collect();
     if (current && current.el && !flying) snapTo(current.el);
   });
 
