@@ -156,6 +156,7 @@ HEAD = '''<!doctype html>
   <meta name="twitter:title" content="{title}">
   <meta name="twitter:description" content="{desc}">
   <meta name="twitter:image" content="{site}/assets/img/og-zkilz.jpg">
+  <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -412,7 +413,7 @@ def versioned(out):
             return m.group(0)
         h = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
         return '%s="%s?v=%s"' % (m.group(1), m.group(2), h)
-    return re.sub(r'(href|src)="((?:assets/(?:css|js)/[\w.-]+\.(?:css|js))|(?:assets/img/(?:favicon[\w-]*|apple-touch-icon|icon-[\w-]+)\.(?:svg|png))|site\.webmanifest)"', rep, out)
+    return re.sub(r'(href|src)="((?:assets/(?:css|js)/[\w.-]+\.(?:css|js))|(?:assets/img/(?:favicon[\w-]*|apple-touch-icon|icon-[\w-]+)\.(?:svg|png))|site\.webmanifest|favicon\.ico)"', rep, out)
 
 
 def logo_svg(prefix='nv', cls='nav-kf', view='25 24 152 152'):
