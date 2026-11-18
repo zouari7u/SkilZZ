@@ -274,7 +274,7 @@ FOOT = '''
     <span id="agentTipText"></span>
     <button type="button" class="agent-tip-x" aria-label="Ne plus afficher ces messages"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
-  <button type="button" class="agent-fab" id="agentFab" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
+  <button type="button" class="agent-fab" id="agentFab" data-perch="22" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
     <span class="agent-fab-av" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="1100" height="1100" decoding="async"></span>
     <span class="agent-fab-label" aria-hidden="true">Une question&nbsp;?</span>
     <span class="agent-fab-dot" aria-hidden="true"></span>

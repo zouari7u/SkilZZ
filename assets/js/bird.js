@@ -493,7 +493,7 @@
     if (under) gsap.fromTo(spr, { scale: .5 }, { scale: 1, duration: .5, ease: 'back.out(1.6)' });
     else gsap.set(spr, { scale: 1 });
     normTilt();
-    var t = best() || bestAny();
+    var t = best() || bestAny() || fabPerch();
     if (t) flyTo(t, null, { air: true });
     else { setGait('hover'); }
   }
@@ -549,7 +549,8 @@
     var T = chaseTarget();
     // ressort amorti : rapide, un peu d'élan, pas d'oscillation ; plus
     // ferme une fois le défilement arrêté, pour se poser vite
-    var k = c.settled ? 120 : 70, damp = c.settled ? 21 : 15;
+    // ressort à amortissement critique : il rejoint sa cible au plus vite, sans osciller
+    var k = c.settled ? 140 : 90, damp = 2 * Math.sqrt(k);
     if (launching) { c.vx = 0; c.vy = 0; k = 0; }
     c.vx += ((T.x - pos.x) * k - c.vx * damp) * dt;
     c.vy += ((T.y - pos.y) * k - c.vy * damp) * dt;
@@ -559,7 +560,7 @@
     // il vole avec la page : le défilement l'emporte presque entièrement,
     // le ressort ne fait que le rapprocher de sa cible
     var sy = window.scrollY;
-    if (c.sy !== undefined) pos.y += (sy - c.sy) * .85;
+    if (c.sy !== undefined) pos.y += sy - c.sy;
     c.sy = sy;
     // l'écran l'entraîne : il reste toujours visible, sous la barre de navigation
     var navEl = document.getElementById('nav'), navB = navEl ? navEl.getBoundingClientRect().bottom : 0;
@@ -591,9 +592,20 @@
     // arrêt du défilement : il se pose dès qu'il est au-dessus du perchoir
     if (c.settled && c.el && T.b) {
       var d = Math.hypot(T.x - pos.x, T.y - pos.y);
-      if ((d < 40 && sp < 700) || c.settled > .8) chaseLand(c.el);
+      if ((d < 48 && sp < 900) || c.settled > .35) chaseLand(c.el);
       else c.settled += dt;
+    } else if (c.settled) {
+      // aucun perchoir à l'écran : il ne reste pas en l'air, il se pose sur
+      // la pastille de l'assistant (toujours là, en bas à droite)
+      c.settled += dt;
+      if (c.settled > .6 && fabPerch()) chaseLand(fabPerch());
     }
+  }
+  function fabPerch() {
+    var f = document.getElementById('agentFab');
+    if (!f || f.classList.contains('is-open') || getComputedStyle(f).visibility === 'hidden') return null;
+    var r = f.getBoundingClientRect();
+    return r.width ? f : null;
   }
   function chaseLand(el) {
     chase = null;
@@ -620,7 +632,8 @@
   var sortieTimer = null;
   function afterLand(el) {
     if (el) document.dispatchEvent(new CustomEvent('kf:land', { detail: el }));
-    if (queued && queued !== el) { var n = queued; queued = null; setTimeout(function () { go(n); }, 140); return; }
+    // une demande en attente n'est suivie que si son perchoir est encore à l'écran
+    if (queued && queued !== el) { var n = queued, qr = n.getBoundingClientRect(); queued = null; if (qr.bottom > 0 && qr.top < window.innerHeight) { setTimeout(function () { go(n); }, 140); return; } }
     queued = null;
     startIdle();
   }
@@ -714,7 +727,7 @@
   var perches = [], lock = null;
   // perchoirs automatiques : le haut des cartes, encarts et images de toutes
   // les pages (un data-perch posé à la main garde la priorité)
-  var AUTO = 'main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
+  var AUTO = 'main .moumous-list li, main .mm-sig-rules li, main .pledges li, main .svc-relay, main .svc-tile, main .extra, main .value, main .phase, main .way, main .mono-col, main .split-media .shot, main .page-hero-media, main .project, main .qa, main .incl li, main .partner, main .moumous-panel, main .cta-band, main .contact-panel, main .legal-body, main .case-shot, main .gallery .shot';
   function px(v, w) { var n = parseFloat(v) || 0; return /%/.test(v) ? n / 100 * w : n; }
   function collect() {
     document.querySelectorAll(AUTO).forEach(function (el, i) {
@@ -727,8 +740,8 @@
       if (el.classList.contains('perch-pt') || el.hasAttribute('data-perch-ink')) return;
       if (el._p0 === undefined) el._p0 = parseFloat(el.dataset.perch) || 85;
       var w = el.offsetWidth; if (!w) return;
-      var cs = getComputedStyle(el), rad = Math.max(px(cs.borderTopLeftRadius, w), px(cs.borderTopRightRadius, w));
-      if (rad >= w / 2 - 1) { el.dataset.perch = '50'; return; }
+      var cs = getComputedStyle(el), rad = Math.min(el.offsetHeight / 2, Math.max(px(cs.borderTopLeftRadius, w), px(cs.borderTopRightRadius, w)));
+      if (rad >= w / 2 - 1 && el.offsetHeight >= w - 1) { el.dataset.perch = '50'; return; }
       var lo = (rad + 14) / w * 100, hi = 100 - lo;
       el.dataset.perch = String(Math.max(lo, Math.min(hi, el._p0)).toFixed(1));
     });
@@ -737,6 +750,7 @@
   function bestAny() {
     var vh = window.innerHeight, pick = null, d = 1e9;
     perches.forEach(function (el) {
+      if (el.id === 'agentFab') return;
       if (el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
       if (r.top < 40 || r.top > vh - 40) return;
@@ -748,6 +762,7 @@
   function best() {
     var vh = window.innerHeight, target = vh * .32, pick = null, d = 1e9;
     perches.forEach(function (el) {
+      if (el.id === 'agentFab') return;          // la pastille : seulement en dernier recours
       // d'abord la position (bon marché), puis seulement l'opacité des parents
       var r = el.getBoundingClientRect();
       if (r.top < vh * .1 || r.top > vh * .78 || r.bottom < 0 || (!r.width && !r.height)) return;
@@ -832,7 +847,7 @@
       face(dx > 0 ? 1 : -1, true);
     }, { passive: true });
   }
-  root.addEventListener('click', function () { loop(); });
+  root.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); loop(); });
 
   // =========================================================================
   // DÉMARRAGE (après chargement de la planche)
@@ -881,6 +896,7 @@
     diveTo: diveTo,
     diveEnd: diveEnd,
     isFlying: function () { return flying; },
+    state: function () { return chase ? (chase.settled ? 'poursuite-arrêt' : 'poursuite') : mode ? 'plongeon' : flying ? 'vol' : 'posé'; },
     perchedOn: function () { return !flying && current ? current.el : null; },
     target: function () { return current ? current.el : null; }
   };

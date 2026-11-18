@@ -453,7 +453,7 @@
         clearTimeout(landT);
         landT = setTimeout(function () {
           var br = document.getElementById('caseBrowser'), r = br && br.getBoundingClientRect();
-          if (r && r.top > 60 && r.top < window.innerHeight * .8 && kf()) kf().perch(br);
+          if (r && r.top > 60 && r.top < window.innerHeight * .8 && kf() && !kf().isFlying()) kf().perch(br);
         }, 450);
       }
     }

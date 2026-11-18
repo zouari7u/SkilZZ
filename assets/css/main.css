@@ -2223,3 +2223,7 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 .work-inner { z-index: 3; }
 @media (prefers-reduced-motion: reduce) { .wd-ring, .wd-glow, .wd-grid, .wd-star { opacity: 1 !important; } .wd-ring--dash { animation: none; } }
 @media (max-width: 980px) { .wd-glow { left: 50%; top: 70%; } }
+/* téléphone : « Haut de page » à gauche de la pastille de l'assistant (l'oiseau peut s'y poser) */
+@media (max-width: 640px) {
+  .to-top { right: calc(max(14px, env(safe-area-inset-right)) + 66px); bottom: calc(max(14px, env(safe-area-inset-bottom)) + 7px); }
+}
