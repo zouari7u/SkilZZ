@@ -2102,3 +2102,33 @@ body { background: transparent; }
    redessinent pas la scène autour */
 .dev { contain: layout paint style; }
 .ds-cursor, .da-toast, .dr-wave { will-change: transform; }
+
+/* Haut de page : bouton rond flottant, au-dessus de l'assistant */
+.to-top { all: unset; position: fixed; z-index: 119; right: max(20px, env(safe-area-inset-right)); bottom: calc(max(20px, env(safe-area-inset-bottom)) + 72px);
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  background: var(--surface); color: var(--accent); box-shadow: 0 0 0 1.5px rgba(31, 107, 255, .45), 0 12px 28px -12px rgba(11, 27, 63, .5);
+  opacity: 0; transform: translateY(12px) scale(.85); pointer-events: none; transition: opacity .3s ease, transform .4s var(--ease), background-color .2s ease, color .2s ease; }
+.to-top svg { width: 20px; height: 20px; }
+.to-top.is-on { opacity: 1; transform: none; pointer-events: auto; }
+@media (hover: hover) { .to-top:hover { background: var(--accent); color: #fff; } }
+.to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+:root[data-theme="dark"] .to-top { background: #16264F; color: #8FB6FF; box-shadow: 0 0 0 1.5px rgba(143, 182, 255, .5), 0 12px 28px -10px rgba(0, 0, 0, .7); }
+/* la phrase de l'assistant passe au-dessus du bouton haut de page */
+.agent-tip { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 128px); }
+body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; }
+.footer-bottom { grid-template-columns: 1fr auto; }
+@media (max-width: 640px) {
+  .to-top { right: max(20px, env(safe-area-inset-right)); bottom: calc(max(14px, env(safe-area-inset-bottom)) + 66px); width: 42px; height: 42px; }
+  .agent-tip { bottom: calc(max(14px, env(safe-area-inset-bottom)) + 118px); }
+}
+
+/* L'assistant se détache du fond : contour bleu, fond plus clair en sombre */
+.agent-fab { box-shadow: 0 0 0 1.5px rgba(31, 107, 255, .55), 0 18px 40px -14px rgba(11, 27, 63, .5); }
+@media (hover: hover) { .agent-fab:hover { box-shadow: 0 0 0 2px var(--accent), 0 22px 44px -14px rgba(11, 27, 63, .55); } }
+:root[data-theme="dark"] .agent-fab { background: #16264F; box-shadow: 0 0 0 1.5px rgba(143, 182, 255, .55), 0 18px 40px -12px rgba(0, 0, 0, .75); }
+:root[data-theme="dark"] .agent-fab-dot { box-shadow: 0 0 0 2.5px #16264F; }
+:root[data-theme="dark"] .agent-panel { background: #111D3D; box-shadow: 0 0 0 1.5px rgba(143, 182, 255, .35), 0 40px 80px -30px rgba(0, 0, 0, .8); }
+:root[data-theme="dark"] .agent-tip { background: #16264F; box-shadow: 0 0 0 1.5px rgba(143, 182, 255, .4), 0 16px 34px -14px rgba(0, 0, 0, .7); }
+.agent-tip { box-shadow: 0 0 0 1.5px rgba(31, 107, 255, .35), var(--shadow); }
+.agent-panel { box-shadow: 0 0 0 1.5px rgba(31, 107, 255, .3), 0 40px 80px -30px rgba(11, 27, 63, .55); }
+@media (min-width: 761px) { .footer-bottom .footer-links { justify-content: flex-end; } .footer-bottom { padding-right: 70px; } }

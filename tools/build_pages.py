@@ -260,9 +260,11 @@ FOOT = '''
     <div class="footer-bottom">
       <p class="footer-legal">© 2026 ZkilZ · Studio digital</p>
       <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="sitemap.xml">Plan du site</a></nav>
-      <button type="button" class="footer-totop" id="toTop">Haut de page<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </footer>
+
+  <!-- Haut de page : apparaît dès qu'on quitte le haut de la page (main.js) -->
+  <button type="button" class="to-top" id="toTop" aria-label="Revenir en haut de la page" title="Haut de page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
   <!-- ASSISTANT IA — en bas à droite (assets/js/agent.js).
        Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat) ;

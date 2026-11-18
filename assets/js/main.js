@@ -66,6 +66,13 @@
   }).observe(fbot);
   // Haut de page (pied de page)
   var toTop = document.getElementById('toTop');
+  // visible dès qu'on n'est plus tout en haut
+  if (toTop) {
+    var topOn = null;
+    var topCheck = function () { var on = (window.SKZ && SKZ.y != null ? SKZ.y : window.scrollY) > 60; if (on !== topOn) { topOn = on; toTop.classList.toggle('is-on', on); } };
+    window.addEventListener('scroll', topCheck, { passive: true });
+    topCheck();
+  }
   if (toTop) toTop.addEventListener('click', function () {
     if (lenis) lenis.scrollTo(0, { duration: 1.6 });
     else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
