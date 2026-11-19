@@ -699,6 +699,9 @@
   // =========================================================================
   // data-perch-ink : le perchoir est le haut du dessin de la lettre, pas
   // celui de sa boîte (interligne et marges internes compris)
+  // les pattes s'enfoncent de 3 px dans la surface : il paraît agrippé, même
+  // sur un rebord sombre à peine visible
+  var GRIP = 3;
   var inkCtx = null;
   function inkTop(el) {
     var cs = getComputedStyle(el), key = cs.fontSize + cs.lineHeight;
@@ -720,7 +723,7 @@
     var r = el.getBoundingClientRect(), at2 = parseFloat(el.dataset.perch);
     if (isNaN(at2)) at2 = 85;
     var dy = el.hasAttribute('data-perch-ink') ? inkTop(el) : 0;
-    return { x: r.left + window.scrollX + r.width * at2 / 100, y: r.top + window.scrollY + dy + 1 };
+    return { x: r.left + window.scrollX + r.width * at2 / 100, y: r.top + window.scrollY + dy + GRIP };
   }
   function snapTo(el) { var b = perchPoint(el); pos.x = b.x; pos.y = b.y; current = { el: el }; place(); }
   function onScreen() { var r = root.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
@@ -817,7 +820,7 @@
     // jour avec un temps de retard pendant un défilement)
     var el = current.el, r = el.getBoundingClientRect(), k = root.getBoundingClientRect();
     var at3 = parseFloat(el.dataset.perch); if (isNaN(at3)) at3 = 85;
-    var tx = r.left + r.width * at3 / 100, ty = r.top + (el.hasAttribute('data-perch-ink') ? inkTop(el) : 0) + 1;
+    var tx = r.left + r.width * at3 / 100, ty = r.top + (el.hasAttribute('data-perch-ink') ? inkTop(el) : 0) + GRIP;
     var dx = tx - (k.left + W * FOOT.x / CELL.w), dy = ty - (k.top + H * FOOT.y / CELL.h);
     var moved = Math.abs(dx) > .3 || Math.abs(dy) > .3;
     if (host) {

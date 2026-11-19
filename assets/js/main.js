@@ -472,7 +472,7 @@
       .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92)
       // le décor de la bulle : les ronds s'élargissent depuis le centre, le halo s'allume
       .fromTo('.wd-ring', { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, stagger: .06, ease: 'power3.out' }, .55)
-      .fromTo('.wd-glow, .wd-grid, .wd-star', { opacity: 0 }, { opacity: 1, duration: .4 }, .7);
+      .fromTo('.wd-glow, .wd-grid, .wd-star, .wd-aurora, .wd-rays, .wd-bubbles', { opacity: 0 }, { opacity: 1, duration: .4 }, .7);
     if (desktop) tl.to({}, { duration: .5 });
     // il vise dès que le cercle arrive à l'écran ; il ressort de l'eau quand
     // le site apparaît dans la bulle (et y replonge si on remonte)
@@ -484,6 +484,8 @@
       if (tl.progress() >= .5) diveOff();
       else if (tl.scrollTrigger && tl.scrollTrigger.isActive) diveOn();
     });
+    // le décor de la bulle ne s'anime que lorsqu'elle est à l'écran
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { pin.classList.toggle('is-vis', es[0].isIntersecting); }).observe(pin);
     onScreen(document.getElementById('workPin'), [gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }),
       gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
     // Survol : l'iPhone se soulève, le navigateur recule légèrement
