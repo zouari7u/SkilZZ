@@ -342,7 +342,8 @@
     var tl = flight = gsap.timeline({ onComplete: endFlight(el, done) });
     if (o.air) tl.add(function () { stopIdle(); setGait('flap'); });
     else takeoff(tl, Math.abs(dx) > 20 ? dir : 0);
-    if (dist < 170) {
+    // petit saut : perchoirs proches, ou d'un écran à l'autre dans la même scène
+    if (dist < 170 || o.hop) {
       // petit saut d'un point à l'autre
       tl.add(travel(spline([a, { x: a.x + dx * .45, y: Math.min(a.y, b.y) - 52 }, { x: b.x - dir * 12, y: b.y - 34 }], 10), .46, 'power1.inOut'))
         .to(trk, { w: 1, duration: .46, ease: 'power1.inOut' }, '<');
@@ -778,11 +779,11 @@
     return pick;
   }
   var settle = null, ready = false, lastScroll = 0, queued = null;
-  function go(el) {
+  function go(el, o) {
     if (!el || (current && current.el === el)) return;
     if (mode) return;
     if (flying) { queued = el; return; }
-    flyTo(el);
+    flyTo(el, null, o);
   }
   function onScrollEnd() {
     if (!ready || lock || mode) return;
@@ -892,7 +893,7 @@
   img.src = SRC;
 
   window.SKZBird = {
-    perch: function (el, o) { if (o && o.lock) { lock = el; if (chase) chaseLand(el); } go(el); },
+    perch: function (el, o) { if (o && o.lock) { lock = el; if (chase) chaseLand(el); } go(el, o); },
     unlock: function () { lock = null; onScrollEnd(); },
     celebrate: loop,
     diveStart: diveStart,

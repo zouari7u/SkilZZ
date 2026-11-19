@@ -2244,3 +2244,11 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 @keyframes wdBubble { from { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 50% { transform: translate(14px, -55vh); } 90% { opacity: .8; } to { transform: translate(-6px, -112vh); opacity: 0; } }
 .work-pin.is-vis .wd-aurora, .work-pin.is-vis .wd-rays, .work-pin.is-vis .wd-bubbles i { animation-play-state: running; }
 @media (prefers-reduced-motion: reduce) { .wd-aurora, .wd-rays, .wd-bubbles i { animation: none !important; } .wd-aurora, .wd-rays { opacity: 1 !important; } .wd-bubbles { display: none; } }
+/* les trois écrans exactement au centre du cercle (marges en % de la largeur
+   de la scène : hauteur de l'écran ÷ 2) */
+@media (min-width: 981px) {
+  .dev { top: 50%; }
+  .dev--site { margin-top: -26.06%; }
+  .dev--app { margin-top: -40%; }
+  .dev--reel { margin-top: -37.33%; }
+}

@@ -397,7 +397,9 @@
     gsap.fromTo(devs[i], { yPercent: 22 * dir, rotation: 6 * dir, scale: .82, opacity: 0 }, { yPercent: 0, rotation: 0, scale: 1, opacity: 1, duration: .9, delay: prev >= 0 ? .18 : 0, ease: 'elastic.out(1, .65)', overwrite: true });
     devLoops[i].restart();
     // l'oiseau quitte l'ancien écran et se pose sur le nouveau
-    if (svcLive && bird()) setTimeout(function () { if (svcLive) bird().perch(devs[i].querySelector('.perch-pt'), { lock: true }); }, prev >= 0 ? 380 : 0);
+    // l'oiseau quitte l'écran qui s'en va et saute sur le nouveau (il suit sa
+    // position pendant qu'il se met en place)
+    if (svcLive && bird()) setTimeout(function () { if (svcLive) bird().perch(devs[i].querySelector('.perch-pt'), { lock: true, hop: prev >= 0 }); }, prev >= 0 ? 420 : 0);
   }
 
   if (desktop && stage) {
