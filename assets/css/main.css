@@ -2252,3 +2252,19 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
   .dev--app { margin-top: -40%; }
   .dev--reel { margin-top: -37.33%; }
 }
+/* Réalisation, fluidité : anneaux fixes (fondu seulement), sans couche propre ;
+   l'aurore glisse sans changer d'échelle */
+.wd-ring { will-change: auto; }
+.wd-ring--dash { animation: none; }
+@keyframes wdDrift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(6vmax, 5vmax, 0); } }
+.wd-aurora, .wd-rays { animation: none !important; will-change: auto; }
+
+/* Fluidité : tout ce qui tourne en continu a sa propre couche (le navigateur le
+   fait tourner sans repeindre autour) ; ce qui ne peut pas en avoir (formes
+   SVG) ne tourne plus. */
+.stage-ring::after, .soap-rim, .orbit--a, .orbit--b { will-change: transform; }
+.ascent-ticks { animation: none !important; }
+.fd-star.tw { animation: none !important; }
+/* le décor de la Réalisation : une couche à lui, dessinée une fois */
+.work-deco { will-change: transform; contain: strict; }
+.work-bubble { contain: strict; }

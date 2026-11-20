@@ -110,7 +110,7 @@
       el('circle', { r: 9, class: 'rm-halo' }, g);
       el('circle', { r: 4.5, class: 'rm-dot' }, g);
       marks.push({ g: g, y: p.y, on: false, rings: rings });
-      if (!reduce) { gsap.set(g, { scale: 0, transformOrigin: '0 0' }); gsap.set(rings, { scale: .2, opacity: 0, transformOrigin: '0 0' }); }
+      if (!reduce) { gsap.set(g, { scale: 0, transformOrigin: '0 0' }); gsap.set(rings, { opacity: 0 }); }
     });
 
     // traits de vent dans les marges (ordinateur seulement)
@@ -121,8 +121,7 @@
         var len = 90 - k * 22;
         el('path', { d: 'M' + x + ' ' + (y + dy) + ' q ' + (dir * len * .5) + ' -10 ' + (dir * len) + ' 0', class: 'wind-l', 'stroke-dasharray': '30 ' + (len + 20) }, g);
       });
-      var wl = gsap.to(g.querySelectorAll('.wind-l'), { strokeDashoffset: -120, duration: 3.4, ease: 'none', repeat: -1, stagger: .5, paused: true });
-      wl._y = y; winds.push(wl);
+      // (traits de vent fixes : les animer redessinait le tracé de toute la page)
       winds.push(gsap.fromTo(g, { x: -dir * 10 }, { x: dir * 10, ease: 'none', scrollTrigger: { trigger: document.body, start: p.y - window.innerHeight + ' top', end: p.y + ' top', scrub: true } }));
     });
     update();
@@ -163,7 +162,7 @@
       if (on !== mk.on) {
         mk.on = on;
         gsap.to(mk.g, { scale: on ? 1 : 0, duration: on ? .7 : .3, ease: on ? 'elastic.out(1, .45)' : 'power2.in', overwrite: true });
-        if (on) gsap.fromTo(mk.rings, { scale: .2, opacity: 1 }, { scale: 1, opacity: 1, duration: 2.2, stagger: .18, ease: 'expo.out', overwrite: true });
+        if (on) gsap.fromTo(mk.rings, { opacity: 0 }, { opacity: 1, duration: .8, stagger: .15, ease: 'power2.out', overwrite: true });
         else gsap.to(mk.rings, { opacity: 0, duration: .4, overwrite: true });
       }
     });

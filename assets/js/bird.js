@@ -622,9 +622,8 @@
     if (flying) return !!flight;
     if (!current || !current.el) return true;
     var r = current.el.getBoundingClientRect(), vh = window.innerHeight;
-    if (r.top < vh * .06 || r.top > vh * .86) return true;
-    var b = best();
-    return !!b && b !== current.el;
+    // il reste sur son perchoir et défile avec lui tant qu'il est bien à l'écran
+    return r.top < vh * .08 || r.top > vh * .88;
   }
 
   // =========================================================================
@@ -789,6 +788,11 @@
     if (!ready || lock || mode) return;
     // à l'arrêt : toujours le meilleur perchoir visible (l'ancienne cible a pu sortir de l'écran)
     if (chase) { if (!chase.settled) chase.settled = .001; chase.el = best() || bestAny() || null; chase.cand = null; return; }
+    // posé sur un perchoir encore bien visible : il ne bouge pas
+    if (!flying && current && current.el) {
+      var cr = current.el.getBoundingClientRect(), vh = window.innerHeight;
+      if (cr.top > vh * .08 && cr.top < vh * .88 && cr.bottom > 0) return;
+    }
     go(best());
   }
   var moveCheck = 0;

@@ -473,7 +473,7 @@
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
       .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92)
       // le décor de la bulle : les ronds s'élargissent depuis le centre, le halo s'allume
-      .fromTo('.wd-ring', { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, stagger: .06, ease: 'power3.out' }, .55)
+      .fromTo('.wd-ring', { opacity: 0 }, { opacity: 1, duration: .5, stagger: .06, ease: 'power3.out' }, .55)
       .fromTo('.wd-glow, .wd-grid, .wd-star, .wd-aurora, .wd-rays, .wd-bubbles', { opacity: 0 }, { opacity: 1, duration: .4 }, .7);
     if (desktop) tl.to({}, { duration: .5 });
     // il vise dès que le cercle arrive à l'écran ; il ressort de l'eau quand
