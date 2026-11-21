@@ -18,6 +18,36 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var G = window.gsap;
 
+  // --- Un seul départ à la fois ------------------------------------------------
+  // Plusieurs clics rapides sur un lien (le logo surtout) lançaient autant de
+  // navigations, chacune annulant la précédente : Safari pouvait rester sur
+  // une page blanche. Lien vers la page où l'on est déjà : on remonte en haut
+  // au lieu de la recharger. Autre page : seul le premier clic part.
+  var leaving = 0;
+  function norm(path) { return path.replace(/\/index\.html$/, '/').replace(/\.html$/, ''); }
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var u;
+    try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (u.origin !== location.origin || !/^https?:$/.test(u.protocol)) return;
+    if (norm(u.pathname) === norm(location.pathname) && u.search === location.search) {
+      if (u.hash && u.hash !== '#') return;          // ancre : gérée par main.js
+      e.preventDefault();
+      var l = window.SKZ && window.SKZ.lenis;
+      if (l) l.scrollTo(0, { duration: 1.2 }); else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    if (leaving && Date.now() - leaving < 4000) { e.preventDefault(); return; }
+    leaving = Date.now();
+  }, true);
+  // retour arrière (page restaurée depuis le cache) : les liens repartent
+  window.addEventListener('pageshow', function (e) {
+    leaving = 0;
+    if (e.persisted && window.ScrollTrigger) window.ScrollTrigger.refresh();
+  });
+
   // --- Trait de lecture ------------------------------------------------------
   // Deux rectangles arrondis superposés au contour : l'un se dessine dans le
   // sens horaire, l'autre en miroir. Le tracé d'un rectangle commence en
