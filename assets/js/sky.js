@@ -36,7 +36,10 @@
     // seuls les éléments qui bougent au défilement ont leur propre couche :
     // le navigateur les déplace sans repeindre le calque du décor
     if (depth && !reduce) el.style.willChange = 'transform';
-    items.push({ el: el, y: y, d: depth, h: 0 });
+    // accroché à sa section : écart en pixels depuis son haut, figé ici
+    // (py : repère de la parallaxe, figé lui aussi — si on le déplaçait avec
+    // la section, l'élément glisserait moins vite que le contenu)
+    items.push({ el: el, y: y, py: y, d: depth, h: 0, a: cur, off: y - cur.top });
     return el;
   }
   function docTop(n) { return n.getBoundingClientRect().top + window.scrollY; }
@@ -44,14 +47,20 @@
   var seed = 7;
   function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
 
-  var builtW = 0, builtH = 0;
+  // Stabilité : chaque élément est accroché à sa section. Quand une section
+  // change de hauteur (question dépliée, image chargée…), on ne recrée
+  // rien : les éléments suivent leur section dans la même image, et les
+  // nuages continuent leur dérive. Recréation : seulement si la largeur change.
+  var builtW = 0, builtH = 0, anchors = [], cur = null, settled = false;
+  function anchor(n, top) { cur = { n: n, top: top }; anchors.push(cur); return cur; }
+  function contentH() { var f = document.querySelector('.footer'); return f ? Math.ceil(docTop(f)) : document.body.offsetHeight; }
   function build(force) {
     var W = document.documentElement.clientWidth, foot = document.querySelector('.footer');
-    var H = foot ? Math.ceil(docTop(foot)) : document.body.offsetHeight;
+    var H = contentH();
     if (force !== true && W === builtW && Math.abs(H - builtH) < 2) return;
     builtW = W; builtH = H; seed = 7;
     loops.forEach(function (l) { l.kill(); }); loops = [];
-    layer.innerHTML = ''; items = [];
+    layer.innerHTML = ''; items = []; anchors = [];
     layer.style.height = H + 'px';
     var narrow = W < 760;
     var inner = Math.min(1180, W - 40), margin = Math.max(0, (W - inner) / 2);
@@ -59,6 +68,7 @@
       .filter(function (s) { return s.offsetHeight > 200; });
     secs.forEach(function (s, i) {
       var top = docTop(s), h = s.offsetHeight, left = i % 2 === 0;
+      anchor(s, top);
       // 1. grand disque, à moitié hors de l'écran
       var R = narrow ? 180 + rnd() * 80 : 300 + rnd() * 240;
       var cx = left ? -R * (.32 + rnd() * .12) : W - R * (.68 - rnd() * .12);
@@ -101,6 +111,7 @@
     });
     // 5. en bas : l'eau et les roseaux, au pied du pied de page
     if (foot) {
+      anchor(foot, H);
       var y = H - 120, reeds = '';
       for (var r = 0; r < (narrow ? 5 : 9); r++) {
         var x = (narrow ? 14 : 24) + r * (narrow ? 9 : 11) + rnd() * 4, hh = 38 + rnd() * 46;
@@ -199,7 +210,7 @@
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       if (!it.d) continue;
-      var off = (mid - (it.y + it.h / 2)) * it.d;
+      var off = (mid - (it.py + it.h / 2)) * it.d;
       // seulement près de l'écran (les autres ne bougent pas pour rien)
       if (it.y + off > sy + vh + 400 || it.y + it.h + off < sy - 400) continue;
       it.el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0)';
@@ -208,12 +219,42 @@
   if (G) G.ticker.add(function () { update(false); });
   else window.addEventListener('scroll', function () { update(false); }, { passive: true });
 
+  // la page a changé de hauteur, pas de largeur : chaque élément suit sa
+  // section (rappel du ResizeObserver : après la mise en page, avant
+  // l'affichage, donc dans la même image que le contenu)
+  function relayout() {
+    var moved = false;
+    for (var i = 0; i < anchors.length; i++) {
+      var t = docTop(anchors[i].n);
+      if (Math.abs(t - anchors[i].top) > .1) { anchors[i].top = t; moved = true; }
+    }
+    var H = contentH();
+    if (H !== builtH) { builtH = H; layer.style.height = H + 'px'; }
+    if (!moved) return;
+    for (var j = 0; j < items.length; j++) {
+      var it = items[j], y = it.a ? it.a.top + it.off : it.y;
+      if (Math.abs(y - it.y) > .1) { it.y = y; it.el.style.top = y + 'px'; }
+    }
+    update(true);
+  }
+  function onChange() {
+    if (!builtW || document.documentElement.clientWidth !== builtW) return build(true);
+    if (!settled) return build(false);
+    relayout();
+  }
+  var footW = 0, footH = 0;
+  function footerSoon() {
+    var f = document.querySelector('.footer'); if (!f) return;
+    if (f.clientWidth === footW && f.clientHeight === footH) return;
+    footW = f.clientWidth; footH = f.clientHeight; buildFooter();
+  }
   var rt = null;
-  function soon() { clearTimeout(rt); rt = setTimeout(function () { build(false); buildFooter(); }, 220); }
-  window.addEventListener('resize', soon);
-  if ('ResizeObserver' in window) new ResizeObserver(soon).observe(document.querySelector('main') || document.body);
+  function soon() { clearTimeout(rt); rt = setTimeout(footerSoon, 220); }
+  window.addEventListener('resize', function () { onChange(); soon(); });
+  if ('ResizeObserver' in window) new ResizeObserver(function () { onChange(); soon(); }).observe(document.querySelector('main') || document.body);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { build(true); });
   else build(true);
-  window.addEventListener('load', function () { build(false); buildFooter(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFooter);
+  function settle() { build(false); settled = true; footW = 0; footerSoon(); }
+  if (document.readyState === 'complete') settle(); else window.addEventListener('load', settle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { footW = 0; footerSoon(); });
 })();
