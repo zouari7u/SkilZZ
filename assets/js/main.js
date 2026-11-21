@@ -27,11 +27,30 @@
   var root = document.documentElement;
   function css(name) { return getComputedStyle(root).getPropertyValue(name).trim(); }
 
+  // --- Boucles en pause hors de l'écran ---------------------------------------
+  // Une animation qui tourne en boucle ne coûte rien tant que sa zone est
+  // hors de l'écran : elle s'arrête, et reprend là où elle en était.
+  function onScreen(el, tweens) {
+    tweens = tweens.filter(Boolean);
+    if (!el || !tweens.length || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      var on = es[0].isIntersecting;
+      tweens.forEach(function (tw) { if (on) tw.resume(); else tw.pause(); });
+    }, { rootMargin: '120px 0px' }).observe(el);
+  }
+  window.SKZ = window.SKZ || {};
+  window.SKZ.onScreen = onScreen;
+  // Position de défilement partagée : mise à jour une fois par image par le
+  // défilement doux (ou l'évènement natif) ; les scripts du décor la lisent
+  // sans forcer le navigateur à recalculer la page (window.scrollY le fait).
+  window.SKZ.y = window.scrollY;
+  window.addEventListener('scroll', function () { if (!lenis) window.SKZ.y = window.scrollY; }, { passive: true });
+
   // --- Défilement doux -------------------------------------------------------
   var lenis = null;
   if (!reduce && window.Lenis) {
     lenis = new Lenis({ duration: 1.15, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', function (l) { window.SKZ.y = l.scroll; ScrollTrigger.update(); });
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
@@ -40,6 +59,24 @@
     if (lenis) lenis.scrollTo(el, { offset: el.id === 'top' ? 0 : -96, duration: 1.4 });
     else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   };
+  // En bas de page, la bulle de l'assistant s'efface pour ne pas cacher la barre du bas
+  var fbot = document.querySelector('.footer-bottom');
+  if (fbot && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
+    document.body.classList.toggle('at-foot', es[0].isIntersecting);
+  }).observe(fbot);
+  // Haut de page (pied de page)
+  var toTop = document.getElementById('toTop');
+  // visible dès qu'on n'est plus tout en haut
+  if (toTop) {
+    var topOn = null;
+    var topCheck = function () { var on = (window.SKZ && SKZ.y != null ? SKZ.y : window.scrollY) > 60; if (on !== topOn) { topOn = on; toTop.classList.toggle('is-on', on); } };
+    window.addEventListener('scroll', topCheck, { passive: true });
+    topCheck();
+  }
+  if (toTop) toTop.addEventListener('click', function () {
+    if (lenis) lenis.scrollTo(0, { duration: 1.6 });
+    else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');
@@ -79,7 +116,7 @@
   }
   // il plane doucement en attendant
   var cb = document.getElementById('contactBird');
-  if (cb && !reduce) gsap.to(cb, { yPercent: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  if (cb && !reduce) onScreen(cb, [gsap.to(cb, { yPercent: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
   var form = document.getElementById('contactForm');
   if (form) {
     var status = form.querySelector('.form-status');
@@ -112,6 +149,8 @@
     document.querySelectorAll('.svc').forEach(function (s) { s.classList.add('is-active'); });
     document.querySelectorAll('.dev--site').forEach(function (d) { d.classList.add('is-on'); });
     document.querySelectorAll('.step').forEach(function (s) { s.classList.add('is-on'); });
+    var hs = document.getElementById('heroStage');
+    if (hs) { hs.dataset.step = 3; hs.querySelectorAll('.ms, .ms-dot').forEach(function (m) { m.classList.add('is-on'); }); }
     gsap.set('.work-bubble', { scale: 1 });
     return;
   }
@@ -129,29 +168,97 @@
     .from('#heroTitle .wi', { yPercent: 115, rotation: 5, duration: 1.1, stagger: .055 }, .15)
     .fromTo('#heroMark', { '--mark': 0 }, { '--mark': 1, duration: 1.1, ease: 'elastic.out(1, .55)' }, .85)
     .from('[data-enter]', { y: 18, opacity: 0, duration: .9, stagger: .08 }, .55)
-    .from('.ascent-sky', { scale: .85, opacity: 0, transformOrigin: '250px 250px', duration: 1.4, ease: EASE }, .2)
-    .from('.ascent-ticks', { opacity: 0, duration: 1.2 }, .5)
-    .from('.ascent-water path', { opacity: 0, x: -30, duration: 1.2, stagger: .15, ease: EASE }, .4)
-    .from('.ascent-reed, .ascent-leaf', { scaleY: 0, transformOrigin: '110px 476px', duration: .9, ease: 'back.out(1.6)' }, .7)
+    .from('.ascent-ticks', { opacity: 0, duration: 1.6 }, .3)
+    .from('.sc-sky', { opacity: 0, duration: 1 }, .2)
+    .from('.sc-sun, .sc-halo', { y: 70, duration: 1.8, ease: 'power3.out' }, .3)
+    .from('.sc-hill--far', { y: 60, duration: 1.4 }, .35)
+    .from('.sc-hill--near', { y: 70, duration: 1.4 }, .45)
+    .from('.sc-lake, .sc-shine', { y: 60, duration: 1.4 }, .5)
+    .from('.sc-cloud', { x: -40, opacity: 0, duration: 1.6, stagger: .2 }, .6)
+    .from('.ascent-water path', { opacity: 0, x: -30, duration: 1.2, ease: EASE }, .6)
+    .from('.ascent-reed, .ascent-leaf, .sc-cat', { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: .9, stagger: .06, ease: 'back.out(1.6)' }, .8)
+    .fromTo('.site-frame', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, .9)
     .fromTo('.ascent-guide', { strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.out' }, .9)
     .from('.milestone', { scale: 0, transformOrigin: 'center', transformBox: 'fill-box', duration: .6, stagger: .15, ease: 'back.out(2.4)' }, 1.1)
-    .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.3);
+    .from('.ms', { y: 12, opacity: 0, scale: .9, duration: .6, stagger: .12, ease: 'back.out(2)' }, 1.2);
 
-  // L'eau ondule au pied du roseau
-  gsap.timeline({ repeat: -1, repeatDelay: .4 })
-    .fromTo('.ripple', { scale: .4, opacity: .7 }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' });
-  gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .6 });
+  // L'eau ondule au pied du roseau, les nuages passent, les mouettes planent
+  var heroLoops = [];
+  heroLoops.push(gsap.timeline({ repeat: -1, repeatDelay: .4 })
+    .fromTo('.ripple', { scale: .4, opacity: .7, svgOrigin: '118 408' }, { scale: 2.2, opacity: 0, duration: 2.4, stagger: 1.1, ease: 'power2.out' }));
+  heroLoops.push(gsap.to('.ascent-water path', { x: -20, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  heroLoops.push(gsap.to('.sc-shine path', { x: function (i) { return i % 2 ? 10 : -12; }, opacity: .4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .4 }));
+  heroLoops.push(gsap.to('.sc-cloud', { x: function (i) { return i ? -26 : 34; }, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  heroLoops.push(gsap.to('.sc-gull', { x: 18, y: -8, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 1.2 }));
+  heroLoops.push(gsap.to('.sc-gull', { scaleY: .55, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .5, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .25 }));
+  heroLoops.push(gsap.to('.ascent-reed, .ascent-leaf, .sc-cat', { rotation: 2.5, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: .2 }));
+  onScreen(document.getElementById('heroStage'), heroLoops);
 
-  // Jalons : suivent un peu la souris
-  var stage = document.getElementById('heroStage');
-  if (fine && stage) {
-    var mss = Array.prototype.map.call(stage.querySelectorAll('.ms'), function (el, i) {
-      return { d: 1 + i * .4, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
+  // Les trois étapes, au passage de l'oiseau (bird.js envoie « kf:ascent »)
+  var hStage = document.getElementById('heroStage');
+  if (hStage) {
+    var guide = hStage.querySelector('#ascentPath');
+    var ms = hStage.querySelectorAll('.ms'), dots = hStage.querySelectorAll('.ms-dot');
+    // part du tracé où se trouve le 2e jalon
+    var midAt = .5;
+    if (guide && guide.getTotalLength) {
+      var L = guide.getTotalLength(), bestD = 1e9;
+      for (var s = 0; s <= 100; s++) {
+        var q = guide.getPointAtLength(L * s / 100), dd = Math.hypot(q.x - 244, q.y - 298);
+        if (dd < bestD) { bestD = dd; midAt = s / 100; }
+      }
+    }
+    var step = 0, cursorTl = null;
+    var setStep = function (n) {
+      if (n <= step) return;
+      step = n;
+      hStage.dataset.step = n;
+      for (var k = 0; k < 3; k++) { if (ms[k]) ms[k].classList.toggle('is-on', k < n); if (dots[k]) dots[k].classList.toggle('is-on', k < n); }
+      if (ms[n - 1]) gsap.fromTo(ms[n - 1], { scale: 1 }, { scale: 1.12, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out' });
+      if (n === 3) {
+        gsap.fromTo('.site-sparks path', { strokeDashoffset: 12, opacity: 1 }, { strokeDashoffset: -12, duration: .7, stagger: .05, ease: 'power2.out', delay: .1 });
+        gsap.fromTo('.site', { scale: 1 }, { scale: 1.035, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: .16, yoyo: true, repeat: 1, ease: 'power2.out' });
+        // une fois en ligne, on s'en sert : le curseur va cliquer le bouton
+        cursorTl = gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 1.2 })
+          .set('.site-cursor', { x: 470, y: 196, opacity: 0 })
+          .to('.site-cursor', { opacity: 1, duration: .25 })
+          .to('.site-cursor', { x: 364, y: 160, duration: 1.1, ease: 'power2.inOut' })
+          .to('.site-el--btn', { scale: .9, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .1, yoyo: true, repeat: 1 })
+          .to('.site-el--card', { y: -3, duration: .25, stagger: .08, yoyo: true, repeat: 1, ease: 'power2.out' }, '<')
+          .to('.site-cursor', { x: 470, y: 120, opacity: 0, duration: .9, ease: 'power2.in' }, '+=.5');
+        onScreen(hStage, [cursorTl]);
+      }
+    };
+    document.addEventListener('kf:ascent', function (e) {
+      var d = e.detail || {};
+      if (d.p >= 0) setStep(1);
+      if (d.p >= midAt) setStep(2);
+      if (d.landed || d.skip) { setStep(1); setStep(2); setStep(3); }
     });
-    window.addEventListener('pointermove', function (e) {
-      var nx = e.clientX / window.innerWidth - .5;
-      mss.forEach(function (c) { c.x(nx * 14 * c.d); });
-    }, { passive: true });
+    // filet de sécurité : sans oiseau (image non chargée), la scène se termine seule
+    setTimeout(function () { if (step < 3) { setStep(1); setTimeout(function () { setStep(2); setTimeout(function () { setStep(3); }, 700); }, 700); } }, 9000);
+
+    // relief : chaque plan suit la souris à sa profondeur
+    if (fine) {
+      var layers = Array.prototype.map.call(hStage.querySelectorAll('.sc-layer'), function (el) {
+        var d = parseFloat(el.dataset.depth) || 0;
+        return { d: d, x: gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3' }), y: gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3' }) };
+      });
+      var mss = Array.prototype.map.call(ms, function (el, i) {
+        return { d: 1 + i * .4, x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }) };
+      });
+      window.addEventListener('pointermove', function (e) {
+        var nx = e.clientX / window.innerWidth - .5, ny = e.clientY / window.innerHeight - .5;
+        layers.forEach(function (l) { l.x(-nx * l.d * .6); l.y(-ny * l.d * .3); });
+        mss.forEach(function (c) { c.x(nx * 10 * c.d); });
+      }, { passive: true });
+    }
+  }
+
+  // Studio Moumous : le viseur entre en glissant, les métiers suivent
+  if (document.querySelector('.moumous')) {
+    gsap.from('.moumous-media .vf', { y: 40, rotation: -3, opacity: 0, duration: 1.1, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
+    gsap.from('.moumous-vert', { yPercent: 30, opacity: 0, duration: 1.2, ease: EASE, scrollTrigger: { trigger: '.moumous', start: 'top 72%' } });
   }
 
   // En quittant le hero : le texte remonte, la scène descend plus lentement
@@ -212,6 +319,15 @@
       .from(h.querySelectorAll('.wi'), { yPercent: 115, rotation: 4, duration: 1, stagger: .06, ease: EASE }, .1);
   });
 
+  // Carte Studio Moumous (téléphone, tablette) : son reel joue quand il est à l'écran
+  document.querySelectorAll('.svc-art--video video').forEach(function (v) {
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && getComputedStyle(v.parentElement).display !== 'none') { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else v.pause();
+    }, { threshold: .3 }).observe(v);
+  });
+
   // =========================================================================
   // SERVICES : les cartes défilent ; à droite, l'écran du service en cours
   // reste à l'écran, change de forme, s'anime, et l'oiseau se pose dessus
@@ -228,13 +344,14 @@
     var tl = gsap.timeline({ repeat: -1, repeatDelay: .6, paused: true });
     tl.fromTo(d.querySelectorAll('.ds-nav > *, .ds-hero > *, .ds-cards span'), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .5, stagger: .06, ease: 'back.out(1.8)' })
       .fromTo(d.querySelector('.ds-cursor'), { x: 60, y: 40, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: .8, ease: 'power3.inOut' }, '+=.2')
-      .to(d.querySelector('.ds-cursor'), { left: '22%', top: '47%', duration: .7, ease: 'power3.inOut' })
+      // vers le bouton, par translation (left/top recalculeraient la page à chaque image)
+      .to(d.querySelector('.ds-cursor'), { x: function () { return -.48 * d.offsetWidth; }, y: function () { return -.23 * d.offsetHeight; }, duration: .7, ease: 'power3.inOut' })
       .to(d.querySelector('.ds-cursor'), { scale: .7, duration: .1, yoyo: true, repeat: 1 })
       .to(d.querySelector('.ds-btn'), { scale: .92, duration: .1, yoyo: true, repeat: 1 }, '<')
       .to(d.querySelector('.ds-btn'), { backgroundColor: '#0B3BA8', duration: .2 }, '<')
       .to({}, { duration: 1.6 })
       .to(d.querySelector('.ds-cursor'), { opacity: 0, duration: .3 })
-      .set(d.querySelector('.ds-cursor'), { left: '70%', top: '70%' })
+      .set(d.querySelector('.ds-cursor'), { x: 0, y: 0 })
       .set(d.querySelector('.ds-btn'), { clearProps: 'backgroundColor' });
     return tl;
   }
@@ -249,15 +366,16 @@
       .to(d.querySelector('.da-toast'), { y: -30, opacity: 0, duration: .4, ease: 'power2.in' }, '+=1.4');
     return tl;
   }
+  // le reel de Studio Moumous : la vraie vidéo, lancée quand son écran est actif
   function reelLoop(d) {
-    var likes = d.querySelector('#reelLikes'), o = { v: 2.4 };
-    var tl = gsap.timeline({ repeat: -1, paused: true });
-    tl.fromTo(d.querySelector('.dr-bar i'), { scaleX: 0 }, { scaleX: 1, duration: 5, ease: 'none' }, 0)
-      .fromTo(d.querySelectorAll('.dr-wave'), { scale: .8, opacity: .8 }, { scale: 1.8, opacity: 0, duration: 1.6, stagger: .8, repeat: 2, ease: 'power2.out' }, 0)
-      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 1.6)
-      .fromTo(o, { v: 2.4 }, { v: 2.9, duration: 3, ease: 'power1.inOut', onUpdate: function () { likes.textContent = o.v.toFixed(1).replace('.', ',') + ' k'; } }, 1.6)
-      .to(d.querySelector('.dr-heart'), { scale: 1.35, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' }, 3.4);
-    return tl;
+    var v = d.querySelector('video');
+    function play() { if (!v) return; if (v.preload === 'none') v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    return {
+      pause: function () { if (v) v.pause(); return this; },
+      restart: function () { if (v) { try { v.currentTime = 0; } catch (e) {} play(); } return this; },
+      play: function () { play(); return this; }, resume: function () { play(); return this; },
+      paused: function () { return !v || v.paused; }
+    };
   }
 
   function setSvc(i) {
@@ -279,11 +397,17 @@
     gsap.fromTo(devs[i], { yPercent: 22 * dir, rotation: 6 * dir, scale: .82, opacity: 0 }, { yPercent: 0, rotation: 0, scale: 1, opacity: 1, duration: .9, delay: prev >= 0 ? .18 : 0, ease: 'elastic.out(1, .65)', overwrite: true });
     devLoops[i].restart();
     // l'oiseau quitte l'ancien écran et se pose sur le nouveau
-    if (svcLive && bird()) setTimeout(function () { if (svcLive) bird().perch(devs[i].querySelector('.perch-pt'), { lock: true }); }, prev >= 0 ? 380 : 0);
+    // l'oiseau quitte l'écran qui s'en va et saute sur le nouveau (il suit sa
+    // position pendant qu'il se met en place)
+    if (svcLive && bird()) setTimeout(function () { if (svcLive) bird().perch(devs[i].querySelector('.perch-pt'), { lock: true, hop: prev >= 0 }); }, prev >= 0 ? 420 : 0);
   }
 
   if (desktop && stage) {
     devLoops = [siteLoop(devs[0]), appLoop(devs[1]), reelLoop(devs[2])];
+    // la scène hors de l'écran : la vidéo du reel s'arrête
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) devLoops[2].pause(); else if (svcIdx === 2) devLoops[2].play();
+    }).observe(stage);
     gsap.set(devs, { opacity: 0 });
     svcs.forEach(function (s, i) {
       ScrollTrigger.create({ trigger: s, start: 'top 58%', end: 'bottom 58%', onToggle: function (self) { if (self.isActive) setSvc(i); } });
@@ -304,7 +428,7 @@
     svcs.forEach(function (s) {
       s.classList.add('is-active');
       gsap.from(s.querySelectorAll('.svc-card > *'), { y: 24, opacity: 0, duration: .8, stagger: .05, ease: EASE, scrollTrigger: { trigger: s, start: 'top 80%' } });
-      gsap.from(s.querySelector('.svc-art img'), { y: 40, rotation: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: s, start: 'top 85%' } });
+      gsap.from(s.querySelector('.svc-art img, .svc-art video'), { y: 40, rotation: -6, opacity: 0, duration: 1.2, ease: 'back.out(1.6)', scrollTrigger: { trigger: s, start: 'top 85%' } });
     });
   }
 
@@ -322,7 +446,19 @@
     var dive = { p: 0 }, diving = false;
     function kf() { return window.SKZBird; }
     function diveOn() { if (!diving && kf()) { diving = true; kf().diveStart(circleCenter, circleRadius); kf().diveTo(dive.p); } }
-    function diveOff() { if (diving && kf()) { diving = false; kf().diveEnd(); } }
+    // à la sortie de l'eau, il va droit se poser sur la fenêtre du site (sans
+    // attendre qu'elle ait fini d'apparaître pour la reconnaître)
+    var landT = null;
+    function diveOff() {
+      if (diving && kf()) {
+        diving = false; kf().diveEnd();
+        clearTimeout(landT);
+        landT = setTimeout(function () {
+          var br = document.getElementById('caseBrowser'), r = br && br.getBoundingClientRect();
+          if (r && r.top > 60 && r.top < window.innerHeight * .8 && kf() && !kf().isFlying()) kf().perch(br);
+        }, 450);
+      }
+    }
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: desktop
@@ -335,7 +471,10 @@
       .fromTo(splash, { scale: .3, opacity: .9 }, { scale: 2.6, opacity: 0, duration: .3, ease: 'power2.out', immediateRender: false }, .27)
       .from('.case-copy > *', { y: 50, opacity: 0, duration: .4, stagger: .07, ease: 'power3.out' }, .75)
       .from('#caseBrowser', { y: 140, rotationX: 28, scale: .82, opacity: 0, duration: .6, ease: 'power3.out' }, .8)
-      .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92);
+      .from('#casePhone', { y: 220, rotation: 10, opacity: 0, duration: .6, ease: 'power3.out' }, .92)
+      // le décor de la bulle : les ronds s'élargissent depuis le centre, le halo s'allume
+      .fromTo('.wd-ring', { opacity: 0 }, { opacity: 1, duration: .5, stagger: .06, ease: 'power3.out' }, .55)
+      .fromTo('.wd-glow, .wd-grid, .wd-star, .wd-aurora, .wd-rays, .wd-bubbles', { opacity: 0 }, { opacity: 1, duration: .4 }, .7);
     if (desktop) tl.to({}, { duration: .5 });
     // il vise dès que le cercle arrive à l'écran ; il ressort de l'eau quand
     // le site apparaît dans la bulle (et y replonge si on remonte)
@@ -347,8 +486,10 @@
       if (tl.progress() >= .5) diveOff();
       else if (tl.scrollTrigger && tl.scrollTrigger.isActive) diveOn();
     });
-    gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-  gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    // le décor de la bulle ne s'anime que lorsqu'elle est à l'écran
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { pin.classList.toggle('is-vis', es[0].isIntersecting); }).observe(pin);
+    onScreen(document.getElementById('workPin'), [gsap.to('#casePhone', { yPercent: -3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }),
+      gsap.to('#caseBrowser', { yPercent: -1.5, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
     // Survol : l'iPhone se soulève, le navigateur recule légèrement
     if (fine) {
       var cv = document.querySelector('.case-visual');
@@ -395,12 +536,10 @@
     }
   });
   gsap.from('.step > :not(.step-dot)', { y: 26, opacity: 0, duration: .9, stagger: .06, ease: EASE, scrollTrigger: { trigger: '#steps', start: 'top 78%' } });
-  gsap.from('.pledges li', { scale: .7, opacity: 0, duration: 1, stagger: .1, ease: 'back.out(2)', scrollTrigger: { trigger: '.pledges', start: 'top 90%' } });
 
   // =========================================================================
   // QUESTIONS
   // =========================================================================
-  gsap.from('.qa', { y: 24, opacity: 0, duration: .9, stagger: .07, ease: EASE, scrollTrigger: { trigger: '.faq-list', start: 'top 85%' } });
 
   // =========================================================================
   // CONTACT : l'encart s'ouvre comme une bulle qui s'étire ; le fennec
@@ -418,7 +557,7 @@
       s.innerHTML = '<span class="soap-rim"></span><span class="soap-shine"></span>';
       s.style.cssText = 'width:' + p[2] + 'px;height:' + p[2] + 'px;left:' + (p[0] * 100) + '%;top:' + (p[1] * 100) + '%;opacity:.8;--soap-fill:rgba(255,255,255,.35)';
       panel.insertBefore(s, panel.firstChild);
-      gsap.to(s, { y: -20, x: i ? -14 : 14, duration: 3.6 + i, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      onScreen(panel, [gsap.to(s, { y: -20, x: i ? -14 : 14, duration: 3.6 + i, ease: 'sine.inOut', yoyo: true, repeat: -1 })]);
     });
   }
 

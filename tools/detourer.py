@@ -2,7 +2,7 @@
 """
 Détoure les poses de la mascotte générées sur fond vert uni (#00B140).
 
-    python3 tools/detourer.py image.png [autre.png ...] [--out assets/img/mascotte] [--h 1100]
+    python3 tools/detourer.py image.png [autre.png ...] [--out assets/img/mascotte] [--h 1100] [--cadre]
 
 Pour chaque image :
   1. alpha calculé sur la « dominance du vert » (vert - max(rouge, bleu)),
@@ -30,7 +30,7 @@ def smoothstep(e0, e1, x):
     return t * t * (3 - 2 * t)
 
 
-def key(path, out_dir, max_h):
+def key(path, out_dir, max_h, frame=False):
     im = Image.open(path).convert('RGB')
     a = np.asarray(im).astype(np.float32)
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
@@ -63,6 +63,8 @@ def key(path, out_dir, max_h):
     y0 = 0 if ys.min() <= edge else max(0, ys.min() - m)
     x1 = W if xs.max() >= W - 1 - edge else min(W, xs.max() + m)
     y1 = H if ys.max() >= H - 1 - edge else min(H, ys.max() + m)
+    if frame:
+        x0, y0, x1, y1 = 0, 0, W, H   # --cadre : image entière (poses à superposer)
     img = img.crop((x0, y0, x1, y1))
     touches = [n for n, t in (('gauche', x0 == 0 and xs.min() <= edge), ('haut', y0 == 0 and ys.min() <= edge),
                               ('droite', x1 == W and xs.max() >= W - 1 - edge), ('bas', y1 == H and ys.max() >= H - 1 - edge)) if t]
@@ -81,11 +83,12 @@ def main():
     p.add_argument('images', nargs='+')
     p.add_argument('--out', default='assets/img/mascotte')
     p.add_argument('--h', type=int, default=1100, help='hauteur maximale en pixels')
+    p.add_argument('--cadre', action='store_true', help='garde l\'image entière, sans recadrage (avatars à superposer)')
     args = p.parse_args()
     os.makedirs(args.out, exist_ok=True)
     for f in args.images:
         print(f)
-        key(f, args.out, args.h)
+        key(f, args.out, args.h, args.cadre)
 
 
 if __name__ == '__main__':

@@ -85,23 +85,7 @@
   if (!(window.gsap && window.ScrollTrigger) || reduce) return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // --- Apparition au défilement --------------------------------------------
-  var items = gsap.utils.toArray('[data-reveal]');
-  if (items.length) {
-    gsap.set(items, { y: 40, opacity: 0 });
-    ScrollTrigger.batch(items, {
-      start: 'top 88%',
-      onEnter: function (batch) { gsap.to(batch, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: .09, overwrite: true }); }
-    });
-  }
-
-  // --- Images des blocs texte + image : léger décalage ---------------------
-  gsap.utils.toArray('.split-media .shot img, .phase-media .shot img, .wide-media .shot img').forEach(function (img) {
-    gsap.fromTo(img, { yPercent: -5, scale: 1.1 }, {
-      yPercent: 5, scale: 1.1, ease: 'none',
-      scrollTrigger: { trigger: img.closest('.shot'), start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-  });
+  // (apparitions des blocs et des images : assets/js/motion.js)
 
   // --- En-tête des pages : l'image entre en douceur ------------------------
   var hm = document.querySelector('.page-hero-media .shot, .page-hero-media img');

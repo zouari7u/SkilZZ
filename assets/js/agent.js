@@ -1,17 +1,14 @@
 /* ==========================================================================
-   ZkilZ — agent IA en bas à droite (même principe que le conseiller de
-   MM Fragrances) :
-   · une pastille ronde, le martin-pêcheur dedans ; sa tête dépasse de la
-     bulle, il plonge, penche la tête, cligne des yeux (si l'image
-     « -clin » existe) ;
-   · à l'arrivée sur une section clé, une courte phrase s'écrit à côté de
-     la bulle (trois fois au plus par visite) ;
-   · clic : la conversation se déplie depuis la pastille ; l'oiseau passe
-     la tête par-dessus la fenêtre ;
-   · réponses : POST data-endpoint (même contrat que /api/chat du site de
-     parfums : { message, history } → { reply, suggestions, links }) ; sans
-     adresse, ou si elle échoue, un moteur local répond à partir du
-     contenu de la page — rien n'est inventé (pas de prix, pas de délai) ;
+   ZkilZ — l'assistant IA, en bas à droite
+   · une pastille : l'avatar du martin-pêcheur et « Une question ? » ;
+   · la fenêtre : en-tête avec l'avatar (il cligne des yeux, réfléchit,
+     trouve), un accueil avec quatre cartes de départ adaptées à la page,
+     des questions suggérées, un lien direct vers le studio ; sur téléphone,
+     elle prend tout l'écran ;
+   · réponses : POST data-endpoint ({ message, history } → { reply,
+     suggestions, links }) ; sans adresse, ou si elle échoue, un moteur local
+     répond à partir du contenu du site — rien n'est inventé (pas de prix,
+     pas de délai) ;
    · « Préparer mon message » : deux questions, puis le formulaire de
      contact est prérempli ;
    · la conversation suit le visiteur le temps de la session.
@@ -33,9 +30,8 @@
   var statusEl = document.getElementById('agentStatus');
   var tip = document.getElementById('agentTip');
   var tipText = document.getElementById('agentTipText');
-  var head = fab.querySelector('.agent-fab-head img');
-  var bubble = fab.querySelector('.agent-fab-bubble');
-  var peekHead = panel.querySelector('.agent-peek img');
+  var head = fab.querySelector('.agent-fab-av img');      // l'avatar de la pastille
+  var peekHead = document.getElementById('agentAv');       // l'avatar de l'en-tête
   var ENDPOINT = (panel.dataset.endpoint || '').trim();
   var IMG = 'assets/img/mascotte/';
 
@@ -43,8 +39,8 @@
   function probe(src, cb) { var i = new Image(); i.onload = function () { cb(src); }; i.src = src; }
   var blinkSrc = null, thinkSrc = null, ideaSrc = null;
   var avatarSrc = head.getAttribute('src');
-  probe(IMG + 'agent-avatar.webp', function (s) { avatarSrc = s; head.src = s; peekHead.src = s; probe(IMG + 'agent-avatar-clin.webp', function (b) { blinkSrc = b; }); });
-  probe('assets/img/kf-head-clin.svg', function (s) { if (!blinkSrc) blinkSrc = s; });
+  probe(IMG + 'agent-avatar-clin.webp', function (b) { blinkSrc = b; });
+
   probe(IMG + 'agent-reflechit.webp', function (s) { thinkSrc = s; });
   probe(IMG + 'agent-idee.webp', function (s) { ideaSrc = s; });
 
@@ -55,6 +51,21 @@
   var START = ['Combien coûte un site ?', 'Une application mobile', 'Comment se passe un projet ?', 'Préparer mon message'];
   var LEAD = 'Préparer mon message';
   var K = [
+    { re: /(par (quoi|ou) commencer|je ne sais pas|hesite|site ou (une )?appli|quel service|lequel choisir|conseillez)/,
+      reply: "On commence par votre activité, pas par la technique : ce que vous vendez, à qui, et ce qui coince aujourd'hui. Un site fait connaître et vend ; une application sert vos clients au quotidien ; un outil sur mesure ou un SaaS simplifie le travail de votre équipe. Le premier échange est gratuit : on vous dit franchement ce qu'il vous faut, même si c'est un outil qui existe déjà.",
+      links: [{ label: 'Les services', href: 'services.html' }], chips: [LEAD, 'Combien coûte un site ?', 'Comment se passe un projet ?'] },
+    { re: /(abonnement|compte|inscription|connexion|role|acces|multi.?utilisateur|equipe interne)/,
+      reply: "Un SaaS ou un outil métier gère les comptes, les rôles et les accès de chacun, et si besoin les abonnements et le paiement en ligne. On conçoit ensemble qui voit quoi, puis vous testez le parcours avant le développement.",
+      links: [{ label: 'SaaS et outils métier', href: 'saas.html' }], chips: ['Comment tester avant ?', LEAD] },
+    { re: /(store|app store|google play|publier|publication)/,
+      reply: "On s'occupe de la publication sur l'App Store et Google Play, sur vos comptes à vous : l'application vous appartient.",
+      links: [{ label: 'Les applications', href: 'application-mobile.html' }], chips: ['Comment tester avant ?', LEAD] },
+    { re: /(tester avant|prototype|maquette|essayer|voir avant)/,
+      reply: "Avant la première ligne de code, vous recevez des maquettes, puis un prototype animé que vous essayez sur votre propre téléphone. Le développement démarre quand il vous convient.",
+      links: [{ label: 'La méthode', href: 'methode.html' }], chips: ['Combien coûte une application ?', LEAD] },
+    { re: /(moumous|audiovisuel|tournage|montage|clip|film)/,
+      reply: "Studio Moumous est le partenaire de ZkilZ pour le marketing, l'audiovisuel (vidéos, reels, motion design), la création de contenu et la promotion. Vous passez par nous : un seul interlocuteur, un seul planning.",
+      links: [{ label: 'Studio Moumous', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
     { re: /\b(humain|robot|\bia\b|intelligence artificielle|chatgpt|tu es qui|vous etes qui|qui es[- ]tu|qui etes)/,
       reply: "Je suis l'assistant virtuel du studio. Pour parler à une personne, laissez un message avec le formulaire : c'est le studio qui vous répond.",
       chips: [LEAD, 'Comment se passe un projet ?'] },
@@ -68,8 +79,8 @@
       reply: "Applications et SaaS : vous testez d'abord un prototype sur votre propre téléphone, et le développement commence une fois qu'il vous convient. Livré : le prototype cliquable, l'application publiée sur l'App Store et Google Play, et un tableau de bord pour suivre l'usage.",
       links: [{ label: 'Les applications', href: 'application-mobile.html' }, { label: 'Les SaaS', href: 'saas.html' }], chips: ['Combien coûte une application ?', LEAD] },
     { re: /(reseau|social|sociaux|instagram|tiktok|linkedin|reel|video|contenu|motion|post)/,
-      reply: "Les réseaux sociaux, le marketing et le référencement sont confiés à notre partenaire Studio Moumous. Vous passez quand même par nous : ZkilZ coordonne, vous gardez un seul interlocuteur.",
-      links: [{ label: 'Le partenariat', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
+      reply: "Pour vous faire connaître, ZkilZ travaille avec Studio Moumous : marketing, audiovisuel (vidéos, reels, motion design), création de contenu et promotion. Vous passez quand même par nous : ZkilZ coordonne, vous gardez un seul interlocuteur.",
+      links: [{ label: 'Studio Moumous', href: 'reseaux-sociaux.html' }], chips: ['Faut-il déjà un logo ?', LEAD] },
     { re: /(conseil|audit|outil|tableur|excel|transition|migr|sur.?mesure|logiciel existant|choisir|solution)/,
       reply: "Conseil et transition : on fait l'état des lieux de vos outils, on compare les solutions du marché avec un développement sur mesure, puis on vous accompagne pendant la bascule. Si un outil existant suffit, on vous le dit.",
       links: [{ label: 'Voir le service', href: 'conseil.html' }], chips: ['Comment se passe un projet ?', LEAD] },
@@ -97,7 +108,7 @@
     { re: /(exemple|realisation|portfolio|projet deja|reference|client|\bmm\b|parfum)/,
       reply: "Une réalisation du studio : MM Fragrances, une parfumerie de niche en ligne, avec catalogue animé, flacons en 3D, quiz pour trouver son parfum et conseiller virtuel.",
       links: [{ label: 'Voir la réalisation', href: 'mm-fragrances.html' }], chips: ['Que comprend un site ?', LEAD] },
-    { re: /(interlocuteur|qui (me )?repond|equipe|freelance|agence|personne)/,
+    { re: /(interlocuteur|qui (me )?repond|m'adresse|adresser|equipe|freelance|agence|personne)/,
       reply: "Vous parlez toujours à la même personne, du premier appel à la mise en ligne. Pas de ticket, pas de transfert d'un service à l'autre.",
       chips: [LEAD] },
     { re: /(martin|pecheur|oiseau|mascotte|shinkansen)/,
@@ -117,7 +128,46 @@
     reply: "Je n'ai pas la réponse à ça, mais le studio l'a sûrement. Je peux préparer votre message pour le formulaire de contact.",
     chips: [LEAD, 'Comment se passe un projet ?', 'Combien coûte un site ?']
   };
-  var GREETING = "Bonjour, je suis le martin-pêcheur de ZkilZ. Un site, une application, un outil sur mesure ? Posez votre question.";
+  // Accueil : quatre cartes de départ, selon la page
+  var ICON = {
+    euro: '<path d="M16 7.5a5.5 5.5 0 1 0 0 9M5.5 10.5h8M5.5 13.5h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    path: '<path d="M5 19c4 0 3-7 7-7s3-7 7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="5" cy="19" r="1.8" fill="currentColor"/><circle cx="19" cy="5" r="1.8" fill="currentColor"/>',
+    steps: '<path d="M4 18h5v-5h5V8h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+    play: '<rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/>',
+    edit: '<path d="M5 19h4L19 9l-4-4L5 15z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+    phone: '<rect x="7" y="3.5" width="10" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 17.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    users: '<circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5M15.5 6.2a3 3 0 0 1 0 5.6M17.5 14.8c1.4.6 2.4 1.9 3 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    msg: '<path d="M4.5 6.5h15v9h-8l-4 3v-3h-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+    tool: '<path d="M14.5 4.5a4 4 0 0 0-4 5.2L4.5 15.7l3.8 3.8 6-6a4 4 0 0 0 5.2-4l-2.7 2.7-2.6-.6-.6-2.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+    star: '<path d="M12 4.5l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 9.8l5-.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+  };
+  var PAGE = (document.body.className.match(/page-([\w-]+)/) || [])[1] || 'index';
+  var STARTS = {
+    index: [['euro', 'Estimer mon projet', 'Ce qui fait varier le prix', 'Combien coûte un site ?'], ['path', 'Par où commencer ?', 'Site, application ou outil', 'Par quoi commencer ?'],
+      ['steps', 'Comment ça se passe', 'Les trois étapes', 'Comment se passe un projet ?'], ['play', 'Réseaux et vidéo', 'Avec Studio Moumous', 'Que fait Studio Moumous ?']],
+    'site-web': [['star', 'Que comprend un site ?', 'Ce qui est livré', 'Que comprend un site ?'], ['edit', 'Le modifier moi-même', 'Textes, prix, photos', 'Pourrai-je modifier mon site ?'],
+      ['euro', 'Estimer mon site', 'Ce qui fait varier le prix', 'Combien coûte un site ?'], ['path', 'Être trouvé sur Google', 'Le référencement', 'Et le référencement ?']],
+    'application-mobile': [['phone', 'Tester avant', 'Le prototype sur votre téléphone', 'Comment tester avant ?'], ['star', 'iPhone et Android', 'Publication sur les stores', 'Publier sur les stores ?'],
+      ['euro', 'Estimer mon application', 'Ce qui fait varier le prix', 'Combien coûte une application ?'], ['steps', 'Et après ?', 'Suivi et évolutions', 'Et après la mise en ligne ?']],
+    saas: [['users', 'Comptes et rôles', 'Qui voit quoi', 'Comptes, rôles et abonnements ?'], ['phone', 'Tester avant', 'Le prototype', 'Comment tester avant ?'],
+      ['euro', 'Estimer mon outil', 'Ce qui fait varier le prix', 'Combien coûte un SaaS ?'], ['star', 'Le code m’appartient ?', 'Code, comptes, design', 'Le code m’appartient-il ?']],
+    conseil: [['tool', 'Mes outils suffisent ?', 'L\'état des lieux', 'Mes outils actuels suffisent-ils ?'], ['path', 'La transition', 'Passer au sur mesure', 'Comment se passe la transition ?'],
+      ['euro', 'Combien ça coûte ?', 'Le premier échange est gratuit', 'Combien coûte un projet ?'], ['steps', 'Les étapes', 'De l\'audit à la bascule', 'Comment se passe un projet ?']],
+    'reseaux-sociaux': [['play', 'Que fait Studio Moumous ?', 'Marketing, vidéo, contenu', 'Que fait Studio Moumous ?'], ['star', 'Faut-il un logo ?', 'L\'identité visuelle', 'Faut-il déjà un logo ?'],
+      ['users', 'À qui je m\'adresse ?', 'Un seul interlocuteur', 'À qui je m\'adresse ?'], ['path', 'Être trouvé sur Google', 'Le référencement', 'Et le référencement ?']],
+    contact: [['msg', 'Préparer mon message', 'Deux questions, je remplis', LEAD], ['euro', 'Combien ça coûte ?', 'Le devis détaillé', 'Combien coûte un projet ?'],
+      ['steps', 'Les délais', 'Un planning fixé ensemble', 'Quels sont les délais ?'], ['users', 'Qui me répond ?', 'Toujours la même personne', 'Qui me répond ?']]
+  };
+  STARTS.services = STARTS.index; STARTS.methode = STARTS.index; STARTS.studio = STARTS.index;
+  STARTS.realisations = [['star', 'Un site comme MM Fragrances', 'Boutique, 3D, quiz', 'Un site comme MM Fragrances ?']].concat(STARTS.index.slice(0, 3));
+  STARTS['mm-fragrances'] = STARTS.realisations;
+  var starts = STARTS[PAGE] || STARTS.index;
+  // sous les cartes, d'autres questions (pas les mêmes), la prise de contact en premier
+  var inCards = starts.map(function (s) { return s[3]; });
+  START = [LEAD].concat(['Quels sont les délais ?', 'Le code m’appartient-il ?', 'Qui me répond ?', 'Combien coûte un site ?', 'Comment se passe un projet ?']
+    .filter(function (q) { return inCards.indexOf(q) < 0; }).slice(0, 3));
+  var PLACE = { 'site-web': 'Une question sur votre site ?', 'application-mobile': 'Une question sur votre application ?', saas: 'Une question sur votre outil ?', 'reseaux-sociaux': 'Une question sur vos réseaux, vos vidéos ?', contact: 'Une question avant d\'écrire ?' };
+  if (PLACE[PAGE]) input.placeholder = PLACE[PAGE];
 
   function localAnswer(text) {
     var t = fold(text);
@@ -130,13 +180,14 @@
   // =========================================================================
   var STORE = 'skz-agent-v1';
   var state = { messages: [], chips: START, flow: null };
+  if (!state.messages.length) state.chips = START;
   try { var saved = JSON.parse(sessionStorage.getItem(STORE) || 'null'); if (saved && saved.messages) state = saved; } catch (e) {}
   function save() { try { sessionStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
 
   // =========================================================================
   // AFFICHAGE
   // =========================================================================
-  function scrollLog() { log.scrollTop = log.scrollHeight; }
+  function scrollLog() { if (panel.hidden) return; log.scrollTop = log.scrollHeight; }
   function bubbleEl(role) {
     var row = document.createElement('div');
     row.className = 'agent-msg agent-msg--' + (role === 'user' ? 'out' : 'in');
@@ -188,16 +239,30 @@
     chipsBox.innerHTML = '';
     state.chips.forEach(function (c, i) {
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'agent-chip'; b.textContent = c;
+      b.type = 'button'; b.className = 'agent-chip' + (c === LEAD ? ' agent-chip--lead' : ''); b.textContent = c;
       b.addEventListener('click', function () { ask(c); });
       chipsBox.appendChild(b);
       if (!reduce) gsap.from(b, { y: 10, opacity: 0, scale: .8, duration: .45, delay: .05 * i, ease: 'back.out(2)' });
     });
   }
+  function renderHello() {
+    var h = document.createElement('div');
+    h.className = 'agent-hello';
+    var hour = new Date().getHours();
+    h.innerHTML = '<p class="agent-hello-hi">' + (hour < 18 && hour > 4 ? 'Bonjour' : 'Bonsoir') + '&nbsp;! Je suis le martin-pêcheur de ZkilZ.</p>' +
+      '<p class="agent-hello-sub">Posez-moi une question sur votre projet, ou choisissez un point de départ.</p>' +
+      '<div class="agent-starts">' + starts.map(function (s, i) {
+        return '<button type="button" class="agent-start" data-i="' + i + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[s[0]] + '</svg><b>' + s[1] + '</b><span>' + s[2] + '</span></button>';
+      }).join('') + '</div>' +
+      '<div class="agent-human"><div><b>Vous préférez une personne&nbsp;?</b><span>Le premier échange est gratuit.</span></div><a href="contact.html">Écrire</a></div>';
+    h.querySelectorAll('.agent-start').forEach(function (b) { b.addEventListener('click', function () { ask(starts[+b.dataset.i][3]); }); });
+    log.appendChild(h);
+    return h;
+  }
   function renderAll() {
     log.innerHTML = '';
-    if (!state.messages.length) state.messages.push({ role: 'assistant', content: GREETING });
-    state.messages.forEach(function (m) { render(m, false); });
+    if (!state.messages.length) renderHello();
+    else state.messages.forEach(function (m) { render(m, false); });
     setChips(state.chips);
   }
 
@@ -211,11 +276,11 @@
       log.appendChild(typing);
       scrollLog();
       if (!reduce) gsap.to(typing.querySelectorAll('i'), { y: -5, duration: .32, stagger: .12, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-      statusEl.textContent = 'Réfléchit…';
+      statusEl.textContent = 'Le martin-pêcheur réfléchit…';
       mood('think');
     } else if (typing) {
       typing.remove(); typing = null;
-      statusEl.textContent = 'En ligne';
+      statusEl.textContent = 'Assistant de ZkilZ · en ligne';
     }
   }
 
@@ -271,6 +336,8 @@
     text = String(text || '').trim();
     if (!text || busy) return;
     busy = true;
+    var hello = log.querySelector('.agent-hello');
+    if (hello) hello.remove();
     var m = { role: 'user', content: text };
     state.messages.push(m);
     render(m, true);
@@ -306,7 +373,7 @@
   input.addEventListener('input', function () { send.disabled = !input.value.trim(); });
   document.getElementById('agentReset').addEventListener('click', function () {
     state = { messages: [], chips: START, flow: null }; save(); renderAll();
-    if (!reduce) gsap.from(log.children, { y: 12, opacity: 0, duration: .5, ease: 'back.out(2)' });
+    if (!reduce) gsap.from(log.querySelectorAll('.agent-hello > *, .agent-start'), { y: 12, opacity: 0, duration: .45, stagger: .04, ease: 'power3.out' });
   });
 
   function goTo(id) {
@@ -318,7 +385,7 @@
   // =========================================================================
   // OUVRIR / FERMER : la fenêtre se déplie depuis la bulle
   // =========================================================================
-  var open = false;
+  var open = false, small = window.matchMedia('(max-width: 640px)');
   function openPanel() {
     if (open) return;
     open = true;
@@ -327,19 +394,17 @@
     fab.classList.add('is-open');
     panel.hidden = false;
     panel.setAttribute('aria-hidden', 'false');
+    if (small.matches) document.documentElement.style.overflow = 'hidden';
     if (!log.children.length) renderAll();
     if (!reduce) {
-      var f = fab.getBoundingClientRect(), p = panel.getBoundingClientRect();
-      var at = (f.left + f.width / 2 - p.left) + 'px ' + (f.top + f.height / 2 - p.top) + 'px';
-      gsap.timeline()
-        .to(head, { yPercent: 60, duration: .22, ease: 'power2.in' }, 0)
-        .fromTo(panel, { clipPath: 'circle(0px at ' + at + ')' }, { clipPath: 'circle(1400px at ' + at + ')', duration: .75, ease: 'power3.inOut', clearProps: 'clipPath' }, .05)
-        .fromTo(panel.querySelector('.agent-peek'), { yPercent: 100 }, { yPercent: 0, duration: .8, ease: 'back.out(2.2)' }, .45)
-        .from(log.children, { y: 16, opacity: 0, duration: .5, stagger: .05, ease: 'back.out(2)' }, .35);
-      if (window.SKZ) window.SKZ.burst(f.left + f.width / 2, f.top + f.height / 2, { count: 10, spread: 70 });
+      gsap.fromTo(panel, small.matches ? { yPercent: 100 } : { y: 24, scale: .94, opacity: 0, transformOrigin: '100% 100%' },
+        small.matches ? { yPercent: 0, duration: .55, ease: 'expo.out' } : { y: 0, scale: 1, opacity: 1, duration: .5, ease: 'expo.out' });
+      gsap.from(log.querySelectorAll('.agent-hello > *, .agent-start, .agent-msg'), { y: 14, opacity: 0, duration: .5, stagger: .04, ease: 'power3.out', delay: .12 });
+      mood('idle');
     }
-    setTimeout(function () { if (fine) input.focus({ preventScroll: true }); }, reduce ? 0 : 500);
-    scrollLog();
+    setTimeout(function () { if (fine) input.focus({ preventScroll: true }); }, reduce ? 0 : 450);
+    // l'accueil se lit depuis le haut ; une conversation, depuis le dernier message
+    if (log.querySelector('.agent-hello')) log.scrollTop = 0; else scrollLog();
   }
   function close() {
     if (!open) return;
@@ -347,15 +412,10 @@
     fab.setAttribute('aria-expanded', 'false');
     fab.classList.remove('is-open');
     panel.setAttribute('aria-hidden', 'true');
-    var done = function () { panel.hidden = true; };
+    document.documentElement.style.overflow = '';
+    var done = function () { panel.hidden = true; gsap && gsap.set(panel, { clearProps: 'all' }); };
     if (reduce) { done(); return; }
-    var f = fab.getBoundingClientRect(), p = panel.getBoundingClientRect();
-    var at = (f.left + f.width / 2 - p.left) + 'px ' + (f.top + f.height / 2 - p.top) + 'px';
-    gsap.timeline({ onComplete: done })
-      .to(panel.querySelector('.agent-peek'), { yPercent: 100, duration: .25, ease: 'power2.in' }, 0)
-      .fromTo(panel, { clipPath: 'circle(1400px at ' + at + ')' }, { clipPath: 'circle(0px at ' + at + ')', duration: .5, ease: 'power3.in', clearProps: 'clipPath' }, .05)
-      .to(head, { yPercent: 0, duration: .7, ease: 'back.out(2.4)' }, .4)
-      .add(function () { jellyBubble(); }, .45);
+    gsap.to(panel, small.matches ? { yPercent: 100, duration: .35, ease: 'power2.in', onComplete: done } : { y: 16, scale: .96, opacity: 0, duration: .25, ease: 'power2.in', onComplete: done });
     fab.focus({ preventScroll: true });
   }
   fab.addEventListener('click', function () { open ? close() : openPanel(); });
@@ -365,51 +425,44 @@
   // =========================================================================
   // LE MARTIN-PÊCHEUR DANS SA PASTILLE
   // =========================================================================
-  function jellyBubble() { if (window.SKZ) window.SKZ.jelly(bubble, .9); }
   function mood(m) {
-    if (reduce) return;
     var src = m === 'think' ? (thinkSrc || avatarSrc) : m === 'idea' ? (ideaSrc || avatarSrc) : avatarSrc;
     if (peekHead.getAttribute('src') !== src) peekHead.src = src;
-    if (m === 'think') gsap.to(peekHead, { rotation: -10, y: 4, duration: .5, ease: 'power2.out' });
-    else gsap.timeline()
-      .to(peekHead, { rotation: 0, y: -14, duration: .2, ease: 'power2.out' })
-      .to(peekHead, { y: 0, duration: .7, ease: 'bounce.out' });
-    if (m === 'idea') setTimeout(function () { mood('idle'); }, 2600);
+    if (reduce) return;
+    if (m === 'think') gsap.to(peekHead, { rotation: -8, y: 2, duration: .4, ease: 'power2.out' });
+    else gsap.timeline().to(peekHead, { rotation: 0, y: -5, duration: .18, ease: 'power2.out' }).to(peekHead, { y: 0, duration: .6, ease: 'bounce.out' });
+    if (m === 'idea') setTimeout(function () { if (!busy) mood('idle'); }, 2400);
   }
   function blink(img) {
-    if (!blinkSrc || reduce) return;
-    var orig = img.src;
+    if (!blinkSrc || reduce || !img) return;
+    var orig = img.getAttribute('src');
+    if (orig !== avatarSrc) return;
     img.src = blinkSrc;
-    setTimeout(function () { img.src = orig; }, 120);
+    setTimeout(function () { img.src = orig; }, 130);
   }
 
   if (!reduce) {
-    // Entrée : la pastille apparaît, puis l'oiseau sort la tête
-    gsap.timeline({ delay: 2.4 })
-      .fromTo(fab, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1, ease: 'elastic.out(1, .5)' })
-      .fromTo(head, { yPercent: 70 }, { yPercent: 0, duration: .8, ease: 'back.out(2.4)' }, .35)
-      .add(function () { var r = fab.getBoundingClientRect(); window.SKZ && window.SKZ.burst(r.left + r.width / 2, r.top, { count: 6, spread: 50, min: 5, max: 9 }); }, .5);
-
-    // Petits gestes au repos : plonge, penche, oreilles, clin d'œil
-    var idle = [
-      function () { gsap.timeline().to(head, { yPercent: 62, duration: .28, ease: 'power2.in' }).to(head, { yPercent: 0, duration: .75, ease: 'back.out(2.6)' }, '+=.7').add(jellyBubble, '<'); },
-      function () { var s = Math.random() > .5 ? 1 : -1; gsap.timeline().to(head, { rotation: 11 * s, duration: .45, ease: 'power2.out' }).to(head, { rotation: 0, duration: .9, ease: 'elastic.out(1, .4)' }, '+=.9'); },
-      function () { gsap.timeline().to(head, { scaleY: .9, scaleX: 1.05, duration: .12 }).to(head, { scaleY: 1, scaleX: 1, duration: .8, ease: 'elastic.out(1.2, .3)' }); blink(head); },
-      function () { blink(head); setTimeout(function () { blink(head); }, 260); }
-    ];
+    // Entrée : la pastille arrive, l'oiseau hoche la tête
+    gsap.timeline({ delay: 1.6 })
+      .fromTo(fab, { y: 30, opacity: 0, scale: .8 }, { y: 0, opacity: 1, scale: 1, duration: .8, ease: 'back.out(1.8)' })
+      .fromTo(head, { rotation: -12, y: 8 }, { rotation: 0, y: 0, duration: .8, ease: 'elastic.out(1, .5)' }, .2);
+    // Au repos : il cligne des yeux, penche la tête, de temps en temps
     (function loop() {
       setTimeout(function () {
-        if (!open && !document.hidden && !fab.matches(':hover')) idle[Math.floor(Math.random() * idle.length)]();
+        if (!document.hidden) {
+          if (open) blink(peekHead);
+          else if (!fab.matches(':hover')) {
+            if (Math.random() < .6) blink(head);
+            else gsap.timeline().to(head, { rotation: 8, duration: .35, ease: 'power2.out' }).to(head, { rotation: 0, duration: .8, ease: 'elastic.out(1, .4)' }, '+=.6');
+          }
+        }
         loop();
-      }, 5200 + Math.random() * 4500);
+      }, 3800 + Math.random() * 3200);
     })();
-    setInterval(function () { if (open && !busy) blink(peekHead); }, 4200);
-
     if (fine) {
-      fab.addEventListener('pointerenter', function () { if (open) return; gsap.to(head, { yPercent: -8, rotation: -4, duration: .5, ease: 'back.out(2)' }); jellyBubble(); });
-      fab.addEventListener('pointerleave', function () { if (open) return; gsap.to(head, { yPercent: 0, rotation: 0, duration: .7, ease: 'elastic.out(1, .45)' }); });
+      fab.addEventListener('pointerenter', function () { if (!open) gsap.to(head, { rotation: -6, y: -2, duration: .4, ease: 'back.out(2)' }); });
+      fab.addEventListener('pointerleave', function () { gsap.to(head, { rotation: 0, y: 0, duration: .6, ease: 'elastic.out(1, .45)' }); });
     }
-    if (peekHead) peekHead.parentNode.addEventListener('click', function () { mood('idea'); var r = peekHead.getBoundingClientRect(); window.SKZ && window.SKZ.burst(r.left + r.width / 2, r.top + r.height / 3, { count: 8, spread: 60 }); });
   }
 
   // =========================================================================
@@ -425,15 +478,13 @@
   var shown = 0, muted = false, tipTimer = null, lastTip = 0;
   try { muted = sessionStorage.getItem('skz-agent-tips') === 'off'; } catch (e) {}
   function showTip(text) {
-    if (muted || open || shown >= 3 || Date.now() - lastTip < 15000) return;
+    if (!text || muted || open || shown >= 3 || Date.now() - lastTip < 15000) return;
     shown++; lastTip = Date.now();
     tip.hidden = false;
-    tipText.textContent = '';
-    if (reduce) { tipText.textContent = text; }
-    else {
-      gsap.fromTo(tip, { scale: .4, opacity: 0, x: 20 }, { scale: 1, opacity: 1, x: 0, duration: .7, ease: 'back.out(2)' });
-      typeInto(tipText, text);
-      gsap.timeline().to(head, { yPercent: -14, duration: .3, ease: 'power2.out' }).to(head, { yPercent: 0, duration: .8, ease: 'bounce.out' });
+    tipText.textContent = text;
+    if (!reduce) {
+      gsap.fromTo(tip, { scale: .6, opacity: 0, y: 10 }, { scale: 1, opacity: 1, y: 0, duration: .55, ease: 'back.out(1.8)' });
+      gsap.timeline().to(head, { y: -5, rotation: -6, duration: .25, ease: 'power2.out' }).to(head, { y: 0, rotation: 0, duration: .7, ease: 'bounce.out' });
     }
     clearTimeout(tipTimer);
     tipTimer = setTimeout(function () { hideTip(); }, 7000);

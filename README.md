@@ -33,9 +33,10 @@ python3 tools/build_pages.py
 Le script réécrit les pages `.html` à la racine (le site reste statique, rien à lancer pour le servir) et met à
 jour la liste des images dans `PROMPTS-MASCOTTE.md`.
 
-**Ajouter les images :** chaque image manquante s'affiche comme un cadre « Image à venir » avec son nom. Générer
-l'image avec son prompt (`PROMPTS-MASCOTTE.md`, partie « Images des pages »), la déposer en PNG ou JPG dans
-`assets/img/pages/src/`, puis :
+**Ajouter ou refaire les images :** les prompts de toutes les images des pages sont dans `PROMPTS-IMAGES.md`
+(modèle conseillé, méthode, un prompt complet par image) ; ceux qui manquent encore, dans `PROMPTS-A-FAIRE.md`.
+On modifie un prompt dans `tools/images_prompts.py`. Déposer l'image en PNG ou JPG dans
+`assets/img/pages/src/`, avec le nom indiqué, puis :
 
 ```bash
 python3 tools/convertir_images.py
@@ -46,13 +47,21 @@ python3 tools/convertir_images.py
 ```
 index.html              page d'accueil (et les autres pages .html, voir plus haut)
 tools/build_pages.py    fabrique les pages : gabarit commun + tools/pages/*.html + liste des images
-tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → .webp dans assets/img/pages/
+tools/images_prompts.py    les images des pages : formats, textes alternatifs, direction artistique, prompts
+tools/convertir_images.py  PNG / JPG de assets/img/pages/src/ → recadrés au format, .webp dans assets/img/pages/
 assets/js/pages.js      pages : cadres « image à venir », apparition au défilement, mosaïque
 assets/css/main.css     styles : tokens clair / sombre, échelle de texte, sections, maquette iPhone
 assets/js/nav.js        navbar : anneau lumineux, bulle du lien actif, thème
-assets/js/deco.js       le fond : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
-assets/js/bird.js       l'oiseau, animé image par image (planche kf-vol.webp) + GSAP : décollage, battements, planés, sur-place, atterrissage, attente, perchoirs
-tools/kf_sprite.py      refait kf-vol.webp à partir des planches de référence (assets/mascotte/Gemini_*)
+assets/js/sky.js        le décor du fond : disques, nuages, vols d'oiseaux, trames, roseaux (parallaxe)
+assets/js/deco.js       le fil : la route de l'oiseau qui se dessine au défilement, repères, ronds dans l'eau, vent
+assets/js/bird.js       l'oiseau, animé image par image (planche kf-vol.webp, 16 poses) + GSAP : il suit le défilement en
+                        temps réel (piqué, vue de face, vue de dos selon la vitesse) et se pose dès qu'on s'arrête
+tools/kf_sprite.py      refait kf-vol.webp (16 poses) à partir des planches de vol (assets/mascotte/kf-vol-*.jpg)
+                        et met à jour les repères de bird.js (œil, pattes, bec)
+assets/js/reel.js       « Inclus dans chaque projet » : visuels à l'échelle de leur case (la section tient dans
+                        l'écran) ; la scène de particules de l'encart « Animations » (logo, texte, sphère 3D, spirale)
+assets/js/moumous.js    Studio Moumous : vidéos lancées à l'écran, en muet ; timecode du viseur ; bouton son
+assets/video/           le reel et la caméra-logo de Studio Moumous (MP4 + image d'attente), tirés de assets/img/moumous/*.MOV
 assets/js/agent.js      assistant en bas à droite
 assets/img/kf*.svg      l'oiseau en fichiers statiques (logo, avatar, favicon)
 assets/js/main.js       animations (GSAP, ScrollTrigger, Lenis), FAQ, formulaire
@@ -62,6 +71,23 @@ assets/img/work/        captures de la réalisation MM Fragrances
 assets/vendor/          gsap 3.15, ScrollTrigger, DrawSVGPlugin, lenis 1.3 (copies locales)
 PROMPTS-MASCOTTE.md     prompts pour générer de nouvelles poses
 ```
+
+## Logo
+
+`assets/img/logo.svg` est le logo (martin-pêcheur dans son cercle), redessiné en vecteur. Il est repris
+dans la barre de navigation (en SVG dans la page, animé par `nav.js` : clin d'œil, reflet sur le bec), dans le
+pied de page et dans `favicon.svg`. Les icônes PNG (`favicon-32`, `apple-touch-icon`, `icon-192`, `icon-512`,
+`icon-maskable-512`) et l'image de partage `og-zkilz.jpg` en sont tirées.
+
+## Référencement
+
+`tools/build_pages.py` génère pour chaque page : titre et description, lien canonique, balises Open Graph et
+Twitter, données structurées JSON-LD (organisation, site, fil d'Ariane, services, questions fréquentes), et
+à la racine `sitemap.xml`, `robots.txt` et `site.webmanifest`.
+
+**À vérifier avant la mise en ligne :** l'adresse du site, `SITE_URL` en haut de `tools/build_pages.py`
+(actuellement `https://www.zkilz.fr`), puis relancer le script. Une fois en ligne, déclarer
+`sitemap.xml` dans Google Search Console.
 
 ## Règles de design suivies
 

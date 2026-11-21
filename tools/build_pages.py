@@ -27,34 +27,48 @@ IMG_DIR = 'assets/img/pages'
 # PAGES : fichier, titre, description, lien actif dans la navbar
 # ---------------------------------------------------------------------------
 PAGES = [
-    ('index', 'ZkilZ — Studio digital : sites, applications et outils sur mesure',
-     "ZkilZ conçoit et développe des sites, des applications mobiles, des SaaS et des outils sur mesure, et vous aide à trouver la bonne solution.", None),
-    ('services', 'Services — ZkilZ',
-     'Sites, applications mobiles, SaaS, outils métier et conseil : ce que le studio ZkilZ conçoit et développe pour vous.', 'services'),
-    ('site-web', 'Création de site web — ZkilZ',
-     'Site vitrine ou boutique en ligne, sur-mesure, rapide sur téléphone et facile à modifier vous-même.', 'services'),
-    ('application-mobile', 'Application mobile iOS et Android — ZkilZ',
-     "Une application iOS et Android testée sur votre téléphone avant la première ligne de code, puis publiée sur les stores.", 'services'),
-    ('saas', 'SaaS et outils métier — ZkilZ',
-     "Un logiciel en ligne pour vos clients ou vos équipes : comptes, abonnements, tableaux de bord.", 'services'),
-    ('conseil', 'Conseil et transition vers le sur mesure — ZkilZ',
-     "On cherche avec vous la bonne solution, puis on vous accompagne vers des outils faits pour votre activité.", 'services'),
-    ('reseaux-sociaux', 'Réseaux sociaux, marketing et référencement avec Studio Moumous — ZkilZ',
-     'Pour vos réseaux, votre marketing et votre référencement, ZkilZ travaille avec son partenaire Studio Moumous.', 'services'),
-    ('realisations', 'Réalisations — ZkilZ',
-     'Les projets conçus et développés par le studio ZkilZ.', 'realisations'),
-    ('mm-fragrances', 'MM Fragrances, étude de cas — ZkilZ',
-     "Comment le studio a conçu la boutique en ligne de MM Fragrances, maison de parfums de niche.", 'realisations'),
-    ('methode', 'Méthode — ZkilZ',
-     "Écouter, concevoir, faire grandir : comment se déroule un projet avec ZkilZ, étape par étape.", 'methode'),
-    ('studio', 'Le studio — ZkilZ',
-     "ZkilZ, studio digital : qui nous sommes, comment nous travaillons et pourquoi un martin-pêcheur.", 'studio'),
-    ('contact', 'Contact — ZkilZ',
-     'Racontez votre projet au studio ZkilZ. Le premier échange est gratuit.', 'contact'),
-    ('mentions-legales', 'Mentions légales — ZkilZ', 'Mentions légales du site ZkilZ.', None),
-    ('confidentialite', 'Politique de confidentialité — ZkilZ', 'Comment ZkilZ traite vos données personnelles.', None),
-    ('404', 'Page introuvable — ZkilZ', "Cette page n'existe pas ou plus.", None),
+    ('index', 'ZkilZ : sites, applications et outils sur mesure',
+     "Studio digital : ZkilZ conçoit et développe votre site web, votre application mobile, votre SaaS et vos outils métier sur mesure. Premier échange gratuit.", None),
+    ('services', 'Services : site web, application, SaaS et conseil | ZkilZ',
+     "Création de site web, application mobile iOS et Android, SaaS et outils métier, conseil : tous les services du studio ZkilZ, conçus et développés sur mesure.", 'services'),
+    ('site-web', 'Création de site web sur mesure et e-commerce | ZkilZ',
+     "Site vitrine ou boutique en ligne sur mesure : rapide sur téléphone, bien référencé et facile à modifier vous-même. Maquettes validées avec vous avant le code.", 'services'),
+    ('application-mobile', 'Création d\'application mobile iOS et Android | ZkilZ',
+     "Votre application iOS et Android, testée sur votre téléphone en prototype avant la première ligne de code, puis publiée sur l'App Store et Google Play.", 'services'),
+    ('saas', 'Développement SaaS et outils métier sur mesure | ZkilZ',
+     "Un logiciel en ligne pour vos clients ou vos équipes : comptes, abonnements, rôles et tableaux de bord. ZkilZ conçoit et développe votre SaaS sur mesure.", 'services'),
+    ('conseil', 'Conseil digital et passage au logiciel sur mesure | ZkilZ',
+     "Tableurs ou logiciels qui ne collent pas à votre activité ? État des lieux et comparaison des solutions, puis passage à des outils sur mesure.", 'services'),
+    ('reseaux-sociaux', 'Réseaux sociaux, marketing, SEO : Studio Moumous | ZkilZ',
+     "Réseaux sociaux, marketing et référencement naturel avec Studio Moumous, partenaire de ZkilZ : contenus, campagnes et SEO, avec un seul interlocuteur.", 'services'),
+    ('realisations', 'Réalisations : sites et applications sur mesure | ZkilZ',
+     "Les projets conçus et développés par le studio ZkilZ : boutiques en ligne, applications et outils sur mesure, avec leurs études de cas détaillées.", 'realisations'),
+    ('mm-fragrances', 'MM Fragrances, boutique de parfums : étude de cas | ZkilZ',
+     "Étude de cas : comment ZkilZ a conçu la boutique en ligne de MM Fragrances, maison de parfums de niche. Catalogue animé, flacons 3D, quiz et conseiller virtuel.", 'realisations'),
+    ('methode', 'Méthode : comment se déroule un projet digital | ZkilZ',
+     "Écouter, concevoir, faire grandir : les étapes d'un projet avec ZkilZ, du premier échange gratuit à la mise en ligne, prototype testé avant le développement.", 'methode'),
+    ('studio', 'Le studio ZkilZ : design et développement au même endroit',
+     "ZkilZ, studio digital : celui qui dessine votre maquette est celui qui la code. Qui nous sommes, comment nous travaillons, et pourquoi un martin-pêcheur.", 'studio'),
+    ('contact', 'Contact : parlez-nous de votre projet | ZkilZ',
+     "Racontez votre projet de site, d'application ou d'outil sur mesure au studio ZkilZ. Le premier échange est gratuit et vous repartez avec des pistes concrètes.", 'contact'),
+    ('mentions-legales', 'Mentions légales | ZkilZ', "Mentions légales du site du studio ZkilZ : éditeur, hébergeur et propriété intellectuelle.", None),
+    ('confidentialite', 'Politique de confidentialité | ZkilZ', "Comment le studio ZkilZ collecte, utilise et protège vos données personnelles, et comment exercer vos droits.", None),
+    ('404', 'Page introuvable | ZkilZ', "Cette page n'existe pas ou plus. Retrouvez les services, les réalisations et le contact du studio ZkilZ.", None),
 ]
+
+# Adresse du site en ligne, sans barre finale : sert aux liens canoniques, au
+# plan du site (sitemap.xml), à robots.txt et aux données structurées.
+# À CHANGER si le nom de domaine est différent.
+SITE_URL = 'https://www.zkilz.fr'
+
+# Pages de service : décrites aussi comme « Service » pour les moteurs
+SERVICE_PAGES = {
+    'site-web': ('Création de site web', 'Création de site internet'),
+    'application-mobile': ('Application mobile iOS et Android', 'Développement d\'application mobile'),
+    'saas': ('SaaS et outils métier', 'Développement de logiciel SaaS'),
+    'conseil': ('Conseil et transition vers le sur mesure', 'Conseil en transformation digitale'),
+    'reseaux-sociaux': ('Réseaux sociaux, marketing et référencement', 'Marketing digital et référencement'),
+}
 
 NAV = [('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 'Méthode'), ('studio', 'Studio')]
 
@@ -71,200 +85,10 @@ SERVICES = [
 #   famille « capture »: capture d'écran réelle à faire (pas d'IA)
 #   famille « photo »  : vraie photo à fournir (pas d'IA)
 # ---------------------------------------------------------------------------
-IMAGES = {
-    # --- Accueil : la mosaïque -------------------------------------------
-    'col-site': ('4/3', "Un site vitrine affiché sur un ordinateur portable", 'device',
-        "A modern laptop seen from a three-quarter front angle, standing on a plain ice-blue surface. The screen shows a "
-        "clean showcase website for a small local business: a large hero photo area filled with a soft abstract blue shape, "
-        "a short bold headline drawn as thick navy bars, one rounded royal-blue button, and a row of three rounded cards below."),
-    'col-app': ('4/3', "Deux écrans d'une application de réservation sur téléphone", 'device',
-        "Two modern smartphones side by side, slightly tilted toward each other. Left screen: a booking app home with a "
-        "calendar strip, three rounded time-slot chips, one highlighted in royal blue. Right screen: a confirmation screen "
-        "with a large check mark in a blue circle and a summary card."),
-    'col-saas': ('4/3', "Un tableau de bord de logiciel en ligne sur un grand écran", 'device',
-        "A large desktop monitor with a thin bezel. The screen shows a SaaS dashboard: a left sidebar with icons, four KPI "
-        "cards on top, a smooth royal-blue line chart with a light-blue area underneath, and a table of rows with small "
-        "status pills."),
-    'col-reel': ('3/4', "Un reel vertical sur un téléphone", 'device',
-        "A modern smartphone held upright, shown straight on. The screen shows a vertical short video frame: a bold "
-        "abstract blue composition with a large circle and a diagonal shape, a heart icon, a comment icon and a share "
-        "icon stacked on the right edge, a thin progress bar at the bottom."),
-    'col-marque': ('4/3', "Une planche d'identité visuelle : logo, couleurs, typographie", 'scene',
-        "A flat-lay brand identity board seen from above on an ice-blue desk: a round logo mark made of simple geometric "
-        "shapes, four colour swatches (navy, royal blue, azure, white), a large sample letter 'Aa' drawn as shapes, a "
-        "business card and a small notebook, all neatly aligned on a grid."),
-    'col-grille': ('3/4', "Le profil d'une marque sur un réseau social : une grille de publications", 'device',
-        "A modern smartphone shown straight on. The screen shows a social media profile: a round avatar, three counters "
-        "drawn as short bars, and below a 3 x 3 grid of square posts that all share the same blue and white style "
-        "(circles, diagonals, a product silhouette, a quote card), clearly one coherent brand."),
-
-    # --- Services : une scène par métier ---------------------------------
-    'svc-site': ('16/9', "Le martin-pêcheur posé sur l'écran d'un ordinateur portable qui affiche un site", 'mascot',
-        "The kingfisher is perched on the top edge of an open laptop screen, looking down at the website on the screen "
-        "(clean showcase site with a big blue hero shape and three cards). Flat ice-blue background (#E1EBFF), a few "
-        "floating rounded interface cards around the laptop. Wide composition, the laptop on the right half, empty space "
-        "on the left for text."),
-    'svc-app': ('16/9', "Le martin-pêcheur à côté d'un téléphone qui affiche une application", 'mascot',
-        "The kingfisher stands next to a smartphone that is as tall as it is, one wing pointing at the screen, which shows "
-        "a simple app home with rounded cards and a blue tab bar. Flat ice-blue background (#E1EBFF). Wide composition, "
-        "subject on the right half."),
-    'svc-saas': ('16/9', "Le martin-pêcheur devant un tableau de bord avec des graphiques", 'mascot',
-        "The kingfisher is perched on the corner of a floating dashboard panel showing a rising royal-blue line chart and "
-        "three KPI cards; small rounded panels float around it like a workspace. Flat ice-blue background (#E1EBFF). Wide "
-        "composition, subject on the right half."),
-    'svc-reseaux': ('16/9', "Le martin-pêcheur au milieu de trois téléphones qui affichent des reels", 'mascot',
-        "Three vertical smartphones stand in a gentle arc, each showing a different vertical video frame in blue and "
-        "white; the kingfisher hovers in front of the middle one, wings up, as if it just flew out of the screen. Flat "
-        "ice-blue background (#E1EBFF). Wide composition, subject on the right half."),
-
-    'svc-conseil': ('16/9', "Le martin-pêcheur penché sur un plan de travail, entre l'ancien tableur et le nouvel outil", 'mascot',
-        "The kingfisher stands on a desk next to two screens: on the left an old cluttered spreadsheet drawn as a dense grey "
-        "grid, on the right a clean custom app with rounded royal-blue cards; a thin dotted arrow goes from the spreadsheet "
-        "to the app, and the bird points its beak along the arrow. Flat ice-blue background (#E1EBFF). Wide composition, "
-        "subject on the right half."),
-
-    # --- Conseil et transition ----------------------------------------------
-    'conseil-etat-des-lieux': ('4/3', "L'état des lieux : les tâches d'une journée de travail posées sur la table", 'scene',
-        "A top-down view of a work table during an audit session: printed spreadsheets with dense grey grids, sticky notes "
-        "in two blues grouped into columns (today, problems, ideas), a hand-drawn flow of boxes and arrows on a large sheet, "
-        "a laptop showing a cluttered spreadsheet, a pen and a cup. Calm, organised, ice-blue background."),
-    'conseil-solutions': ('16/9', "Deux pistes comparées côte à côte : un logiciel existant et un outil sur mesure", 'device',
-        "Two browser windows side by side with a thin vertical divider between them. Left: a generic off-the-shelf software "
-        "screen with many grey menus and features. Right: a simple custom app screen with only three rounded royal-blue "
-        "cards. Under each window, a small card with three bars and a check mark, like a comparison sheet. Ice-blue "
-        "background."),
-    'conseil-transition': ('16/9', "La bascule : les données d'un tableur passent dans le nouvel outil", 'device',
-        "A laptop on the left showing a dense grey spreadsheet; a phone and a laptop on the right showing a clean custom app "
-        "with royal-blue cards; between them, a gentle flow of small rounded rectangles (data rows) travelling along a thin "
-        "curved dotted path from left to right. Ice-blue background."),
-    'conseil-equipe': ('4/3', "La prise en main : l'outil montré à l'équipe sur un grand écran", 'scene',
-        "A small meeting room seen from behind: a large wall screen showing a simple custom app dashboard in royal blue, "
-        "three people seen from behind as simple flat silhouettes (navy and blue clothes, no faces), one pointing at the "
-        "screen, laptops on the table. Flat vector, calm, ice-blue walls."),
-
-    # --- Studio Moumous (direction artistique noir et blanc) -----------------
-    'moumous-hero': ('16/9', "Trois téléphones qui affichent des contenus de réseaux sociaux, en noir et blanc", 'mono',
-        "Three smartphones standing in a gentle arc, each showing a different vertical social media frame: a bold "
-        "typographic quote drawn as thick black bars, a product photo in high-contrast black and white, a profile grid of "
-        "nine squares. Clean studio light, soft shadows on a light grey background."),
-    'moumous-reseaux': ('16/9', "Le storyboard d'un reel, en noir et blanc", 'mono',
-        "A storyboard sheet on a light grey desk: six vertical frames in two rows, each a bold black and white composition "
-        "(product appears, close-up, text card drawn as bars, logo reveal), small arrows between frames, a black marker "
-        "next to the sheet."),
-    'moumous-identite': ('4/3', "Une planche d'identité visuelle : logo, typographies et papeterie, en noir et blanc", 'mono',
-        "A flat-lay brand identity board on a light grey surface: a bold abstract monogram logo, black and white colour "
-        "swatches with grey steps, a large type specimen drawn as shapes, a business card, an envelope and a notebook, all "
-        "perfectly aligned on a grid."),
-    'moumous-referencement': ('3/4', "Une page de résultats de recherche avec une courbe de visites qui monte, en noir et blanc", 'mono',
-        "A smartphone shown straight on: the screen shows a list of search results drawn as black and grey bars, the first "
-        "result highlighted with a thick black outline; next to the phone, a small floating card with a black line chart "
-        "rising to the right. Light grey background."),
-
-    # --- Site web ---------------------------------------------------------
-    'site-maquettes': ('16/9', "De la maquette en gris au site final, sur ordinateur et téléphone", 'device',
-        "Three stages of the same web page side by side from left to right: a grey wireframe of boxes, a coloured design "
-        "mock-up in navy, royal blue and white, then the final page on a laptop with a phone next to it showing the "
-        "mobile version. Clean, airy, on an ice-blue background."),
-    'site-mobile': ('3/4', "Un site vu sur téléphone, avec le menu ouvert", 'device',
-        "A smartphone shown straight on, displaying a mobile website with a rounded navigation sheet opened from the "
-        "bottom: four menu rows and a large royal-blue call-to-action button. Ice-blue background."),
-    'site-admin': ('16/9', "L'écran d'administration où l'on change un texte et une photo", 'device',
-        "A laptop showing a simple content editor: on the left a list of pages, in the centre a form with a title field, "
-        "an image upload box showing a thumbnail, a price field, and a toggle switch 'publish' in royal blue. Friendly, "
-        "uncluttered. Ice-blue background."),
-    'site-boutique': ('4/3', "Une fiche produit de boutique en ligne avec le bouton d'achat", 'device',
-        "A laptop and a phone showing the same online shop product page: a large product photo area with an abstract "
-        "bottle silhouette, a price drawn as a bold bar, size chips and a big royal-blue add-to-cart button. Ice-blue "
-        "background."),
-
-    # --- Application mobile ----------------------------------------------
-    'app-prototype': ('16/9', "Le parcours d'une application : cinq écrans reliés par des flèches", 'device',
-        "Five smartphone screens laid out in a row on an ice-blue canvas, linked by thin curved navy arrows like a "
-        "clickable prototype: welcome, sign-up, home, detail, confirmation. Each screen uses rounded cards and royal-blue "
-        "buttons, text drawn as grey bars."),
-    'app-main': ('3/4', "L'écran d'accueil de l'application, entouré de deux cartes", 'device',
-        "A modern smartphone slightly tilted, showing an app home: a greeting bar, a large royal-blue card with a "
-        "progress ring and two smaller cards. Two rounded white cards float around the phone: a reminder card with a "
-        "small blue dot, and a progress card with a ring. Ice-blue background."),
-    'app-notif': ('3/4', "L'écran verrouillé d'un téléphone avec les notifications de l'application", 'device',
-        "A smartphone lock screen with a large clock drawn as shapes and three stacked rounded notification cards from the "
-        "same app (a small blue round icon on each). Soft blue abstract wallpaper. Ice-blue background."),
-    'app-icone': ('4/3', "L'icône de l'application sur l'écran d'accueil d'un téléphone", 'device',
-        "Close-up of a smartphone home screen grid of app icons, all in muted grey, except one bright royal-blue rounded "
-        "icon with a simple white geometric symbol in the centre, slightly raised with a soft shadow, as if just "
-        "installed. Ice-blue background."),
-
-    # --- SaaS -------------------------------------------------------------
-    'saas-dashboard': ('16/9', "Le tableau de bord d'un logiciel en ligne, avec graphiques et indicateurs", 'device',
-        "A wide browser window showing a SaaS dashboard: left sidebar, a header with a search bar, four KPI cards, a bar "
-        "chart and a line chart in royal blue and azure, and a recent activity list. Calm, readable hierarchy. Ice-blue "
-        "background."),
-    'saas-onboarding': ('16/9', "Les trois étapes d'inscription d'un logiciel en ligne", 'device',
-        "Three browser windows overlapping diagonally, showing the steps of an onboarding: create an account (two fields), "
-        "choose a plan (three plan cards, the middle one highlighted in royal blue), invite your team (avatars as "
-        "circles). Ice-blue background."),
-    'saas-roles': ('4/3', "La gestion des accès : chaque membre de l'équipe a son rôle", 'device',
-        "A browser window showing a team settings table: rows with round avatars (plain coloured circles, no faces), "
-        "names as grey bars, a role dropdown pill on each row (admin, editor, viewer drawn as pills of different blues), "
-        "and an 'invite' button in royal blue. Ice-blue background."),
-    'saas-mobile': ('3/4', "Le même logiciel, sur téléphone", 'device',
-        "A smartphone showing the mobile version of a SaaS dashboard: a stacked column of KPI cards and a compact line "
-        "chart in royal blue, a bottom tab bar. Ice-blue background."),
-
-    # --- Réseaux sociaux -------------------------------------------------
-    'reseaux-storyboard': ('16/9', "Le storyboard d'un reel : six images clés", 'scene',
-        "A storyboard sheet on an ice-blue desk: six vertical frames in two rows, each frame a simple flat blue and white "
-        "composition showing the steps of a short video (product appears, zoom, text card drawn as bars, logo reveal), "
-        "with small arrows between frames and a pencil next to the sheet."),
-    'reseaux-charte': ('4/3', "La charte des réseaux : couleurs, typographies, modèles de publication", 'scene',
-        "A social media style guide board laid flat: colour swatches, two type samples drawn as shapes, and four post "
-        "templates (quote, product, announcement, carousel cover) all in navy, royal blue, azure and white. Top-down view, "
-        "ice-blue background."),
-    'reseaux-motion': ('16/9', "Les étapes d'une animation de logo, image par image", 'scene',
-        "A horizontal sequence of five frames showing a simple round logo mark being drawn: a dot, a growing arc, a full "
-        "circle, an inner shape appearing, the final mark with a small bounce. Flat vector, navy and royal blue on white "
-        "frames, ice-blue background, thin motion guide lines between frames."),
-    'reseaux-telephones': ('3/4', "Une story et une publication de la même marque sur deux téléphones", 'device',
-        "Two smartphones overlapping slightly: one shows a vertical story with a big blue shape and a sticker-like rounded "
-        "label, the other shows a square post from the same brand. Same colours, same shapes: one coherent identity. "
-        "Ice-blue background."),
-
-    # --- Méthode -----------------------------------------------------------
-    'methode-ecouter': ('4/3', "Le premier échange : un carnet, des notes et un appel en visio", 'scene',
-        "A flat-lay of a first project meeting seen from above: an open notebook with simple sketches (boxes, arrows), a "
-        "laptop showing a video call with two plain circular avatars, a cup and a pen, on an ice-blue desk."),
-    'methode-concevoir': ('4/3', "Le prototype testé sur un téléphone, à côté des maquettes", 'scene',
-        "A desk seen from above with printed screen mock-ups pinned around, and in the centre a hand holding a smartphone "
-        "running the prototype, a finger about to tap a royal-blue button. Flat vector, navy, blues and white."),
-    'methode-grandir': ('4/3', "Après la mise en ligne : le suivi et les nouvelles fonctions", 'scene',
-        "A laptop showing a simple analytics chart going up in royal blue, next to a small checklist card with three "
-        "ticked items and one new item being added, and a phone showing a new post ready to publish. Ice-blue desk."),
-
-    # --- Studio --------------------------------------------------------------
-    'studio-lac': ('33/14', "Le martin-pêcheur posé sur un roseau, au-dessus d'un lac calme au lever du jour", 'mascot',
-        "Panoramic landscape: a calm lake at sunrise in shades of blue only (navy hills in the distance, pale blue sky, "
-        "ice-blue water with a few horizontal ripple lines). On the right third, the kingfisher is perched on a single "
-        "reed just above the water, looking far ahead. Lots of open sky on the left. No text."),
-    'studio-bureau': ('4/3', "Le bureau du studio : ordinateur, croquis et téléphone de test", 'scene',
-        "A tidy studio desk seen from above: a laptop with code drawn as coloured bars, a sketchbook with a kingfisher "
-        "doodle in navy ink, a phone used for testing, a colour swatch fan in blues, a plant with blue pot. Ice-blue desk."),
-    'studio-portrait': ('4/5', "Portrait du fondateur du studio", 'photo',
-        "Vraie photo à fournir (pas d'IA) : un portrait de toi, de face ou de trois quarts, lumière naturelle, fond "
-        "uni clair. Format vertical 4:5, au moins 1200 px de large."),
-
-    # --- MM Fragrances (vraies captures) -----------------------------------
-    'mm-catalogue': ('16/10', "Le catalogue de MM Fragrances sur ordinateur", 'capture',
-        "Capture d'écran réelle : la page catalogue / collection de mm-fragrances.fr, sur ordinateur (fenêtre de "
-        "1440 × 900), en mode sombre, sans barre d'adresse."),
-    'mm-quiz': ('16/10', "Le quiz qui aide à trouver son parfum", 'capture',
-        "Capture d'écran réelle : le quiz « trouver son parfum » de mm-fragrances.fr, sur ordinateur, une question "
-        "affichée avec ses réponses."),
-    'mm-flacon': ('16/10', "Un flacon en 3D sur la fiche produit", 'capture',
-        "Capture d'écran réelle : une fiche produit de mm-fragrances.fr sur ordinateur, avec le flacon en 3D bien visible."),
-    'mm-conseiller': ('3/4', "Le conseiller virtuel qui répond aux questions, sur téléphone", 'capture',
-        "Capture d'écran réelle : le conseiller virtuel de mm-fragrances.fr ouvert sur téléphone (390 × 844), avec une "
-        "question et sa réponse."),
-}
+# Les images, leurs descriptions et leurs prompts : tools/images_prompts.py
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from images_prompts import IMAGES, full_prompt, FAMILY_NAMES, GEMINI_RATIO  # noqa: E402
 
 # Tant qu'une de ces images manque, la page affiche l'image existante indiquée.
 # Dès qu'elle est déposée (tools/convertir_images.py relance ce script), elle
@@ -280,28 +104,6 @@ FALLBACK = {
 
 def has_image(name):
     return os.path.exists(os.path.join(ROOT, IMG_DIR, name + '.webp'))
-
-
-FAMILY_RULES = {
-    'scene': "SCENE",
-    'device': "DEVICE",
-    'mascot': "MASCOT",
-}
-
-STYLE_SCENE = (
-    "Flat vector editorial illustration, geometric and minimal, crisp shapes, very subtle gradients only, no outlines, "
-    "no texture. Palette strictly blue and white: navy #0B1B3F, royal blue #1F6BFF, azure #1E9BFF, light azure "
-    "#8FDBFF, ice blue #E1EBFF, white. No orange, red, yellow or green. Any text is drawn as rounded grey or navy bars, "
-    "never readable letters. No logos of real brands, no watermark.")
-STYLE_MONO = (
-    "Studio Moumous art direction: strictly black, white and greys, no colour at all, high contrast, clean editorial "
-    "look, flat shapes or crisp product mock-up, soft studio shadows on a light grey background (#F2F2F2). Any text is "
-    "drawn as black or grey bars, never readable letters. No real brand, no real logo, no watermark, no kingfisher.")
-STYLE_DEVICE = (
-    "Clean product mock-up, soft studio lighting, minimal and premium, devices with thin dark bezels, gentle soft "
-    "shadow on a flat ice-blue background (#E1EBFF). The on-screen interface is invented: palette navy #0B1B3F, royal "
-    "blue #1F6BFF, azure #1E9BFF, ice blue and white, rounded corners, generous spacing. All text on screen is drawn "
-    "as rounded grey bars, never readable letters. No real brand, no real logo, no watermark, no people's faces.")
 
 
 def ratio_px(r, w=1600):
@@ -335,17 +137,31 @@ HEAD = '''<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{title}</title>
   <meta name="description" content="{desc}">
+  <meta name="robots" content="{robots}">
+  <link rel="canonical" href="{url}">
+  <meta name="author" content="ZkilZ">
   <meta name="theme-color" content="#F5F8FF" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#070C1C" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:site_name" content="ZkilZ">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:url" content="{url}">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/img/og-zkilz.jpg">
+  <meta property="og:image" content="{site}/assets/img/og-zkilz.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ZkilZ, studio digital : sites, applications et outils sur mesure">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{site}/assets/img/og-zkilz.jpg">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">{jsonld}</script>
 
   <!-- Thème appliqué avant le premier rendu (pas de flash). -->
   <script>
@@ -395,17 +211,11 @@ HEAD = '''<!doctype html>
 
     <div class="nav-end">
       <a href="contact.html" class="nav-cta fill-btn" data-fill="#DCE8FF"{cta_current}><span>Parler de votre projet</span><svg class="nav-cta-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <label class="theme-switch" aria-label="Thème clair ou sombre">
-        <input type="checkbox" id="themeToggle">
-        <span class="slider" aria-hidden="true">
-          <svg class="ts" viewBox="0 0 56 30">
-            <defs><mask id="tsMoon" maskUnits="userSpaceOnUse"><rect width="56" height="30" fill="#fff"/><circle class="ts-bite" cx="15" cy="15" r="6.2" fill="#000"/></mask></defs>
-            <g class="ts-stars"><circle cx="11" cy="10" r="1"/><circle cx="20" cy="19" r=".85"/><circle cx="9" cy="20" r=".65"/><circle cx="23" cy="9" r=".6"/></g>
-            <g class="ts-knob">
-              <g class="ts-rays"><path d="M15 4.2v2.4M15 23.4v2.4M4.2 15h2.4M23.4 15h2.4M7.4 7.4l1.7 1.7M20.9 20.9l1.7 1.7M7.4 22.6l1.7-1.7M20.9 9.1l1.7-1.7"/></g>
-              <circle class="ts-core" cx="15" cy="15" r="6" mask="url(#tsMoon)"/>
-            </g>
-          </svg>
+      <label class="theme-switch" title="Thème clair ou sombre">
+        <input type="checkbox" id="themeToggle" aria-label="Thème sombre">
+        <span class="ts-btn" aria-hidden="true">
+          <svg class="ts-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.1M12 19.1v2.1M2.8 12h2.1M19.1 12h2.1M5.5 5.5l1.5 1.5M17 17l1.5 1.5M5.5 18.5L7 17M17 7l1.5-1.5"/></svg>
+          <svg class="ts-moon" viewBox="0 0 24 24"><path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1z"/></svg>
         </span>
       </label>
     </div>
@@ -414,9 +224,19 @@ HEAD = '''<!doctype html>
 
 FOOT = '''
   <footer class="footer" id="footer">
+    <!-- Décor de nuit : étoiles, lune, route de vol jusqu'à l'oiseau posé sur le « l », eau et roseaux -->
+    <svg class="footer-deco" id="footerDeco" aria-hidden="true" preserveAspectRatio="none"></svg>
+
+    <ul class="footer-pledges" aria-label="Nos engagements">
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Premier échange gratuit</b>Vous repartez avec des pistes concrètes.</span></li>
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Devis détaillé</b>Ligne par ligne, sans frais cachés.</span></li>
+      <li><span class="fp-ico"><svg><use href="#i-check"/></svg></span><span><b>Un seul interlocuteur</b>Du premier croquis à la mise en ligne.</span></li>
+    </ul>
+
     <div class="footer-grid">
       <div class="footer-about">
-        <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure.</p>
+        <a href="index.html" class="footer-brand" aria-label="ZkilZ, accueil"><img class="footer-logo" src="assets/img/favicon.svg" width="56" height="56" alt="" loading="lazy" decoding="async"><span><b>Z</b>kil<b>Z</b></span></a>
+        <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure, conçus et développés au même endroit.</p>
         <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
       <nav class="footer-col" aria-label="Services">
@@ -427,39 +247,46 @@ FOOT = '''
         <p class="footer-h">Le studio</p>
         <a href="realisations.html">Réalisations</a><a href="methode.html">Méthode</a><a href="studio.html">Studio</a><a href="contact.html">Contact</a>
       </nav>
-      <nav class="footer-col footer-col--partner" aria-label="Partenaire">
+      <div class="footer-col footer-col--partner">
         <p class="footer-h">Partenaire</p>
-        <a href="reseaux-sociaux.html" class="footer-partner"><img src="assets/img/moumous/moumous-logo.webp" width="28" height="28" alt="" loading="lazy" decoding="async">Studio Moumous</a>
-        <span>Réseaux sociaux, marketing et référencement</span>
-      </nav>
+        <a href="reseaux-sociaux.html" class="footer-partner">
+          <img src="assets/img/moumous/moumous-logo.webp" width="48" height="48" alt="" loading="lazy" decoding="async">
+          <span class="fpa-copy"><b>Studio Moumous</b><span>Réseaux sociaux, marketing et référencement.</span><i>Découvrir<svg aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+        </a>
+      </div>
     </div>
+
     <p class="footer-word" id="footerWord" aria-label="ZkilZ"><b>Z</b><span>k</span><span>i</span><span data-perch="50" data-perch-ink>l</span><b>Z</b></p>
+
     <div class="footer-bottom">
-      <p class="footer-legal">© 2026 ZkilZ</p>
-      <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a></nav>
+      <p class="footer-legal">© 2026 ZkilZ · Studio digital</p>
+      <nav class="footer-links footer-links--small" aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="sitemap.xml">Plan du site</a></nav>
     </div>
   </footer>
 
-  <!-- AGENT IA — bulle en bas à droite (assets/js/agent.js).
+  <!-- Haut de page : apparaît dès qu'on quitte le haut de la page (main.js) -->
+  <button type="button" class="to-top" id="toTop" aria-label="Revenir en haut de la page" title="Haut de page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <!-- ASSISTANT IA — en bas à droite (assets/js/agent.js).
        Réponses : renseignez data-endpoint sur #agentPanel (ex. /api/chat) ;
-       sans adresse, un moteur local répond. -->
+       sans adresse, un moteur local répond à partir du contenu du site. -->
   <div class="agent-tip" id="agentTip" hidden>
     <span id="agentTipText"></span>
     <button type="button" class="agent-tip-x" aria-label="Ne plus afficher ces messages"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
-  <button type="button" class="agent-fab" id="agentFab" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
-    <span class="agent-fab-bubble soap" aria-hidden="true"><span class="soap-rim"></span></span>
-    <span class="agent-fab-head" aria-hidden="true"><img src="assets/img/kf-head.svg" alt="" width="124" height="124" decoding="async"></span>
-    <span class="agent-fab-shine" aria-hidden="true"></span>
+  <button type="button" class="agent-fab" id="agentFab" data-perch="22" aria-controls="agentPanel" aria-expanded="false" aria-label="Poser une question à l'assistant ZkilZ">
+    <span class="agent-fab-av" aria-hidden="true"><img src="assets/img/mascotte/agent-avatar.webp" alt="" width="1100" height="1100" decoding="async"></span>
+    <span class="agent-fab-label" aria-hidden="true">Une question&nbsp;?</span>
     <span class="agent-fab-dot" aria-hidden="true"></span>
+    <svg class="agent-fab-x" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </button>
 
   <section class="agent-panel" id="agentPanel" role="dialog" aria-modal="false" aria-labelledby="agentTitle" aria-hidden="true" hidden data-lenis-prevent data-endpoint="">
-    <div class="agent-peek" aria-hidden="true"><img src="assets/img/kf-head.svg" alt="" width="124" height="124"></div>
     <header class="agent-head">
+      <span class="agent-av" aria-hidden="true"><img id="agentAv" src="assets/img/mascotte/agent-avatar.webp" alt="" width="1100" height="1100" decoding="async"></span>
       <div class="agent-id">
-        <p class="agent-title" id="agentTitle">Assistant ZkilZ</p>
-        <p class="agent-status"><i aria-hidden="true"></i><span id="agentStatus" aria-live="polite">En ligne</span></p>
+        <p class="agent-title" id="agentTitle">Le martin-pêcheur</p>
+        <p class="agent-status"><i aria-hidden="true"></i><span id="agentStatus" aria-live="polite">Assistant de ZkilZ · en ligne</span></p>
       </div>
       <button type="button" class="agent-icon" id="agentReset" aria-label="Nouvelle conversation" title="Nouvelle conversation"><svg viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.8v3.6h3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button type="button" class="agent-icon" id="agentClose" aria-label="Fermer l'assistant"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
@@ -471,7 +298,7 @@ FOOT = '''
       <input id="agentInput" type="text" maxlength="500" placeholder="Posez votre question…" enterkeyhint="send">
       <button type="submit" id="agentSend" class="agent-send" aria-label="Envoyer" disabled><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </form>
-    <p class="agent-foot">Assistant virtuel du studio. Pour un devis, le formulaire de contact.</p>
+    <p class="agent-foot">Assistant virtuel&nbsp;: il répond à partir du contenu du site. Pour un devis, <a href="contact.html">écrivez au studio</a>.</p>
   </section>
 
   <script src="assets/vendor/gsap.min.js"></script>
@@ -483,8 +310,12 @@ FOOT = '''
   <script src="assets/js/main.js"></script>
   <script src="assets/js/scenes.js"></script>
   <script src="assets/js/pages.js"></script>
+  <script src="assets/js/reel.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/sky.js"></script>
   <script src="assets/js/deco.js"></script>
   <script src="assets/js/bird.js"></script>
+  <script src="assets/js/moumous.js"></script>
   <script src="assets/js/agent.js"></script>
 </body>
 </html>
@@ -493,7 +324,7 @@ FOOT = '''
 # Blocs réutilisables dans les contenus : {{cta}}, {{services-grid}}
 CTA = '''    <section class="cta-sec">
       <div class="cta-band" data-reveal>
-        <img class="cta-bird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1184" height="1100" loading="lazy" decoding="async">
+        <img class="cta-bird" src="assets/img/mascotte/kf-envol.webp" alt="" width="1126" height="1100" loading="lazy" decoding="async">
         <div class="cta-copy">
           <h2>Un projet en tête&nbsp;?</h2>
           <p>Dites ce que vous vendez et ce qui coince aujourd'hui. Le premier échange est gratuit, et vous repartez avec des pistes concrètes.</p>
@@ -523,6 +354,30 @@ PARTNER = '''    <section class="partner-sec">
     </section>'''
 
 
+
+# Studio Moumous : le reel (il a son propre viseur : REC, TALLY, timecode) et
+# la caméra-logo en 3D, sous un viseur dessiné en CSS. Les vidéos ne
+# démarrent qu'à l'écran, en muet (assets/js/moumous.js).
+SOUND = """<button type="button" class="vf-sound" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="vf-on" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="vf-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Activer le son</span></button>"""
+VISEUR = """<figure class="vf%s" data-vf>
+          <video class="vf-video" muted loop playsinline preload="none" poster="assets/video/moumous-reel.jpg" width="480" height="854" aria-label="Le reel de Studio Moumous : le logo M apparaît dans le viseur d'une caméra, puis les mots marketing, audiovisuel, création de contenu et promotion.">
+            <source src="assets/video/moumous-reel.mp4" type="video/mp4">
+          </video>
+          """ + SOUND + """
+        </figure>"""
+CAMERA = """<figure class="vf vf--cam%s" data-vf>
+          <video class="vf-video" muted loop playsinline preload="none" poster="assets/video/moumous-camera.jpg" width="486" height="480" aria-label="La caméra-logo de Studio Moumous, en 3D, qui tourne sur elle-même.">
+            <source src="assets/video/moumous-camera.mp4" type="video/mp4">
+          </video>
+          <span class="vf-hud" aria-hidden="true">
+            <i class="vf-c vf-c--tl"></i><i class="vf-c vf-c--tr"></i><i class="vf-c vf-c--bl"></i><i class="vf-c vf-c--br"></i>
+            <span class="vf-rec"><b></b>REC</span><span class="vf-tally">TALLY</span>
+            <span class="vf-fmt"><b>4K</b>24 FPS</span><span class="vf-tc">00:04:12:09</span>
+            <span class="vf-meter"><i></i><i></i></span>
+          </span>
+        </figure>"""
+
+
 def services_grid(exclude=None):
     out = ['      <div class="svc-cards">']
     for slug, img, num, title, text in SVC_CARDS:
@@ -539,6 +394,8 @@ def services_grid(exclude=None):
 
 def expand(text):
     text = text.replace('{{cta}}', CTA)
+    text = re.sub(r'\{\{viseur(?:\|([\w -]+))?\}\}', lambda m: VISEUR % ((' ' + m.group(1)) if m.group(1) else ''), text)
+    text = re.sub(r'\{\{camera(?:\|([\w -]+))?\}\}', lambda m: CAMERA % ((' ' + m.group(1)) if m.group(1) else ''), text)
     text = text.replace('{{partner}}', PARTNER % figure('moumous-hero'))
     text = re.sub(r'\{\{services-grid(?:\|([\w-]+))?\}\}', lambda m: services_grid(m.group(1)), text)
     text = re.sub(r'\{\{img:([\w-]+)(?:\|([^}]*))?\}\}', lambda m: figure(m.group(1), m.group(2) or ''), text)
@@ -556,19 +413,148 @@ def versioned(out):
             return m.group(0)
         h = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
         return '%s="%s?v=%s"' % (m.group(1), m.group(2), h)
-    return re.sub(r'(href|src)="(assets/(?:css|js)/[\w.-]+\.(?:css|js))"', rep, out)
+    return re.sub(r'(href|src)="((?:assets/(?:css|js)/[\w.-]+\.(?:css|js))|(?:assets/img/(?:favicon[\w-]*|apple-touch-icon|icon-[\w-]+)\.(?:svg|png))|site\.webmanifest|favicon\.ico)"', rep, out)
 
 
-def logo_svg():
-    """Le martin-pêcheur du logo, en SVG dans la page (et non en image) pour
-    que nav.js anime la tête, la paupière et le reflet du bec."""
-    t = open(os.path.join(ROOT, 'assets', 'img', 'kf-head.svg'), encoding='utf-8').read()
-    t = re.sub(r'id="kf(\w+)"', r'id="nv\1"', t).replace('url(#kf', 'url(#nv')
-    t = t.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg class="nav-kf" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"', 1)
-    # reflet qui glissera le long du bec au survol
-    t = t.replace('opacity=".8"/></g>', 'opacity=".8"/><path class="kf-glint" d="M156 62.4 C172 63.4 188 66 202 69" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none" pathLength="100"/></g>', 1)
-    # la paupière est animée par nav.js (transform en attribut)
-    return '\n'.join(l.strip() for l in t.strip().splitlines())
+def logo_svg(prefix='nv', cls='nav-kf', view='25 24 152 152'):
+    """Le logo (assets/img/logo.svg) en SVG dans la page, et non en image,
+    pour que nav.js anime la tête, la paupière et le reflet du bec.
+    view : cadrage (par défaut le disque seul, pour la pastille ronde)."""
+    t = open(os.path.join(ROOT, 'assets', 'img', 'logo.svg'), encoding='utf-8').read()
+    t = re.sub(r'<title>.*?</title>\s*', '', t)
+    t = re.sub(r'id="lg(\w+)"', r'id="%s\1"' % prefix, t).replace('url(#lg', 'url(#' + prefix)
+    t = t.replace('viewBox="0 0 200 200"', 'viewBox="%s"' % view, 1)
+    t = t.replace('<svg xmlns="http://www.w3.org/2000/svg"', '<svg class="%s" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"' % cls, 1)
+    # reflet qui glisse le long du bec
+    t = t.replace('<!-- œil, reflet, narine -->', '<path class="kf-glint" d="M134 60.5 C150 62.4 166 64.4 180 66" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none" pathLength="100"/>', 1)
+    t = re.sub(r'\s*<!--.*?-->', '', t, flags=re.S)
+    return '\n'.join(l.strip() for l in t.strip().splitlines() if l.strip())
+
+
+
+# ---------------------------------------------------------------------------
+# RÉFÉRENCEMENT : données structurées, plan du site, robots, manifeste
+# ---------------------------------------------------------------------------
+def page_url(page):
+    return SITE_URL + '/' if page == 'index' else '%s/%s.html' % (SITE_URL, page)
+
+
+def plain(s):
+    s = re.sub(r'<[^>]+>', '', s)
+    return re.sub(r'\s+', ' ', html.unescape(s).replace('\xa0', ' ')).strip()
+
+
+ORG_ID = SITE_URL + '/#organisation'
+MOUMOUS = {'@type': 'Organization', '@id': SITE_URL + '/reseaux-sociaux.html#studio-moumous', 'name': 'Studio Moumous',
+           'description': 'Studio de contenus et de marketing : réseaux sociaux, marketing et référencement.',
+           'logo': SITE_URL + '/assets/img/moumous/moumous-logo.webp'}
+
+
+def jsonld(page, title, desc, main):
+    import json
+    url = page_url(page)
+    graph = []
+    if page == 'index':
+        graph.append({
+            '@type': 'ProfessionalService', '@id': ORG_ID, 'name': 'ZkilZ', 'url': SITE_URL + '/',
+            'logo': {'@type': 'ImageObject', 'url': SITE_URL + '/assets/img/icon-512.png', 'width': 512, 'height': 512},
+            'image': SITE_URL + '/assets/img/og-zkilz.jpg',
+            'description': desc, 'slogan': 'Sites, applications et outils sur mesure pour votre activité.',
+            'areaServed': {'@type': 'Country', 'name': 'France'}, 'inLanguage': 'fr-FR',
+            'knowsAbout': ['Création de site web', 'E-commerce', 'Application mobile iOS et Android', 'SaaS',
+                           'Outils métier sur mesure', 'Conseil digital', 'UX et UI design'],
+            'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': 'Services', 'itemListElement': [
+                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': n, 'url': page_url(s)}}
+                for s, (n, _) in SERVICE_PAGES.items()]},
+            'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer service', 'url': page_url('contact'),
+                             'availableLanguage': 'French'},
+        })
+        graph.append({'@type': 'WebSite', '@id': SITE_URL + '/#site', 'url': SITE_URL + '/', 'name': 'ZkilZ',
+                      'inLanguage': 'fr-FR', 'publisher': {'@id': ORG_ID}})
+    else:
+        graph.append({'@type': 'Organization', '@id': ORG_ID, 'name': 'ZkilZ', 'url': SITE_URL + '/',
+                      'logo': SITE_URL + '/assets/img/icon-512.png'})
+        graph.append({'@type': 'WebSite', '@id': SITE_URL + '/#site', 'url': SITE_URL + '/', 'name': 'ZkilZ'})
+    kind = {'contact': 'ContactPage', 'studio': 'AboutPage', 'realisations': 'CollectionPage'}.get(page, 'WebPage')
+    graph.append({'@type': kind, '@id': url + '#page', 'url': url, 'name': title, 'description': desc,
+                  'inLanguage': 'fr-FR', 'isPartOf': {'@id': SITE_URL + '/#site'}, 'about': {'@id': ORG_ID},
+                  'primaryImageOfPage': SITE_URL + '/assets/img/og-zkilz.jpg'})
+    # fil d'Ariane : celui affiché dans la page
+    m = re.search(r'<nav class="crumbs"[^>]*>(.*?)</nav>', main, re.S)
+    if m:
+        items, pos = [], 1
+        for href, label in re.findall(r'<a href="([\w.-]+)">(.*?)</a>', m.group(1)):
+            items.append({'@type': 'ListItem', 'position': pos, 'name': plain(label),
+                          'item': page_url(href[:-5]) if href.endswith('.html') else SITE_URL + '/'})
+            pos += 1
+        cur = re.search(r'aria-current="page">(.*?)<', m.group(1))
+        if cur:
+            items.append({'@type': 'ListItem', 'position': pos, 'name': plain(cur.group(1)), 'item': url})
+        graph.append({'@type': 'BreadcrumbList', '@id': url + '#ariane', 'itemListElement': items})
+    if page in SERVICE_PAGES:
+        name, stype = SERVICE_PAGES[page]
+        svc = {'@type': 'Service', '@id': url + '#service', 'name': name, 'serviceType': stype, 'description': desc,
+               'url': url, 'provider': {'@id': ORG_ID}, 'areaServed': {'@type': 'Country', 'name': 'France'},
+               'inLanguage': 'fr-FR'}
+        if page == 'reseaux-sociaux':
+            svc['provider'] = [{'@id': ORG_ID}, MOUMOUS]
+        graph.append(svc)
+    if page == 'mm-fragrances':
+        graph.append({'@type': 'CreativeWork', '@id': url + '#projet', 'name': 'Boutique en ligne MM Fragrances',
+                      'creator': {'@id': ORG_ID}, 'description': desc, 'inLanguage': 'fr-FR',
+                      'image': SITE_URL + '/assets/img/work/mm-home-dark.webp'})
+    # questions fréquentes affichées dans la page
+    qa = re.findall(r'<summary>(.*?)<span class="qa-ico">.*?</summary>\s*<div class="qa-body">(.*?)</div>', main, re.S)
+    if qa:
+        graph.append({'@type': 'FAQPage', '@id': url + '#questions', 'mainEntity': [
+            {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in qa]})
+    data = {'@context': 'https://schema.org', '@graph': graph}
+    return json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+
+
+def write_seo_files():
+    import datetime, subprocess
+    today = datetime.date.today().isoformat()
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+    prio = {'index': '1.0', 'services': '0.9', 'site-web': '0.9', 'application-mobile': '0.9', 'saas': '0.9',
+            'conseil': '0.8', 'reseaux-sociaux': '0.8', 'realisations': '0.8', 'mm-fragrances': '0.7',
+            'methode': '0.7', 'studio': '0.7', 'contact': '0.8', 'mentions-legales': '0.2', 'confidentialite': '0.2'}
+    for page, *_ in PAGES:
+        if page == '404':
+            continue
+        # date de dernière modification : celle du contenu de la page dans git
+        try:
+            d = subprocess.run(['git', 'log', '-1', '--format=%cs', '--', 'tools/pages/%s.html' % page],
+                               cwd=ROOT, capture_output=True, text=True).stdout.strip() or today
+        except OSError:
+            d = today
+        src = open(os.path.join(PARTS, page + '.html'), encoding='utf-8').read()
+        imgs = []
+        for n in dict.fromkeys(re.findall(r'\{\{img:([\w-]+)', src)):
+            if n in IMAGES and has_image(n):
+                imgs.append('    <image:image><image:loc>%s/%s/%s.webp</image:loc></image:image>' % (SITE_URL, IMG_DIR, n))
+        lines += ['  <url>', '    <loc>%s</loc>' % page_url(page), '    <lastmod>%s</lastmod>' % d,
+                  '    <changefreq>%s</changefreq>' % ('weekly' if page in ('index', 'realisations') else 'monthly'),
+                  '    <priority>%s</priority>' % prio.get(page, '0.5')] + imgs + ['  </url>']
+    lines.append('</urlset>')
+    open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
+    open(os.path.join(ROOT, 'robots.txt'), 'w', encoding='utf-8').write(
+        '# ZkilZ : tout le site est ouvert aux moteurs de recherche.\n'
+        'User-agent: *\nAllow: /\n'
+        '# fichiers de travail, pas des pages\n'
+        'Disallow: /api/\nDisallow: /tools/\nDisallow: /skills/\nDisallow: /PROMPTS-MASCOTTE.md\nDisallow: /PROMPTS-A-FAIRE.md\n\n'
+        'Sitemap: %s/sitemap.xml\n' % SITE_URL)
+    import json
+    manifest = {'name': 'ZkilZ, studio digital', 'short_name': 'ZkilZ', 'lang': 'fr', 'start_url': '/', 'scope': '/',
+                'display': 'standalone', 'background_color': '#F6F9FE', 'theme_color': '#0B1B3F',
+                'description': PAGES[0][2],
+                'icons': [{'src': '/assets/img/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
+                          {'src': '/assets/img/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
+                          {'src': '/assets/img/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'},
+                          {'src': '/assets/img/favicon.svg', 'sizes': 'any', 'type': 'image/svg+xml'}]}
+    open(os.path.join(ROOT, 'site.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    print('ok sitemap.xml, robots.txt, site.webmanifest')
 
 
 LOGO = None
@@ -585,6 +571,9 @@ def build():
             slug, ' aria-current="page"' if slug == active else '', label) for slug, label in NAV)
         svc_links = '\n'.join('        <a href="%s.html">%s</a>' % s for s in SERVICES)
         out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav, logo=LOGO,
+                          url=page_url(page), site=SITE_URL, og_type='article' if page == 'mm-fragrances' else 'website',
+                          robots='noindex, follow' if page == '404' else 'index, follow, max-image-preview:large, max-snippet:-1',
+                          jsonld=jsonld(page, title, desc, main),
                           cta_current=' aria-current="page"' if active == 'contact' else '')
         out += '\n  <main>\n' + main.rstrip() + '\n  </main>\n' + FOOT.format(svc_links=svc_links)
         out = versioned(out)
@@ -597,13 +586,47 @@ def build():
             f.write(out)
         print('ok', page + '.html')
     write_prompts()
+    write_seo_files()
 
 
-def write_prompts():
-    path = os.path.join(ROOT, 'PROMPTS-MASCOTTE.md')
-    with open(path, encoding='utf-8') as f:
-        doc = f.read()
-    start, end = '<!-- IMAGES DES PAGES : début -->', '<!-- IMAGES DES PAGES : fin -->'
+GUIDE = """## Quel modèle utiliser
+
+**Nano Banana Pro** (Gemini 3 Pro Image) : c'est le plus soigné des modèles d'image de Google, le meilleur pour
+les rendus produit, la cohérence d'un personnage et les mots écrits sur les écrans. Dans l'application Gemini,
+choisis « Créer des images » puis le modèle **Pro** (ou « Réflexion ») s'il est proposé. À défaut, **Nano Banana
+2.1** (le modèle par défaut, plus rapide) donne de très bons résultats avec ces prompts.
+
+« Hydrogen » (Gemini 4 Hydrogen) n'est pas un modèle d'image : il ne fait que du texte.
+
+## Comment travailler
+
+1. **Une conversation Gemini par style** (A, B, C, D, plus bas). La première image réussie fixe le rendu : les
+   suivantes de la même conversation lui ressembleront.
+2. **Joins des images de référence** au premier message de chaque conversation :
+   - style C (le martin-pêcheur) : ton logo en PNG et la planche `assets/img/mascotte/kf-planche.webp` ;
+   - styles A, B et D : la première image que tu trouves réussie, pour les suivantes (« même rendu, même lumière »).
+3. **Choisis le format indiqué** pour chaque image (menu de format de Gemini, ou ajoute « 16:9 » au message).
+4. **Colle le prompt en entier**, tel quel : il contient la direction artistique, le style, la scène et le format.
+5. **Retouche dans la même conversation**, une chose à la fois : « Garde tout, mais rends le bouton plus grand »,
+   « Même image, sans la tasse », « Corrige le mot du bouton : Réserver ». Ne relance pas de zéro pour un détail.
+6. **Vérifie les mots** sur les écrans (accents, fautes) : demande une correction si besoin.
+
+## Livrer une image
+
+Enregistre-la en PNG avec le nom indiqué (par exemple `col-site.png`) dans `assets/img/pages/src/`, puis :
+
+```bash
+python3 tools/convertir_images.py
+```
+
+Le script la recadre au format exact de son emplacement, la convertit en WebP (1600 et 800 px) et régénère les
+pages : elle remplace aussitôt l'ancienne.
+"""
+
+FAMILY_ORDER = ('device', 'scene', 'mascot', 'mono')
+
+
+def images_used():
     used = {}
     for page, *_ in PAGES:
         with open(os.path.join(PARTS, page + '.html'), encoding='utf-8') as f:
@@ -615,92 +638,81 @@ def write_prompts():
             names.append('moumous-hero')
         for n in names:
             used.setdefault(n, []).append(page)
-    lines = [start, '', '# Images des pages du site', '',
-             "Ces images remplissent les pages du site (accueil, services, méthode, studio…). En attendant tes "
-             "versions, des illustrations dessinées en code (`tools/illustrations/`) occupent déjà les emplacements : "
-             "une image IA déposée avec le même nom les remplace. Les vraies images (captures, photo) affichent un "
-             "cadre « Image à venir » tant qu'elles manquent.", '',
-             '**Où les mettre :** exporte chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom indiqué, '
-             'puis lance `python3 tools/convertir_images.py` : il les redimensionne à 1600 px de large et les '
-             'convertit en `.webp` dans `assets/img/pages/`.', '',
-             "**Trois styles** : le titre de chaque image dit lequel utiliser.", '',
-             '### Style A — illustration en aplats', '', '```text', STYLE_SCENE, '```', '',
-             '### Style B — écran ou appareil', '', '```text', STYLE_DEVICE, '```', '',
-             "### Style C — le martin-pêcheur dans une scène", '',
-             "Colle la **fiche du personnage (n° 0)** au début, joins la **planche n° 1** en image de référence, puis "
-             "termine par le style A. Pas de fond vert ici : la scène a son propre fond.", '',
-             "Le format (largeur:hauteur) est donné pour chaque image : règle ton générateur dessus.", '']
-    lines += ['### Style D — Studio Moumous, noir et blanc', '', '```text', STYLE_MONO, '```', '']
-    groups = [('scene', 'Style A'), ('device', 'Style B'), ('mascot', 'Style C'), ('mono', 'Style D')]
-    n = 0
-    for fam, style in groups:
-        for name, (r, alt, f, prompt) in IMAGES.items():
-            if f != fam or name not in used:
-                continue
-            n += 1
-            lines += ['## P%d. %s → `%s.png`' % (n, alt, name), '',
-                      '*Pages : %s · format %s · %s*' % (', '.join(sorted(set(used[name]))), r.replace('/', ':'), style),
-                      '', '```text', prompt, '```', '']
-    lines += ['## Vraies images à fournir (pas d\'IA)', '',
-              "Ces images doivent être vraies : une capture de ton site client ou ta photo. Mets-les aussi dans "
-              "`assets/img/pages/src/` puis lance le script de conversion.", '']
-    for name, (r, alt, f, prompt) in IMAGES.items():
-        if f in ('capture', 'photo') and name in used:
-            lines += ['- **`%s.png`** (%s, format %s) — %s' % (name, alt, r.replace('/', ':'), prompt)]
-    lines += ['', end]
-    block = '\n'.join(lines)
+    return used
+
+
+def prompt_block(n, used, num):
+    r, alt, fam, _ = IMAGES[n]
+    L = ['## %s. %s → `%s.png`' % (num, alt, n), '',
+         '*Style %s · format Gemini **%s** · pages : %s · %s*' % (
+             FAMILY_NAMES[fam], GEMINI_RATIO.get(r, r.replace('/', ':')), ', '.join(sorted(set(used[n]))),
+             'déjà en ligne, à refaire en mieux' if has_image(n) else 'manque encore')]
+    if not has_image(n) and n in FALLBACK:
+        L += ['', "*En attendant : l'image `%s` tient la place.*" % FALLBACK[n]]
+    L += ['', '```text', full_prompt(n), '```', '']
+    return L
+
+
+def write_prompts():
+    used = images_used()
+    ai = [n for n in IMAGES if n in used and IMAGES[n][2] not in ('capture', 'photo')]
+    real = [n for n in IMAGES if n in used and IMAGES[n][2] in ('capture', 'photo')]
+    # 1. PROMPTS-IMAGES.md : toutes les images IA du site, par style
+    L = ['# Prompts des images du site', '',
+         "Ce fichier est réécrit par `tools/build_pages.py` à partir de `tools/images_prompts.py` (modifier les "
+         "prompts là-bas). Il contient toutes les images générées du site (%d), regroupées par style." % len(ai), '',
+         GUIDE.strip(), '']
+    num = 0
+    for fam in FAMILY_ORDER:
+        names = [n for n in ai if IMAGES[n][2] == fam]
+        if not names:
+            continue
+        L += ['---', '', '# Style %s (%d images)' % (FAMILY_NAMES[fam], len(names)), '']
+        for n in names:
+            num += 1
+            L += prompt_block(n, used, num)
+    if real:
+        L += ['---', '', "# Vraies images à fournir (pas d'IA)", '']
+        for n in real:
+            r, alt, fam, prompt = IMAGES[n]
+            L += ['- **`%s.png`** — %s (format %s). %s%s' % (n, alt, r.replace('/', ':'), prompt,
+                                                           '' if not has_image(n) else ' *(déjà fournie)*')]
+        L += ['']
+    with open(os.path.join(ROOT, 'PROMPTS-IMAGES.md'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(L))
+    print('ok PROMPTS-IMAGES.md (%d images)' % len(ai))
+
+    # 2. PROMPTS-MASCOTTE.md : la partie « images des pages » renvoie au nouveau fichier
+    path = os.path.join(ROOT, 'PROMPTS-MASCOTTE.md')
+    doc = open(path, encoding='utf-8').read()
+    start, end = '<!-- IMAGES DES PAGES : début -->', '<!-- IMAGES DES PAGES : fin -->'
+    block = '\n'.join([start, '', '# Images des pages du site', '',
+                       "Les prompts des images des pages sont dans **`PROMPTS-IMAGES.md`** (et ceux qui manquent "
+                       "encore dans `PROMPTS-A-FAIRE.md`).", '', end])
     if start in doc:
         doc = doc[:doc.index(start)] + block + doc[doc.index(end) + len(end):]
     else:
         doc = doc.rstrip() + '\n\n---\n\n' + block + '\n'
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write(doc)
-    print('ok PROMPTS-MASCOTTE.md (%d images)' % len(used))
-    write_todo(used, doc)
+    open(path, 'w', encoding='utf-8').write(doc)
 
-
-def write_todo(used, doc):
-    """PROMPTS-A-FAIRE.md : seulement les images qui manquent encore."""
-    fiche = doc[doc.index('## 0. Fiche'):doc.index('## 0 bis')].strip() if '## 0. Fiche' in doc else ''
-    todo = [n for n in IMAGES if n in used and not has_image(n)]
-    ai = [n for n in todo if IMAGES[n][2] not in ('capture', 'photo')]
-    real = [n for n in todo if IMAGES[n][2] in ('capture', 'photo')]
-    styles = {'scene': ('A — illustration en aplats', STYLE_SCENE), 'device': ('B — écran ou appareil', STYLE_DEVICE),
-              'mascot': ('C — le martin-pêcheur dans une scène', STYLE_SCENE), 'mono': ('D — Studio Moumous, noir et blanc', STYLE_MONO)}
+    # 3. PROMPTS-A-FAIRE.md : seulement ce qui manque encore
+    todo_ai = [n for n in ai if not has_image(n)]
+    todo_real = [n for n in real if not has_image(n)]
     L = ['# Images à faire', '',
-         "Ce fichier ne liste que les images qui manquent encore sur le site (%d à générer, %d vraies à fournir). "
-         "Il est réécrit par `tools/build_pages.py` : une image livrée disparaît de la liste." % (len(ai), len(real)), '',
-         '**Comment les livrer :** enregistre chaque image en PNG ou JPG dans `assets/img/pages/src/` avec le nom '
-         'indiqué (par exemple `conseil-solutions.png`), puis lance :', '', '```bash', 'python3 tools/convertir_images.py', '```', '',
-         "Le script les convertit en WebP et régénère les pages. En attendant, chaque emplacement affiche l'image "
-         "actuelle (indiquée sous chaque prompt).", '',
-         '**Pour chaque prompt :** colle le texte du prompt, puis le style indiqué (en bas de ce fichier), et règle le '
-         'format. Pour une image avec le martin-pêcheur, colle aussi la fiche du personnage au début et joins la '
-         'planche de référence (`assets/img/mascotte/kf-planche.webp`).', '']
-    for i, n in enumerate(ai, 1):
-        r, alt, fam, prompt = IMAGES[n]
-        pages = ', '.join(sorted(set(used[n])))
-        L += ['## %d. %s → `%s.png`' % (i, alt, n), '',
-              '*Format %s · style %s · pages : %s*' % (r.replace('/', ':'), styles[fam][0], pages)]
-        if n in FALLBACK:
-            L += ['', "*En attendant : l'image `%s` tient la place.*" % FALLBACK[n]]
-        L += ['', '```text', prompt, '```', '']
-    if real:
-        L += ['## Vraies images à fournir (pas d\'IA)', '']
-        for n in real:
+         "Ce fichier ne liste que les images qui manquent encore (%d à générer, %d vraies à fournir). Pour refaire "
+         "toutes les images du site en mieux : `PROMPTS-IMAGES.md`." % (len(todo_ai), len(todo_real)), '',
+         GUIDE.strip(), '']
+    for i, n in enumerate(todo_ai, 1):
+        L += prompt_block(n, used, i)
+    if todo_real:
+        L += ["## Vraies images à fournir (pas d'IA)", '']
+        for n in todo_real:
             r, alt, fam, prompt = IMAGES[n]
             L += ['- **`%s.png`** — %s (format %s). %s' % (n, alt, r.replace('/', ':'), prompt)]
         L += ['']
-    L += ['---', '', '# Styles à coller à la fin des prompts', '']
-    for fam in ('scene', 'device', 'mascot', 'mono'):
-        if any(IMAGES[n][2] == fam for n in ai):
-            name, txt = styles[fam]
-            L += ['## Style %s' % name, '', '```text', txt, '```', '']
-    if fiche and any(IMAGES[n][2] == 'mascot' for n in ai):
-        L += ['# ' + fiche.lstrip('# '), '']
     with open(os.path.join(ROOT, 'PROMPTS-A-FAIRE.md'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(L))
-    print('ok PROMPTS-A-FAIRE.md (%d à générer, %d à fournir)' % (len(ai), len(real)))
+    print('ok PROMPTS-A-FAIRE.md (%d à générer, %d à fournir)' % (len(todo_ai), len(todo_real)))
 
 
 if __name__ == '__main__':

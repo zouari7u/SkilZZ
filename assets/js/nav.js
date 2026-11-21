@@ -80,7 +80,8 @@
   if (kf && G && !reduce) {
     // paupière : s = 0 ouverte, 1 fermée ; le haut de la paupière reste en place
     var eye = { s: 0 };
-    var setLid = function () { lid.setAttribute('transform', 'matrix(1 0 0 ' + eye.s.toFixed(3) + ' 0 ' + (55.2 * (1 - eye.s)).toFixed(2) + ')'); };
+    var lidTop = parseFloat(lid.getAttribute('data-top')) || 0;
+    var setLid = function () { lid.setAttribute('transform', 'matrix(1 0 0 ' + eye.s.toFixed(3) + ' 0 ' + (lidTop * (1 - eye.s)).toFixed(2) + ')'); };
     var blink = function (twice) {
       var tl = G.timeline();
       tl.to(eye, { s: 1, duration: .07, ease: 'power2.in', onUpdate: setLid })

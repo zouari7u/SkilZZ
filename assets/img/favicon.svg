@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="25 24 152 152">
+  <title>ZkilZ</title>
+  <defs>
+    <linearGradient id="lgCap" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1F5FD6"/></linearGradient>
+    <linearGradient id="lgWing" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#2A72E8"/><stop offset=".6" stop-color="#1E5CC8"/><stop offset="1" stop-color="#174CA8"/></linearGradient>
+    <linearGradient id="lgBeak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1D57B8"/><stop offset="1" stop-color="#173F86"/></linearGradient>
+    <linearGradient id="lgStripe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ADAF8"/><stop offset="1" stop-color="#46B4EE"/></linearGradient>
+    <linearGradient id="lgBreast" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D3E6FA"/></linearGradient>
+    <linearGradient id="lgTail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2468D8"/><stop offset="1" stop-color="#1A55BC"/></linearGradient>
+    <linearGradient id="lgLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5BC0F0"/><stop offset="1" stop-color="#2F78C8"/></linearGradient>
+    <!-- l'anneau s'ouvre là où le bec et la queue le traversent -->
+    <mask id="lgRingCut" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+      <rect width="200" height="200" fill="#fff"/>
+      <path d="M118 61 L 136 57 C 152 60 167 63 182 66 C 166 67 146 69 126 70Z" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M54 132 C 50 146 46 160 44 175 L 62 172 C 64 158 66 146 70 134Z" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+  <!-- fond : disque pâle, remous et feuilles -->
+  <circle class="lg-disc" cx="101" cy="100" r="68" fill="#F2F7FE"/>
+  <g class="lg-swirl" fill="none" stroke-linecap="round">
+    <path d="M131 70 C 152 76 166 92 166 108 C 166 126 150 140 132 138 C 120 136 116 126 124 118 C 132 110 146 116 146 128" stroke="#DDEBFB" stroke-width="7"/>
+    <path d="M42 70 C 38 92 40 114 50 132" stroke="#CFE3F8" stroke-width="4"/>
+    <path d="M60 64 C 52 84 50 104 56 122" stroke="#D9E9FA" stroke-width="3"/>
+    <path d="M150 152 C 128 160 104 160 84 154" stroke="#DCEBFB" stroke-width="5"/>
+  </g>
+  <circle class="lg-ring-in" cx="101" cy="100" r="67" fill="none" stroke="#BCDCF6" stroke-width="2.6" mask="url(#lgRingCut)"/>
+  <circle class="lg-ring" cx="101" cy="100" r="74" fill="none" stroke="#1D4F94" stroke-width="2.8" mask="url(#lgRingCut)"/>
+
+  <!-- feuilles hors du cercle, à gauche -->
+  <g class="lg-leaves">
+    <path d="M21 115 C 31 113 38 120 38 132 C 28 130 22 124 21 115Z" fill="url(#lgLeaf)"/>
+    <path d="M24 136 C 30 132 36 134 38 138 C 32 140 27 139 24 136Z" fill="#CFE5F8"/>
+    <path d="M32 150 C 37 146 43 147 45 151 C 40 154 35 153 32 150Z" fill="#4AAEEA"/>
+    <path d="M65 166 C 69 170 69 176 66 181 C 62 176 62 170 65 166Z" fill="#4AAEEA"/>
+    <path d="M40 160 C 46 156 52 156 55 160 C 50 165 44 165 40 160Z" fill="#DCEBFA"/>
+  </g>
+
+  <!-- branche et feuilles intérieures -->
+  <path class="lg-branch" d="M66 162 C 78 150 92 145 108 145 C 126 145 142 142 160 124" fill="none" stroke="#7FB4E8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M84 154 C 92 150 101 152 105 158 C 97 162 89 160 84 154Z" fill="url(#lgLeaf)" opacity=".85"/>
+  <path d="M121 140 C 121 130 128 122 137 120 C 137 130 131 138 121 140Z" fill="url(#lgLeaf)"/>
+
+  <!-- l'oiseau -->
+  <g class="kf-body">
+    <!-- queue -->
+    <path d="M56 128 C 52 144 48 160 46 176 C 52 172 57 164 60 156 C 61 166 60 172 60 176 C 66 166 70 150 72 134Z" fill="url(#lgTail)"/>
+    <!-- poitrine -->
+    <path d="M90 72 C 104 68 118 66 126 70 C 132 82 132 98 128 110 C 122 124 110 132 96 134 C 88 120 86 96 90 72Z" fill="url(#lgBreast)"/>
+    <!-- patte -->
+    <path d="M95 130 L 93 142 M 89 143 C 92 140 98 140 102 143" fill="none" stroke="#2B64C2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- liseré clair du dos -->
+    <path d="M80 72 C 70 82 62 100 58 116 C 55 128 52 138 50 146 C 58 138 64 128 68 118 C 74 104 82 90 92 78Z" fill="url(#lgStripe)"/>
+    <!-- aile -->
+    <path d="M76 76 C 90 70 110 72 118 82 C 124 92 122 108 114 118 C 104 128 88 134 72 138 C 66 140 62 140 62 136 C 64 118 68 94 76 76Z" fill="url(#lgWing)"/>
+    <path d="M62 138 C 76 130 94 124 112 118 C 106 128 92 136 74 140 C 68 141 64 141 62 138Z" fill="#14336E"/>
+    <path d="M70 120 C 84 118 100 114 114 108" fill="none" stroke="#163F8C" stroke-width="1.2" opacity=".55"/>
+    <g fill="#7FD0F6">
+      <circle cx="114.5" cy="91" r="1.25"/><circle cx="109" cy="94.5" r="1.25"/><circle cx="104" cy="99.5" r="1.25"/>
+      <circle cx="111" cy="100.5" r="1.25"/><circle cx="98" cy="103.5" r="1.25"/><circle cx="105" cy="106" r="1.25"/>
+      <circle cx="89" cy="106.5" r="1.25"/><circle cx="98" cy="110" r="1.25"/><circle cx="82" cy="112.5" r="1.25"/><circle cx="90" cy="112.5" r="1.25"/>
+    </g>
+  </g>
+  <g class="kf-head">
+    <!-- collier clair qui barre le cou -->
+    <path d="M80 74 C 92 68 110 64 128 66 C 122 72 108 74 96 78 C 90 80 84 80 80 74Z" fill="#76CDF5"/>
+    <path d="M100 70 C 110 66 120 65 128 66 C 124 69 116 71 106 72Z" fill="#FFFFFF" opacity=".9"/>
+    <!-- calotte -->
+    <path d="M80 75 C 78 60 88 48 103 47 C 115 46 124 51 131 58 L 120 61 C 110 60 98 61 90 66 C 86 69 83 72 80 75Z" fill="url(#lgCap)"/>
+    <!-- joue -->
+    <path d="M96 61 C 104 58 114 59 124 61 C 120 65 110 66 100 66 C 96 66 94 63 96 61Z" fill="#A6DDF8"/>
+    <!-- bec -->
+    <path d="M118 61 L 136 57 C 152 60 167 63 182 66 C 166 67 146 69 126 70 C 122 68 119 65 118 61Z" fill="url(#lgBeak)"/>
+    <path d="M128 66 C 146 66 164 66 182 66 C 164 67 146 69 126 70Z" fill="#11295A" opacity=".55"/>
+    <!-- œil, reflet, narine -->
+    <circle cx="114.5" cy="57.2" r="4.1" fill="#0A0F1E"/>
+    <circle cx="113.3" cy="55.8" r="1.15" fill="#fff"/>
+    <circle cx="123.2" cy="58.8" r="1.7" fill="#F4FAFF"/>
+    <!-- paupière (animée par nav.js : son haut reste au haut de l'œil) -->
+    <ellipse class="kf-lid" data-top="53" cx="114.5" cy="57.2" rx="4.5" ry="4.5" fill="#2F74E8" transform="matrix(1 0 0 0 0 53)"/>
+  </g>
+</svg>

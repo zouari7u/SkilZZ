@@ -101,9 +101,10 @@
         if (SKZ.burst) SKZ.burst(r.left + r.width / 2, r.top + r.height / 2, { count: 14, spread: 140 });
       });
       // une petite ondulation d'invitation, de temps en temps
-      gsap.timeline({ repeat: -1, repeatDelay: 6, delay: 3.2 })
+      var wave = gsap.timeline({ repeat: -1, repeatDelay: 6, delay: 3.2 })
         .to(chars, { y: -8, duration: .25, stagger: .05, ease: 'power2.out' })
         .to(chars, { y: 0, duration: .7, stagger: .05, ease: 'elastic.out(1, .4)' }, .2);
+      if (window.SKZ && SKZ.onScreen) SKZ.onScreen(mark, [wave]);
     }
   }
 
@@ -132,7 +133,14 @@
   // =========================================================================
   var cells = gsap.utils.toArray('.cell');
   if (!reduce && cells.length) {
-    gsap.from(cells, { y: 60, scale: .94, opacity: 0, duration: 1, stagger: { each: .08, from: 'start' }, ease: 'expo.out', scrollTrigger: { trigger: '.bento', start: 'top 82%' } });
+    // entrée en CSS (classe « is-in ») : rien ne peut la laisser à mi-chemin
+    var bento = document.querySelector('.bento');
+    cells.forEach(function (c, i) { c.style.setProperty('--i', i); });
+    bento.classList.add('is-wait');
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) {
+      if (es[0].isIntersecting) { bento.classList.add('is-in'); o.disconnect(); }
+    }, { threshold: .15 }).observe(bento);
+    else bento.classList.add('is-in');
   }
 
   // 1. Jauge de vitesse
@@ -283,16 +291,21 @@
     rise.appendChild(guide); rise.appendChild(solid);
     stepsBox.insertBefore(rise, stepsBox.firstChild);
     function layout() {
-      var b = stepsBox.getBoundingClientRect();
-      rise.setAttribute('viewBox', '0 0 ' + b.width + ' ' + b.height);
+      // positions de mise en page (offset*), pas d'écran : les cartes peuvent
+      // être en train d'apparaître (décalées), la ligne doit passer par la
+      // place finale des pastilles
+      rise.setAttribute('viewBox', '0 0 ' + stepsBox.offsetWidth + ' ' + stepsBox.offsetHeight);
       var pts = Array.prototype.map.call(stepsBox.querySelectorAll('.step-dot'), function (d) {
-        var r = d.getBoundingClientRect(); return [r.left - b.left + r.width / 2, r.top - b.top + r.height / 2];
+        var s = d.offsetParent; return [s.offsetLeft + d.offsetLeft + d.offsetWidth / 2, s.offsetTop + d.offsetTop + d.offsetHeight / 2];
       });
       if (pts.length < 2) return;
       var dpath = 'M' + pts[0][0] + ' ' + pts[0][1];
       for (var i = 1; i < pts.length; i++) {
-        var a = pts[i - 1], c = pts[i], mx = (a[0] + c[0]) / 2;
-        dpath += ' C' + mx + ' ' + a[1] + ' ' + mx + ' ' + c[1] + ' ' + c[0] + ' ' + c[1];
+        // la ligne reste au niveau du point le plus haut, puis rejoint l'autre
+        // entre deux cartes : elle ne passe jamais derrière une carte
+        var a = pts[i - 1], c = pts[i], dx = c[0] - a[0];
+        var k1 = c[1] > a[1] ? .85 : .2, k2 = c[1] > a[1] ? .9 : .15;
+        dpath += ' C' + (a[0] + dx * k1) + ' ' + a[1] + ' ' + (a[0] + dx * k2) + ' ' + c[1] + ' ' + c[0] + ' ' + c[1];
       }
       guide.setAttribute('d', dpath); solid.setAttribute('d', dpath);
       var L = solid.getTotalLength();
@@ -301,6 +314,8 @@
     }
     layout();
     window.addEventListener('resize', layout);
+    window.addEventListener('load', layout);
+    if ('ResizeObserver' in window) new ResizeObserver(function () { layout(); }).observe(stepsBox);
     if (!reduce) {
       gsap.to(solid, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: stepsBox, start: 'top 75%', end: 'top 30%', scrub: .5, onRefresh: layout } });
     } else { solid.style.strokeDashoffset = 0; }
