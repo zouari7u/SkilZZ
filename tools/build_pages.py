@@ -157,9 +157,9 @@ HEAD = '''<!doctype html>
   <meta name="twitter:description" content="{desc}">
   <meta name="twitter:image" content="{site}/assets/img/og-zkilz.jpg">
   <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" href="assets/img/favicon-kf.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-kf-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/icon-touch-180.png">
   <link rel="manifest" href="site.webmanifest">
   <script type="application/ld+json">{jsonld}</script>
 
@@ -235,7 +235,7 @@ FOOT = '''
 
     <div class="footer-grid">
       <div class="footer-about">
-        <a href="index.html" class="footer-brand" aria-label="ZkilZ, accueil"><img class="footer-logo" src="assets/img/favicon.svg" width="56" height="56" alt="" loading="lazy" decoding="async"><span><b>Z</b>kil<b>Z</b></span></a>
+        <a href="index.html" class="footer-brand" aria-label="ZkilZ, accueil"><img class="footer-logo" src="assets/img/favicon-kf.svg" width="56" height="56" alt="" loading="lazy" decoding="async"><span><b>Z</b>kil<b>Z</b></span></a>
         <p class="footer-tag">Studio digital. Sites, applications et outils sur mesure, conçus et développés au même endroit.</p>
         <a href="contact.html" class="btn btn--light fill-btn" data-fill="#8FB6FF"><span>Parler de votre projet</span><svg><use href="#i-arrow"/></svg></a>
       </div>
@@ -552,7 +552,7 @@ def write_seo_files():
                 'icons': [{'src': '/assets/img/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
                           {'src': '/assets/img/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
                           {'src': '/assets/img/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'},
-                          {'src': '/assets/img/favicon.svg', 'sizes': 'any', 'type': 'image/svg+xml'}]}
+                          {'src': '/assets/img/favicon-kf.svg', 'sizes': 'any', 'type': 'image/svg+xml'}]}
     open(os.path.join(ROOT, 'site.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     print('ok sitemap.xml, robots.txt, site.webmanifest')
 
