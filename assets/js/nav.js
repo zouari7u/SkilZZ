@@ -139,6 +139,15 @@
     pill.style.transform = 'translateX(' + a.parentElement.offsetLeft + 'px)';
   }
   links.forEach(function (a) { a.addEventListener('mouseenter', function () { movePill(a); }); });
+  // Lien de la page où l'on est déjà (Accueil sur l'accueil…) : au lieu de
+  // recharger la page, on remonte en douceur tout en haut.
+  if (current) current.addEventListener('click', function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var top = document.getElementById('top') || document.querySelector('main');
+    if (!top || !window.skzScrollTo) return;
+    e.preventDefault();
+    window.skzScrollTo(top);
+  });
   list.addEventListener('mouseleave', function () { movePill(active); });
 
   function setActive(a) {

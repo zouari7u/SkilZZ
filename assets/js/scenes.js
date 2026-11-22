@@ -117,15 +117,22 @@
   }
 
   // =========================================================================
-  // LE FENNEC QUI MONTRE LA SUITE
+  // INVITATION À DESCENDRE
+  // Apparaît une fois le héros posé, si l'on n'a pas encore bougé ; s'efface
+  // dès qu'on descend et ne revient qu'en haut de page. Une seule classe
+  // basculée au franchissement du seuil : rien n'est recalculé en route.
   // =========================================================================
   var cue = document.getElementById('scrollCue');
-  if (cue && !reduce) {
-    var img = cue.querySelector('img');
-    gsap.from(cue, { y: 80, opacity: 0, duration: 1, delay: 2.2, ease: 'back.out(1.6)' });
-    gsap.to(img, { y: 8, duration: 1.1, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    gsap.to(cue, { opacity: 0, y: 40, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '25% top', scrub: true } });
-    if (fine) cue.addEventListener('pointerenter', function () { SKZ.jelly && SKZ.jelly(img, 1.2); });
+  if (cue) {
+    var cueReady = false, cueOn = null;
+    var cueY = function () { return window.SKZ && SKZ.y != null ? SKZ.y : window.scrollY; };
+    var cueCheck = function () {
+      var on = cueReady && cueY() < 40;
+      if (on !== cueOn) { cueOn = on; cue.classList.toggle('is-on', on); }
+    };
+    window.addEventListener('scroll', cueCheck, { passive: true });
+    setTimeout(function () { cueReady = true; cueCheck(); }, reduce ? 0 : 2400);
+    // le clic glisse jusqu'au bandeau (#strip), comme les autres ancres (main.js)
   }
 
   // =========================================================================
