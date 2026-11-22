@@ -596,11 +596,47 @@ body { background: transparent; }
 .mark { cursor: pointer; }
 .mark::after { content: ""; position: absolute; inset: -.1em -.06em -.12em; z-index: -2; border-radius: .6em; background: radial-gradient(closest-side, rgba(31, 107, 255, .28), transparent); opacity: var(--glow, 0); transition: opacity .4s ease; filter: blur(8px); }
 
-/* Invitation à descendre : le fennec montre la suite */
-.scroll-cue { position: absolute; left: calc(var(--gutter) * -.2 + 0px); bottom: -10px; width: 92px; z-index: 3; display: block; }
-.scroll-cue img { width: 100%; filter: drop-shadow(0 12px 14px rgba(11, 27, 63, .18)); transform-origin: 50% 100%; }
+/* Invitation à descendre : un mot, un fil, une goutte qui glisse et
+   s'éteint en rond dans l'eau, comme les ronds du héros. Fixée en bas de
+   l'écran, elle n'apparaît qu'après l'entrée du héros et s'efface dès
+   qu'on descend. Uniquement transform et opacity : tout se joue sur la
+   carte graphique, sans recalcul de la page (fluide aussi dans Safari). */
 .hero { position: relative; }
-.scroll-cue { left: auto; right: 50%; margin-right: -46px; }
+.scroll-cue {
+  position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 80;
+  width: max-content; margin: 0 auto; padding: 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--ink-2); text-decoration: none; border-radius: 999px; -webkit-tap-highlight-color: transparent;
+  opacity: 0; transform: translate3d(0, 10px, 0); visibility: hidden;
+  transition: opacity .7s cubic-bezier(.22, 1, .36, 1), transform .7s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .7s;
+}
+.scroll-cue.is-on { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.scroll-cue-word {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; line-height: 1;
+  padding: 7px 11px 7px 13px; border-radius: 999px;
+  background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px var(--line), 0 8px 20px -12px rgba(11, 27, 63, .35);
+  transition: color .3s ease, box-shadow .3s ease;
+}
+:root[data-theme="dark"] .scroll-cue-word { background: rgba(15, 24, 48, .82); box-shadow: inset 0 0 0 1px var(--line), 0 8px 20px -12px rgba(0, 0, 0, .6); }
+.scroll-cue-line { position: relative; width: 1.5px; height: 34px; border-radius: 1px; overflow: hidden; }
+.scroll-cue-line::before { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent, var(--accent)); opacity: .3; }
+.scroll-cue-line i { position: absolute; left: -1.25px; top: 0; width: 4px; height: 11px; border-radius: 2px; background: var(--accent); transform: translate3d(0, -12px, 0); }
+.scroll-cue-ring { width: 18px; height: 5px; margin-top: -5px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--accent); opacity: 0; transform: scale(.2); }
+.scroll-cue.is-on .scroll-cue-line i { animation: cueDrop 2.6s cubic-bezier(.55, 0, .45, 1) infinite; }
+.scroll-cue.is-on .scroll-cue-ring { animation: cueRing 2.6s ease-out infinite; }
+@keyframes cueDrop {
+  0% { transform: translate3d(0, -12px, 0); opacity: 0; }
+  12% { opacity: 1; }
+  58% { transform: translate3d(0, 28px, 0); opacity: 1; }
+  60%, 100% { transform: translate3d(0, 28px, 0); opacity: 0; }
+}
+@keyframes cueRing {
+  0%, 57% { transform: scale(.2); opacity: 0; }
+  62% { opacity: .9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (hover: hover) { .scroll-cue:hover .scroll-cue-word { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 20px -12px rgba(11, 27, 63, .35); } }
+.scroll-cue:focus-visible { outline-offset: 2px; }
 
 /* ==========================================================================
    19. ENCARTS « INCLUS DANS CHAQUE PROJET » (bento)
@@ -713,11 +749,12 @@ body { background: transparent; }
   .bento { grid-template-columns: 1fr; }
   .cell--wide { grid-column: auto; }
   .morph { width: 240px; }
-  .scroll-cue { width: 72px; margin-right: -36px; }
   .work-rider { width: 140px; margin: -70px 0 0 -70px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .orbit { animation: none; }
+  .scroll-cue.is-on .scroll-cue-line i, .scroll-cue.is-on .scroll-cue-ring { animation: none; }
+  .scroll-cue-line i { transform: translate3d(0, 22px, 0); }
   .gauge-fill { stroke-dashoffset: 40; }
   .result { opacity: 1; }
 }

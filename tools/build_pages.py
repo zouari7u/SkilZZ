@@ -28,7 +28,7 @@ IMG_DIR = 'assets/img/pages'
 # ---------------------------------------------------------------------------
 PAGES = [
     ('index', 'ZkilZ : sites, applications et outils sur mesure',
-     "Studio digital : ZkilZ conçoit et développe votre site web, votre application mobile, votre SaaS et vos outils métier sur mesure. Premier échange gratuit.", None),
+     "Studio digital : ZkilZ conçoit et développe votre site web, votre application mobile, votre SaaS et vos outils métier sur mesure. Premier échange gratuit.", 'index'),
     ('services', 'Services : site web, application, SaaS et conseil | ZkilZ',
      "Création de site web, application mobile iOS et Android, SaaS et outils métier, conseil : tous les services du studio ZkilZ, conçus et développés sur mesure.", 'services'),
     ('site-web', 'Création de site web sur mesure et e-commerce | ZkilZ',
@@ -70,7 +70,7 @@ SERVICE_PAGES = {
     'reseaux-sociaux': ('Réseaux sociaux, marketing et référencement', 'Marketing digital et référencement'),
 }
 
-NAV = [('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 'Méthode'), ('studio', 'Studio')]
+NAV = [('index', 'Accueil'), ('services', 'Services'), ('realisations', 'Réalisations'), ('methode', 'Méthode'), ('studio', 'Studio')]
 
 SERVICES = [
     ('site-web', 'Site web'), ('application-mobile', 'Application mobile'),
