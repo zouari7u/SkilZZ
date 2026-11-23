@@ -45,7 +45,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/main.css?v=c7e1fb4b">
+  <link rel="stylesheet" href="assets/css/main.css?v=40e0b76d">
 </head>
 <body class="page-contact">
 <!-- Page générée par tools/build_pages.py : modifiez tools/pages/contact.html puis relancez le script. -->
@@ -151,8 +151,24 @@
           <svg class="ts-moon" viewBox="0 0 24 24"><path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1z"/></svg>
         </span>
       </label>
+      <button type="button" class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
     </div>
   </nav>
+
+  <div class="nav-menu" id="navMenu" hidden data-lenis-prevent>
+    <nav class="nav-menu-links" aria-label="Menu">
+      <a href="index.html" style="--i:0"><small>01</small><span>Accueil</span></a>
+      <a href="services.html" style="--i:1"><small>02</small><span>Services</span></a>
+      <a href="realisations.html" style="--i:2"><small>03</small><span>Réalisations</span></a>
+      <a href="methode.html" style="--i:3"><small>04</small><span>Méthode</span></a>
+      <a href="studio.html" style="--i:4"><small>05</small><span>Studio</span></a>
+      <a href="contact.html" style="--i:5" aria-current="page"><small>06</small><span>Contact</span></a>
+    </nav>
+    <div class="nav-menu-foot">
+      <a href="contact.html" class="btn btn--light nav-menu-cta"><span>Parler de votre projet</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p>Sites · Applications · SaaS · Conseil</p>
+    </div>
+  </div>
 
   <main>
     <section class="contact contact--page" id="contact">
@@ -308,9 +324,9 @@
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/DrawSVGPlugin.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
-  <script src="assets/js/nav.js?v=95f24717"></script>
+  <script src="assets/js/nav.js?v=89230fab"></script>
   <script src="assets/js/fx.js?v=3fe59438"></script>
-  <script src="assets/js/main.js?v=c47ee273"></script>
+  <script src="assets/js/main.js?v=7f200498"></script>
   <script src="assets/js/scenes.js?v=23f3db2c"></script>
   <script src="assets/js/pages.js?v=2df058b7"></script>
   <script src="assets/js/reel.js?v=9d6ca357"></script>

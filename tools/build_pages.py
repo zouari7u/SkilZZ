@@ -218,8 +218,19 @@ HEAD = '''<!doctype html>
           <svg class="ts-moon" viewBox="0 0 24 24"><path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1z"/></svg>
         </span>
       </label>
+      <button type="button" class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
     </div>
   </nav>
+
+  <div class="nav-menu" id="navMenu" hidden data-lenis-prevent>
+    <nav class="nav-menu-links" aria-label="Menu">
+{menu}
+    </nav>
+    <div class="nav-menu-foot">
+      <a href="contact.html" class="btn btn--light nav-menu-cta"><span>Parler de votre projet</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p>Sites · Applications · SaaS · Conseil</p>
+    </div>
+  </div>
 '''
 
 FOOT = '''
@@ -570,7 +581,10 @@ def build():
         nav = '\n'.join('        <li><a href="%s.html"%s>%s</a></li>' % (
             slug, ' aria-current="page"' if slug == active else '', label) for slug, label in NAV)
         svc_links = '\n'.join('        <a href="%s.html">%s</a>' % s for s in SERVICES)
-        out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav, logo=LOGO,
+        menu = '\n'.join('      <a href="%s.html" style="--i:%d"%s><small>%02d</small><span>%s</span></a>' % (
+            slug, i, ' aria-current="page"' if slug == active or (slug == 'contact' and page == 'contact') else '', i + 1, label)
+            for i, (slug, label) in enumerate(NAV + [('contact', 'Contact')]))
+        out = HEAD.format(title=html.escape(title), desc=html.escape(desc, quote=True), page=page, nav=nav, menu=menu, logo=LOGO,
                           url=page_url(page), site=SITE_URL, og_type='article' if page == 'mm-fragrances' else 'website',
                           robots='noindex, follow' if page == '404' else 'index, follow, max-image-preview:large, max-snippet:-1',
                           jsonld=jsonld(page, title, desc, main),
