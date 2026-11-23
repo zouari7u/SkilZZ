@@ -54,6 +54,7 @@
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
+  window.SKZ.lenis = lenis;
   // Défilement vers un élément (utilisé aussi par l'agent)
   window.skzScrollTo = function (el) {
     if (lenis) lenis.scrollTo(el, { offset: el.id === 'top' ? 0 : -96, duration: 1.4 });

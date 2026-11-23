@@ -280,7 +280,6 @@ section { padding: var(--section) var(--gutter); }
 .nav-links a.is-active::after { transform: scale(1); }
 /* la bulle glisse avec un léger élan, s'étire pendant le trajet (nav.js) */
 .nav-pill { position: absolute; top: 4px; left: 0; height: calc(100% - 8px); width: 0; border-radius: 99px; background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); opacity: 0; pointer-events: none; transition: transform .55s cubic-bezier(.34, 1.25, .64, 1), width .55s cubic-bezier(.34, 1.25, .64, 1), opacity .3s ease; }
-.nav-arrow { display: none; }
 
 .nav-end { display: flex; align-items: center; gap: .75rem; justify-self: end; }
 .nav-cta { display: inline-flex; align-items: center; gap: 0; height: 40px; padding: 0 18px; border-radius: 99px; background: #fff; color: #0B1B3F; font-size: 14px; font-weight: 600; white-space: nowrap; transition: padding .45s var(--ease), gap .45s var(--ease); }
@@ -520,16 +519,6 @@ section { padding: var(--section) var(--gutter); }
   .nav { max-width: calc(100% - 24px); margin-top: .7rem; gap: .4rem; grid-template-columns: auto minmax(0, 1fr) auto; }
   .nav-logo, .nav.is-scrolled .nav-logo { width: 40px; height: 40px; }
   .nav.is-scrolled { max-width: calc(100% - 24px); margin-top: .5rem; padding: .3rem .4rem .3rem .35rem; }
-  .nav-links a::after { display: none; }
-  .nav-mid { justify-content: center; }
-  .nav-arrow { display: grid; place-items: center; width: 24px; height: 32px; padding: 0; border: 0; background: none; color: rgba(238, 243, 255, .7); cursor: pointer; flex: none; }
-  .nav-arrow svg { width: 15px; height: 15px; }
-  .nav-links { width: 108px; padding: 0; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-  .nav-links::-webkit-scrollbar { display: none; }
-  .nav-links li:not(.nav-pill) { flex: 0 0 100%; scroll-snap-align: center; text-align: center; }
-  .nav-links a { padding: .5rem .2rem; color: #fff; }
-  .nav-pill { display: none; }
-  .nav-cta { display: none; }
 
   .hero-ctas .btn { flex: 1 1 100%; }
   .chip { font-size: 12px; padding: 7px 12px 7px 10px; }
@@ -596,11 +585,47 @@ body { background: transparent; }
 .mark { cursor: pointer; }
 .mark::after { content: ""; position: absolute; inset: -.1em -.06em -.12em; z-index: -2; border-radius: .6em; background: radial-gradient(closest-side, rgba(31, 107, 255, .28), transparent); opacity: var(--glow, 0); transition: opacity .4s ease; filter: blur(8px); }
 
-/* Invitation à descendre : le fennec montre la suite */
-.scroll-cue { position: absolute; left: calc(var(--gutter) * -.2 + 0px); bottom: -10px; width: 92px; z-index: 3; display: block; }
-.scroll-cue img { width: 100%; filter: drop-shadow(0 12px 14px rgba(11, 27, 63, .18)); transform-origin: 50% 100%; }
+/* Invitation à descendre : un mot, un fil, une goutte qui glisse et
+   s'éteint en rond dans l'eau, comme les ronds du héros. Fixée en bas de
+   l'écran, elle n'apparaît qu'après l'entrée du héros et s'efface dès
+   qu'on descend. Uniquement transform et opacity : tout se joue sur la
+   carte graphique, sans recalcul de la page (fluide aussi dans Safari). */
 .hero { position: relative; }
-.scroll-cue { left: auto; right: 50%; margin-right: -46px; }
+.scroll-cue {
+  position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 80;
+  width: max-content; margin: 0 auto; padding: 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--ink-2); text-decoration: none; border-radius: 999px; -webkit-tap-highlight-color: transparent;
+  opacity: 0; transform: translate3d(0, 10px, 0); visibility: hidden;
+  transition: opacity .7s cubic-bezier(.22, 1, .36, 1), transform .7s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .7s;
+}
+.scroll-cue.is-on { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.scroll-cue-word {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; line-height: 1;
+  padding: 7px 11px 7px 13px; border-radius: 999px;
+  background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px var(--line), 0 8px 20px -12px rgba(11, 27, 63, .35);
+  transition: color .3s ease, box-shadow .3s ease;
+}
+:root[data-theme="dark"] .scroll-cue-word { background: rgba(15, 24, 48, .82); box-shadow: inset 0 0 0 1px var(--line), 0 8px 20px -12px rgba(0, 0, 0, .6); }
+.scroll-cue-line { position: relative; width: 1.5px; height: 34px; border-radius: 1px; overflow: hidden; }
+.scroll-cue-line::before { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent, var(--accent)); opacity: .3; }
+.scroll-cue-line i { position: absolute; left: -1.25px; top: 0; width: 4px; height: 11px; border-radius: 2px; background: var(--accent); transform: translate3d(0, -12px, 0); }
+.scroll-cue-ring { width: 18px; height: 5px; margin-top: -5px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--accent); opacity: 0; transform: scale(.2); }
+.scroll-cue.is-on .scroll-cue-line i { animation: cueDrop 2.6s cubic-bezier(.55, 0, .45, 1) infinite; }
+.scroll-cue.is-on .scroll-cue-ring { animation: cueRing 2.6s ease-out infinite; }
+@keyframes cueDrop {
+  0% { transform: translate3d(0, -12px, 0); opacity: 0; }
+  12% { opacity: 1; }
+  58% { transform: translate3d(0, 28px, 0); opacity: 1; }
+  60%, 100% { transform: translate3d(0, 28px, 0); opacity: 0; }
+}
+@keyframes cueRing {
+  0%, 57% { transform: scale(.2); opacity: 0; }
+  62% { opacity: .9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (hover: hover) { .scroll-cue:hover .scroll-cue-word { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 20px -12px rgba(11, 27, 63, .35); } }
+.scroll-cue:focus-visible { outline-offset: 2px; }
 
 /* ==========================================================================
    19. ENCARTS « INCLUS DANS CHAQUE PROJET » (bento)
@@ -713,11 +738,12 @@ body { background: transparent; }
   .bento { grid-template-columns: 1fr; }
   .cell--wide { grid-column: auto; }
   .morph { width: 240px; }
-  .scroll-cue { width: 72px; margin-right: -36px; }
   .work-rider { width: 140px; margin: -70px 0 0 -70px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .orbit { animation: none; }
+  .scroll-cue.is-on .scroll-cue-line i, .scroll-cue.is-on .scroll-cue-ring { animation: none; }
+  .scroll-cue-line i { transform: translate3d(0, 22px, 0); }
   .gauge-fill { stroke-dashoffset: 40; }
   .result { opacity: 1; }
 }
@@ -2268,3 +2294,79 @@ body:has(#agentPanel:not([hidden])) .to-top { opacity: 0; pointer-events: none; 
 /* le décor de la Réalisation : une couche à lui, dessinée une fois */
 .work-deco { will-change: transform; contain: strict; }
 .work-bubble { contain: strict; }
+
+/* ==========================================================================
+   NAVBAR commune aux trois sites (ZkilZ, Studio Moumous, MM Parfums)
+   · logo + nom à gauche, qui ramène à l'accueil ;
+   · les liens dans une capsule discrète, « Accueil » en premier, une bulle
+     qui glisse sous le lien survolé ou en cours ;
+   · un seul bouton plein à droite, puis l'interrupteur de thème ;
+   · tablette et téléphone : burger rond, menu plein écran numéroté.
+   ========================================================================== */
+.nav-arrow { display: none; }
+.nav-links { border-radius: 99px; background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
+
+.nav-burger { display: none; position: relative; width: 40px; height: 40px; flex: none; padding: 0; border: 0; border-radius: 50%;
+  background: none; color: #fff; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16); transition: background-color .25s ease; }
+.nav-burger span { position: absolute; left: 12px; right: 12px; height: 1.5px; border-radius: 2px; background: currentColor;
+  transition: transform .5s var(--ease); }
+.nav-burger span:first-child { top: 16.5px; }
+.nav-burger span:last-child { top: 22px; }
+.nav-burger[aria-expanded="true"] span:first-child { transform: translateY(2.75px) rotate(45deg); }
+.nav-burger[aria-expanded="true"] span:last-child { transform: translateY(-2.75px) rotate(-45deg); }
+@media (hover: hover) { .nav-burger:hover { background: rgba(255, 255, 255, .08); } }
+.nav-burger:focus-visible { outline: 2px solid #8FB6FF; outline-offset: 3px; }
+
+/* Menu plein écran : un rideau bleu nuit qui descend sous la barre */
+.nav-menu { position: fixed; inset: 0; z-index: 99; display: flex; flex-direction: column; justify-content: flex-end; gap: 32px;
+  padding: 96px 24px max(28px, env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain;
+  background: #0B1B3F; color: #EEF3FF; clip-path: inset(0 0 100% 0); visibility: hidden;
+  transition: clip-path .7s cubic-bezier(.76, 0, .24, 1), visibility 0s linear .7s; }
+:root[data-theme="dark"] .nav-menu { background: #0D1733; }
+.nav-menu[hidden] { display: none; }
+.nav-menu.is-open { clip-path: inset(0 0 0 0); visibility: visible; transition: clip-path .7s cubic-bezier(.76, 0, .24, 1), visibility 0s; }
+.nav-menu-links { display: grid; }
+.nav-menu-links a { display: flex; align-items: baseline; gap: 14px; padding: 8px 0; overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, .1); font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(34px, 9.5vw, 60px); line-height: 1.05; letter-spacing: -.04em; color: #fff; }
+.nav-menu-links a small { font-family: var(--font-body, inherit); font-size: 12px; font-weight: 600; letter-spacing: .1em; color: #8FB6FF; }
+.nav-menu-links a span { display: inline-block; }
+.nav-menu-links a[aria-current="page"] span { color: #8FB6FF; }
+.nav-menu-links a > * { transform: translateY(110%); transition: transform .8s var(--ease); }
+.nav-menu.is-open .nav-menu-links a > * { transform: none; transition-delay: calc(.18s + var(--i, 0) * .05s); }
+.nav-menu-foot { display: flex; flex-direction: column; gap: 18px; opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .7s var(--ease); }
+.nav-menu.is-open .nav-menu-foot { opacity: 1; transform: none; transition-delay: .45s; }
+.nav-menu-foot p { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #8FA0C4; }
+.nav-menu-cta { align-self: stretch; justify-content: center; }
+html.menu-open { overflow: hidden; }
+html.menu-open .agent-fab, html.menu-open .agent-tip { opacity: 0; visibility: hidden; pointer-events: none; }
+
+@media (max-width: 860px) {
+  .nav { grid-template-columns: 1fr auto; }
+  .nav-mid, .nav-cta { display: none; }
+  .nav-burger { display: block; }
+  .nav-word { display: inline; font-size: 18px; }
+  .nav-burger { width: 34px; height: 34px; }
+  .nav-burger span { left: 10px; right: 10px; }
+  .nav-burger span:first-child { top: 13.5px; }
+  .nav-burger span:last-child { top: 19px; }
+}
+/* téléphone : comme sur MM Parfums, le lien en cours au centre, ‹ › pour
+   passer d'un lien à l'autre ; le burger ouvre le menu complet */
+@media (max-width: 640px) {
+  .nav { grid-template-columns: auto minmax(0, 1fr) auto; gap: .4rem; }
+  .nav-word { display: none; }
+  .nav-mid { display: flex; justify-content: center; }
+  .nav-links a::after { display: none; }
+  .nav-arrow { display: grid; place-items: center; width: 24px; height: 32px; padding: 0; border: 0; background: none; color: rgba(238, 243, 255, .7); cursor: pointer; flex: none; }
+  .nav-arrow svg { width: 15px; height: 15px; }
+  .nav-links { width: 108px; padding: 0; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; background: none; box-shadow: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li:not(.nav-pill) { flex: 0 0 100%; scroll-snap-align: center; text-align: center; }
+  .nav-links a { padding: .5rem .2rem; color: #fff; }
+  .nav-pill { display: none; }
+}
+@media (max-width: 860px) and (min-width: 641px) { .nav-menu { padding-left: max(48px, 8vw); padding-right: max(48px, 8vw); } }
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu, .nav-menu.is-open, .nav-menu-links a > *, .nav-menu-foot { transition: none; }
+}

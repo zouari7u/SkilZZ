@@ -7,7 +7,8 @@
    · toujours visible : se resserre vers le centre quand on descend, reprend
      sa largeur en haut de page ; entrée animée au chargement ;
    · bulle qui glisse sous le lien de la page ou de la section en cours ;
-   · téléphone : un lien à la fois, flèches ‹ › ; interrupteur de thème.
+   · téléphone : un lien à la fois, flèches ‹ › ; tablette et téléphone :
+     burger, menu plein écran numéroté ; interrupteur de thème.
    ========================================================================== */
 (function () {
   'use strict';
@@ -139,6 +140,15 @@
     pill.style.transform = 'translateX(' + a.parentElement.offsetLeft + 'px)';
   }
   links.forEach(function (a) { a.addEventListener('mouseenter', function () { movePill(a); }); });
+  // Lien de la page où l'on est déjà (Accueil sur l'accueil…) : au lieu de
+  // recharger la page, on remonte en douceur tout en haut.
+  if (current) current.addEventListener('click', function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var top = document.getElementById('top') || document.querySelector('main');
+    if (!top || !window.skzScrollTo) return;
+    e.preventDefault();
+    window.skzScrollTo(top);
+  });
   list.addEventListener('mouseleave', function () { movePill(active); });
 
   function setActive(a) {
@@ -193,6 +203,44 @@
   }
   nav.querySelector('.nav-arrow--l').addEventListener('click', function () { step(-1); });
   nav.querySelector('.nav-arrow--r').addEventListener('click', function () { step(1); });
+
+  // Tablette et téléphone : burger, menu plein écran
+  var burger = document.getElementById('navBurger');
+  var menu = document.getElementById('navMenu');
+  if (burger && menu) {
+    var openT = null;
+    var setMenu = function (open) {
+      if (open === (burger.getAttribute('aria-expanded') === 'true')) return;
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      root.classList.toggle('menu-open', open);
+      var lenis = window.SKZ && window.SKZ.lenis;
+      if (lenis) { if (open) lenis.stop(); else lenis.start(); }
+      clearTimeout(openT);
+      if (open) {
+        menu.hidden = false;
+        // une image pour que le rideau parte bien d'en haut
+        requestAnimationFrame(function () { requestAnimationFrame(function () { menu.classList.add('is-open'); }); });
+      } else {
+        menu.classList.remove('is-open');
+        openT = setTimeout(function () { menu.hidden = true; }, reduce ? 0 : 720);
+      }
+    };
+    burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+    // lien de la page en cours : on referme et on remonte en haut
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (a.getAttribute('aria-current') !== 'page' || e.metaKey || e.ctrlKey) return;
+        e.preventDefault();
+        setMenu(false);
+        var top = document.getElementById('top') || document.querySelector('main');
+        if (top && window.skzScrollTo) setTimeout(function () { window.skzScrollTo(top); }, 150);
+      });
+    });
+    // retour à l'écran large : menu refermé
+    window.matchMedia('(max-width: 860px)').addEventListener('change', function (m) { if (!m.matches) setMenu(false); });
+  }
 
   // Thème
   var toggle = document.getElementById('themeToggle');
